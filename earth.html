@@ -21,9 +21,13 @@
         var groundOverlay;
         var sunDisplayed=false;
         var buildingsDisplayed=false;
+<<<<<<< HEAD
         var jpegOverlayDisplayed=false;
         var jpegOverlayCreated=false;
         var jpegOverlay;
+=======
+        var blankButton7=false;
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         var blankButton8=false;
         var blankButton9=false;
         var blankButton10=false;
@@ -182,6 +186,51 @@
             });
         }
         
+<<<<<<< HEAD
+=======
+        //function updateOwnship() {
+        //    //Only update if tracks are displayed
+        //    if (tracksDisplayed) {
+        //        var url = "http://localhost:8888/getOwnship.php";
+        //
+        //        $.post(url, {trackId:1}, function(data) {
+        //            var children = ge.getFeatures().getChildNodes();
+        //
+        //            for(var i = 0; i < children.getLength(); i++) { 
+        //                var child = children.item(i);
+        //
+        //                if(child.getId() == '1') {
+        //                    osLatStr = data.trackLat;
+        //                    osLonStr = data.trackLon;
+        //
+        //                    if (typeof osLatStr == "string") {
+        //                        osLat = parseFloat(osLatStr);
+        //                    }
+        //                    else {
+        //                        osLat = osLatStr;
+        //                    }
+        //            
+        //                    if (typeof osLonStr == "string") {
+        //                        osLon = parseFloat(osLonStr);
+        //                    }
+        //                    else {
+        //                        osLon = osLonStr;
+        //                    }
+        //            
+        //                    // Create point
+        //                    var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+        //                    var point = ge.createPoint('');
+        //                    point.setLatitude(osLat);
+        //                    point.setLongitude(osLon);
+        //                    child.setGeometry(point);
+        //                    break;
+        //                }
+        //            }
+        //        });            
+        //    }
+        //}
+        
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         function updateTracks() {
             //Only update if tracks are displayed
             if (tracksDisplayed) {
@@ -255,8 +304,11 @@
                     return child;
                 }
             }
+<<<<<<< HEAD
             
             return null;
+=======
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
         
         function createTracks() {
@@ -471,6 +523,7 @@
                 groundOverlay.setVisibility(false);
             }
         }
+<<<<<<< HEAD
 
         function createJpegOverlay() {
             if (false == jpegOverlayCreated) {
@@ -502,6 +555,8 @@
                 jpegOverlay.setVisibility(false);
             }
         }
+=======
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         
         function toggleGrids() {
             if (gridsOn) {
@@ -656,8 +711,15 @@
                 ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
                 setTimeout(function() {
                 var la = ge.createLookAt('');
+<<<<<<< HEAD
                 //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
                 la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
+=======
+                //San Francisco
+                //la.set(37.79333, -122.40, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 180, 50, 1000);
+                //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
+                la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 2000);
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
                 ge.getView().setAbstractView(la);
                 }, 3000);
             }
@@ -667,6 +729,7 @@
             highlightBuildings();
         }
 
+<<<<<<< HEAD
         function toggleJpegOverlay() {
             if (jpegOverlayDisplayed) {
                 //turn off
@@ -680,6 +743,19 @@
             jpegOverlayDisplayed = !jpegOverlayDisplayed;
 
             highlightJpegOverlay();
+=======
+        function toggleBlankButton7() {
+            if (blankButton7) {
+                //turn off
+            }
+            else {
+                //turn on
+            }
+
+            blankButton7 = !blankButton7;
+
+            highlightBlankButton7();
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
 
         function toggleBlankButton8() {
@@ -816,9 +892,15 @@
             element.style.background = (buildingsDisplayed == true) ? greenButton : redButton;
         }
 
+<<<<<<< HEAD
         function highlightJpegOverlay() {
             var element = document.getElementById("JpegOverlay");
             element.style.background = (jpegOverlayDisplayed == true) ? greenButton : redButton;
+=======
+        function highlightBlankButton7() {
+            var element = document.getElementById("BlankButton7");
+            element.style.background = (blankButton7 == true) ? greenButton : redButton;
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
 
         function highlightBlankButton8() {
@@ -849,7 +931,11 @@
             highlightRangeRings();
             highlightSun();
             highlightBuildings();
+<<<<<<< HEAD
             highlightJpegOverlay();
+=======
+            highlightBlankButton7();
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
             highlightBlankButton8();
             highlightBlankButton9();
             highlightBlankButton10();
@@ -1004,11 +1090,19 @@
             <button id="OffsetOwnship" onclick="toggleOffsetOS()">Offset OS</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
             <button id="DrawLine" onclick="togglePolyline()">Draw Line</button>
+<<<<<<< HEAD
             <button id="GroundOverlay" onclick="toggleGroundOverlay()">Google Overlay</button>
             <button id="RangeRings" onclick="toggleRangeRings()">Range Rings</button>
             <button id="Sun" onclick="toggleSun()">Sun Shading</button>
             <button id="Buildings" onclick="toggleBuildings()">Display Buildings</button>
             <button id="JpegOverlay" onclick="toggleJpegOverlay()">Jpeg Overlay</button>
+=======
+            <button id="GroundOverlay" onclick="toggleGroundOverlay()">Overlay</button>
+            <button id="RangeRings" onclick="toggleRangeRings()">Rng Rings</button>
+            <button id="Sun" onclick="toggleSun()">Sun</button>
+            <button id="Buildings" onclick="toggleBuildings()">Buildings</button>
+            <button id="BlankButton7" onclick="toggleBlankButton7()">Button7</button>
+>>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
             <button id="BlankButton8" onclick="toggleBlankButton8()">Button8</button>
             <button id="BlankButton9" onclick="toggleBlankButton9()">Button9</button>
             <button id="BlankButton10" onclick="toggleBlankButton10()">Button10</button>
