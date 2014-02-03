@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <h1>Track Simulator</h1>
+    <hr>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">    
+        var interval;
+        var updateNum = 0;
+        var increment = true;
+
+        function updateTracks() {
+            document.getElementById("status").innerHTML = "updating...";
+
+            if (updateNum < 10) {
+                increment = true;
+            }
+            else if (updateNum >= 10 && updateNum < 20) {
+                increment = false;
+            }
+            else {
+                updateNum = 0;
+                increment = true;
+            }
+            
+            var url = "updateTracks.php";
+            $.post(url, {incrementVar:increment}, function(data) {
+                document.getElementById("status").innerHTML += data;
+            });
+
+            updateNum++;
+            document.getElementById("updateNum").innerHTML = "Update Num:"+updateNum;
+        }
+
+        function startUpdateTracks() {
+            //Call function immediately then on the interval
+            updateTracks();
+            interval=setInterval(function(){updateTracks()},3000);    
+        }
+    
+        function stopUpdateTracks() {
+            clearInterval(interval);
+            updateNum = 0;
+            document.getElementById("status").innerHTML = "stopped";
+        }
+
+        function resetTracks() {
+            var url = "resetTracks.php";
+            $.post(url, {}, function() {
+                document.getElementById("status").innerHTML = "reset";
+            });
+        }
+    </script>
+ 
+    <style type="text/css"> 
+        #main {
+            width: 900px;
+            height: 600px;
+            float: left;
+        }
+
+        #status{
+            width:500px; height:400px; padding:10px; 
+            border:#666 1px solid; background-color:#FAEEC5; 
+            font-size:18px;
+        }
+    </style> 
+</head>
+<body>
+    <button id="StartUpdateTracks" onclick="startUpdateTracks()">Start Track Simulator</button>
+    <button id="StopUpdateTracks" onclick="stopUpdateTracks()">Stop Track Simulator</button>
+    <button id="ResetTracks" onclick="resetTracks()">ResetTracks</button>
+    <hr>
+    <div id ="updateNum"></div>
+    <div id ="status" <h1>stopped</h1></div>
+</body>
+</html>
