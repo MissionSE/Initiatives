@@ -21,15 +21,13 @@
         var groundOverlay;
         var sunDisplayed=false;
         var buildingsDisplayed=false;
-<<<<<<< HEAD
         var jpegOverlayDisplayed=false;
         var jpegOverlayCreated=false;
         var jpegOverlay;
-=======
-        var blankButton7=false;
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
-        var blankButton8=false;
-        var blankButton9=false;
+        var koreaOverlay;
+        var weatherDisplayed=false;
+        var weatherKMLObject;
+        var phillyWeatherDisplayed=false;
         var blankButton10=false;
         var lineStringPlacemark;
         var lineStringPlacemarkCreated = false;
@@ -87,19 +85,21 @@
             ge.getOptions().setTerrainExaggeration(3.0);
 
             enableLayers();
-
+            
             createViewLookAt();
 
             createOwnship();
             
             createTracks();
             
-            
             addMouseMoveListener();
             
             addMouseClickListener();
             
             highlightButtons();
+
+            //displayNationalWeather();
+            //displayPhiladelphiaWeather();
         }
    
         function failureCB(errorCode) {
@@ -186,51 +186,6 @@
             });
         }
         
-<<<<<<< HEAD
-=======
-        //function updateOwnship() {
-        //    //Only update if tracks are displayed
-        //    if (tracksDisplayed) {
-        //        var url = "http://localhost:8888/getOwnship.php";
-        //
-        //        $.post(url, {trackId:1}, function(data) {
-        //            var children = ge.getFeatures().getChildNodes();
-        //
-        //            for(var i = 0; i < children.getLength(); i++) { 
-        //                var child = children.item(i);
-        //
-        //                if(child.getId() == '1') {
-        //                    osLatStr = data.trackLat;
-        //                    osLonStr = data.trackLon;
-        //
-        //                    if (typeof osLatStr == "string") {
-        //                        osLat = parseFloat(osLatStr);
-        //                    }
-        //                    else {
-        //                        osLat = osLatStr;
-        //                    }
-        //            
-        //                    if (typeof osLonStr == "string") {
-        //                        osLon = parseFloat(osLonStr);
-        //                    }
-        //                    else {
-        //                        osLon = osLonStr;
-        //                    }
-        //            
-        //                    // Create point
-        //                    var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-        //                    var point = ge.createPoint('');
-        //                    point.setLatitude(osLat);
-        //                    point.setLongitude(osLon);
-        //                    child.setGeometry(point);
-        //                    break;
-        //                }
-        //            }
-        //        });            
-        //    }
-        //}
-        
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         function updateTracks() {
             //Only update if tracks are displayed
             if (tracksDisplayed) {
@@ -304,11 +259,8 @@
                     return child;
                 }
             }
-<<<<<<< HEAD
             
             return null;
-=======
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
         
         function createTracks() {
@@ -523,40 +475,83 @@
                 groundOverlay.setVisibility(false);
             }
         }
-<<<<<<< HEAD
 
         function createJpegOverlay() {
             if (false == jpegOverlayCreated) {
                 jpegOverlayCreated = true;
                 jpegOverlay = ge.createGroundOverlay('2100');
                 jpegOverlay.setIcon(ge.createIcon(''))
-                jpegOverlay.getIcon().setHref("http://localhost:8888/earth/kyalami.jpg");
+                //jpegOverlay.getIcon().setHref("http://localhost:8888/earth/kyalami.jpg");
+                jpegOverlay.getIcon().setHref("http://localhost:8888/earth/korea_1m.jpg");
                 jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
                 jpegOverlay.setOpacity(25);
-    
-                var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-                var north = center.getLatitude() + .95;
-                var south = center.getLatitude() - .95;
-                var east = center.getLongitude() + 1.25;
-                var west = center.getLongitude() - 1.25;
+                
+
+
+
+
+
+                var koreaLat = 38;
+                var koreaLon = 131;
+                var lookAt = ge.createLookAt('');
+                lookAt.setLatitude(koreaLat);
+                lookAt.setLongitude(koreaLon);
+                lookAt.setRange(1200000.0);
+                // Set the FlyTo speed.
+                ge.getOptions().setFlyToSpeed(0.5);
+                ge.getView().setAbstractView(lookAt);
+
+                var koreaLat = 41;
+                var koreaLon = 127;
+                var north = 41.5;
+                var south = 36.5;
+                var east = 128.84;
+                var west = 134.84;
                 var rotation = 0;
                 var latLonBox = jpegOverlay.getLatLonBox();
                 latLonBox.setBox(north, south, east, west, rotation);
-    
+                
                 ge.getFeatures().appendChild(jpegOverlay);
+                
+                //Korea geotiff overlay
+                //koreaOverlay = ge.createGroundOverlay('2101');
+                //koreaOverlay.setIcon(ge.createIcon(''));
+                //koreaOverlay.getIcon().setHref("http://localhost:8888/earth/korea_1m.jpg");
+                //koreaOverlay.getIcon().setHref("http://localhost:8888/earth/kyalami.jpg");
+
+
+                //var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                //var north = center.getLatitude() + .95;
+                //var south = center.getLatitude() - .95;
+                //var east = center.getLongitude() + 1.25;
+                //var west = center.getLongitude() - 1.25;
+                //var rotation = 0;
+                //var latLonBox = koreaOverlay.getLatLonBox();
+                //latLonBox.setBox(north, south, east, west, rotation);
+                //
+                //ge.getFeatures().appendChild(koreaOverlay);
             }
             else {
+                var koreaLat = 38;
+                var koreaLon = 131;
+                var lookAt = ge.createLookAt('');
+                lookAt.setLatitude(koreaLat);
+                lookAt.setLongitude(koreaLon);
+                lookAt.setRange(1200000.0);
+                // Set the FlyTo speed.
+                ge.getOptions().setFlyToSpeed(0.5);
+                ge.getView().setAbstractView(lookAt);
                 jpegOverlay.setVisibility(true);
+                //koreaOverlay.setVisibility(true);
             }
         }
         
         function clearJpegOverlay() {
             if (true == jpegOverlayDisplayed) {
                 jpegOverlay.setVisibility(false);
+                //koreaOverlay.setVisibility(false);
             }
         }
-=======
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         
         function toggleGrids() {
             if (gridsOn) {
@@ -711,15 +706,8 @@
                 ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
                 setTimeout(function() {
                 var la = ge.createLookAt('');
-<<<<<<< HEAD
                 //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
                 la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
-=======
-                //San Francisco
-                //la.set(37.79333, -122.40, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 180, 50, 1000);
-                //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
-                la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 2000);
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
                 ge.getView().setAbstractView(la);
                 }, 3000);
             }
@@ -729,7 +717,6 @@
             highlightBuildings();
         }
 
-<<<<<<< HEAD
         function toggleJpegOverlay() {
             if (jpegOverlayDisplayed) {
                 //turn off
@@ -743,45 +730,36 @@
             jpegOverlayDisplayed = !jpegOverlayDisplayed;
 
             highlightJpegOverlay();
-=======
-        function toggleBlankButton7() {
-            if (blankButton7) {
-                //turn off
-            }
-            else {
-                //turn on
-            }
-
-            blankButton7 = !blankButton7;
-
-            highlightBlankButton7();
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
 
-        function toggleBlankButton8() {
-            if (blankButton8) {
+        function toggleWeather() {
+            if (weatherDisplayed) {
                 //turn off
+                clearWeather();
             }
             else {
                 //turn on
+                displayWeather();
             }
 
-            blankButton8 = !blankButton8;
+            weatherDisplayed = !weatherDisplayed;
 
-            highlightBlankButton8();
+            highlightWeather();
         }
 
-        function toggleBlankButton9() {
-            if (blankButton9) {
+        function togglePhillyWeather() {
+            if (phillyWeatherDisplayed) {
                 //turn off
+                clearWeather();
             }
             else {
                 //turn on
+                displayPhiladelphiaWeather();
             }
 
-            blankButton9 = !blankButton9;
+            phillyWeatherDisplayed = !phillyWeatherDisplayed;
 
-            highlightBlankButton9();
+            highlightPhillyWeather();
         }
 
         function toggleBlankButton10() {
@@ -892,25 +870,19 @@
             element.style.background = (buildingsDisplayed == true) ? greenButton : redButton;
         }
 
-<<<<<<< HEAD
         function highlightJpegOverlay() {
             var element = document.getElementById("JpegOverlay");
             element.style.background = (jpegOverlayDisplayed == true) ? greenButton : redButton;
-=======
-        function highlightBlankButton7() {
-            var element = document.getElementById("BlankButton7");
-            element.style.background = (blankButton7 == true) ? greenButton : redButton;
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
         }
 
-        function highlightBlankButton8() {
-            var element = document.getElementById("BlankButton8");
-            element.style.background = (blankButton8 == true) ? greenButton : redButton;
+        function highlightWeather() {
+            var element = document.getElementById("Weather");
+            element.style.background = (weatherDisplayed == true) ? greenButton : redButton;
         }
 
-        function highlightBlankButton9() {
-            var element = document.getElementById("BlankButton9");
-            element.style.background = (blankButton9 == true) ? greenButton : redButton;
+        function highlightPhillyWeather() {
+            var element = document.getElementById("PhillyWeather");
+            element.style.background = (phillyWeatherDisplayed == true) ? greenButton : redButton;
         }
 
         function highlightBlankButton10() {
@@ -931,13 +903,9 @@
             highlightRangeRings();
             highlightSun();
             highlightBuildings();
-<<<<<<< HEAD
             highlightJpegOverlay();
-=======
-            highlightBlankButton7();
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
-            highlightBlankButton8();
-            highlightBlankButton9();
+            highlightWeather();
+            highlightPhillyWeather();
             highlightBlankButton10();
         }
 
@@ -1034,6 +1002,98 @@
             }
         }
         
+        function displayWeather() {
+            displayNationalWeather();
+        }
+        
+        function clearWeather() {
+            var features = ge.getFeatures();
+            while (features.getLastChild() != null) {
+                features.removeChild(features.getLastChild());
+            }
+        }
+
+        function displayPhiladelphiaWeather() {
+            var href;
+            href = 'http://localhost:8888/earth/NWS_DIX_N0R_RadarLoop/doc.kml';
+            google.earth.fetchKml(ge, href, function(kmlObject) {
+                if (kmlObject) {
+                    ge.getFeatures().appendChild(kmlObject);
+                }
+            });
+        }
+        
+        function displayNationalWeather() {
+            var href;
+            href = 'http://localhost:8888/earth/weather3.kml';
+            google.earth.fetchKml(ge, href, function(weatherKMLObject) {
+                if (weatherKMLObject) {
+                    ge.getFeatures().appendChild(weatherKMLObject);
+                }
+            });
+
+            //href = 'http://localhost:8888/earth/NWS_Warnings.kmz';
+            //google.earth.fetchKml(ge, href, function(weatherKMLObject) {
+            //    if (weatherKMLObject) {
+            //        ge.getFeatures().appendChild(weatherKMLObject);
+            //    }
+            //});
+
+            //href = 'http://localhost:8888/earth/NWS_northeast_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject2) {
+            //    if (kmlObject2) {
+            //        alert("displayWeather got kmlObject2");
+            //        ge.getFeatures().appendChild(kmlObject2);
+            //    }
+            //});
+
+            //href = 'http://localhost:8888/earth/NWS_southeast_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject3) {
+            //    if (kmlObject3) {
+            //        //alert("displayWeather got kmlObject");
+            //        ge.getFeatures().appendChild(kmlObject3);
+            //    }
+            //});
+            //
+            //href = 'http://localhost:8888/earth/NWS_centgrtlakes_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject4) {
+            //    if (kmlObject4) {
+            //        //alert("displayWeather got kmlObject");
+            //        ge.getFeatures().appendChild(kmlObject4);
+            //    }
+            //});
+            //
+            //href = 'http://localhost:8888/earth/NWS_pacnorthwest_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject4) {
+            //    if (kmlObject4) {
+            //        //alert("displayWeather got kmlObject");
+            //        ge.getFeatures().appendChild(kmlObject4);
+            //    }
+            //});
+            //
+            //href = 'http://localhost:8888/earth/NWS_pacsouthwest_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject5) {
+            //    if (kmlObject5) {
+            //        ge.getFeatures().appendChild(kmlObject5);
+            //    }
+            //});
+            //
+            //href = 'http://localhost:8888/earth/NWS_southmissvly_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject6) {
+            //    if (kmlObject6) {
+            //        //alert("displayWeather got kmlObject");
+            //        ge.getFeatures().appendChild(kmlObject6);
+            //    }
+            //
+            //href = 'http://localhost:8888/earth/NWS_northrockies_N0R_RadarLoop.kmz';
+            //google.earth.fetchKml(ge, href, function(kmlObject7) {
+            //    if (kmlObject7) {
+            //        //alert("displayWeather got kmlObject");
+            //        ge.getFeatures().appendChild(kmlObject7);
+            //    }
+            //});
+        }        
+
         google.setOnLoadCallback(init);
 
         setInterval(function(){updateTracks()},3000);
@@ -1090,21 +1150,13 @@
             <button id="OffsetOwnship" onclick="toggleOffsetOS()">Offset OS</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
             <button id="DrawLine" onclick="togglePolyline()">Draw Line</button>
-<<<<<<< HEAD
             <button id="GroundOverlay" onclick="toggleGroundOverlay()">Google Overlay</button>
             <button id="RangeRings" onclick="toggleRangeRings()">Range Rings</button>
             <button id="Sun" onclick="toggleSun()">Sun Shading</button>
             <button id="Buildings" onclick="toggleBuildings()">Display Buildings</button>
             <button id="JpegOverlay" onclick="toggleJpegOverlay()">Jpeg Overlay</button>
-=======
-            <button id="GroundOverlay" onclick="toggleGroundOverlay()">Overlay</button>
-            <button id="RangeRings" onclick="toggleRangeRings()">Rng Rings</button>
-            <button id="Sun" onclick="toggleSun()">Sun</button>
-            <button id="Buildings" onclick="toggleBuildings()">Buildings</button>
-            <button id="BlankButton7" onclick="toggleBlankButton7()">Button7</button>
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
-            <button id="BlankButton8" onclick="toggleBlankButton8()">Button8</button>
-            <button id="BlankButton9" onclick="toggleBlankButton9()">Button9</button>
+            <button id="Weather" onclick="toggleWeather()">National Weather</button>
+            <button id="PhillyWeather" onclick="togglePhillyWeather()">Philly Weather</button>
             <button id="BlankButton10" onclick="toggleBlankButton10()">Button10</button>
         </div>
     </div>
