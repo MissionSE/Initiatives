@@ -1,0 +1,30 @@
+html, body {
+  width: 350px;
+  height: 350px;
+  margin: 0px;
+  background: rgb(0,0,153);
+}
+h1, h2 {
+  font-style: normal;
+  text-align: center;
+  text-decoration: overline;
+  color:rgb(255,204,0);
+}
+h3, h4, h5, h6 {
+  font-style: normal;
+  text-decoration: overline;
+  color:rgb(255,204,0);
+}
+.button {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);
+}
+.number {
+  background-color:rgb(255,204,0);
+}
+.textarea {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);
+}

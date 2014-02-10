@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <title>Weather Manager</title>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+      function toggleNational(value) {
+        //alert("national set to "+value);
+        parentWindow.postMessage("national weather:"+value,parentURI);
+      }
+      
+      function togglePhilly(value) {
+        //alert("philly set to "+value);
+        parentWindow.postMessage("local weather:"+value,parentURI);
+      }
+      
+      function toggleWarnings(value) {
+        //alert("warnings set to "+value);
+        parentWindow.postMessage("weather warnings:"+value,parentURI);
+      }
+      
+      function processEvents() {
+        //alert("processEvents entered");
+        //respond to events
+        window.addEventListener('message',function(event) {
+          //if(event.origin != 'http://localhost:8888') return;
+          //alert('weatherManager message received:  ' + event.data,event);
+          parentWindow = event.source;
+          parentURI = event.origin;
+          parentWindow.postMessage('weatherManager received message',event.origin);
+        },false);
+      }
+      </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div id = grids>
+      <h3>National Weather</h3>
+      <h4>
+        Off  
+        <input type="radio" name="national" value="Off" onclick=toggleNational(false)><br />
+        On
+        <input type="radio" name="national" value="On" onclick=toggleNational(true)><br />
+      </h4>
+      <hr>
+      <h3>Philadelphia Weather</h3>
+      <h4>
+        Off  
+        <input type="radio" name="philly" value="Off" onclick=togglePhilly(false)><br />
+        On
+        <input type="radio" name="philly" value="On" onclick=togglePhilly(true)><br />
+      </h4>
+      <hr>
+      <h3>Weather Warnings</h3>
+      <h4>
+        Off  
+        <input type="radio" name="warnings" value="Off" onclick=toggleWarnings(false)><br />
+        On
+        <input type="radio" name="warnings" value="On" onclick=toggleWarnings(true)><br />
+      </h4>
+    </div>
+  </body>
+</html>
