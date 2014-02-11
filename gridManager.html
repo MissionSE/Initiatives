@@ -7,14 +7,24 @@
       var parentWindow;
       var parentURI;
 
-      function toggleGrid(value) {
+      function toggleGrid(setting) {
         //alert("grids set to "+value);
-        parentWindow.postMessage("grids:"+value,parentURI);
+        var rawData = {
+          key : "grids",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function toggleRR(value) {
+      function toggleRR(setting) {
         //alert("range rings set to "+value);
-        parentWindow.postMessage("range rings:"+value,parentURI);
+        var rawData = {
+          key : "range rings",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
       function processEvents() {
@@ -23,7 +33,12 @@
           if(event.origin !== 'http://localhost:8888') return;
           parentWindow = event.source;
           parentURI = event.origin;
-          parentWindow.postMessage('gridManager received message',event.origin);
+          var rawData = {
+            key : "grid",
+            value : "gridManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
         },false);
       }
     </script>

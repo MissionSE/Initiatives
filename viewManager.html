@@ -9,35 +9,68 @@
 
       function offsetOwnship() {
         //alert("offsetOwnship pressed");
-        parentWindow.postMessage("offset ownship",parentURI);
+        var rawData = {
+          key : "offset",
+          value : "offset ownship",
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
       function offsetPriHook() {
         //alert("offsetPriHook pressed");
-        parentWindow.postMessage("offset pri hook",parentURI);
+        var rawData = {
+          key : "offset",
+          value : "offset pri hook",
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
       function offsetSecHook() {
         //alert("offsetSecHook pressed");
-        parentWindow.postMessage("offset sec hook",parentURI);
+        var rawData = {
+          key : "offset",
+          value : "offset sec hook",
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
       function offsetTrackID() {
         //alert("offsetTrackID | "+document.getElementById("offsetTrackID").value);
         var trackID = document.getElementById("offsetTrackID").value;
-        parentWindow.postMessage("offset track:"+trackID,parentURI);
+        var rawData = {
+          key : "offset",
+          value : "offset track",
+          trackID : trackID,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       function offsetLatLon() {
-        //alert("offsetLatLon "+ document.getElementById("offsetLat").value+"|"+document.getElementById("offsetLon").value);
-        var lat = document.getElementById("offsetLat").value;
-        var lon = document.getElementById("offsetLon").value;
-        parentWindow.postMessage("offset lat lon:"+lat+" "+lon,parentURI);
+        var latValue = document.getElementById("offsetLat").value;
+        var lonValue = document.getElementById("offsetLon").value;
+        var rawData = {
+          key : "offset",
+          value : "offset lat lon",
+          lat : latValue,
+          lon : lonValue,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
       function offsetAddress() {
         //alert("offsetAddress "+ document.getElementById("offsetAddress").value);
-        var address = document.getElementById("offsetAddress").value;
-        parentWindow.postMessage("offset address:"+address,parentURI);
+        var addressValue = document.getElementById("offsetAddress").value;
+        var rawData = {
+          key : "offset",
+          value : "offset address",
+          address : addressValue,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
       function processEvents() {
@@ -46,7 +79,12 @@
           //if(event.origin !== 'http://localhost:8888') return;
           parentWindow = event.source;
           parentURI = event.origin;
-          parentWindow.postMessage('viewManager received message',event.origin);
+          var rawData = {
+            key : "view",
+            value : "viewManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
         },false);
       }
       </script>

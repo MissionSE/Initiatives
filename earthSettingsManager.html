@@ -7,29 +7,54 @@
       var parentWindow;
       var parentURI;
       
-      function toggleSun(value) {
+      function toggleSun(setting) {
         //alert("sun set to "+value);
-        parentWindow.postMessage("sun:"+value,parentURI);
+        var rawData = {
+          key : "sun",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function toggleInsetMap(value) {
+      function toggleInsetMap(setting) {
         //alert("map set to "+value);
-        parentWindow.postMessage("inset map:"+value,parentURI);
+        var rawData = {
+          key : "inset map",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function toggleBorders(value) {
+      function toggleBorders(setting) {
         //alert("borders set to "+value);
-        parentWindow.postMessage("borders:"+value,parentURI);
+        var rawData = {
+          key : "borders",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
-      function toggleBuilding(value) {
+      function toggleBuildings(setting) {
         //alert("buildings set to "+value);
-        parentWindow.postMessage("buildings:"+value,parentURI);
+        var rawData = {
+          key : "buildings",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
-      function toggleTerrain(value) {
+      function toggleTerrain(setting) {
         //alert("terrain set to "+value);
-        parentWindow.postMessage("terrain:"+value,parentURI);
+        var rawData = {
+          key : "terrain",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
       function processEvents() {
@@ -40,7 +65,12 @@
           //alert('earthSettingsManager message received:  ' + event.data,event);
           parentWindow = event.source;
           parentURI = event.origin;
-          parentWindow.postMessage('earthSettingsManager received message',event.origin);
+          var rawData = {
+            key : "earthSettings",
+            value : "earthSettingsManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
         },false);
       }
     </script>

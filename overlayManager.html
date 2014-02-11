@@ -7,14 +7,24 @@
       var parentWindow;
       var parentURI;
 
-      function toggleGoogle(value) {
+      function toggleGoogle(setting) {
         //alert("google set to "+value);
-        parentWindow.postMessage("google:"+value,parentURI);
+        var rawData = {
+          key : "google",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function toggleGeo(value) {
+      function toggleGeo(setting) {
         //alert("geo set to "+value);
-        parentWindow.postMessage("geo:"+value,parentURI);
+        var rawData = {
+          key : "geo",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
 
       function processEvents() {
@@ -23,7 +33,12 @@
           if(event.origin !== 'http://localhost:8888') return;
           parentWindow = event.source;
           parentURI = event.origin;
-          parentWindow.postMessage('overlayManager received message',event.origin);
+          var rawData = {
+            key : "overlay",
+            value : "overlayManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
         },false);
       }
     </script>

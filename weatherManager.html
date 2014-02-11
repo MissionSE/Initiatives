@@ -3,22 +3,38 @@
   <head>
     <link rel="stylesheet" type="text/css" href="guistyle.css">
     <title>Weather Manager</title>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
       var parentWindow;
       var parentURI;
-      function toggleNational(value) {
-        //alert("national set to "+value);
-        parentWindow.postMessage("national weather:"+value,parentURI);
+      function toggleNational(setting) {
+        //alert("national set to "+setting);
+        var rawData = {
+          key:"national weather",
+          value:setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function togglePhilly(value) {
+      function togglePhilly(setting) {
         //alert("philly set to "+value);
-        parentWindow.postMessage("local weather:"+value,parentURI);
+        var rawData = {
+          key:"local weather",
+          value:setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
-      function toggleWarnings(value) {
+      function toggleWarnings(setting) {
         //alert("warnings set to "+value);
-        parentWindow.postMessage("weather warnings:"+value,parentURI);
+        var rawData = {
+          key:"weather warnings",
+          value:setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
       }
       
       function processEvents() {
@@ -29,7 +45,12 @@
           //alert('weatherManager message received:  ' + event.data,event);
           parentWindow = event.source;
           parentURI = event.origin;
-          parentWindow.postMessage('weatherManager received message',event.origin);
+          var rawData = {
+            key : "weather",
+            value : "weatherManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
         },false);
       }
       </script>
