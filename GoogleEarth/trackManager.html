@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Track Manager</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+
+      function toggleTracks(setting) {
+        var rawData = {
+          key : "tracks",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+      
+      function toggleTrackSimulator(setting) {
+        //alert("toggleTrackSimulator enter");
+        if (true == setting) {
+          startUpdateTracks();
+        }
+        else {
+          stopUpdateTracks();
+        }
+      }
+      
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          if(event.origin !== 'http://localhost:8888') return;
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "tracks",
+            value : "trackManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+      }
+
+      var interval;
+      var updateNum = 0;
+      var increment = true;
+
+      function updateTracks() {
+        
+        if (updateNum < 10) {
+          increment = true;
+        }
+        else if (updateNum >= 10 && updateNum < 20) {
+          increment = false;
+        }
+        else {
+          updateNum = 0;
+          increment = true;
+        }
+          
+        var url = "updateTracks.php";
+        $.post(url, {incrementVar:increment}, function(data) {
+          //alert("updateTracks.php returned");
+        });
+
+        updateNum++;
+      }
+
+      function startUpdateTracks() {
+          //Call function immediately then on the interval
+          updateTracks();
+          interval=setInterval(function(){updateTracks()},3000);    
+      }
+  
+      function stopUpdateTracks() {
+          clearInterval(interval);
+          updateNum = 0;
+      }
+
+      function resetTracks() {
+        var url = "resetTracks.php";
+        $.post(url, {}, function() {
+        });
+      }
+    </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div id = tracks>
+      <h3>Track Display</h3>
+      <h4>
+        Off  
+        <input type="radio" name="track" value="Off" onclick=toggleTracks(false)><br />
+        On
+        <input type="radio" name="track" value="On" onclick=toggleTracks(true)><br />
+      </h4>
+      <hr>
+      <h3>Track Simulator</h3>
+      <h4>
+        Off  
+        <input type="radio" name="sim" value="Off" onclick=toggleTrackSimulator(false)><br />
+        On
+        <input type="radio" name="sim" value="On" onclick=toggleTrackSimulator(true)><br />
+      </h4>
+      <br />
+        <button id="resettracks" onclick="resetTracks()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Reset Track Positions</button>
+    </div>
+  </body>
+</html>
