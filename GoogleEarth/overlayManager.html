@@ -8,7 +8,6 @@
       var parentURI;
 
       function toggleGoogle(setting) {
-        //alert("google set to "+value);
         var rawData = {
           key : "google",
           value : setting,
@@ -18,12 +17,12 @@
       }
       
       function toggleGeo(setting) {
-        //alert("geo set to "+value);
         var rawData = {
           key : "geo",
           value : setting,
         };
         var data = JSON.stringify(rawData);
+        alert("overlayManager data = "+data);
         parentWindow.postMessage(data,parentURI);
       }
 
