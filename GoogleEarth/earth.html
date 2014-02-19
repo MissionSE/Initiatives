@@ -4,6 +4,7 @@
     <title>Google Earth</title>
     <link rel="stylesheet" href="style.css" type="text/css"/>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
         var ge;
@@ -69,6 +70,7 @@
         var MAX_TRACK_ID = 1000;
         var tracks = [];
         var trackUpdateNum = 0;
+        var geocoder;
         var incrementTracks = true;
 
         google.load("earth", "1", {"other_params":"sensor=false"});
@@ -86,7 +88,7 @@
 
             enableLayers();
             
-            createViewLookAt();
+            createViewLookAt(csedsLat,csedsLon);
 
             createOwnship();
             
@@ -98,8 +100,23 @@
             
             highlightButtons();
 
-            //displayNationalWeather();
-            //displayPhiladelphiaWeather();
+            geocoder = new google.maps.Geocoder();            
+
+            // Update streaming progress every 100ms
+            setInterval(function() {
+                var streamingPercent = ge.getStreamingPercent();
+                var progressBar = document.getElementById('progress-bar');
+                if (streamingPercent == 100) {
+                    // streaming complete, hide the progress bar
+                    progressBar.style.backgroundColor = '#0a0';
+                    progressBar.style.width = '250px';
+                }
+                else {
+                    // show the progress bar, max width is 250 as per the stylesheet
+                    progressBar.style.backgroundColor = '#00f';
+                    progressBar.style.width = (250 * streamingPercent / 100) + 'px';
+                }
+            }, 100);
         }
    
         function failureCB(errorCode) {
@@ -108,17 +125,56 @@
     
         function enableLayers() {
             ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
-            ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
+            ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);
         }
 
-        function createViewLookAt() {
+        function createViewLookAt(lat,lon) {
             var lookAt = ge.createLookAt('');
-            lookAt.setLatitude(csedsLat);
-            lookAt.setLongitude(csedsLon);
+            var latStr = lat;
+            var lonStr = lon;
+            var convertedLat;
+            var convertedLon;
+            
+            //Convert input parameters to floats
+            if (typeof latStr == "string") {
+                convertedLat = parseFloat(latStr);
+            }
+            else {
+                convertedLat = latStr;
+            }
+                
+            if (typeof lonStr == "string") {
+                convertedLon = parseFloat(lonStr);
+            }
+            else {
+                convertedLon = lonStr;
+            }
+
+            lookAt.setLatitude(convertedLat);
+            lookAt.setLongitude(convertedLon);
             lookAt.setRange(1200000.0);
             // Set the FlyTo speed.
             ge.getOptions().setFlyToSpeed(0.5);
             ge.getView().setAbstractView(lookAt);
+        }
+        
+        function offsetToAddress(address) {
+            //Get the geo location from the address string
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    //alert("offsetToAddress location = "+results[0].geometry.location);
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(1200000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });
         }
         
         function createOwnship() {
@@ -195,7 +251,7 @@
                 else {
                     incrementTracks = true;
                 }
-                var url = "http://localhost:8888/earth/getTracks.php";
+                var url = "getTracks.php";
     
                 $.post(url, {incrementVar:incrementTracks}, function(data) {
                     //Get the list of child nodes from Google Earth
@@ -236,11 +292,12 @@
                         
                         //Offset to Ownship if enabled
                         if (trackNumber == '1' && true == offsetOS) {
-                            var lookAt = ge.createLookAt('');
-                            lookAt.setLatitude(lat);
-                            lookAt.setLongitude(lon);
-                            lookAt.setRange(1200000.0);
-                            ge.getView().setAbstractView(lookAt);
+                        //    var lookAt = ge.createLookAt('');
+                        //    lookAt.setLatitude(lat);
+                        //    lookAt.setLongitude(lon);
+                        //    lookAt.setRange(1200000.0);
+                        //    ge.getView().setAbstractView(lookAt);
+                            createViewLookAt(lat,lon);
                         }
                     });
                     
@@ -421,12 +478,10 @@
         function addMouseMoveListener() {
             // listen to the click event on the globe and window
             google.earth.addEventListener(ge.getWindow(), 'mousemove', function(event) {
-            if (event.getDidHitGlobe()) {
-                //alert("mouse move event on globe");
-                var latitude = event.getLatitude();
-                var longitude = event.getLongitude();
-            }
-
+                if (event.getDidHitGlobe()) {
+                    var latitude = event.getLatitude();
+                    var longitude = event.getLongitude();
+                }
             });
         }
 
@@ -471,9 +526,7 @@
         }
         
         function clearGroundOverlay() {
-            if (true == groundOverlayDisplayed) {
-                groundOverlay.setVisibility(false);
-            }
+            groundOverlay.setVisibility(false);
         }
 
         function createJpegOverlay() {
@@ -481,28 +534,14 @@
                 jpegOverlayCreated = true;
                 jpegOverlay = ge.createGroundOverlay('2100');
                 jpegOverlay.setIcon(ge.createIcon(''))
-                //jpegOverlay.getIcon().setHref("http://localhost:8888/earth/kyalami.jpg");
                 jpegOverlay.getIcon().setHref("http://localhost:8888/earth/korea_1m.jpg");
                 jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
                 jpegOverlay.setOpacity(25);
                 
-
-
-
-
-
                 var koreaLat = 38;
                 var koreaLon = 131;
-                var lookAt = ge.createLookAt('');
-                lookAt.setLatitude(koreaLat);
-                lookAt.setLongitude(koreaLon);
-                lookAt.setRange(1200000.0);
-                // Set the FlyTo speed.
-                ge.getOptions().setFlyToSpeed(0.5);
-                ge.getView().setAbstractView(lookAt);
+                createViewLookAt(koreaLat,koreaLon);
 
-                var koreaLat = 41;
-                var koreaLon = 127;
                 var north = 41.5;
                 var south = 36.5;
                 var east = 128.84;
@@ -511,46 +550,18 @@
                 var latLonBox = jpegOverlay.getLatLonBox();
                 latLonBox.setBox(north, south, east, west, rotation);
                 
-                ge.getFeatures().appendChild(jpegOverlay);
-                
-                //Korea geotiff overlay
-                //koreaOverlay = ge.createGroundOverlay('2101');
-                //koreaOverlay.setIcon(ge.createIcon(''));
-                //koreaOverlay.getIcon().setHref("http://localhost:8888/earth/korea_1m.jpg");
-                //koreaOverlay.getIcon().setHref("http://localhost:8888/earth/kyalami.jpg");
-
-
-                //var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-                //var north = center.getLatitude() + .95;
-                //var south = center.getLatitude() - .95;
-                //var east = center.getLongitude() + 1.25;
-                //var west = center.getLongitude() - 1.25;
-                //var rotation = 0;
-                //var latLonBox = koreaOverlay.getLatLonBox();
-                //latLonBox.setBox(north, south, east, west, rotation);
-                //
-                //ge.getFeatures().appendChild(koreaOverlay);
+                ge.getFeatures().appendChild(jpegOverlay);                
             }
             else {
                 var koreaLat = 38;
                 var koreaLon = 131;
-                var lookAt = ge.createLookAt('');
-                lookAt.setLatitude(koreaLat);
-                lookAt.setLongitude(koreaLon);
-                lookAt.setRange(1200000.0);
-                // Set the FlyTo speed.
-                ge.getOptions().setFlyToSpeed(0.5);
-                ge.getView().setAbstractView(lookAt);
+                createViewLookAt(koreaLat,koreaLon);
                 jpegOverlay.setVisibility(true);
-                //koreaOverlay.setVisibility(true);
             }
         }
         
         function clearJpegOverlay() {
-            if (true == jpegOverlayDisplayed) {
-                jpegOverlay.setVisibility(false);
-                //koreaOverlay.setVisibility(false);
-            }
+            jpegOverlay.setVisibility(false);
         }
         
         function toggleGrids() {
@@ -647,7 +658,7 @@
             if (offsetOS) {
             }
             else {
-                createViewLookAt();
+                createViewLookAt(csedsLat,csedsLon);
             }
 
             offsetOS = !offsetOS;
@@ -776,6 +787,7 @@
         }
 
         function clearTracks() {
+            tracksDisplayed = false;
             var children = ge.getFeatures().getChildNodes();
 
             for(var i = 0; i < children.getLength(); i++) { 
@@ -790,6 +802,7 @@
         }
         
         function displayTracks() {
+            tracksDisplayed = true;
             var children = ge.getFeatures().getChildNodes();
 
             for(var i = 0; i < children.getLength(); i++) { 
@@ -808,6 +821,26 @@
         function highlightGrids() {
             var element = document.getElementById("Grids");
             element.style.background = (gridsOn == true) ? greenButton : redButton;
+        }
+
+        function highlightEarthSettings() {
+            var element = document.getElementById("EarthSettings");
+            element.style.background = redButton;
+        }
+
+        function highlightOverlay() {
+            var element = document.getElementById("Overlay");
+            element.style.background = redButton;
+        }
+
+        function highlightWeather() {
+            var element = document.getElementById("Weather");
+            element.style.background = redButton;
+        }
+
+        function highlightView() {
+            var element = document.getElementById("View");
+            element.style.background = redButton;
         }
 
         function highlightTerrain() {
@@ -875,11 +908,6 @@
             element.style.background = (jpegOverlayDisplayed == true) ? greenButton : redButton;
         }
 
-        function highlightWeather() {
-            var element = document.getElementById("Weather");
-            element.style.background = (weatherDisplayed == true) ? greenButton : redButton;
-        }
-
         function highlightPhillyWeather() {
             var element = document.getElementById("PhillyWeather");
             element.style.background = (phillyWeatherDisplayed == true) ? greenButton : redButton;
@@ -892,21 +920,12 @@
 
         function highlightButtons() {
             highlightGrids();
-            highlightTerrain();
-            highlightBorders();
-            highlightInsetMap();
+            highlightEarthSettings();
+            highlightOverlay();
+            highlightView();
             highlightTracks();
             highlightCsedsTour();
-            highlightDrawLine();
-            highlightOffsetOS();
-            highlightGroundOverlay();
-            highlightRangeRings();
-            highlightSun();
-            highlightBuildings();
-            highlightJpegOverlay();
             highlightWeather();
-            highlightPhillyWeather();
-            highlightBlankButton10();
         }
 
         function playCsedsTour() {
@@ -955,7 +974,6 @@
         function makeCircle(radius, x, y) {
             var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
             var ring = ge.createLinearRing('');
-            //var steps = 25;
             var steps = 36;
             var pi2 = Math.PI * 2;
 
@@ -1031,6 +1049,16 @@
                     ge.getFeatures().appendChild(weatherKMLObject);
                 }
             });
+            
+        function displayWeatherWarnings() {
+            var href;
+            href = 'http://localhost:8888/earth/NWS_Warnings.kmz';
+            google.earth.fetchKml(ge, href, function(weatherKMLObject) {
+                if (weatherKMLObject) {
+                    ge.getFeatures().appendChild(weatherKMLObject);
+                }
+            });
+        }
 
             //href = 'http://localhost:8888/earth/NWS_Warnings.kmz';
             //google.earth.fetchKml(ge, href, function(weatherKMLObject) {
@@ -1092,27 +1120,214 @@
             //        ge.getFeatures().appendChild(kmlObject7);
             //    }
             //});
-        }        
+        }
+        
+        function displayWeatherWindow() {
+            openWin("Weather Manager","weatherManager.html",350,500,950,0);
+        }
+
+        function displayGridsWindow() {
+            openWin("Grid Manager","gridManager.html",350,350,950,0);
+        }
+
+        function displayEarthSettingsWindow() {
+            openWin("Earth Settings Manager","earthSettingsManager.html",350,700,950,0);
+        }
+
+        function displayViewWindow() {
+            openWin("View Manager","viewManager.html",350,500,950,0);
+        }
+        
+        function displayOverlayWindow() {
+            openWin("Overlay Manager","overlayManager.html",350,350,950,0);
+        }
+
+        function displayTracksWindow() {
+            openWin("Track Manager","trackManager.html",350,350,950,0);
+        }
+
+        function openWin(name,url,width,height,x,y) {
+            //Open input window with parameters
+            var myWindow = window.open(url,"","width="+width+",height="+height);
+            //Set focus on new window
+            myWindow.focus();
+            //Move window to input location
+            myWindow.moveTo(x,y);
+    
+            var domain ="http://localhost:8888";
+    
+            //Message the child on an interval
+            var myInterval = setInterval(function(){
+                var date = new Date();
+                var message = 'Hello!  The time is: ' + date.toString();
+                //send the message and target URI so child can communicate with this window
+                myWindow.postMessage(message,domain); 
+            },2000);
+            
+            //listen for response back
+            window.addEventListener('message',function(event) {
+                //Ignore unsolicited messages
+                if(event.origin !== domain) return;
+
+                //Clear the interval communicating to the child
+                clearInterval(myInterval);
+        
+                //Parse JSON passed by window
+                var json = jQuery.parseJSON(event.data);
+                
+                //Determine message type based on json.key
+                if (json.key == 'grids') {
+                    if (json.value == true) {
+                        ge.getOptions().setGridVisibility(true);
+                    }
+                    else {
+                        ge.getOptions().setGridVisibility(false);
+                    }
+                }
+                else if (json.key == 'range rings') {
+                    if (json.value == true) {
+                        createRangeRings();
+                        rangeRingDisplayed = !rangeRingDisplayed;
+                    }
+                    else {
+                        clearRangeRings();
+                        rangeRingDisplayed = !rangeRingDisplayed;
+                    }
+                }
+                else if (json.key == 'national weather') {
+                    if (json.value == true) {
+                        displayNationalWeather();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.key == 'local weather') {
+                    if (json.value == true) {
+                        displayPhiladelphiaWeather();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.key == 'weather warnings') {
+                    if (json.value == true) {
+                        displayWeatherWarnings();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.value == 'offset ownship') {
+                    createViewLookAt(csedsLat,csedsLon);
+                }
+                else if (json.value == 'offset pri hook') {
+                    //How?!?
+                }
+                else if (json.value == 'offset sec hook') {
+                    //How?!?
+                }
+                else if (json.value == 'offset track') {
+                    var trackID = json.trackID;
+                    //How?!?
+                }
+                else if (json.value == 'offset lat lon') {
+                    var lat = json.lat;
+                    var lon = json.lon;
+                    //alert("offset lat lon lat = "+lat+" lon = "+lon);
+                    //Create a view look at with this location
+                    createViewLookAt(lat,lon);
+                }
+                else if (json.value == 'offset address') {
+                    var address = json.address;
+                    
+                    offsetToAddress(address);
+                }
+                else if (json.key == 'sun') {
+                    if (json.value == true) {
+                        ge.getSun().setVisibility(true);
+                    }
+                    else {
+                        ge.getSun().setVisibility(false);
+                    }
+                }
+                else if (json.key == 'inset map') {
+                    if (json.value == true) {
+                        ge.getOptions().setOverviewMapVisibility(true);
+                    }
+                    else {
+                        ge.getOptions().setOverviewMapVisibility(false);
+                    }
+                }
+                else if (json.key == 'borders') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+                    }
+                }
+                else if (json.key == 'roads') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);
+                    }
+                }
+                else if (json.key == 'buildings') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+                        setTimeout(function() {
+                            var la = ge.createLookAt('');
+                            //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
+                            la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
+                            ge.getView().setAbstractView(la);
+                        }, 3000);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, false);
+                    }
+                }
+                else if (json.key == 'terrain') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, false);
+                    }
+                }
+                else if (json.key == 'google') {
+                    if (json.value == true) {
+                        createGroundOverlay();
+                    }
+                    else {
+                        clearGroundOverlay();
+                    }
+                }
+                else if (json.key == 'geo') {
+                    if (json.value == true) {
+                        createJpegOverlay();
+                    }
+                    else {
+                        clearJpegOverlay();
+                    }
+                }
+                else if (json.key == 'tracks') {
+                    if (json.value == true) {
+                        displayTracks();
+                    }
+                    else {
+                        clearTracks();
+                    }
+                }
+            },false);
+        }
 
         google.setOnLoadCallback(init);
 
         setInterval(function(){updateTracks()},3000);
 
-        // Update streaming progress every 100ms
-        setInterval(function() {
-            var streamingPercent = ge.getStreamingPercent();
-            var progressBar = document.getElementById('progress-bar');
-            if (streamingPercent == 100) {
-                // streaming complete, hide the progress bar
-                progressBar.style.backgroundColor = '#0a0';
-                progressBar.style.width = '250px';
-            }
-            else {
-                // show the progress bar, max width is 250 as per the stylesheet
-                progressBar.style.backgroundColor = '#00f';
-                progressBar.style.width = (250 * streamingPercent / 100) + 'px';
-            }
-        }, 100);
     </script>
 </head>
 <body>
@@ -1142,22 +1357,13 @@
         <hr>
         <div id="buttons">
             <h3>Window Controls</h3>
-            <button id="Grids" onclick="toggleGrids()">Grids</button>
-            <button id="Terrain" onclick="toggleTerrain()">Terrain</button>
-            <button id="Borders" onclick="toggleBorders()">Borders</button>
-            <button id="InsetMap" onclick="toggleInsetMap()">Inset Map</button>
-            <button id="Tracks" onclick="toggleTracks()">Tracks</button>
-            <button id="OffsetOwnship" onclick="toggleOffsetOS()">Offset OS</button>
+            <button id="Grids" onclick="displayGridsWindow()">Grids</button>
+            <button id="EarthSettings" onclick="displayEarthSettingsWindow()">Earth Settings</button>
+            <button id="View" onclick="displayViewWindow()">View Settings</button>
+            <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
+            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
-            <button id="DrawLine" onclick="togglePolyline()">Draw Line</button>
-            <button id="GroundOverlay" onclick="toggleGroundOverlay()">Google Overlay</button>
-            <button id="RangeRings" onclick="toggleRangeRings()">Range Rings</button>
-            <button id="Sun" onclick="toggleSun()">Sun Shading</button>
-            <button id="Buildings" onclick="toggleBuildings()">Display Buildings</button>
-            <button id="JpegOverlay" onclick="toggleJpegOverlay()">Jpeg Overlay</button>
-            <button id="Weather" onclick="toggleWeather()">National Weather</button>
-            <button id="PhillyWeather" onclick="togglePhillyWeather()">Philly Weather</button>
-            <button id="BlankButton10" onclick="toggleBlankButton10()">Button10</button>
+            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
         </div>
     </div>
 </body>
