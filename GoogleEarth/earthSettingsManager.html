@@ -37,6 +37,15 @@
         parentWindow.postMessage(data,parentURI);
       }
 
+      function toggleRoads(setting) {
+        var rawData = {
+          key : "roads",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
       function toggleBuildings(setting) {
         //alert("buildings set to "+value);
         var rawData = {
@@ -92,6 +101,14 @@
         <input type="radio" name="map" value="Off" onclick=toggleInsetMap(false)><br />
         On
         <input type="radio" name="map" value="On" onclick=toggleInsetMap(true)><br />
+      </h4>
+      <hr>
+      <h3>Roads</h3>
+      <h4>
+        Off  
+        <input type="radio" name="roads" value="Off" onclick=toggleRoads(false)><br />
+        On
+        <input type="radio" name="roads" value="On" onclick=toggleRoads(true)><br />
       </h4>
       <hr>
       <h3>Borders</h3>
