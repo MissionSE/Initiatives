@@ -1,0 +1,19 @@
+2014-02-25 19:43:25.391 +0000	START		Running Main.script
+2014-02-25 19:43:25.551 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
+2014-02-25 19:43:26.149 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 19:43:26.688 +0000	imagefound		Unable to Find Image FirefoxActive within 0.00 seconds	7	function_isrunning	Firefox.script
+2014-02-25 19:43:27.270 +0000	click	FirefoxLaunchIcon	at (263, 12)	5	on_start	Firefox.script
+2014-02-25 19:43:27.790 +0000	waitfor	FirefoxActive	found at (13, 38)	6	on_start	Firefox.script
+2014-02-25 19:43:28.880 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 19:43:29.233 +0000	imagefound	FirefoxActive	found at (13, 38)	7	function_isrunning	Firefox.script
+2014-02-25 19:43:30.052 +0000	doubleclick	FirefoxAddressBar	at (838, 121)	3	on_navigate	Firefox.script
+2014-02-25 19:43:30.975 +0000	typetext		rhelserv1/ciwi/ciwi[return]	4	on_navigate	Firefox.script
+2014-02-25 19:43:32.112 +0000	click	CiwiLogin	at (573, 338)	2	on_dologin	Ciwi.script
+2014-02-25 19:43:32.957 +0000	typetext		[tab]ciwi[tab]asd123[return]	3	on_dologin	Ciwi.script
+2014-02-25 19:43:33.592 +0000	waitfor	CiwiSelectDomain	found at (560, 431)	2	on_doselectdomain	Ciwi.script
+2014-02-25 19:43:34.138 +0000	click	CiwiSelectDomain	at (560, 431)	3	on_doselectdomain	Ciwi.script
+2014-02-25 19:43:35.357 +0000	click	CiwiDomainInnovationLab	at (552, 477)	4	on_doselectdomain	Ciwi.script
+2014-02-25 19:43:36.080 +0000	typetext		[tab][return]	5	on_doselectdomain	Ciwi.script
+2014-02-25 19:43:41.595 +0000	click	CiwiLogout	at (621, 578)	2	on_dologout	Ciwi.script
+2014-02-25 19:43:41.924 +0000	EndTestCase		(Duration:"16.528168", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 19:43:25 +0000", Successes:"1", TestCase:"Main.script", Warnings:"0")
+2014-02-25 19:43:42.449 +0000	SUCCESS		Execution Time 0:00:16 Main.script

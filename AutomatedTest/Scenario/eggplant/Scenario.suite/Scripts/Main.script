@@ -1,0 +1,65 @@
+Firefox.start
+
+if not Firefox.isRunning() then
+	LogError "Firefox is not running!"
+	exit all
+end if
+
+Firefox.navigate "rhelserv1/ciwi/ciwi"
+
+Ciwi.doLogin
+
+Ciwi.doSelectDomain
+
+Ciwi.doMainMenuComponents
+
+Ciwi.gotoAdsComponentStatusByHost
+
+testCiwiInstall
+
+testCiwiUninstall
+
+Ciwi.doLogout
+
+Firefox.quit
+
+
+to testCiwiInstall
+	Ciwi.startInstall
+	
+	Ciwi.enterRemoteLoginCredentials
+	
+	Ciwi.enterInstallPath "/home/autotest/ciwi"
+	
+	Ciwi.enterSiteSpecificQuestions
+	
+	Ciwi.enterPhysicalHosts
+	
+	Ciwi.submitTransaction
+	
+	Ciwi.gotoAdsComponentStatusByHost
+	
+	WaitFor 20.0, "CiwiRhel1Installed"
+end testCiwiInstall
+
+to testCiwiUninstall
+	Ciwi.startUninstall
+	
+	Ciwi.enterRemoteLoginCredentials
+	
+	Ciwi.enterSiteSpecificQuestions
+
+	Ciwi.enterPhysicalHosts
+	
+	Ciwi.submitTransaction
+	
+	Ciwi.gotoAdsComponentStatusByHost
+	
+	WaitFor 20, "CiwiRhel1Uninstalled"
+	
+end testCiwiUninstall
+
+
+
+
+

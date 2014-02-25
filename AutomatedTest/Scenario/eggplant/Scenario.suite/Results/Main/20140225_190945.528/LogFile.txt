@@ -1,0 +1,12 @@
+2014-02-25 19:09:45.529 +0000	START		Running Main.script
+2014-02-25 19:09:45.652 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
+2014-02-25 19:09:46.206 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 19:09:46.743 +0000	imagefound		Unable to Find Image FirefoxActive within 0.00 seconds	7	function_isrunning	Firefox.script
+2014-02-25 19:09:47.324 +0000	click	FirefoxLaunchIcon	at (263, 12)	5	on_start	Firefox.script
+2014-02-25 19:09:47.856 +0000	waitfor	FirefoxActive	found at (28, 40)	6	on_start	Firefox.script
+2014-02-25 19:09:48.897 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 19:09:49.249 +0000	imagefound	FirefoxActive	found at (28, 40)	7	function_isrunning	Firefox.script
+2014-02-25 19:09:50.223 +0000	doubleclick	FirefoxAddressBar	at (564, 123)	3	on_navigate	Firefox.script
+2014-02-25 19:09:51.147 +0000	typetext		rhelserv1/ciwi/ciwi[return]	4	on_navigate	Firefox.script
+2014-02-25 19:09:51.402 +0000	EndTestCase		(Duration:"5.867931", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 19:09:45 +0000", Successes:"1", TestCase:"Main.script", Warnings:"0")
+2014-02-25 19:09:52.309 +0000	SUCCESS		Execution Time 0:00:06 Main.script

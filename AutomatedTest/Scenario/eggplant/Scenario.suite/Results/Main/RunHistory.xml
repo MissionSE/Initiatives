@@ -1,0 +1,436 @@
+<?xml version="1.0"?>
+<runHistory script="Main">
+ <run>
+  <RunDate>2014-02-25 19:08:27.879 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>0.325641</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_190827.879/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>STUnknownMessage -- ERROR: No Such Function: 'isrunning'</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:09:09.470 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>0.252145</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_190909.470/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>STUnknownMessage -- ERROR: No Such Function: 'isrunning'</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:09:45.528 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>5.871182</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_190945.528/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:10:57.533 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>12.474471</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_191057.533/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:13:24.901 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>5.518193</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_191324.901/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:19:11.232 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>5.709608</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_191911.232/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:20:14.620 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>5.780831</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_192014.620/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:36:44.337 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>5.760372</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_193644.337/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>File Not Found -- click Error - Could Not Open Image: 8</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:38:12.480 +0000</RunDate>
+  <Status>Running</Status>
+  <Duration>0.000000</Duration>
+  <Errors></Errors>
+  <Warnings></Warnings>
+  <Exceptions></Exceptions>
+  <Successes></Successes>
+  <LogFile>20140225_193812.480/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:39:59.374 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>141.374932</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_193959.374/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:43:25.388 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>16.533497</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_194325.388/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:44:23.430 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>10.454667</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_194423.430/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 19:50:11.036 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>12.446908</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_195011.036/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 20:43:45.551 +0000</RunDate>
+  <Status>Running</Status>
+  <Duration>0.000000</Duration>
+  <Errors></Errors>
+  <Warnings></Warnings>
+  <Exceptions></Exceptions>
+  <Successes></Successes>
+  <LogFile>20140225_204345.551/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:21:07.392 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>0.003414</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_212107.392/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:21:48.083 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>36.992266</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_212148.083/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>SenseTalk Compiler Exception -- in testciwiuninstall:
+Warning at line 16: Warning - Non-matching handler name: testCiwiInstall</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:37:08.530 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>0.521229</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_213708.530/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>No Remote Connection -- imagefound Error - Remote Connection Unavailable</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:38:09.566 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>0.339509</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_213809.566/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>No Remote Connection -- imagefound Error - Remote Connection Unavailable</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:41:27.774 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>55.178821</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_214127.774/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:43:24.456 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>56.404525</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_214324.456/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:53:57.385 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>58.965915</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_215357.385/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:55:17.548 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>35.773284</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_215517.548/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- waitfor Error - Unable To Find Any Image On Screen "CiwiTransactionSubmittedDialog" within 8.00 seconds</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 21:56:52.425 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>10.435877</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_215652.425/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- click Error - No Image Found On Screen: "CiwiLogin"</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:06:42.510 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>58.787426</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_220642.510/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:08:02.415 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>36.802811</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_220802.415/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- waitfor Error - Unable To Find Any Image On Screen "CiwiTransactionSubmittedDialog" within 8.00 seconds</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:09:42.668 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>11.102630</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_220942.668/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- click Error - No Image Found On Screen: "CiwiLogin"</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:11:17.359 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>55.784639</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_221117.359/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:12:37.376 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>35.043949</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_221237.376/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- waitfor Error - Unable To Find Any Image On Screen "CiwiTransactionSubmittedDialog" within 8.00 seconds</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:25:22.255 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>56.399637</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_222522.255/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:26:42.384 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>36.093621</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_222642.384/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Script Error -- Number of Errors logged: 1</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:27:57.358 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>8.969145</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>1</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_222757.358/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Image Not Found -- click Error - No Image Found On Screen: "CiwiLogin"</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:31:17.403 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>35.729223</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_223117.403/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Script Error -- Number of Errors logged: 1</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:32:37.365 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>55.128579</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_223237.365/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:33:52.436 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>35.749936</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_223352.436/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Script Error -- Number of Errors logged: 1</ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:35:12.526 +0000</RunDate>
+  <Status>Success</Status>
+  <Duration>53.928054</Duration>
+  <Errors>0</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>1</Successes>
+  <LogFile>20140225_223512.526/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage></ErrorMessage>
+ </run>
+ <run>
+  <RunDate>2014-02-25 22:36:27.569 +0000</RunDate>
+  <Status>Failure</Status>
+  <Duration>37.016696</Duration>
+  <Errors>1</Errors>
+  <Warnings>0</Warnings>
+  <Exceptions>0</Exceptions>
+  <Successes>0</Successes>
+  <LogFile>20140225_223627.569/LogFile.txt</LogFile>
+  <ReturnValue></ReturnValue>
+  <ErrorMessage>Script Error -- Number of Errors logged: 1</ErrorMessage>
+ </run>
+</runHistory>

@@ -1,0 +1,66 @@
+2014-02-25 21:41:27.776 +0000	START		Running Main.script
+2014-02-25 21:41:28.089 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
+2014-02-25 21:41:28.606 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 21:41:29.158 +0000	imagefound		Unable to Find Image FirefoxActive within 0.00 seconds	7	function_isrunning	Firefox.script
+2014-02-25 21:41:29.740 +0000	click	FirefoxLaunchIcon	at (263, 12)	5	on_start	Firefox.script
+2014-02-25 21:41:30.300 +0000	waitfor	FirefoxActive	found at (349, 94)	6	on_start	Firefox.script
+2014-02-25 21:41:30.458 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 21:41:30.615 +0000	imagefound	FirefoxActive	found at (349, 94)	7	function_isrunning	Firefox.script
+2014-02-25 21:41:31.085 +0000	doubleclick	FirefoxAddressBar	at (1174, 177)	3	on_navigate	Firefox.script
+2014-02-25 21:41:32.008 +0000	typetext		rhelserv1/ciwi/ciwi[return]	4	on_navigate	Firefox.script
+2014-02-25 21:41:33.159 +0000	click	CiwiLogin	at (909, 449)	2	on_dologin	Ciwi.script
+2014-02-25 21:41:34.004 +0000	typetext		[tab]ciwi[tab]asd123[return]	3	on_dologin	Ciwi.script
+2014-02-25 21:41:34.665 +0000	waitfor	CiwiSelectDomain	found at (896, 542)	2	on_doselectdomain	Ciwi.script
+2014-02-25 21:41:35.168 +0000	click	CiwiSelectDomain	at (896, 542)	3	on_doselectdomain	Ciwi.script
+2014-02-25 21:41:36.401 +0000	click	CiwiDomainInnovationLab	at (888, 588)	4	on_doselectdomain	Ciwi.script
+2014-02-25 21:41:37.124 +0000	typetext		[tab][return]	5	on_doselectdomain	Ciwi.script
+2014-02-25 21:41:37.993 +0000	waitfor	CiwiMainMenu	found at (959, 444)	2	on_domainmenucomponents	Ciwi.script
+2014-02-25 21:41:38.558 +0000	click	CiwiComponents	at (957, 536)	3	on_domainmenucomponents	Ciwi.script
+2014-02-25 21:41:39.419 +0000	waitfor	CiwiComponentsScreen	found at (1309, 311)	2	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:41:40.258 +0000	click	CiwiModifyADS	at (1365, 473)	3	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:41:41.166 +0000	waitfor	CiwiComponentStatus	found at (695, 314)	4	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:41:41.684 +0000	click	CiwiByHostTab	at (632, 393)	5	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:41:43.072 +0000	click	CiwiRhel1Install	at (1291, 524)	2	on_startinstall	Ciwi.script
+2014-02-25 21:41:43.954 +0000	waitfor	CiwiRemoteLoginCredentials	found at (944, 462)	2	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:41:44.674 +0000	click	CiwiRemoteLoginCredentials	at (944, 462)	3	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:41:45.641 +0000	typetext		[tab][tab]autotest[tab]autotest[tab][backspace][tab][tab][return]	4	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:41:46.806 +0000	waitfor	CiwiInstallationPathDialog	found at (862, 506)	2	on_enterinstallpath	Ciwi.script
+2014-02-25 21:41:47.584 +0000	click	CiwiInstallationPathDialog	at (862, 506)	3	on_enterinstallpath	Ciwi.script
+2014-02-25 21:41:48.563 +0000	typetext		[tab][tab]/home/autotest/ciwi[tab][tab][tab][return]	4	on_enterinstallpath	Ciwi.script
+2014-02-25 21:41:49.510 +0000	waitfor	CiwiSiteSpecificQuestions	found at (910, 464)	2	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:41:50.207 +0000	click	CiwiSiteSpecificQuestions	at (910, 464)	3	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:41:50.951 +0000	typetext		[tab][tab][tab][return]	4	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:41:54.019 +0000	waitfor	CiwiHosts	found at (957, 396)	2	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:41:54.501 +0000	click	CiwiNext	at (901, 737)	3	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:41:55.061 +0000	waitfor	CiwiSummaryDialog	found at (741, 322)	2	on_submittransaction	Ciwi.script
+2014-02-25 21:41:55.803 +0000	click	CiwiSubmitTransaction	at (796, 811)	3	on_submittransaction	Ciwi.script
+2014-02-25 21:41:57.478 +0000	waitfor	CiwiTransactionSubmittedDialog	found at (1017, 439)	4	on_submittransaction	Ciwi.script
+2014-02-25 21:41:58.083 +0000	click	CiwiTransactionOKButton	at (1025, 514)	5	on_submittransaction	Ciwi.script
+2014-02-25 21:41:59.190 +0000	waitfor	CiwiComponentsScreen	found at (1309, 311)	2	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:00.031 +0000	click	CiwiModifyADS	at (1365, 473)	3	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:00.720 +0000	waitfor	CiwiComponentStatus	found at (695, 315)	4	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:01.043 +0000	click	CiwiByHostTab	at (632, 393)	5	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:02.089 +0000	waitfor	CiwiRhel1Installed	found at (851, 525)	16	on_testciwiinstall	Main.script
+2014-02-25 21:42:02.677 +0000	click	CiwiRhel1Uninstall	at (1372, 524)	2	on_startuninstall	Ciwi.script
+2014-02-25 21:42:03.549 +0000	waitfor	CiwiRemoteLoginCredentials	found at (944, 462)	2	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:42:04.183 +0000	click	CiwiRemoteLoginCredentials	at (944, 462)	3	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:42:05.151 +0000	typetext		[tab][tab]autotest[tab]autotest[tab][backspace][tab][tab][return]	4	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:42:06.026 +0000	waitfor	CiwiSiteSpecificQuestions	found at (910, 464)	2	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:42:06.619 +0000	click	CiwiSiteSpecificQuestions	at (910, 464)	3	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:42:07.363 +0000	typetext		[tab][tab][tab][return]	4	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:42:10.918 +0000	waitfor	CiwiHosts	found at (827, 396)	2	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:42:11.497 +0000	click	CiwiNext	at (901, 737)	3	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:42:12.402 +0000	waitfor	CiwiSummaryDialog	found at (741, 322)	2	on_submittransaction	Ciwi.script
+2014-02-25 21:42:12.994 +0000	click	CiwiSubmitTransaction	at (796, 811)	3	on_submittransaction	Ciwi.script
+2014-02-25 21:42:14.668 +0000	waitfor	CiwiTransactionSubmittedDialog	found at (1017, 439)	4	on_submittransaction	Ciwi.script
+2014-02-25 21:42:15.223 +0000	click	CiwiTransactionOKButton	at (1025, 514)	5	on_submittransaction	Ciwi.script
+2014-02-25 21:42:16.688 +0000	waitfor	CiwiComponentsScreen	found at (1309, 311)	2	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:17.475 +0000	click	CiwiModifyADS	at (1365, 473)	3	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:18.337 +0000	waitfor	CiwiComponentStatus	found at (695, 314)	4	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:18.849 +0000	click	CiwiByHostTab	at (632, 393)	5	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:42:19.931 +0000	waitfor	CiwiRhel1Uninstalled	found at (842, 525)	14	on_testciwiuninstall	Main.script
+2014-02-25 21:42:20.486 +0000	click	CiwiLogout	at (1375, 256)	2	on_dologout	Ciwi.script
+2014-02-25 21:42:21.708 +0000	click	FirefoxFileMenu	at (353, 117)	3	on_quit	Firefox.script
+2014-02-25 21:42:22.929 +0000	click	FirefoxQuitFromMenu	at (381, 381)	4	on_quit	Firefox.script
+2014-02-25 21:42:22.955 +0000	EndTestCase		(Duration:"55.170915", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 21:41:27 +0000", Successes:"1", TestCase:"Main.script", Warnings:"0")
+2014-02-25 21:42:23.760 +0000	SUCCESS		Execution Time 0:00:55 Main.script
