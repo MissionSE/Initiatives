@@ -1,0 +1,18 @@
+{
+    CaptureDate = <*D2014-02-25 18:45:24 +0000>;
+    CaptureHost = SystemUnderTest;
+    CaptureScreenSize = (
+	<*I1800>,
+	<*I800>
+    );
+    HasAlpha = <*BY>;
+    HonorAlpha = <*BY>;
+    HotSpotX = <*R16>;
+    HotSpotY = <*R11>;
+    LastKnownLocationX = <*I0>;
+    LastKnownLocationY = <*I0>;
+    OriginalLocationX = <*I247>;
+    OriginalLocationY = <*I1>;
+    Pulsing = <*BN>;
+    Scale = <*R1>;
+}

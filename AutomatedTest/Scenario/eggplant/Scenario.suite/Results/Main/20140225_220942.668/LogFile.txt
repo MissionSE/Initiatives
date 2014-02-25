@@ -1,0 +1,13 @@
+2014-02-25 22:09:42.670 +0000	START		Running Main.script
+2014-02-25 22:09:43.005 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
+2014-02-25 22:09:43.535 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 22:09:44.088 +0000	imagefound		Unable to Find Image FirefoxActive within 0.00 seconds	7	function_isrunning	Firefox.script
+2014-02-25 22:09:44.669 +0000	click	FirefoxLaunchIcon	at (263, 12)	5	on_start	Firefox.script
+2014-02-25 22:09:45.211 +0000	waitfor	FirefoxActive	found at (349, 94)	6	on_start	Firefox.script
+2014-02-25 22:09:45.364 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 22:09:45.721 +0000	imagefound	FirefoxActive	found at (349, 94)	7	function_isrunning	Firefox.script
+2014-02-25 22:09:47.708 +0000	doubleclick	FirefoxAddressBar	at (1171, 177)	3	on_navigate	Firefox.script
+2014-02-25 22:09:48.631 +0000	typetext		rhelserv1/ciwi/ciwi[return]	4	on_navigate	Firefox.script
+2014-02-25 22:09:53.747 +0000	Exception	CiwiLogin	No Image Found On Screen: "CiwiLogin"	2	on_dologin	Ciwi.script
+2014-02-25 22:09:53.773 +0000	EndTestCase		(Duration:"11.095589", Errors:"1", Exceptions:"1", StartTime:"2014-02-25 22:09:42 +0000", Successes:"0", TestCase:"Main.script", Warnings:"0")
+2014-02-25 22:09:54.446 +0000	FAILURE	Screen_Error.png	Image Not Found click Error - No Image Found On Screen: "CiwiLogin"\nExecution Time 0:00:11 Main.script

@@ -1,0 +1,39 @@
+2014-02-25 21:55:17.550 +0000	START		Running Main.script
+2014-02-25 21:55:17.851 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
+2014-02-25 21:55:18.405 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 21:55:18.961 +0000	imagefound		Unable to Find Image FirefoxActive within 0.00 seconds	7	function_isrunning	Firefox.script
+2014-02-25 21:55:19.542 +0000	click	FirefoxLaunchIcon	at (263, 12)	5	on_start	Firefox.script
+2014-02-25 21:55:20.094 +0000	waitfor	FirefoxActive	found at (349, 94)	6	on_start	Firefox.script
+2014-02-25 21:55:20.249 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
+2014-02-25 21:55:20.355 +0000	imagefound	FirefoxActive	found at (349, 94)	7	function_isrunning	Firefox.script
+2014-02-25 21:55:20.825 +0000	doubleclick	FirefoxAddressBar	at (1174, 177)	3	on_navigate	Firefox.script
+2014-02-25 21:55:21.748 +0000	typetext		rhelserv1/ciwi/ciwi[return]	4	on_navigate	Firefox.script
+2014-02-25 21:55:22.899 +0000	click	CiwiLogin	at (909, 449)	2	on_dologin	Ciwi.script
+2014-02-25 21:55:23.744 +0000	typetext		[tab]ciwi[tab]asd123[return]	3	on_dologin	Ciwi.script
+2014-02-25 21:55:24.407 +0000	waitfor	CiwiSelectDomain	found at (896, 542)	2	on_doselectdomain	Ciwi.script
+2014-02-25 21:55:24.909 +0000	click	CiwiSelectDomain	at (896, 542)	3	on_doselectdomain	Ciwi.script
+2014-02-25 21:55:26.142 +0000	click	CiwiDomainInnovationLab	at (888, 588)	4	on_doselectdomain	Ciwi.script
+2014-02-25 21:55:26.865 +0000	typetext		[tab][return]	5	on_doselectdomain	Ciwi.script
+2014-02-25 21:55:27.747 +0000	waitfor	CiwiMainMenu	found at (959, 444)	2	on_domainmenucomponents	Ciwi.script
+2014-02-25 21:55:28.260 +0000	click	CiwiComponents	at (957, 536)	3	on_domainmenucomponents	Ciwi.script
+2014-02-25 21:55:28.823 +0000	waitfor	CiwiComponentsScreen	found at (1309, 313)	2	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:55:29.515 +0000	click	CiwiModifyADS	at (1365, 473)	3	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:55:30.299 +0000	waitfor	CiwiComponentStatus	found at (695, 315)	4	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:55:30.627 +0000	click	CiwiByHostTab	at (632, 393)	5	on_gotoadscomponentstatusbyhost	Ciwi.script
+2014-02-25 21:55:31.663 +0000	click	CiwiRhel1Install	at (1291, 524)	2	on_startinstall	Ciwi.script
+2014-02-25 21:55:32.539 +0000	waitfor	CiwiRemoteLoginCredentials	found at (944, 462)	2	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:55:33.106 +0000	click	CiwiRemoteLoginCredentials	at (944, 462)	3	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:55:34.074 +0000	typetext		[tab][tab]autotest[tab]autotest[tab][backspace][tab][tab][return]	4	on_enterremotelogincredentials	Ciwi.script
+2014-02-25 21:55:35.232 +0000	waitfor	CiwiInstallationPathDialog	found at (862, 506)	2	on_enterinstallpath	Ciwi.script
+2014-02-25 21:55:35.909 +0000	click	CiwiInstallationPathDialog	at (862, 506)	3	on_enterinstallpath	Ciwi.script
+2014-02-25 21:55:36.887 +0000	typetext		[tab][tab]/home/autotest/ciwi[tab][tab][tab][return]	4	on_enterinstallpath	Ciwi.script
+2014-02-25 21:55:37.826 +0000	waitfor	CiwiSiteSpecificQuestions	found at (910, 464)	2	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:55:38.421 +0000	click	CiwiSiteSpecificQuestions	at (910, 464)	3	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:55:39.165 +0000	typetext		[tab][tab][tab][return]	4	on_entersitespecificquestions	Ciwi.script
+2014-02-25 21:55:42.282 +0000	waitfor	CiwiHosts	found at (957, 396)	2	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:55:42.863 +0000	click	CiwiNext	at (901, 737)	3	on_enterphysicalhosts	Ciwi.script
+2014-02-25 21:55:43.820 +0000	waitfor	CiwiSummaryDialog	found at (741, 322)	2	on_submittransaction	Ciwi.script
+2014-02-25 21:55:44.409 +0000	click	CiwiSubmitTransaction	at (796, 811)	3	on_submittransaction	Ciwi.script
+2014-02-25 21:55:53.298 +0000	Exception	CiwiTransactionSubmittedDialog	Unable To Find Any Image On Screen "CiwiTransactionSubmittedDialog" within 8.00 seconds	4	on_submittransaction	Ciwi.script
+2014-02-25 21:55:53.323 +0000	EndTestCase		(Duration:"35.767168", Errors:"1", Exceptions:"1", StartTime:"2014-02-25 21:55:17 +0000", Successes:"0", TestCase:"Main.script", Warnings:"0")
+2014-02-25 21:55:54.218 +0000	FAILURE	Screen_Error.png	Image Not Found waitfor Error - Unable To Find Any Image On Screen "CiwiTransactionSubmittedDialog" within 8.00 seconds\nExecution Time 0:00:36 Main.script

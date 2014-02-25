@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<statistics>
+ <script name="Ciwi">
+  <LastStatus>Success</LastStatus>
+  <NumberOfRuns>1</NumberOfRuns>
+  <NumberOfFails>0</NumberOfFails>
+  <FirstRun>2014-02-25 19:38:01 +0000</FirstRun>
+  <LastRun>2014-02-25 19:38:01 +0000</LastRun>
+  <TotalTimeOnSuccess>0.003365</TotalTimeOnSuccess>
+ </script>
+ <script name="Main">
+  <LastStatus>Failure</LastStatus>
+  <NumberOfRuns>35</NumberOfRuns>
+  <NumberOfFails>16</NumberOfFails>
+  <FirstRun>2014-02-25 19:08:27 +0000</FirstRun>
+  <LastRun>2014-02-25 22:36:27 +0000</LastRun>
+  <TotalTimeOnSuccess>677.945689</TotalTimeOnSuccess>
+ </script>
+ <script name="Firefox">
+  <LastStatus>Success</LastStatus>
+  <NumberOfRuns>1</NumberOfRuns>
+  <NumberOfFails>0</NumberOfFails>
+  <FirstRun>2014-02-25 19:09:38 +0000</FirstRun>
+  <LastRun>2014-02-25 19:09:38 +0000</LastRun>
+  <TotalTimeOnSuccess>0.175351</TotalTimeOnSuccess>
+ </script>
+</statistics>
