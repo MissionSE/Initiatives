@@ -1,0 +1,57 @@
+- either - 
+start ciwi service
+run eggplant test
+run atrt test
+run sikuli test
+stop ciwi service
+run eggplant test
+run atrt test
+run sikuli test
+
+- or - 
+start ciwi service
+run eggplant test
+stop ciwi service
+run eggplant test
+
+start ciwi service
+run atrt test
+stop ciwi service
+run atrt test
+
+start ciwi service
+run sikuli test
+stop ciwi service
+run sikuli test
+
+- or - 
+eggplant success test
+eggplant failure test
+atrt success test
+atrt failure test
+sikuli success test
+sikuli failure test
+
+
+
+start ciwi service (on rhelserv1 via cmdlin)
+   rhelserv1
+   cd /MSE_APPS/MSE_APPS/V1.0/bin
+   ./startService.sh &
+
+run test (on rhel1 via cmdline)
+   firefox
+   login
+   install
+   verify
+   uninstall
+   verify
+   logout
+   exit firefox
+
+stop ciwi service (on rhelserv1 via cmdlin)
+   rhelserv1
+   cd /MSE_APPS/MSE_APPS/V1.0/bin
+   ./stopService.sh -a ciwi -u ciwi
+   password (asd123)
+   
