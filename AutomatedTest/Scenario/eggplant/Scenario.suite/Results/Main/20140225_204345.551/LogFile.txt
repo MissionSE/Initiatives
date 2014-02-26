@@ -1,8 +1,0 @@
-2014-02-25 20:43:45.554 +0000	START		Running Main.script
-2014-02-25 20:43:45.690 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
-2014-02-25 20:43:46.297 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
-2014-02-25 20:43:46.801 +0000	imagefound	FirefoxActive	found at (13, 38)	7	function_isrunning	Firefox.script
-2014-02-25 20:43:47.858 +0000	imagefound		Unable to Find Image FirefoxInactive within 0.00 seconds	2	function_isrunning	Firefox.script
-2014-02-25 20:43:48.360 +0000	imagefound	FirefoxActive	found at (13, 38)	7	function_isrunning	Firefox.script
-2014-02-25 20:43:49.160 +0000	EndTestCase		(Duration:"3.598368", Errors:"1", Exceptions:"0", StartTime:"2014-02-25 20:43:45 +0000", Successes:"0", TestCase:"Main.script", Warnings:"0")
-2014-02-25 20:43:49.162 +0000	ABORTED		Execution Time 0:00:04 Main.script

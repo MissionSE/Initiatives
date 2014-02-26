@@ -1,3 +1,0 @@
-2014-02-25 19:38:01.890 +0000	START		Running Ciwi.script
-2014-02-25 19:38:01.894 +0000	EndTestCase		(Duration:"0.000203", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 19:38:01 +0000", Successes:"1", TestCase:"Ciwi.script", Warnings:"0")
-2014-02-25 19:38:02.572 +0000	SUCCESS		Execution Time 0:00:00 Ciwi.script

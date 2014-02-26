@@ -1,4 +1,0 @@
-2014-02-25 19:09:09.480 +0000	START		Running Main.script
-2014-02-25 19:09:09.591 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
-2014-02-25 19:09:09.724 +0000	EndTestCase		(Duration:"0.240393", Errors:"1", Exceptions:"0", StartTime:"2014-02-25 19:09:09 +0000", Successes:"0", TestCase:"Main.script", Warnings:"0")
-2014-02-25 19:09:11.051 +0000	FAILURE	Screen_Error.png	STUnknownMessage ERROR: No Such Function: 'isrunning'\nExecution Time 0:00:00 Main.script
