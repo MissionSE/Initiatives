@@ -80,22 +80,34 @@
     width:75px;
 }
 
-<<<<<<< HEAD
 #JpegOverlay {
-=======
-#BlankButton7 {
->>>>>>> f9b79d5fa3c05fa6a0240341576099dd2b6c281f
     width:75px;
 }
 
-#BlankButton8 {
+#Weather {
     width:75px;
 }
 
-#BlankButton9 {
+#Twitter {
+    width:75px;
+}
+
+#PhillyWeather {
     width:75px;
 }
 
 #BlankButton10 {
+    width:75px;
+}
+
+#EarthSettings {
+    width:75px;
+}
+
+#View {
+    width:75px;
+}
+
+#Overlay {
     width:75px;
 }
