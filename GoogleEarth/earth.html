@@ -72,6 +72,14 @@
         var trackUpdateNum = 0;
         var geocoder;
         var incrementTracks = true;
+        var twitterFeedWindow;
+        var twitterFeedInterval;
+        var tweetsDisplayed = false;
+        var tweetIcon = 'http://localhost:8888/earth/images/twitter-bird-light.png';
+        var tweetPlacemark;
+        var tweetPlacemarkArray = new Array();
+        var tweetsArray = [];
+        var twitterSearch;
 
         google.load("earth", "1", {"other_params":"sensor=false"});
 
@@ -838,6 +846,11 @@
             element.style.background = redButton;
         }
 
+        function highlightTwitter() {
+            var element = document.getElementById("Twitter");
+            element.style.background = redButton;
+        }
+
         function highlightView() {
             var element = document.getElementById("View");
             element.style.background = redButton;
@@ -926,6 +939,7 @@
             highlightTracks();
             highlightCsedsTour();
             highlightWeather();
+            highlightTwitter();
         }
 
         function playCsedsTour() {
@@ -1146,6 +1160,153 @@
             openWin("Track Manager","trackManager.html",350,350,950,0);
         }
 
+        function displayTwitterWindow() {
+            openWin("Twitter Manager","twitterManager.html",350,500,950,0);
+        }
+
+        function clearTwitterSymbols() {
+            var len = tweetPlacemarkArray.length;
+            //Loop through array and remove placemarks from GE
+            for (var i = 0; i < len; i++) {
+                ge.getFeatures().removeChild(tweetPlacemarkArray[i]);
+            }
+            
+            //Loop through array and remove each item
+            //Done in two loops since single loop wouldn't work
+            for (var j = 0; j < len; j++) {
+                tweetPlacemarkArray.shift();
+            }
+        }
+
+        function updateTweets() {
+            //Only update if tweets are displayed
+            if (tweetsDisplayed) {
+                var url = "getTweets.php";
+                var maxTweetSymbols = 10;
+                var numTweetSymbols = 0;
+                $.post(url, {}, function(data) {
+                        $.each(data,function(key,value) {
+                            numTweetSymbols++;
+                            if (numTweetSymbols <= maxTweetSymbols) {
+                                var location = value.location;
+                                //console.log("updateTweets location = "+location);
+                                var tweetid = value.tweetid;
+                                var username = value.username;
+                                var text = value.text;
+                                console.log("updateTweets text = "+text);
+
+                                //Store the tweet information in an object
+                                var obj = {
+                                    tweetid: tweetid,
+                                    location: location,
+                                    username: username,
+                                    text: text,
+                                    placemark: null
+                                };
+                                
+                                //Add the tweet object to the array
+                                tweetsArray.push(obj);
+                                
+
+                                //Get the geo location from the address string
+                                geocoder.geocode( { 'address': location}, function(results, status) {
+                                    //Check if valid geo location
+                                    if (status == google.maps.GeocoderStatus.OK) {
+                                        console.log("updateTweets found location for "+location+" lat = "+results[0].geometry.location.lat()+" lon = "+results[0].geometry.location.lng())
+
+                                        tweetPlacemark = ge.createPlacemark('');
+                                        ge.getFeatures().appendChild(tweetPlacemark);
+                                        //Add the placemark to the array
+                                        tweetPlacemarkArray.push(tweetPlacemark);
+                                        tweetPlacemark.setName(username+":"+text);
+
+                                        //Find the tweetsArray index for this location
+                                        var i = findTweetsByLocation(location);
+                                        if (i != null) {
+                                            //Store this placemark in tweetsArray
+                                            tweetsArray[i].placemark = tweetPlacemark;
+                                        }
+            
+                                        // Create style map for placemark
+                                        var icon = ge.createIcon('');
+                                        icon.setHref(tweetIcon);
+                                        var style = ge.createStyle('');
+                                        style.getIconStyle().setIcon(icon);
+                                        style.getIconStyle().setScale(2.0);
+                                        tweetPlacemark.setStyleSelector(style);
+                                        
+                                        // Create point
+                                        var point = ge.createPoint('');
+                                        point.setLatitude(results[0].geometry.location.lat());
+                                        point.setLongitude(results[0].geometry.location.lng());
+                                        tweetPlacemark.setGeometry(point);
+                                    }
+                                    else {
+                                        console.log('Geocode was not successful status: ' + status);
+                                    }
+                                });
+                            }
+                        })
+                });
+            }
+        }
+        
+        function findTweetsByLocation(location) {
+            var len = tweetsArray.length;
+            for (var i = 0; i < len; i++) {
+                if (tweetsArray[i].location == location) {
+                    return i;
+                }
+            }
+            return null;
+        }
+        
+        function findTweetsByPlacemark(placemark) {
+            var len = tweetsArray.length;
+            for (var i = 0; i < len; i++) {
+                if (tweetsArray[i].placemark == placemark) {
+                    return i;
+                }
+            }
+            return null;
+        }
+        
+        function enablePlacemarkClickEvents() {
+            //Loop through all the tweet placemarks and add event listener
+            var len = tweetPlacemarkArray.length;
+            for (var i = 0; i < len; i++) {
+                ge.addEventListener(tweetPlacemarkArray[i],click,clickEventHandler);
+            }
+        }
+        
+        function disablePlacemarkClickEvents() {
+            //Loop through all the tweet placemarks and remove event listener
+            var len = tweetPlacemarkArray.length;
+            for (var i = 0; i < len; i++) {
+                ge.removeEventListener(tweetPlacemarkArray[i],click,clickEventHandler);
+            }
+        }
+
+        function clickEventHandler() {
+            console.log("clickEventHandler called");
+            // prevent the default balloon from popping up
+            event.preventDefault();
+            var placemark = event.getTarget();
+            var index = findTweetsByPlacemark(placemark);
+            var balloon = ge.createHtmlStringBalloon('');
+            balloon.setFeature(placemark);
+            balloon.setMaxWidth(300);
+            
+            if (index != null) {
+                balloon.setContentString(index.text);
+            }
+            else {                
+                balloon.setContentString("could not find this tweet");
+            }
+
+            ge.setBalloon(balloon);
+        }
+        
         function openWin(name,url,width,height,x,y) {
             //Open input window with parameters
             var myWindow = window.open(url,"","width="+width+",height="+height);
@@ -1321,6 +1482,50 @@
                         clearTracks();
                     }
                 }
+                else if (json.key == 'twitter feed') {
+                    console.log("earth received message "+json.key+ " json.displayWindow = "+json.displayWindow);
+                    if (json.value == true) {
+                        twitterSearch = json.search;
+                        console.log("earth.html twitterSearch = "+twitterSearch);
+                        if (true == json.displayWindow) {
+                            //Display twitter feed window
+                            twitterFeedWindow = window.open("twitterFeed.html","","width="+300+",height="+500);
+                            //Move window to input location
+                            twitterFeedWindow.moveTo(0,0);
+                            //Pass the search string in a message to the window
+                            var interval = setInterval(function(){
+                                //send the message and target URI so child can communicate with this window
+                                twitterFeedWindow.postMessage(twitterSearch,domain); 
+                            },2000); 
+                        }
+                    }
+                    else {
+                        //Clear twitter feed window
+                        twitterFeedWindow.close();
+                    }
+                }
+                else if (json.key == 'twitter symbols') {
+                    if (json.value == true) {
+                        //Display twitter symbols
+                        tweetsDisplayed = true;
+                        //Call function immediately
+                        updateTweets();
+                        //Create interval for function
+                        //twitterFeedInterval = setInterval(function(){updateTweets()},3000);                        
+                        enablePlacemarkClickEvents();
+                    }
+                    else {
+                        //Clear twitter symbols
+                        clearTwitterSymbols();
+
+                        tweetsDisplayed = false;
+                        
+                        //Clear the twitter symbol interval
+                        clearInterval(twitterFeedInterval);
+
+                        disablePlacemarkClickEvents();
+                    }
+                }
             },false);
         }
 
@@ -1364,6 +1569,7 @@
             <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
             <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
+            <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
         </div>
     </div>
 </body>

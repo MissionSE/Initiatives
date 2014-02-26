@@ -4,11 +4,29 @@
 <head>
     <title>Twitter Feed</title>
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="twitterfeed.js"></script>
+    <script type="text/javascript" src="twitterFeedSearch.js"></script>
     <link href="twitter-styles.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        var searchString = "#Superbowl";
+        var searchStarted = false;
+        function processEvents() {
+            //respond to events
+            window.addEventListener('message',function(event) {
+            if(event.origin !== 'http://localhost:8888') {
+              return;
+            }
+            console.log("twitterFeed search string = "+event.data);
+            searchString = event.data;
+            if (false == searchStarted) {
+                searchStarted = true;
+                runSearch();
+            }
+          },false);
+        }
+    </script>
 </head>
 
-<body>
+<body onload=processEvents()>
     <div id="twitter-feed"></div>
 </body>
 </html>
