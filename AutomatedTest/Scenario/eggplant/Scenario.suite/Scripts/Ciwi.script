@@ -1,0 +1,72 @@
+to doLogin
+	Click "CiwiLogin"
+	TypeText Tab, "ciwi", Tab, "asd123", Return
+end doLogin
+
+to doSelectDomain
+	WaitFor 8.0, "CiwiSelectDomain"
+	Click "CiwiSelectDomain"
+	Click "CiwiDomainInnovationLab"
+	TypeText Tab,Return
+end doSelectDomain
+
+to doMainMenuComponents
+	WaitFor 8.0, "CiwiMainMenu"
+	Click "CiwiComponents"
+end doMainMenuComponents
+
+to gotoAdsComponentStatusByHost
+	WaitFor 8.0, "CiwiComponentsScreen"
+	Click "CiwiModifyADS"
+	WaitFor 8.0, "CiwiComponentStatus"
+	Click "CiwiByHostTab"	
+end gotoAdsComponentStatusByHost
+
+to startInstall
+	Click "CiwiRhel1Install"
+end startInstall
+
+to enterRemoteLoginCredentials
+	WaitFor 8.0, "CiwiRemoteLoginCredentials"
+	Click "CiwiRemoteLoginCredentials"
+	TypeText Tab,Tab, "autotest", Tab, "autotest", Tab, backspace, Tab, Tab, Return
+end enterRemoteLoginCredentials
+
+to enterInstallPath path	
+	WaitFor 8.0, "CiwiInstallationPathDialog"
+	Click "CiwiInstallationPathDialog"
+	TypeText Tab, Tab, path, Tab, Tab, Tab, Return	
+end enterInstallPath
+
+to enterSiteSpecificQuestions
+	WaitFor 8.0, "CiwiSiteSpecificQuestions"
+	Click "CiwiSiteSpecificQuestions"
+	TypeText Tab, Tab, Tab, Return
+end enterSiteSpecificQuestions
+
+to enterPhysicalHosts
+	WaitFor 8.0, "CiwiHosts"
+	Click "CiwiNext"
+end enterPhysicalHosts
+
+to submitTransaction
+	WaitFor 8.0, "CiwiSummaryDialog"
+	Click "CiwiSubmitTransaction"
+	
+	if ImageFound(8.0,"CiwiTransactionSubmittedDialog") then
+		Click "CiwiTransactionOKButton"	
+	else
+		Click "CiwiTransactionOKButton"
+		LogError "TRANSACTION FAILED!"
+		exit all
+	end if
+	
+end submitTransaction
+
+to startUninstall
+	Click "CiwiRhel1Uninstall"
+end startUninstall
+
+to doLogout
+	Click "CiwiLogout"
+end doLogout

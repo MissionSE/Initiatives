@@ -1,0 +1,12 @@
+* created autotest account on rhel1
+	// add user
+	system-config-users
+	// add autotest to labroot group
+	usermod --gid 16777278 autotest
+
+* downloaded eggPlant functional (tgz containing rpm)
+	provided contact info for free trial license
+	sudo rpm --verbose --hash --install Downloads/eggPlant_redhat/eggPlant14.01.rpm
+	Preparing...                ########################################### [100%]
+   		1:eggPlant               ########################################### [100%]
+

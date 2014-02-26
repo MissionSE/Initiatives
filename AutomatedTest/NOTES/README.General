@@ -1,0 +1,202 @@
+2.10.2014
+
+* created autotest account on rhel1
+	// add user
+	system-config-users
+	// add autotest to labroot group
+	usermod --gid 16777278 autotest
+
+=====================  
+Eggplant 
+
+* downloaded eggPlant functional (tgz containing rpm)
+	provided contact info for free trial license
+	sudo rpm --verbose --hash --install Downloads/eggPlant_redhat/eggPlant14.01.rpm
+	Preparing...                ########################################### [100%]
+   		1:eggPlant               ########################################### [100%]
+
+rpm -q --list  eggPlant > NOTES/rpm.list.txt
+This command gave a 3600+ line of files.
+
+Got evaluation license from Eggplant, good for 2 weeks.  This came in an email.  
+Eggplant email from richard.ward@testplant.com
+
+Ran eggplant from the command line (it resides in /usr/local/bin/eggplant)
+Running this for the first time brought up a license manager.  Entered license key and left the username empty.
+License: 5n5v-bg6f-ezhn-ylyy-hsft-qm
+
+Subsequent runs of eggplant simply brings up eggplant and skips the license step.  
+
+A requirement of Eggplant is a vncserver.  
+Machine rhel1 happens to have tigervnc installed but it doesn't matter.
+vncserver :3 -geometry 1900x1020
+
+vnc* and Xvnc were sftp'ed from rhel1 to rhel10, and placed in ~autotest/vnc.
+
+Ran a vncserver :3 -geometry 1900x1020 on rhel10 and ran eggplant from rhel1.
+
+=================
+SIKULI
+
+* download sikuli jar 
+https://launchpad.net/sikuli/sikulix/1.0.1/+download/sikuli-setup.jar
+
+* download OpenCV
+http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.8/opencv-2.4.8.zip/download
+	
+* download tesseract (used version tesseract-3.02.02-5.mga4.i586.rpm)
+
+http://rpmfind.net/linux/rpm2html/search.php?query=tesseractNeeded cmake for OpenCV for Sikuli (at a minimum)
+Install docs: http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html
+Source tarball from: http://sourceforge.net/projects/opencvlibrary/files/latest/download  (opencv-2.4.8.zip)
+
+yum search all cmake
+That command yielded cmake28.i686
+
+yum install cmake28.i686
+
+This created a cmake28 executable in /usr/bin
+
+In ~autotest, extracted opencv-2.4.8.zip into ~autotest/opencv-2.4.8
+
+cd ~autotest/opencv-2.4.8
+mkdir release
+cd release
+
+cmake28 -D CMAKE_BUILD_TYPE=RELEASE _D CMAKE_INSTALL_PREFIX=/usr/local ..
+
+From release directory (above), 
+make
+This took about 10+ minutes.
+sudo make install
+This added many files, and executables to /usr/local/bin/
+
+Need tesseract-ocr for Sikuli
+tesseract wiki: https://code.google.com/p/tesseract-ocr/
+yum search failed - need to build from source
+downloaded tarball from https://code.google.com/p/tesseract-ocr/downloads/detail?name=tesseract-ocr-3.02.02.tar.gz
+compile docs: https://code.google.com/p/tesseract-ocr/wiki/Compiling
+Docs say Leptonica is required to build tesseract 
+Tesseract 3.02 requires at least v1.69 of Leptonica.
+Download leptonica source from: http://www.leptonica.org/source/leptonica-1.70.tar.gz
+Leptonica build docs: http://tpgit.github.io/UnOfficialLeptDocs/leptonica/README.html#overview
+Untar to ~/leptonica-1.70 and cd there
+./configure
+make
+sudo make install [as root; this puts liblept.a into /usr/local/lib/
+                and all the progs into /usr/local/bin/ ]
+
+Build tesseract from source
+cd ~/tesseract-ocr
+./autogen.sh
+./configure 
+sudo make install
+
+Download tesseract data from: http://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.eng.tar.gz
+cd ~
+tar xvf Downloads/tesseract-ocr-3.02.eng.tar.gz
+cd /usr/local/share/tessdata
+sudo cp ~/tesseract-ocr/tessdata/* .
+
+Start sikuli first time:  // appears to finalize installation
+cd ~/SikuliX
+java -jar sikuli-setup.jar
+click OK 
+Select 1 and 5 (Pack1 and tesseract OCR)
+click Setup Now
+click Yes to download prompt
+exits to shell after downloads complete
+
+Start sikuli:
+cd ~/SikuliX
+./runIDE          <= automatically created by previous install step
+
+IDE RUNS BUT CRASHES
+SikuliX-1.0.1-SetupLog.txt says:
+[debug (2/10/14 1:32:14 PM)] ResourceLoaderBasic: loadLib: Found: VisionProxy
+[error (2/10/14 1:32:14 PM)] ResourceLoaderBasic: loadLib: Fatal Error 110: loading: libVisionProxy.so
+[error (2/10/14 1:32:14 PM)] ResourceLoaderBasic: loadLib: Since native library was found, it might be a problem with needed dependent libraries
+/home/autotest/SikuliX/libs/libVisionProxy.so: libopencv_core.so.2.4: cannot open shared object file: No such file or directory
+[error (2/10/14 1:32:14 PM)] Terminating SikuliX after a fatal error(110)! Sorry, but it makes no sense to continue!
+If you do not have any idea about the error cause or solution, run again
+with a Debug level of 3. You might paste the output to the Q&A board.
+[debug (2/10/14 1:32:14 PM)] SikuliXFinal: cleanUp: 0
+
+DEBUG:
+ldd libs/libVisionProxy.so
+ldd: warning: you do not have execution permission for `./libVisionProxy.so'
+	linux-gate.so.1 =>  (0x003a9000)
+	libopencv_core.so.2.4 => not found
+	libopencv_highgui.so.2.4 => not found
+	libopencv_imgproc.so.2.4 => not found
+
+
+CORRECTION: re-install sikuli with LD_LIBRARY_PATH set
+export LD_LIBRARY_PATH=/usr/local/lib
+mv ~/SikuliX/ ~/SikuliX.1
+mkdir ~/SikuliX
+cp ~/Downloads/sikuli-setup.jar ~/SikuliX
+java -jar sikuli-setup.jar
+success
+added export of LD_LIBRARY_PATH to ~/SikuliX/runIDE  script
+
+
+Attempting to run from the local machine (rhel1):
+./runIDE
+First thing done was to go to File->Preferences
+Set "Where to store images" to /home/autotest/Testing/Sikuli (created that directory manually)
+In TextSearch and OCR section of window, clicked "allow searching for text" and "allow OCR"
+Clicked "Save" and closed window using "X"
+
+The IDE suggested that the currently running application should be restarted so restarted using
+./runIDE
+
+SUCCESS! on both hosts, not sure why previous attempt crashed - maybe because preferences were
+not set??
+
+############################
+Setting up two nodes to run a common scenario from all tools.  
+
+Using rhel1 as host machine from which tests are run
+Using rhel10 as system under test (SUT)
+
+Using autotest user on host
+Using nagios user on SUT
+
+On host machine, for the autotest user, used ssh-keygen to create ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub
+On SUT machine, for the nagios user, added the contents of id_rsa.pub to ~/.ssh/authorized_keys
+
+To execute a command remotely, from the host to the SUT,
+ssh nagios@rhel10 'ls -l'
+However we received the error:
+reverse mapping checking getaddrinfo for rhel10.uird.local [192.168.195.110] failed - POSSIBLE BREAK-IN ATTEMPT!
+Last login: Mon Feb 24 13:56:30 2014 from localhost.localdomain
+
+Fixed this by adding the ip address of rhel10 to the /etc/hosts file in rhel1
+
+Then Bill had the brilliant idea (not being facetious) to add 'sut' to the name in the /etc/hosts file
+instead of using rhel10.  This way it can change in the future.
+
+### Started a vncserver on the SUT as follows
+ssh nagios@rhel10 '/home/nagios/vnc/vncserver -geometry 1800x750 :3'
+Needed to set the password for the vnc once.  
+Ran eggplant and edited the connection to use 
+user nagios 
+password nagios 
+
+### Running Jenkins
+
+From the ~autotest/Downloads directory:
+java -jar jenkins.war --httpPort=8080
+
+8080 is an example, not a requirement.  Then to use it, run Firefox and use the port you gave.
+
+Note you can also use https --httpsPort=8080
+
+Created ssh keys 
+
+################### Creating Scenarios in various tools
+Eggplant: Started at 10:15 AM February, 25.
+
+
+
