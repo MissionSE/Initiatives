@@ -1,3 +1,4 @@
+launchFirefox
 
 doLogin
 
@@ -36,6 +37,8 @@ gotoAdsComponentStatusByHost
 waitForUninstalled
 
 doLogout
+
+quitFirefox
 
 
 
