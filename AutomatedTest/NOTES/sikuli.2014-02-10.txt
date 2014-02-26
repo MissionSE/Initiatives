@@ -1,0 +1,8 @@
+* download sikuli jar 
+https://launchpad.net/sikuli/sikulix/1.0.1/+download/sikuli-setup.jar
+
+* download OpenCV
+http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.8/opencv-2.4.8.zip/download
+	
+* download tesseract (used version tesseract-3.02.02-5.mga4.i586.rpm)
+http://rpmfind.net/linux/rpm2html/search.php?query=tesseract
