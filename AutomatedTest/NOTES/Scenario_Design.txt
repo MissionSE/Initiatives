@@ -17,22 +17,22 @@ enterSiteSpecificQuestions
 
 enterPhysicalHosts
 
-submitInstallTransaction
+submitTransaction
 
-#doGotoAdsComponentHosts
+doGotoAdsComponentHosts
 waitForInstalled
 
 startUninstall
 
-#enterRemoteLoginCredentials
+enterRemoteLoginCredentials
 
-#enterSiteSpecificQuestions
+enterSiteSpecificQuestions
 
-#enterPhysicalHosts
+enterPhysicalHosts
 
-submitUninstallTransaction
+submitTransaction
 
-#gotoAdsComponentStatusByHost
+gotoAdsComponentStatusByHost
 waitForUninstalled
 
 doLogout

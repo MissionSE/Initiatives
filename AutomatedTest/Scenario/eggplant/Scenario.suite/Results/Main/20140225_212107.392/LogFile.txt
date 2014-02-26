@@ -1,3 +1,0 @@
-2014-02-25 21:21:07.393 +0000	START		Running Main.script
-2014-02-25 21:21:07.397 +0000	EndTestCase		(Duration:"0.000199", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 21:21:07 +0000", Successes:"1", TestCase:"Main.script", Warnings:"0")
-2014-02-25 21:21:08.184 +0000	SUCCESS		Execution Time 0:00:00 Main.script

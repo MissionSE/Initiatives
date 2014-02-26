@@ -1,3 +1,0 @@
-2014-02-25 19:09:38.605 +0000	START		Running Firefox.script
-2014-02-25 19:09:38.777 +0000	EndTestCase		(Duration:"0.168554", Errors:"0", Exceptions:"0", StartTime:"2014-02-25 19:09:38 +0000", Successes:"1", TestCase:"Firefox.script", Warnings:"0")
-2014-02-25 19:09:39.671 +0000	SUCCESS		Execution Time 0:00:00 Firefox.script

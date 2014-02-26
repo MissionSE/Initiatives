@@ -1,5 +1,0 @@
-2014-02-25 21:38:09.568 +0000	START		Running Main.script
-2014-02-25 21:38:09.880 +0000	Log		BEGIN Firefox.start	2	on_start	Firefox.script
-2014-02-25 21:38:09.883 +0000	Exception		Remote Connection Unavailable	2	function_isrunning	Firefox.script
-2014-02-25 21:38:09.908 +0000	EndTestCase		(Duration:"0.331789", Errors:"1", Exceptions:"1", StartTime:"2014-02-25 21:38:09 +0000", Successes:"0", TestCase:"Main.script", Warnings:"0")
-2014-02-25 21:38:10.274 +0000	FAILURE		No Remote Connection imagefound Error - Remote Connection Unavailable\nExecution Time 0:00:00 Main.script
