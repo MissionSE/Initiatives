@@ -56,6 +56,8 @@ to submitTransaction
 	if ImageFound(8.0,"CiwiTransactionSubmittedDialog") then
 		Click "CiwiTransactionOKButton"	
 	else
+		# click ok button so that ciwi ends this session and doesn't
+		# cause a problem the next time we run ciwi
 		Click "CiwiTransactionOKButton"
 		LogError "TRANSACTION FAILED!"
 		exit all

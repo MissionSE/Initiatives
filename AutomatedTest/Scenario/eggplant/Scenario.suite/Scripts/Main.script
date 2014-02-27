@@ -48,7 +48,7 @@ to testCiwiUninstall
 	Ciwi.enterRemoteLoginCredentials
 	
 	Ciwi.enterSiteSpecificQuestions
-
+	
 	Ciwi.enterPhysicalHosts
 	
 	Ciwi.submitTransaction
