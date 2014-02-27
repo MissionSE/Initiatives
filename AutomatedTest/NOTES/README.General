@@ -318,5 +318,15 @@ Sikuli: Stop at 5:00 PM February, 26
 Note: about an hour of this was debugging strangeness we were
 seeing with sikuli.
 
+Sikuli: Continuing at 9:00 AM February, 27.
+10:35 Sikilu IDE has issue - will not allow file save:
+[error] SikuliIDE: Problem when trying to invoke menu action doSave
+Error: null
+
+Quit and restarted IDE, no apparent issues
+Sikuli: Stop at 12:00 PM February, 26
+Sikuli: continue at 1:00 PM February, 26
+
+
 
 

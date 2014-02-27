@@ -73,15 +73,15 @@
 <span class="kw">from</span> sikuli <span class="kw">import</span> *
 
 <span class="kw">def</span> start():
-    <span class="skw">click</span>(<img src="1393439837193.png" />)
+    <span class="skw">click</span>(Pattern(<img src="FirefoxLaunchIcon.png" />).similar(<span class="dig">0.80</span>))
 
 <span class="kw">def</span> navigate(url):
-    <span class="skw">click</span>(Pattern(<img src="1393449125404.png" />).similar(<span class="dig">0.80</span>))
-
+    <span class="skw">doubleClick</span>(Pattern(<img src="FirefoxAddressBar.png" />).similar(<span class="dig">0.80</span>).targetOffset(-<span class="dig">49</span>,<span class="dig">2</span>))
+    <span class="skw">type</span>(url + <span class="str">"\n"</span>)
 
 <span class="kw">def</span> quit():
-    <span class="skw">click</span>(Pattern(<img src="1393441545842.png" />).similar(<span class="dig">0.95</span>).targetOffset(-<span class="dig">1</span>,<span class="dig">10</span>))
-    <span class="skw">click</span>(Pattern(<img src="1393441906918.png" />).targetOffset(-<span class="dig">13</span>,<span class="dig">31</span>))
+    <span class="skw">click</span>(Pattern(<img src="FirefoxFileMenu.png" />).similar(<span class="dig">0.95</span>).targetOffset(-<span class="dig">1</span>,<span class="dig">10</span>))
+    <span class="skw">click</span>(Pattern(<img src="FirefoxQuitFromMenu.png" />).targetOffset(-<span class="dig">13</span>,<span class="dig">31</span>))
 </pre>
 </body>
 </html>

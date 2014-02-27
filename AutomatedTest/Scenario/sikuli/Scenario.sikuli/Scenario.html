@@ -73,13 +73,66 @@
 sys.path.append(<span class="str">"/home/autotest/AutomatedTest/Scenario/sikuli/Scenario.sikuli"</span>)
 
 <span class="kw">import</span> Firefox
+<span class="kw">import</span> Ciwi
 reload(Firefox)
+reload(Ciwi)
 
-<span class="cmt">#Firefox.start()
-</span>
+<span class="kw">def</span> testCiwiInstall():
+
+    Ciwi.startInstall()
+
+    Ciwi.enterRemoteLoginCredentials()
+
+    Ciwi.enterInstallPath(<span class="str">"/home/autotest/ciwi"</span>)
+
+    Ciwi.enterSiteSpecificQuestions()
+
+    Ciwi.enterPhysicalHosts()
+
+    Ciwi.submitTransaction()
+
+    Ciwi.gotoAdsComponentStatusByHost()
+
+    <span class="skw">wait</span>(<img src="CiwiRhel1Installed.png" />, <span class="dig">20</span>)
+
+
+<span class="kw">def</span> testCiwiUninstall():
+
+    Ciwi.startUninstall()
+
+    Ciwi.enterRemoteLoginCredentials()
+
+    Ciwi.enterSiteSpecificQuestions()
+
+    Ciwi.enterPhysicalHosts()
+
+    Ciwi.submitTransaction()
+
+    Ciwi.gotoAdsComponentStatusByHost()
+
+    <span class="skw">wait</span>(Pattern(<img src="CiwiRhel1Uninstalled.png" />).exact(), <span class="dig">20</span>)
+
+
+<span class="cmt"># Start of main routine
+</span>Firefox.start()
+
 Firefox.navigate(<span class="str">"rhelserv1/ciwi/ciwi"</span>)
 
-<span class="cmt">#Firefox.quit()</span>
+Ciwi.doLogin()
+
+Ciwi.doSelectDomain()
+
+Ciwi.doMainMenuComponents()
+
+Ciwi.gotoAdsComponentStatusByHost()
+
+testCiwiInstall()
+
+testCiwiUninstall()
+
+Ciwi.doLogout()
+
+Firefox.quit()
 </pre>
 </body>
 </html>
