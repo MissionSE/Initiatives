@@ -7,6 +7,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
+        var projectDomain = 'http://localhost:8888/earth/';
         var ge;
         var gridsOn = false;
         var terrainOn = false;
@@ -58,7 +59,7 @@
         var neutralMissile = symbolWebsite+'WAR.AIRTRK.WPN&forcetype=neutral';
         var neutralAir = symbolWebsite+'WAR.AIRTRK&forcetype=neutral';
         var neutralFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=neutral';
-        var destroyerJpeg = 'http://localhost:8888/earth/destroyer.jpg';
+        var destroyerJpeg = projectDomain+'destroyer.jpg';
         var useOwnshipJpeg = true;
         var trackID=1;
         var csedsLat = 39.980261;
@@ -68,18 +69,22 @@
         var osLat;
         var osLon;
         var MAX_TRACK_ID = 1000;
-        var tracks = [];
+        var trackPlacemarks = [];
+        var trackData = [];
+
         var trackUpdateNum = 0;
         var geocoder;
         var incrementTracks = true;
         var twitterFeedWindow;
+        var twitterFeedWindowDisplayed = false;
         var twitterFeedInterval;
         var tweetsDisplayed = false;
-        var tweetIcon = 'http://localhost:8888/earth/images/twitter-bird-light.png';
+        var tweetIcon = projectDomain+'images/twitter-bird-light.png';
         var tweetPlacemark;
         var tweetPlacemarkArray = new Array();
         var tweetsArray = [];
         var twitterSearch;
+        var blank = false;
 
         google.load("earth", "1", {"other_params":"sensor=false"});
 
@@ -121,7 +126,8 @@
                 }
                 else {
                     // show the progress bar, max width is 250 as per the stylesheet
-                    progressBar.style.backgroundColor = '#00f';
+                    //progressBar.style.backgroundColor = '#00f';
+                    progressBar.style.backgroundColor = '#c00';
                     progressBar.style.width = (250 * streamingPercent / 100) + 'px';
                 }
             }, 100);
@@ -190,8 +196,8 @@
 
             $.post(url, {trackId:1}, function(data) {
                 var os = ge.createPlacemark('1');
-                //Store the placemark in the tracks array
-                tracks.push(os);
+                //Store the placemark in the trackPlacemarks array
+                trackPlacemarks.push(os);
                 //os.setName("Ownship");
                 ge.getFeatures().appendChild(os);
         
@@ -227,6 +233,21 @@
                 point.setLongitude(osLon);
                 os.setGeometry(point);
                 
+
+                //Store the tweet information in an object
+                var trackObj = {
+                    tn:1,
+                    lat:osLat,
+                    lon:osLon,
+                    altitude:0,
+                    course:0,
+                    speed:0,
+                    id:data.trackIdentity
+                };
+                
+                //Add the track object to the array
+                trackData.push(trackObj);
+
                 // event listeners can use any functions, even anonymous functions
                 google.earth.addEventListener(os, 'click', function(event) {
                 var text = '';
@@ -235,11 +256,19 @@
                     text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
                 }
             
-                addToMessage('Track ID', event.getCurrentTarget().getId());
-                addToMessage('latitude', event.getLatitude());
-                addToMessage('longitude', event.getLongitude());
-                addToMessage('altitude', event.getAltitude());
+                //addToMessage('Track ID', event.getCurrentTarget().getId());
+                //addToMessage('latitude', event.getLatitude());
+                //addToMessage('longitude', event.getLongitude());
+                //addToMessage('altitude', event.getAltitude());
             
+                addToMessage('Track ID', trackData[trackID].tn);
+                addToMessage('latitude', trackData[trackID].lat.toFixed(2));
+                addToMessage('longitude', trackData[trackID].lon.toFixed(2));
+                addToMessage('altitude', trackData[trackID].altitude);
+                addToMessage('course', trackData[trackID].course);
+                addToMessage('speed', trackData[trackID].speed);
+                addToMessage('id', trackData[trackID].id);
+                
                 // Prevent default balloon from popping up for marker placemarks
                 event.preventDefault(); 
             
@@ -329,7 +358,7 @@
         }
         
         function createTracks() {
-            var url = "http://localhost:8888/earth/getTracks.php";
+            var url = projectDomain+"getTracks.php";
 
             var outputData='';
 
@@ -342,8 +371,8 @@
                         var index = value.trackNum-1;
                         var track = ge.createPlacemark(value.trackNum.toString());
 
-                        //Add the placemark to the tracks array
-                        tracks.push(track);
+                        //Add the placemark to the trackPlacemarks array
+                        trackPlacemarks.push(track);
 
                         ge.getFeatures().appendChild(track);
                         var icon = ge.createIcon('');
@@ -375,25 +404,48 @@
                                 lon = lonStr;
                             }
                         
+                        //Store the tweet information in an object
+                        var trackObj = {
+                            tn:value.trackNum,
+                            lat:lat,
+                            lon:lon,
+                            altitude:0,
+                            course:0,
+                            speed:0,
+                            id:value.trackIdentity
+                        };
+                        
+                        //Add the track object to the array
+                        trackData.push(trackObj);
+                        
                         // Create point
                         var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
                         var point = ge.createPoint('');
                         point.setLatitude(lat);
                         point.setLongitude(lon);
-                        tracks[index].setGeometry(point);
+                        trackPlacemarks[index].setGeometry(point);
 
                         // event listeners can use any functions, even anonymous functions
-                        google.earth.addEventListener(tracks[index], 'click', function(event) {
+                        google.earth.addEventListener(trackPlacemarks[index], 'click', function(event) {
                             var text = '';
             
                             function addToMessage(append1, append2) { 
                                 text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
                             }
+
+                            var trackID = event.getCurrentTarget().getId();            
+                            //addToMessage('Track ID', event.getCurrentTarget().getId());
+                            //addToMessage('latitude', event.getLatitude());
+                            //addToMessage('longitude', event.getLongitude());
+                            //addToMessage('altitude', event.getAltitude());
             
-                            addToMessage('Track ID', event.getCurrentTarget().getId());
-                            addToMessage('latitude', event.getLatitude());
-                            addToMessage('longitude', event.getLongitude());
-                            addToMessage('altitude', event.getAltitude());
+                            addToMessage('Track ID', trackData[trackID].tn);
+                            addToMessage('latitude', trackData[trackID].lat.toFixed(2));
+                            addToMessage('longitude', trackData[trackID].lon.toFixed(2));
+                            addToMessage('altitude', trackData[trackID].altitude);
+                            addToMessage('course', trackData[trackID].course);
+                            addToMessage('speed', trackData[trackID].speed);
+                            addToMessage('id', trackData[trackID].id);
             
                             // Prevent default balloon from popping up for marker placemarks
                             event.preventDefault(); 
@@ -542,7 +594,7 @@
                 jpegOverlayCreated = true;
                 jpegOverlay = ge.createGroundOverlay('2100');
                 jpegOverlay.setIcon(ge.createIcon(''))
-                jpegOverlay.getIcon().setHref("http://localhost:8888/earth/korea_1m.jpg");
+                jpegOverlay.getIcon().setHref(projectDomain+"korea_1m.jpg");
                 jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
                 jpegOverlay.setOpacity(25);
                 
@@ -789,6 +841,7 @@
                 //turn on
             }
 
+        
             blankButton10 = !blankButton10;
 
             highlightBlankButton10();
@@ -926,9 +979,19 @@
             element.style.background = (phillyWeatherDisplayed == true) ? greenButton : redButton;
         }
 
-        function highlightBlankButton10() {
-            var element = document.getElementById("BlankButton10");
-            element.style.background = (blankButton10 == true) ? greenButton : redButton;
+        function highlightBlank1() {
+            var element = document.getElementById("Blank1");
+            element.style.background = (blank == true) ? greenButton : redButton;
+        }
+
+        function highlightBlank2() {
+            var element = document.getElementById("Blank2");
+            element.style.background = (blank == true) ? greenButton : redButton;
+        }
+
+        function highlightBlank3() {
+            var element = document.getElementById("Blank3");
+            element.style.background = (blank == true) ? greenButton : redButton;
         }
 
         function highlightButtons() {
@@ -940,10 +1003,13 @@
             highlightCsedsTour();
             highlightWeather();
             highlightTwitter();
+            highlightBlank1();
+            highlightBlank2();
+            highlightBlank3();
         }
 
         function playCsedsTour() {
-            var href = 'http://localhost:8888/earth/csedsTour.kml';
+            var href = projectDomain+'csedsTour.kml';
 
             google.earth.fetchKml(ge, href, kmlFinishedLoading);
 
@@ -1047,7 +1113,7 @@
 
         function displayPhiladelphiaWeather() {
             var href;
-            href = 'http://localhost:8888/earth/NWS_DIX_N0R_RadarLoop/doc.kml';
+            href = projectDomain+'NWS_DIX_N0R_RadarLoop/doc.kml';
             google.earth.fetchKml(ge, href, function(kmlObject) {
                 if (kmlObject) {
                     ge.getFeatures().appendChild(kmlObject);
@@ -1057,7 +1123,7 @@
         
         function displayNationalWeather() {
             var href;
-            href = 'http://localhost:8888/earth/weather3.kml';
+            href = projectDomain+'weather3.kml';
             google.earth.fetchKml(ge, href, function(weatherKMLObject) {
                 if (weatherKMLObject) {
                     ge.getFeatures().appendChild(weatherKMLObject);
@@ -1066,7 +1132,7 @@
             
         function displayWeatherWarnings() {
             var href;
-            href = 'http://localhost:8888/earth/NWS_Warnings.kmz';
+            href = projectDomain+'NWS_Warnings.kmz';
             google.earth.fetchKml(ge, href, function(weatherKMLObject) {
                 if (weatherKMLObject) {
                     ge.getFeatures().appendChild(weatherKMLObject);
@@ -1137,31 +1203,31 @@
         }
         
         function displayWeatherWindow() {
-            openWin("Weather Manager","weatherManager.html",350,500,950,0);
+            openWin("Weather Manager","weatherManager.html",250,500,1050,0);
         }
 
         function displayGridsWindow() {
-            openWin("Grid Manager","gridManager.html",350,350,950,0);
+            openWin("Grid Manager","gridManager.html",250,350,1050,0);
         }
 
         function displayEarthSettingsWindow() {
-            openWin("Earth Settings Manager","earthSettingsManager.html",350,700,950,0);
+            openWin("Earth Settings Manager","earthSettingsManager.html",250,700,1050,0);
         }
 
         function displayViewWindow() {
-            openWin("View Manager","viewManager.html",350,500,950,0);
+            openWin("View Manager","viewManager.html",250,600,1050,0);
         }
         
         function displayOverlayWindow() {
-            openWin("Overlay Manager","overlayManager.html",350,350,950,0);
+            openWin("Overlay Manager","overlayManager.html",250,350,1050,0);
         }
 
         function displayTracksWindow() {
-            openWin("Track Manager","trackManager.html",350,350,950,0);
+            openWin("Track Manager","trackManager.html",250,350,1050,0);
         }
 
         function displayTwitterWindow() {
-            openWin("Twitter Manager","twitterManager.html",350,500,950,0);
+            openWin("Twitter Manager","twitterManager.html",250,400,1050,0);
         }
 
         function clearTwitterSymbols() {
@@ -1182,18 +1248,19 @@
             //Only update if tweets are displayed
             if (tweetsDisplayed) {
                 var url = "getTweets.php";
-                var maxTweetSymbols = 10;
+                var maxTweetSymbols = 100;
                 var numTweetSymbols = 0;
                 $.post(url, {}, function(data) {
                         $.each(data,function(key,value) {
                             numTweetSymbols++;
                             if (numTweetSymbols <= maxTweetSymbols) {
                                 var location = value.location;
-                                //console.log("updateTweets location = "+location);
+                                console.log("updateTweets location = "+location);
                                 var tweetid = value.tweetid;
                                 var username = value.username;
                                 var text = value.text;
-                                console.log("updateTweets text = "+text);
+                                var profileimage = value.profileimage;
+                                //console.log("updateTweets text = "+text);
 
                                 //Store the tweet information in an object
                                 var obj = {
@@ -1201,6 +1268,7 @@
                                     location: location,
                                     username: username,
                                     text: text,
+                                    profileimage: profileimage,
                                     placemark: null
                                 };
                                 
@@ -1218,13 +1286,18 @@
                                         ge.getFeatures().appendChild(tweetPlacemark);
                                         //Add the placemark to the array
                                         tweetPlacemarkArray.push(tweetPlacemark);
-                                        tweetPlacemark.setName(username+":"+text);
-
                                         //Find the tweetsArray index for this location
                                         var i = findTweetsByLocation(location);
                                         if (i != null) {
+                                            console.log("geocode storing placemark "+tweetPlacemark+"in item "+i);
                                             //Store this placemark in tweetsArray
                                             tweetsArray[i].placemark = tweetPlacemark;
+                                            var image = "<img src="+tweetsArray[i].profileimage+" width='42' height='42'/>";
+                                            tweetPlacemark.setName(image+username+":"+text);
+                                        }
+                                        else
+                                        {
+                                            console.log("geocode could not find tweet by location");
                                         }
             
                                         // Create style map for placemark
@@ -1242,7 +1315,7 @@
                                         tweetPlacemark.setGeometry(point);
                                     }
                                     else {
-                                        console.log('Geocode was not successful status: ' + status);
+                                        console.log('Geocode was not successful status: ' + status+' for location |'+location+'|');
                                     }
                                 });
                             }
@@ -1264,47 +1337,12 @@
         function findTweetsByPlacemark(placemark) {
             var len = tweetsArray.length;
             for (var i = 0; i < len; i++) {
-                if (tweetsArray[i].placemark == placemark) {
+                if (JSON.stringify(tweetsArray[i].placemark) === JSON.stringify(placemark)) {
+                    console.log("findTweetsByPlacemark found match in item "+i);
                     return i;
                 }
             }
             return null;
-        }
-        
-        function enablePlacemarkClickEvents() {
-            //Loop through all the tweet placemarks and add event listener
-            var len = tweetPlacemarkArray.length;
-            for (var i = 0; i < len; i++) {
-                ge.addEventListener(tweetPlacemarkArray[i],click,clickEventHandler);
-            }
-        }
-        
-        function disablePlacemarkClickEvents() {
-            //Loop through all the tweet placemarks and remove event listener
-            var len = tweetPlacemarkArray.length;
-            for (var i = 0; i < len; i++) {
-                ge.removeEventListener(tweetPlacemarkArray[i],click,clickEventHandler);
-            }
-        }
-
-        function clickEventHandler() {
-            console.log("clickEventHandler called");
-            // prevent the default balloon from popping up
-            event.preventDefault();
-            var placemark = event.getTarget();
-            var index = findTweetsByPlacemark(placemark);
-            var balloon = ge.createHtmlStringBalloon('');
-            balloon.setFeature(placemark);
-            balloon.setMaxWidth(300);
-            
-            if (index != null) {
-                balloon.setContentString(index.text);
-            }
-            else {                
-                balloon.setContentString("could not find this tweet");
-            }
-
-            ge.setBalloon(balloon);
         }
         
         function openWin(name,url,width,height,x,y) {
@@ -1484,25 +1522,25 @@
                 }
                 else if (json.key == 'twitter feed') {
                     console.log("earth received message "+json.key+ " json.displayWindow = "+json.displayWindow);
-                    if (json.value == true) {
                         twitterSearch = json.search;
                         console.log("earth.html twitterSearch = "+twitterSearch);
-                        if (true == json.displayWindow) {
+                        if (true == json.displayWindow && false == twitterFeedWindowDisplayed) {
+                            twitterFeedWindowDisplayed = true;
                             //Display twitter feed window
-                            twitterFeedWindow = window.open("twitterFeed.html","","width="+300+",height="+500);
+                            twitterFeedWindow = window.open("twitterFeed.html","","width="+250+",height="+350);
                             //Move window to input location
-                            twitterFeedWindow.moveTo(0,0);
+                            twitterFeedWindow.moveTo(1100,500);
                             //Pass the search string in a message to the window
-                            var interval = setInterval(function(){
+                            twitterFeedInterval = setInterval(function(){
                                 //send the message and target URI so child can communicate with this window
                                 twitterFeedWindow.postMessage(twitterSearch,domain); 
                             },2000); 
                         }
-                    }
-                    else {
-                        //Clear twitter feed window
-                        twitterFeedWindow.close();
-                    }
+                        else {
+                            twitterFeedWindowDisplayed = false;
+                            //Clear twitter feed window
+                            twitterFeedWindow.close();
+                        }
                 }
                 else if (json.key == 'twitter symbols') {
                     if (json.value == true) {
@@ -1510,9 +1548,6 @@
                         tweetsDisplayed = true;
                         //Call function immediately
                         updateTweets();
-                        //Create interval for function
-                        //twitterFeedInterval = setInterval(function(){updateTweets()},3000);                        
-                        enablePlacemarkClickEvents();
                     }
                     else {
                         //Clear twitter symbols
@@ -1523,8 +1558,45 @@
                         //Clear the twitter symbol interval
                         clearInterval(twitterFeedInterval);
 
-                        disablePlacemarkClickEvents();
+                        var i;
+
+                        //Clear the arrays
+                        for(i = 0; i < tweetPlacemarkArray.length; i++) {
+                            tweetPlacemarkArray.pop();
+                        }
+                        for (i = 0; i < tweetsArray.length; i++) {
+                            tweetsArray.pop();
+                        }
                     }
+                }
+                else if (json.key == 'map type') {
+                    if ("earth" == json.value) {
+                        console.log("setting map type to earth");
+                        ge.getOptions().setMapType(ge.MAP_TYPE_EARTH);
+                    }
+                    else {
+                        console.log("setting map type to sky");
+                        ge.getOptions().setMapType(ge.MAP_TYPE_SKY);
+                    }
+                }
+                else if (json.key == 'status bar') {
+                    //alert("setting status bar to "+json.value);
+                    ge.getOptions().setStatusBarVisibility(json.value);
+                }
+                else if (json.key == 'atmosphere') {
+                    //alert("setting atmosphere to "+json.value);
+                    ge.getOptions().setAtmosphereVisibility(json.value);
+                }
+                else if (json.key == 'camera tilt') {
+                    //console.log("setting camera tilt to "+json.value);
+                    //Get the current view
+                    var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                    
+                    //Set the new camera tilt
+                    lookAt.setTilt(parseInt(json.value));
+                    
+                    //Update the view in Google Earth.
+                    ge.getView().setAbstractView(lookAt);
                 }
             },false);
         }
@@ -1537,39 +1609,42 @@
 </head>
 <body>
     <div id="container">
+        <div id="header">
+            <button id="View" onclick="displayViewWindow()">View Settings</button>
+            <button id="EarthSettings" onclick="displayEarthSettingsWindow()">Earth Settings</button>
+            <button id="Grids" onclick="displayGridsWindow()">Grids</button>
+            <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
+            <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
+            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
+            <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
+            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
+            <button id="Blank1">Blank</button>
+            <button id="Blank2">Blank</button>
+            <button id="Blank3">Blank</button>
+        </div>
         <style type="text/css">
             #progress-container {
-                width: 250px;
-                height: 8px;
-                border: 1px solid #ccc;
+                width: 1250px;
+                height: 3px;
+                background-color: #009;
             }
     
             #progress-bar {
-                width: 0;
-                height: 10px;
+                width: 250px;
+                height: 3px;
+                background-color: white;
             } 
         </style>
         <div id="progress-container">
-        <div id="progress-bar"></div>
-        </div>        <div id="main">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="main">
             <div id="map3d"></div>
         </div>
         <div id="close-control">
             <script type="text/javascript">
                 document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";
             </script>
-        </div>
-        <hr>
-        <div id="buttons">
-            <h3>Window Controls</h3>
-            <button id="Grids" onclick="displayGridsWindow()">Grids</button>
-            <button id="EarthSettings" onclick="displayEarthSettingsWindow()">Earth Settings</button>
-            <button id="View" onclick="displayViewWindow()">View Settings</button>
-            <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
-            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
-            <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
-            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
-            <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
         </div>
     </div>
 </body>
