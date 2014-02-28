@@ -2,7 +2,7 @@
     session_start();
     require_once("twitteroauth/twitteroauth.php"); //Path to twitteroauth library
     $search = $_GET['search'];
-    $notweets = 50;
+    $notweets = 100;
     $consumerkey = "JIls85hnFXkYySf7Vz3nSA";
     $consumersecret = "NTU4MU5oPVmzkGVkuFL6tLtEGt1PVwvMLshgPISc42w";
     $accesstoken = "18257600-pFFShe1EdR2irFXIT6Y7Asw6ndx3eYOQeUMFsf4qw";

@@ -72,6 +72,18 @@
         var data = JSON.stringify(rawData);
         parentWindow.postMessage(data,parentURI);
       }
+      
+      function cameraTilt() {
+        var val = document.getElementById("cameratilt").value;
+        console.log("cameraTilt ="+val);
+        document.getElementById("cameratilttext").value=val;
+        var rawData = {
+          key : "camera tilt",
+          value : val
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
 
       function processEvents() {
         //respond to events
@@ -112,6 +124,11 @@
       <textarea id=offsetAddress class="textarea" placeholder="123 Main Street Anytown"></textarea>
       <br />
       <input type="button" class="button" value="Offset Address" onclick=offsetAddress()>
+      <hr>
+        
+      <h3>Camera Tilt</h3>
+      <input type=range class=range id="cameratilt" min="0" max="90" value="0" onchange=cameraTilt()>
+      <input type="text" id="cameratilttext" value="0">
     </div>
   </body>
 </html>
