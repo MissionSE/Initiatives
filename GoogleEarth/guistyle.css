@@ -1,6 +1,4 @@
 html, body {
-  width: 350px;
-  height: 350px;
   margin: 0px;
   background: rgb(0,0,153);
 }
@@ -19,6 +17,8 @@ h3, h4, h5, h6 {
   background-color:rgb(255,204,0);
 }
 .number {
+  border:medium;
+  color:rgb(0,0,153);
   background-color:rgb(255,204,0);
 }
 .textarea {
@@ -26,3 +26,17 @@ h3, h4, h5, h6 {
   color:rgb(0,0,153);
   background-color:rgb(255,204,0);
 }
+
+input {
+  font-style: normal;
+  background: rgb(255,204,0);
+}
+
+input[type='range'] {
+    -webkit-appearance: none;
+    background:rgb(255,204,0);
+    height:7px;
+    border-radius: 5px;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.6);
+}
+
