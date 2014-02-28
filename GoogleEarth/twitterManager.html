@@ -15,11 +15,11 @@
           key : "twitter feed",
           value : setting,
           search: searchString,
-          displayWindow:true,
+          displayWindow:setting,
         };
         var data = JSON.stringify(rawData);
         parentWindow.postMessage(data,parentURI);
-        feedWindowDisplayed = true;
+        feedWindowDisplayed = setting;
       }
       
       function toggleTwitterSymbols(setting) {
@@ -49,26 +49,26 @@
       function newSearch() {
         //Get the search string from the DOM
         searchString = document.getElementById('search').value;
+        console.log("twitterManager searchString = "+searchString);
 
         //Only send message to parent window if twitter feed is displayed
         if (true == feedWindowDisplayed) {        
           var rawData = {
             key : "twitter feed",
-            value : setting,
+            value:false,
             search: searchString,
             displayWindow:false,
           };
 
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
-          
-          var url = "http://localhost:8888/earth/deleteTweetsFromDB.php";
-          //Delete the tweets from the previous search
-          $.post(url, {}, function(data) {
-              console.log(data);
-            }
-          );
         }
+        
+        var url = "http://localhost:8888/earth/deleteTweetsFromDB.php";
+        //Delete the tweets from the previous search
+        $.post(url, {}, function(data) {
+          console.log("delete tweets returned "+data);
+        });
       }
     </script>
   </head>

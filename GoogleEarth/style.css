@@ -1,113 +1,151 @@
 #container {
 	width: 1250px;
-	margin: 10px auto;
+	margin: 1px auto;
 	background-color: #000;
-	border: 2px solid #777;
+	border: 1px solid #777;
+}
+
+#header {
+	width: 1250px;
+	height:20px;
+	background-color: #009;
 }
 
 #main {
-	width: 900px;
-        height: 600px;
+	width: 1000px;
+        height: 590px;
 	float: left;
 }
 
 
 #close-control {
-	width: 350px;
-        height: 400px;
+	width: 250px;
+        height: 590px;
 	float: left;
 	background-color: #009;
         color : yellow;
 }
 
 #buttons {
-    width:350px;
-    height: 200px;
+    width:1250px;
+    height: 20px;
     float: left;
     background-color: #009;
     color: yellow
 }
 
+
 #Grids {
-    width:75px;
+	width:75px;
+	height:20px;
 }
 
 #Terrain {
     width:75px;
+	height:20px;
 }
 
 #Borders {
     width:75px;
+	height:20px;
 }
 
 #InsetMap {
     width:75px;
+	height:20px;
 }
 
 #Tracks {
     width:75px;
+	height:20px;
 }
 
 #CsedsTour {
     width:75px;
+	height:20px;
 }
 
 #DrawLine {
     width:75px;
+	height:20px;
 }
 
-#BlankButton1 {
+#Blank1 {
     width:75px;
+	height:20px;
+}
+
+#Blank2 {
+    width:75px;
+	height:20px;
+}
+
+#Blank3 {
+    width:75px;
+	height:20px;
 }
 
 #OffsetOwnship {
     width:75px;
+	height:20px;
 }
 
 #GroundOverlay {
     width:75px;
+	height:20px;
 }
 
 #RangeRings {
     width:75px;
+	height:20px;
 }
 
 #Sun {
     width:75px;
+	height:20px;
 }
 
 #Buildings {
     width:75px;
+	height:20px;
 }
 
 #JpegOverlay {
     width:75px;
+	height:20px;
 }
 
 #Weather {
     width:75px;
+	height:20px;
 }
 
 #Twitter {
     width:75px;
+	height:20px;
 }
 
 #PhillyWeather {
     width:75px;
+	height:20px;
 }
 
 #BlankButton10 {
     width:75px;
+	height:20px;
 }
 
 #EarthSettings {
     width:75px;
+	height:20px;
 }
 
 #View {
     width:75px;
+	height:20px;
 }
 
 #Overlay {
     width:75px;
+	height:20px;
 }
