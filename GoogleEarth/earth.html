@@ -85,6 +85,9 @@
         var tweetsArray = [];
         var twitterSearch;
         var blank = false;
+        var priHookedTrackId = 0;
+        var trackUpdateInterval;
+        var closeControlInterval;
 
         google.load("earth", "1", {"other_params":"sensor=false"});
 
@@ -203,7 +206,7 @@
         
                 // Create style map for placemark
                 var icon = ge.createIcon('');
-                icon.setHref(destroyerJpeg);
+                icon.setHref(destroyer);
                 var style = ge.createStyle('');
                 style.getIconStyle().setIcon(icon);
                 style.getIconStyle().setScale(1.5);
@@ -255,11 +258,6 @@
                 function addToMessage(append1, append2) { 
                     text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
                 }
-            
-                //addToMessage('Track ID', event.getCurrentTarget().getId());
-                //addToMessage('latitude', event.getLatitude());
-                //addToMessage('longitude', event.getLongitude());
-                //addToMessage('altitude', event.getAltitude());
             
                 addToMessage('Track ID', trackData[trackID].tn);
                 addToMessage('latitude', trackData[trackID].lat.toFixed(2));
@@ -329,11 +327,6 @@
                         
                         //Offset to Ownship if enabled
                         if (trackNumber == '1' && true == offsetOS) {
-                        //    var lookAt = ge.createLookAt('');
-                        //    lookAt.setLatitude(lat);
-                        //    lookAt.setLongitude(lon);
-                        //    lookAt.setRange(1200000.0);
-                        //    ge.getView().setAbstractView(lookAt);
                             createViewLookAt(lat,lon);
                         }
                     });
@@ -343,6 +336,52 @@
             }
         }
         
+        function updateCloseControl() {
+            //Only update if tracks are displayed
+            if (tracksDisplayed) {
+                var url = "getTracks.php";
+                $.post(url, {}, function(data) {
+                    $.each(data,function(key,value) {
+                        var trackNumber;
+                        if (typeof value.trackNum == "string") {
+                            trackNumber = parseInt(value.trackNum);
+                        }
+                        else {
+                            trackNumber = value.trackNum;
+                        }
+
+                        if (trackNumber == priHookedTrackId) {
+                            var text = '';
+                            var lat,lon;
+                            if (typeof value.trackLat == "string") {
+                                lat = parseFloat(latStr);
+                            }
+                            else {
+                                lat = latStr;
+                            }
+                        
+                            if (typeof value.trackLon == "string") {
+                                lon = parseFloat(lonStr);
+                            }
+                            else {
+                                lon = lonStr;
+                            }
+                               
+                            console.log("track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse+"\n");
+                            text+='Track ID'+ ': ' +value.trackNum+'\n<br />';
+                            text+='latitude'+ ': ' +lat.toFixed(2)+'\n<br />';
+                            text+='longitude'+ ': ' +lon.toFixed(2)+'\n<br />';
+                            text+='altitude'+ ': ' +value.trackAlt+'\n <br />';
+                            text+='course'+ ': ' +value.trackCourse+'\n<br />';
+                            text+='speed'+ ': ' +value.trackSpeed+'\n<br />';
+                            text+='id'+ ': ' +value.trackIdentity+'\n<br />';
+                            
+                            document.getElementById('close-control').innerHTML = text;
+                        }
+                    });
+                });            
+            }
+        }
         function getChildForId(id) {
             var children = ge.getFeatures().getChildNodes();
     
@@ -366,6 +405,7 @@
             
             //Get track data from the database
             $.post(url, {trackId:1}, function(data) {
+                console.log("createTracks data.length = "+data.length);
                 $.each(data,function(key,value) {
                     if (value.trackNum > 1) {
                         var index = value.trackNum-1;
@@ -423,6 +463,7 @@
                         var point = ge.createPoint('');
                         point.setLatitude(lat);
                         point.setLongitude(lon);
+                        console.log("createTracks tn = "+trackData[index].tn+" lat = "+trackData[index].lat.toFixed(2)+" lon = "+trackData[index].lon.toFixed(2));
                         trackPlacemarks[index].setGeometry(point);
 
                         // event listeners can use any functions, even anonymous functions
@@ -433,12 +474,11 @@
                                 text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
                             }
 
-                            var trackID = event.getCurrentTarget().getId();            
-                            //addToMessage('Track ID', event.getCurrentTarget().getId());
-                            //addToMessage('latitude', event.getLatitude());
-                            //addToMessage('longitude', event.getLongitude());
-                            //addToMessage('altitude', event.getAltitude());
-            
+                            var trackID = event.getCurrentTarget().getId()-1;
+
+                            priHookedTrackId = event.getCurrentTarget().getId();
+                            
+                            //addToMessage("Placemark Name",trackPlacemarks[trackID].getName());
                             addToMessage('Track ID', trackData[trackID].tn);
                             addToMessage('latitude', trackData[trackID].lat.toFixed(2));
                             addToMessage('longitude', trackData[trackID].lon.toFixed(2));
@@ -860,6 +900,9 @@
                     }
                 }
             }
+            
+            clearInterval(trackUpdateInterval);
+            clearInterval(closeControlInterval);
         }
         
         function displayTracks() {
@@ -874,6 +917,9 @@
                     }
                 }
             }
+            
+            trackUpdateInterval = setInterval(function(){updateTracks()},3000);
+            closeControlInterval = setInterval(function(){updateCloseControl()},2000);
         }
         
         var greenButton = "rgba(0,255,0,0.8)";
@@ -1603,8 +1649,7 @@
 
         google.setOnLoadCallback(init);
 
-        setInterval(function(){updateTracks()},3000);
-
+        
     </script>
 </head>
 <body>
