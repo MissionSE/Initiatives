@@ -100,7 +100,8 @@ public class PacketReceiver
 	//Parse the data into an array of Strings, deliminated by commas.
         String[] parsedData = data.split(",", -1);
 
-	/*
+        System.out.println("data:"+data);
+        /*
 	 * If the amount of given data does not match up with the amount of data this program uses
 	 * to represent sources or if the data does not contain an unique identifier, something has
 	 * gone wrong and the data is ignored.
@@ -182,7 +183,7 @@ public class PacketReceiver
 	{
 	    toCorrelate.add(sources.get(i).clone());
 	}
-	System.out.println("toCorrelate");
+	System.out.println("pkt rcvr: toCorrelate");
 	System.out.println(toCorrelate);
 	return cfp.correlateSources(toCorrelate);
     }
@@ -212,7 +213,7 @@ public class PacketReceiver
 	     */
             
 	    orm = new ObjectRefinementModule(toUpdate.clone(), db);
-	    System.out.println("instantiated orm, db = "+ db);
+	    System.out.println("pkt rcvr: instantiated orm, db = "+ db);
 	}
 	else
 	{
@@ -229,7 +230,7 @@ public class PacketReceiver
 	    {
 		toSend.add(sources.get(i).clone());
 	    }
-	    System.out.println("toSend");
+	    System.out.println("pkt rcvr: toSend");
 	    System.out.println(toSend);   
 	    orm.refineObject(toSend.toArray(new Source[0]));
 	}
