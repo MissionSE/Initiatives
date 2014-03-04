@@ -78,7 +78,7 @@ public class ObjectRefinementModule {
     private double prevSpeedX;           //Store previousX Speed for Acceleration computation.
     private double prevSpeedY;           //Store previousY Speed for Acceleration computation.
     private double prevSpeedZ;           //Store previousZ Speed for Acceleration computation.
-    private double NUMBER_SOURCES = 2;
+    //private double NUMBER_SOURCES = 3;
     private static final int STATE_ELEMENTS_SIZE = 9; //NUMBER OF state vector properties
     Database db;
     //Analysis analysisModule;
@@ -177,17 +177,19 @@ public class ObjectRefinementModule {
                 temp.setErrorX(measurements[i].getErrorX());
                 temp.setErrorY(measurements[i].getErrorY());
                 temp.setErrorZ(measurements[i].getErrorZ());
-
+                System.out.println("orm i= " + i); 
+                System.out.println("temp= " + temp);
                 tempStateVector.plusEquals(computeCorrectionPhase(temp));
                 
             }
-            
+            System.out.println("tempStateVector= " + tempStateVector);
+           
             // Now that each measurementSource has been Kalmanized and added together,
             // Next Step is to compute average of them
             double[][] averageVector = tempStateVector.getArray();
 
             for (int row = 0; row < STATE_ELEMENTS_SIZE; row++) {
-                averageVector[row][0] = averageVector[row][0] / NUMBER_SOURCES;
+                averageVector[row][0] = averageVector[row][0] / (measurements.length-1);
             }
             //Now that we have the Average of kalmanized measurements, create a new
             // state_X_post based off of it.
