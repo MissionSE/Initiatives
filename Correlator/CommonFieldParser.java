@@ -219,7 +219,8 @@ public class CommonFieldParser
      */
     public void correlateXvariables(Source correlate, ArrayList<Source> sources)
     {
-	//Value to denote if there were even any valid variables to correlate.
+    	
+    	//Value to denote if there were even any valid variables to correlate.
 	boolean nothingDoing = true;
 	double variable = 0;
 	double toDivideBy = 0;
@@ -227,7 +228,7 @@ public class CommonFieldParser
 	//This loop correlates the positionX's of the sources.
 	for(int i = 0; i < sources.size(); i++)
 	{
-	    //Checks to make sure that the current source even has a positionX.
+		//Checks to make sure that the current source even has a positionX.
 	    if(sources.get(i).getPositionLatitude() != null)
 	    {
 		/*
