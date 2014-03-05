@@ -3,6 +3,7 @@
   <head>
     <title>View Offset</title>
     <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
       var parentWindow;
       var parentURI;
@@ -22,16 +23,6 @@
         var rawData = {
           key : "offset",
           value : "offset pri hook",
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
-      }
-      
-      function offsetSecHook() {
-        //alert("offsetSecHook pressed");
-        var rawData = {
-          key : "offset",
-          value : "offset sec hook",
         };
         var data = JSON.stringify(rawData);
         parentWindow.postMessage(data,parentURI);
@@ -85,6 +76,32 @@
         parentWindow.postMessage(data,parentURI);
       }
 
+      function getLocations() {
+        var url = "getLocations.php";
+        var element = document.getElementById("location");
+        
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var option = document.createElement("option");
+            option.text = value.locationName;
+            element.add(option);
+          });        
+        });
+      }
+
+      function offsetLocation() {
+        var loc = document.getElementById("location");
+        var addressValue = loc.options[loc.selectedIndex].value;
+        //alert("offsetLocation addressValue = "+addressValue);
+        var rawData = {
+          key : "offset",
+          value : "offset address",
+          address : addressValue,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+      
       function processEvents() {
         //respond to events
         window.addEventListener('message',function(event) {
@@ -98,6 +115,9 @@
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,event.origin);
         },false);
+        
+        //Get locations from database
+        getLocations();
       }
       </script>
     </script>
@@ -108,7 +128,6 @@
       <h3>Offset Track</h3>
       <input type="button" class="button" value="Offset Ownship" onclick=offsetOwnship()>
       <input type="button" class="button" value="Offset Pri Hook" onclick=offsetPriHook()>
-      <input type="button" class="button" value="Offset Sec Hook" onclick=offsetSecHook()>
       <br /> <br />      
       <input type="number" class="number" id="offsetTrackID" min="1" max="999" placeholder="xxx" value=1>
       <input type="button" class="button" value="Offset Track ID" onclick=offsetTrackID()>
@@ -124,6 +143,11 @@
       <textarea id=offsetAddress class="textarea" placeholder="123 Main Street Anytown"></textarea>
       <br />
       <input type="button" class="button" value="Offset Address" onclick=offsetAddress()>
+      <hr>
+      
+      <h3>Offset Location</h3>
+      <select name="location" id="location" class="select" onchange=offsetLocation()>
+      </select>
       <hr>
         
       <h3>Camera Tilt</h3>

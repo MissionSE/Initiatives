@@ -27,17 +27,23 @@ h3, h4, h5, h6 {
   background-color:rgb(255,204,0);
 }
 
+.select {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);  
+}
+
 input {
   font-style: normal;
   background: rgb(255,204,0);
 }
 
 input[type='range'] {
-    -webkit-appearance: slider-vertical;
+    -webkit-appearance: none;
     background:rgb(255,204,0);
-    height:75px;
-    width:20px;
-    border-radius: 5px;
+    height:10px;
+    width:75px;
+    border-radius: 1px;
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.6);
 }
 

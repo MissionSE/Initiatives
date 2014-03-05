@@ -44,19 +44,19 @@
 
       var interval;
       var updateNum = 0;
-      var increment = true;
+      var increment = false;
 
       function updateTracks() {
         
-        if (updateNum < 10) {
-          increment = true;
-        }
-        else if (updateNum >= 10 && updateNum < 20) {
+        if (updateNum < 100) {
           increment = false;
+        }
+        else if (updateNum >= 100 && updateNum < 200) {
+          increment = true;
         }
         else {
           updateNum = 0;
-          increment = true;
+          increment = false;
         }
           
         var url = "updateTracks.php";
@@ -83,6 +83,16 @@
         $.post(url, {}, function() {
         });
       }
+      
+      function trackSummary() {
+        var width = 250;
+        var height = 350;
+        var myWindow = window.open("trackSummary.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
     </script>
   </head>
   
@@ -103,8 +113,12 @@
         On
         <input type="radio" name="sim" value="On" onclick=toggleTrackSimulator(true)><br />
       </h4>
+      <hr>
       <br />
         <button id="resettracks" class="button" onclick="resetTracks()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Reset Track Positions</button>
+      <br />
+      <br />
+        <button id="tracksummary" class="button" onclick="trackSummary()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Track Summary</button>
     </div>
   </body>
 </html>
