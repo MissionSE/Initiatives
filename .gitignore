@@ -1,5 +1,6 @@
 # eggplant
-Scenario/eggplant/Scenario.suite/Results/*
+AutomatedTest/Scenario/eggplant/Scenario.suite/Results/*
+AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Results/*
 
 # sikuli 
 *.pyc
