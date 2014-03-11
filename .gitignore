@@ -1,0 +1,8 @@
+*.o
+*.so
+*~
+*.zip
+#*
+.metadata/
+**/WorldWind/dls/
+**/WorldWind/sdk/
