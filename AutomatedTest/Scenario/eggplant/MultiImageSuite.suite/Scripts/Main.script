@@ -1,0 +1,17 @@
+Chrome.start
+
+Chrome.openNewWindow
+
+Chrome.navigateToGoogleMaps
+
+Chrome.enterWhittendaleDriveAddress
+
+Chrome.enterCherryHillMallAddress
+
+Chrome.getDirections
+
+Chrome.verifyDirections
+
+Chrome.closeMapsWindow
+
+
