@@ -1,0 +1,10 @@
+EXCLUDE
+/*
+ * To exclude a plugin, place its classname in this file.
+ * WARNING: CLASSNAMES IN COMMENTS WILL STILL BE EXCLUDED!
+ */
+ 
+ 
+ 
+// Don't put anything after this line.
+END
