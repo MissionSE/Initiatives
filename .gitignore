@@ -1,0 +1,10 @@
+# eggplant
+Scenario/eggplant/Scenario.suite/Results/*
+
+# sikuli 
+*.pyc
+*.class
+
+# editor temp files
+*~
+*swp
