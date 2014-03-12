@@ -1,0 +1,4 @@
+*.jar
+build/
+release/
+**/bin

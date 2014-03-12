@@ -1,0 +1,35 @@
+# This file is used by the DefaultPropertyManager to determine what
+# kinds of components are stored in objects that implement the
+# Componentized interface.  It uses this information to automatically
+# generate Getters that will retrieve the necessary component from
+# a Componentized object and then perform the "get" on that component.
+# Each line is a comma separated list of fields of the following format:
+#
+#   <Componentized class>,<key string>,<component class type>,<property name suffix>
+#
+# where the fields are defined as follows:
+#
+#   <Componentized class> is the fully qualified class name of an object that
+#   implements the Componentized interface.
+#
+#   <key string> is the string passed as the key to the Componentized object's
+#   getComponent() method to retrieve the component.  Many components define the
+#   default key string as a constant inside the component class.
+# 
+#   <component class type> is the fully qualified name of the class that will
+#   be returned when getComponent() is invoked with the key.  This should be
+#   as generic as possible.  For example, if an IFFComponent exists that 
+#   implements the IFF interface, IFF should be listed as the component class
+#   type rather than IFFComponent.  This allows the DefaultPropertyManager
+#   to generate a component getter for a Property that declares it handles
+#   an IFF object, not just ones that handle IFFComponent objects.
+#
+#   <property name suffix> is a string to append to the generated Getter's
+#   property name, effectively creating a new property.  The
+#   DefaultPropertyManager will automatically insert a '?' character between
+#   the original property name and the suffix.
+#
+# The suffix can be omitted if one is not required, in which case the line
+# will have 2 commas instead of 3.  Blank lines are allowed and lines which
+# contain '#' as the first character will be treated as comments and ignored.
+
