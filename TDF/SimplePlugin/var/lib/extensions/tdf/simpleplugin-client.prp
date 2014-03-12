@@ -1,0 +1,35 @@
+@include (../common/simpleplugin-common.prp)
+
+@setvariable (ADDITIONAL_PLUGINS, \
+        FILE config/simpleplugin/plugins/simpleplugin-client.plg END \
+        PARAM config/simpleplugin/plugins/simpleplugin-client-exclude.plg END \
+        @getvariable (ADDITIONAL_PLUGINS))
+
+# Additional modules which are needed by only the client should
+# be listed here.  Replace the line with only a "\" with a classname followed by 
+# a "\".  Do not put any characters after the "\".  Multiple classes may be included
+# by adding them in the same way, on multiple lines.     
+@setvariable (ADDITIONAL_MODULES,\
+                \
+               @getvariable (ADDITIONAL_MODULES))
+
+# Additional provider configs which are needed by only the client should
+# be listed here.  Replace the line with only a "\" with a provider name followed by 
+# a "\".  Do not put any characters after the "\".  Multiple providers may be included
+# by adding them in the same way, on multiple lines.  The names listed here should 
+# correspond to files added to config/default/setup/provider.  For example, to make
+# sure that config/default/setup/provider/MyProvider.java is executed, add 
+# "MyProvider \" to to this list.
+@setvariable (ADDITIONAL_PROVIDERS,\
+                \
+               @getvariable (ADDITIONAL_PROVIDERS))
+
+# "Unique Track Numbers" are track number types that uniquely identify a track - that is,
+# the same track number of a given type cannot occur on more than one track at once.
+# Additional unique track numbers which are used by only the client should
+# be listed here.  Replace the line with only a "\" with a classname followed by 
+# a "\".  Do not put any characters after the "\".  Multiple classes may be included
+# by adding them in the same way, on multiple lines.     
+@setvariable (ADDITIONAL_UNIQUE_TNS,\
+                \
+               @getvariable (ADDITIONAL_UNIQUE_TNS))
