@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Track Summary</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          if(event.origin !== 'http://localhost:8888') return;
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "tracks",
+            value : "trackManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+      }
+
+      function getTracks() {
+        var tab ='&nbsp &nbsp &nbsp';
+        var space = '&nbsp&nbsp';
+        var element = document.getElementById("tracks");
+        var url = "getTracks.php";
+        var header = "<u><b>"+"TN"+tab+"LAT"+tab+"LON"+tab+"CRS"+tab+"SPD"+"</b></u>"+"<br />";
+        element.innerHTML = header;
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var text;
+            var latStr = value.trackLat;
+            var lonStr = value.trackLon;
+            var convertedLat;
+            var convertedLon;
+            
+            //Convert to floats
+            (typeof latStr == "string") ? convertedLat = parseFloat(latStr) : convertedLat = latStr;
+            (typeof lonStr == "string") ? convertedLon = parseFloat(lonStr) : convertedLon = lonStr;
+
+            text = value.trackNum+tab;
+            if (value.trackNum < 10) {
+              text+=space;
+            }
+            text += convertedLat.toFixed(2)+tab;
+            text += convertedLon.toFixed(2)+tab;
+            text += value.trackCourse+tab;
+            if (parseInt(value.trackCourse) < 100 ) {
+              text+=space;
+            }
+            else if (parseInt(value.trackCourse) < 10) {
+              text+=space;
+            }
+            text += value.trackSpeed+'<br /><hr>';
+            element.innerHTML += text;
+          });        
+        });
+      }
+      
+      function startUpdate() {
+        getTracks();
+        trackUpdateInterval = setInterval(function(){getTracks()},2000);
+      }
+
+    </script>
+  </head>
+  
+  <body onload=startUpdate()>
+    <div id = tracks style=color:yellow>
+    </div>
+  </body>
+</html>
