@@ -10,6 +10,7 @@
 # eggplant
 AutomatedTest/Scenario/eggplant/Scenario.suite/Results/*
 AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Results/*
+AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Images/SymLinkForImages
 
 # sikuli 
 *.pyc
