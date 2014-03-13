@@ -1,18 +1,18 @@
 #container {
-	width: 1250px;
+	width: 1300px;
 	margin: 1px auto;
 	background-color: #000;
 	border: 1px solid #777;
 }
 
 #header {
-	width: 1250px;
+	width: 1300px;
 	height:20px;
 	background-color: #009;
 }
 
 #main {
-	width: 1000px;
+	width: 1050px;
         height: 590px;
 	float: left;
 }
@@ -27,11 +27,11 @@
 }
 
 #buttons {
-    width:1250px;
-    height: 20px;
-    float: left;
-    background-color: #009;
-    color: yellow
+	width:1300px;
+	height: 20px;
+	float: left;
+	background-color: #009;
+	color: yellow
 }
 
 

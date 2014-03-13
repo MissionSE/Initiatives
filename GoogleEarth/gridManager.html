@@ -3,28 +3,51 @@
   <head>
     <title>Grid Manager</title>
     <link rel="stylesheet" type="text/css" href="guistyle.css">
-    <script type="text/javascript">
-      var parentWindow;
-      var parentURI;
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+       <script type="text/javascript">
+      var parentWindow = null;
+      var parentURI = null;
 
       function toggleGrid(setting) {
         //alert("grids set to "+value);
-        var rawData = {
-          key : "grids",
-          value : setting,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "grids",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"grids",data1:setting,data2:null,data3:null}, function(data) {
+            //alert("writeCommand returned "+data);
+          });
+        }        
       }
       
       function toggleRR(setting) {
         //alert("range rings set to "+value);
-        var rawData = {
-          key : "range rings",
-          value : setting,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "range rings",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"range rings",data1:setting,data2:null,data3:null}, function(data) {
+            //alert("writeCommand returned "+data);
+          });
+        }        
       }
 
       function processEvents() {

@@ -1,8 +1,12 @@
+put the first line of file "/home/autotest/REPO/Initiatives/AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Images/SymLinkForImages/googleMapsURL.txt" into storedUrl
+Log "File contents: " & storedUrl
+Log result()
+
 Chrome.start
 
 Chrome.openNewWindow
 
-Chrome.navigateToGoogleMaps
+Chrome.navigateToGoogleMaps storedUrl
 
 Chrome.enterWhittendaleDriveAddress
 
