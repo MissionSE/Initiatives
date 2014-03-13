@@ -3,92 +3,227 @@
   <head>
     <title>View Offset</title>
     <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
-      var parentWindow;
-      var parentURI;
+      var parentWindow = null;
+      var parentURI = null;
+      var blank = ".....";
 
       function offsetOwnship() {
-        //alert("offsetOwnship pressed");
-        var rawData = {
-          key : "offset",
-          value : "offset ownship",
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset ownship",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset ownship", data1:null,data2:null,data3:null}, function(data) {
+          });
+        }        
       }
       
       function offsetPriHook() {
-        //alert("offsetPriHook pressed");
-        var rawData = {
-          key : "offset",
-          value : "offset pri hook",
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
-      }
-      
-      function offsetSecHook() {
-        //alert("offsetSecHook pressed");
-        var rawData = {
-          key : "offset",
-          value : "offset sec hook",
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset pri hook",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset pri hook",data1:null,data2:null,data3:null}, function(data) {
+          });
+        }        
       }
       
       function offsetTrackID() {
         //alert("offsetTrackID | "+document.getElementById("offsetTrackID").value);
         var trackID = document.getElementById("offsetTrackID").value;
-        var rawData = {
-          key : "offset",
-          value : "offset track",
-          trackID : trackID,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset track",
+            trackID : trackID,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset track",data1:trackID,data2:null,data3:null}, function(data) {
+          });
+        }        
       }
+
       function offsetLatLon() {
         var latValue = document.getElementById("offsetLat").value;
         var lonValue = document.getElementById("offsetLon").value;
-        var rawData = {
-          key : "offset",
-          value : "offset lat lon",
-          lat : latValue,
-          lon : lonValue,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset lat lon",
+            lat : latValue,
+            lon : lonValue,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset lat lon",data1:latValue,data2:lonValue,data3:null}, function(data) {
+          });
+        }
       }
 
       function offsetAddress() {
-        //alert("offsetAddress "+ document.getElementById("offsetAddress").value);
         var addressValue = document.getElementById("offsetAddress").value;
-        var rawData = {
-          key : "offset",
-          value : "offset address",
-          address : addressValue,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset address",
+            address : addressValue,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset address",data1:addressValue,data2:null,data3:null}, function(data) {
+          });
+        }
       }
       
       function cameraTilt() {
         var val = document.getElementById("cameratilt").value;
         console.log("cameraTilt ="+val);
         document.getElementById("cameratilttext").value=val;
-        var rawData = {
-          key : "camera tilt",
-          value : val
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "camera tilt",
+            value : val
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"camera tilt",data1:val,data2:null,data3:null}, function(data) {
+          });
+        }
       }
 
+      function getLocations() {
+        var url = "getLocations.php";
+        var element = document.getElementById("location");
+        var temp = document.createElement("option");
+        temp.text = blank;
+        element.add(temp);
+        
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var option = document.createElement("option");
+            option.text = value.locationName;
+            element.add(option);
+          });        
+        });
+      }
+
+      function offsetLocation() {
+        var loc = document.getElementById("location");
+        var addressValue = loc.options[loc.selectedIndex].value;
+        if (addressValue == blank) {
+          return;
+        }
+        //alert("offsetLocation addressValue = "+addressValue);
+        if (null != parentWindow) {
+          var rawData = {
+            key : "offset",
+            value : "offset address",
+            address : addressValue,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"offset address",data1:addressValue,data2:null,data3:null}, function(data) {
+          });
+        }
+      }
+      
+      function rangeIn() {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "range",
+            value : "range in",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the range in command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+          //alert("rangeIn parentWindow null url = "+url);
+
+          //Write command to database
+          $.post(url, {command:"range in"}, function(data) {
+            //alert("range in returned "+data);
+          });
+        }
+      }
+      
+      function rangeOut() {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "range",
+            value : "range out",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the range out command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+          //alert("rangeOut parentWindow null url = "+url);
+          
+          //Write command to database
+          $.post(url, {command:"range out"}, function(data) {
+            //alert("range out returned "+data);
+          });
+        }
+      }
+      
       function processEvents() {
         //respond to events
         window.addEventListener('message',function(event) {
           //if(event.origin !== 'http://localhost:8888') return;
+          //alert("viewManager received event from "+event.source);
           parentWindow = event.source;
           parentURI = event.origin;
           var rawData = {
@@ -98,6 +233,9 @@
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,event.origin);
         },false);
+        
+        //Get locations from database
+        getLocations();
       }
       </script>
     </script>
@@ -108,7 +246,6 @@
       <h3>Offset Track</h3>
       <input type="button" class="button" value="Offset Ownship" onclick=offsetOwnship()>
       <input type="button" class="button" value="Offset Pri Hook" onclick=offsetPriHook()>
-      <input type="button" class="button" value="Offset Sec Hook" onclick=offsetSecHook()>
       <br /> <br />      
       <input type="number" class="number" id="offsetTrackID" min="1" max="999" placeholder="xxx" value=1>
       <input type="button" class="button" value="Offset Track ID" onclick=offsetTrackID()>
@@ -124,6 +261,16 @@
       <textarea id=offsetAddress class="textarea" placeholder="123 Main Street Anytown"></textarea>
       <br />
       <input type="button" class="button" value="Offset Address" onclick=offsetAddress()>
+      <hr>
+      
+      <h3>Offset Location</h3>
+      <select name="location" id="location" class="select" onchange=offsetLocation()>
+      </select>
+      <hr>
+        
+      <h3>Camera Range</h3>
+      <input type="image" value="range out" src="images/ZoomOut.png" width="20" height="20" onclick=rangeOut() />
+      <input type="image" value="range in" src="images/ZoomIn.png" width="20" height="20" onclick=rangeIn() />
       <hr>
         
       <h3>Camera Tilt</h3>

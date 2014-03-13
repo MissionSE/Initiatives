@@ -1,0 +1,22 @@
+# misc things to ignore
+*.o
+*.so
+*.zip
+#*
+.metadata/
+**/WorldWind/dls/
+**/WorldWind/sdk/
+
+# eggplant
+AutomatedTest/Scenario/eggplant/Scenario.suite/Results/*
+AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Results/*
+AutomatedTest/Scenario/eggplant/MultiImageSuite.suite/Images/SymLinkForImages
+
+# sikuli 
+*.pyc
+*.class
+
+# editor temp files
+*~
+*swp
+

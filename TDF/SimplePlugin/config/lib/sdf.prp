@@ -1,0 +1,552 @@
+################################################################################
+# SDF v5 Property File
+################################################################################
+Environment.isServer=false
+
+@include (extensions/sdf/*.prp)
+@include (sdfCommon.prp)
+
+System.lookAndFeel=com.smudgedink.plaf.shine.Shine
+System.beans.editorSearchPath=com.solipsys.bean, \
+                              com.solipsys.geo.bean, \
+                              com.solipsys.tdf.bean, \
+                              sun.beans.editors
+System.beans.editors= \
+    int:com.solipsys.bean.IntegerEditor, \
+    java.lang.Integer:com.solipsys.bean.IntegerEditor \
+    long:com.solipsys.bean.LongEditor, \
+    java.lang.Long:com.solipsys.bean.LongEditor \
+    double:com.solipsys.bean.DoubleEditor, \
+    java.lang.Double:com.solipsys.bean.DoubleEditor \
+    float:com.solipsys.bean.FloatEditor, \
+    java.lang.Float:com.solipsys.bean.FloatEditor \
+    boolean:com.solipsys.bean.BooleanEditor, \
+    java.lang.Boolean:com.solipsys.bean.BooleanEditor \
+    byte:com.solipsys.bean.ByteEditor, \
+    java.lang.Byte:com.solipsys.bean.ByteEditor \
+    short:com.solipsys.bean.ShortEditor, \
+    java.lang.Short:com.solipsys.bean.ShortEditor
+
+
+Environment.name=SDF
+Environment.version=${Environment.name} 5.3.2
+
+Environment.modules=\
+                    com.solipsys.system.module.Log4JOutputRedirectionModule \
+                    com.solipsys.system.module.EnvironmentConfigurationOutputModule \
+                    com.solipsys.alerts.impl.module.AlertsStartupModule \
+                    com.solipsys.system.module.GuiSetupModule \
+                    com.solipsys.dynamicloader.PluginsModule \
+                    com.solipsys.system.provider.ProviderManagerModule \
+                    com.solipsys.system.provider.dx.DxControl \
+                    com.solipsys.net.proxy.ProxyModule \
+                    com.solipsys.net.discovery.DiscoveryModule \
+                    com.solipsys.net.http.HttpModule \
+                    com.solipsys.chat.ChatModule \
+                    com.solipsys.system.distributed.DistributedSystemSettingsModule \
+                    com.solipsys.view.synch.module.ViewSynchStartupModule \
+                    com.solipsys.offscreen.OffscreenModule \
+                    @getvariable (ADDITIONAL_MODULES) \
+                    com.solipsys.application.AppModule \
+                    com.mse.simpleplugin.SimplePlugin2
+
+Environment.providers=Discovery \
+                      DistributedSystemSettings \
+                      Alerts \
+                      Extensions \
+                      SharedComponents \
+                      SharedUserShapes \
+                      SharedConstrainedShapes \
+                      CollaborationManager \
+                      Jabber \
+                      Irc \
+                      SharedColorizers \
+                      @getvariable (ADDITIONAL_PROVIDERS)
+
+AppModule.classType=com.solipsys.tdf.application.main.TacSit
+
+TacSit.width=1280
+TacSit.height=800
+
+Plugins.source=FILE \
+        config/default/plugins/sol.plg \
+        config/default/plugins/geo.plg \
+        config/default/plugins/gdx.plg \
+        config/default/plugins/sdf.plg \
+        config/default/plugins/dashboard.plg \
+        config/default/plugins/simpleplugin.plg \
+        END \
+        EXCLUDE CLASSNAME com.solipsys.condition.DefaultRootConditionEditor END \
+        EXCLUDE CLASSNAME com.solipsys.condition.DefaultRootConditionEditor2 END \
+        @getvariable (ADDITIONAL_PLUGINS)
+
+FeatureUtil.properties.locations=config/default/setup/com/solipsys/geo/feature/facc.prp
+ConfiguredDetailCreator.configurations=setup/singleton/ConfiguredDetailCreator
+
+HttpServer.port=8180
+HttpsServer.port=8443
+HttpModule.envDir=config/jetty/client-context/
+
+################################################################################
+# AutoSave
+#   If Using a Login or User switching authenticator, you probably want to 
+#   change autosave to a UserAutoSave singleton.
+################################################################################
+#AutoSave.classType=com.solipsys.system.user.util.UserAutoSave
+#AutoSave.location=${Environment.data.location}/users/${Environment.name}/
+AutoSave.changeWorkspaceTitle=true
+
+################################################################################
+#
+# View Properties
+#
+# The view properties may be set for a view by specifying
+# the view's resource name or its type name.  If the type
+# name is used, then all views of that type that don't have
+# a resource specific value will use that type value.
+# So when looking up the initialCenter property for a view
+# with a resource name of "Magnifier" and a type of "Tactical",
+# it will look for the following properties in order:
+#
+#   Magnifier.view.initialCenter
+#   Tactical.view.initialCenter
+#   Geographic.view.initialCenter
+#
+# The first property that is found will be the one that is used.
+#
+#   <name|type>.initialCenter=<lat> <lon>
+#       Defines initial center position of the view.
+#       Many different lat/lon formats are accepted
+#       (e.g. "37.5 -76.0", "37.5 N 76 W", "37:30 N 76:00 W").
+#
+#   <name|type>.initialRange=<distance> <unit>
+#       Defines initial range scale of the view.
+#
+#
+################################################################################
+
+Geographic.view.initialCenter=39.0 N 99.0 W
+Geographic.view.initialRange=1024 NM
+
+################################################################################
+#
+# SDF View Properties
+#
+#   SDF.view.followTime Defines view time update rate. Defines tacsit update.
+#                       Unit is milliseconds. Default is 2000.
+#
+################################################################################
+
+SDF.view.followTime=2000
+
+################################################################################
+# Discovery Properties
+################################################################################
+
+Discovery.systemType=SDF
+Discovery.systemSubType=Console
+
+################################################################################
+#
+# Track Recorder Properties
+#
+#   TrackRecorder.directory
+#                       The directory in which the DXs are saved and loaded.
+#                       Default is <DataURL>/dx
+#
+#   TrackRecorder.recordAllowed [true|false]
+#                       If true, the user can record DXs. Default is true.
+#
+################################################################################
+TrackRecorder.recordAllowed=true
+
+################################################################################
+#
+# TACSIT Properties
+#
+#   TacSit.title The title of the tacsit window.
+#
+################################################################################
+
+TacSit.title=SDF 5.3.2 - Raytheon Solipsys
+
+################################################################################
+# Reset
+# Reset.selected=<Name1>,<Name2>,...<NameN>
+#                    Defines which options are selected by default in the
+#                    Reset action
+################################################################################
+Reset.selected=Tracks, Sensors
+
+################################################################################
+# ThreadWatch properties:
+# threadwatch.enableWatchAtStartup  Whether or not to begin monitoring threads
+#                                   immediately at startup.
+# threadwatch.pollIntervalMillis    The interval at which active thread groups
+#                                   will be polled, and info updated.
+# threadwatch.logSize               The maximum number of log entries to keep
+#                                   in memory.
+# threadwatch.logToFileEnabled      Whether or not to log entries to a file.
+# threadwatch.writeToSystemLog      Whether or not to write log entries to the
+#                                   system log.
+# threadwatch.logPriority           The priority to use when writing entries to
+#                                   the system log.
+################################################################################
+threadwatch.enableWatchAtStartup=false
+threadwatch.pollIntervalMillis=1000
+threadwatch.logSize=512
+threadwatch.logToFileEnabled=false
+threadwatch.writeToSystemLog=false
+threadwatch.logPriority=5
+
+###########################################################################
+# Track Graph configuration
+# TrackGraphModel.defaultHooked - if "true", the initial Track Graph condition
+#    will be "Hooked", which is similar to the function of Multigraph. If
+#    "false", no default condition will be used, and one should be specified by
+#    the operator. Defaults to "false".
+###########################################################################
+TrackGraphModel.defaultHooked=true
+
+################################################################################
+#
+# Hook Panel
+#
+#  HookPanel.properties = <propertyName>:<propertyName>:....
+#       Defines the properties by resource name that will be used to generate a list of
+#       attributes that the system will base it's search on when hooking an object.
+#       All items in the list are generated from these properties and ordered
+#       as they are here.
+#       By default, JTN, CS, STN and the IFF Modes will be used.  To add more, define
+#       HOOK_PANEL_PROPERTIES.
+#  HookPanel.zoom  = <true|false>
+#       Sets whether the hook panel zooms to hook tracks.
+#
+################################################################################
+
+HookPanel.properties=tdf.jtn:tdf.callsign:tdf.stn:tdf.iff.m3:tdf.iff.m2:tdf.iff.m1:tdf.iff.m4:sol.name:\
+                @getvariable (HOOK_PANEL_PROPERTIES)
+
+########################################################
+# Splash Screen
+########################################################
+SplashScreen.keys=base version typeShadow type subTypeShadow subType status expiration
+
+SplashScreen.base.image=data/images/sdfSplash.png
+SplashScreen.base.x=0
+SplashScreen.base.y=0
+
+SplashScreen.version.text=v5.3
+SplashScreen.version.font=Dialog
+SplashScreen.version.size=12
+SplashScreen.version.style=bold
+SplashScreen.version.fgcolor=c12028
+SplashScreen.version.x=500
+SplashScreen.version.y=5
+
+SplashScreen.status.text=Loading...
+SplashScreen.status.font=Dialog
+SplashScreen.status.size=11
+SplashScreen.status.style=bold
+SplashScreen.status.fgcolor=95969b
+SplashScreen.status.x=1
+SplashScreen.status.y=310
+SplashScreen.status.x=20
+SplashScreen.status.appender=startupStatus
+
+SplashScreen.expiration.font=Dialog
+SplashScreen.expiration.size=13
+SplashScreen.expiration.style=bold
+SplashScreen.expiration.fgcolor=A5A6Ab
+SplashScreen.expiration.threeDays.fgcolor=c12028
+SplashScreen.expiration.fiveDays.fgcolor=c5c62b
+SplashScreen.expiration.y=20
+SplashScreen.expiration.horzAlign=center
+SplashScreen.expiration.warnAt=7
+
+
+SplashScreen.type.text=
+SplashScreen.type.font=Dialog
+SplashScreen.type.size=20
+SplashScreen.type.style=bold
+SplashScreen.type.fgcolor=DDF3EC6F
+SplashScreen.type.x=365
+SplashScreen.type.y=200
+
+SplashScreen.typeShadow.text=
+SplashScreen.typeShadow.font=Dialog
+SplashScreen.typeShadow.size=20
+SplashScreen.typeShadow.style=bold
+SplashScreen.typeShadow.fgcolor=99000000
+SplashScreen.typeShadow.x=366
+SplashScreen.typeShadow.y=201
+
+
+SplashScreen.x=center
+SplashScreen.y=center
+SplashScreen.width=552
+SplashScreen.height=333
+SplashScreen.bgcolor=000000
+SplashScreen.title=${TacSit.title} Starting
+SplashScreen.icon=com/solipsys/application/icons/app.png
+
+TerrainComponent.ignoreClassTypes=com.solipsys.tdf.contact.Contact
+
+Multigraph.ignoreClassTypes=com.solipsys.geo.usershape.UserShape \
+                            com.solipsys.tdf.line.PairingLine \
+                            com.solipsys.tdf.track.History \
+                            @getvariable (ADDITIONAL_MULTIGRAPH_IGNORES)
+
+# Preload these creators to speed up construction of the application.
+CreatorManager.preload=setup/com/solipsys/application/Application/MenuBar,\
+                       setup/com/solipsys/geo/application/geocontrol/GeoControl/MenuBar
+
+# Configure Track List's status bar
+TrackListApplication.configMenuStatus=true
+
+# Allow configuration Shared Tracks application's SMenuBar status area
+SharedTracksApplication.configMenuStatus=true
+
+contact.displayOptions.maxIntensities=15
+contact.ViewSpecificContactFilters.autoSavePath=contact/filters
+ContactDisplayTemplates.configuration=setup/singleton/ContactDisplayTemplates
+
+# Set Doctrine.showHiddenDoctrine property to true to force the Doctrine
+# application to show hidden doctrine
+Doctrine.showHiddenDoctrine=false
+
+# Controls whether the rate of ascent (Vertical Speed) preferences are
+# configurable at runtime.
+RateOfAscent.configurable=true
+
+# The number of milliseconds that alert creation times should show as
+# X:XX ago... Above this threshold the time is shown as a normal date
+alerts.timeAgoThreshold=300000
+
+# The format to display time in for the sent time of alerts.  Will be
+# shown in the recent alert list and in the alert content viewers
+alerts.timeFormat=MM/dd/yy HH:mm:ss z
+
+# Uncomment this to use a specific format for alerts that are in the same
+# day as the current time.  By default the time for these alerts will be
+# shown as Today HH:mm:ss.  When the day threshold is crossed the display
+# will be alerts.timeFormat
+#alerts.todayTimeFormat=
+
+# The number of milliseconds that should be used as a timeout value
+# for Fire and Forget Alerts.  Comment this out, or set it to be
+# less than or equal to zero to have no such timeout.
+DefaultAlertClient.fireAndForgetAlertsTimeout=1800000
+
+# Set azimuth.showNorthAs=[0|360] to tell SDF to display north as either
+# 0 or 360 for azimuth, heading, and bearing.  Setting it to any other
+# value or non-number will default to 360
+azimuth.showNorthAs=360
+
+# If true, a dashboard will be shown next to the TacSit
+tacSit.showDashboard=true
+
+ImagesDatabase.autoSavePath=images/database
+
+######################################
+# Raw Imagery Settings
+######################################
+
+ImageryLocationDatabase.autoSavePath=imagery/raw/locations
+ImageryLocationDatabase.configuration=setup/singleton/ImageryLocationDatabase
+
+# Sets global properties for raw imagery.
+# If these properties are set the imagery type specific properties are
+# ignored (i.e. RawNITF.useCache).
+#
+# If set to "true" then raw imagery will use a file cache.  This should
+# usually only be set to true if the amount of memory allocated to SDF
+# is small.
+CacheImageryRegion.useCache=false
+# If set to "true" then raw imagery will load the imagery in a different
+# thread then the one in which the imagery is requested.  This should
+# usually only be set to false on the SDF imagery server.  If set to
+# true on the client all imagery will be loaded in the swing event
+# thread.
+CacheImageryRegion.useThreads=true
+
+RawNITF.useCache=false
+RawNITF.useThreads=true
+# If set to true NITF is located by assuming that a file name A.TOC is
+# located in a directory named "RPF".  This is how the imagery is
+# distributed by NGIA so this should be set to false in most cases.
+# Setting this property to true will cause the searching process to
+# take a lot longer.
+RawNITF.performThoroughSearch=false
+
+RawDTED.useCache=false
+RawDTED.useThreads=true
+# If the directories containing DTED data can contain multiple different
+# levels of DTED (i.e. contains level 1 and level 2 DTED data) then this
+# property should be set to true.  Setting this property to true 
+# will cause the searching process to be slower but unless you know
+# that only one level of DTED will be used this should be set to true.
+RawDTED.canContainMultipleLevels=true
+
+######################################
+# Meridian Client settings
+######################################
+
+# The default port of the server for when the user does not specify one.
+MeridianClient.defaultPort=8191
+
+# The remote path of the imagery, this must match the servlet location
+MeridianClient.remoteLocation=/imagery
+
+# The number of seconds to wait after failing to retrieve a tile before retrying
+MeridianClient.retryRate=60
+
+# Number of threads to use when retrieving imagery
+MeridianClient.maxThreads=5
+
+# Size of the local cache
+MeridianClient.maxSize=1000000000
+
+# Uncomment this to disable the use of the local cache
+#MeridianClient.disableCaching=true
+
+# Causes the view to be redrawn immediately when imagery is downloaded
+ImageryLayerDisplay2D.drawImmediate=true
+
+PropertyDetailEditor->TacSit->0.boundsPolicy=com.solipsys.application.workspace.boundspolicy.UsableScreenBoundsPolicy
+PropertyDetailEditor->TacSit->1.boundsPolicy=com.solipsys.application.workspace.boundspolicy.UsableScreenBoundsPolicy
+
+# Uncomment to customize the DateTime format used to display the time in the Record/Playback
+# application.
+#DxControlsPanel.dateTimeFormat=EEE MMM dd HH:mm:ss z yyyy
+
+# Offscreen Displays: use Great Circle line for locating off-screen points?
+OffscreenDisplay.useGreatCircle=true
+
+ChatMatches.classType=com.solipsys.chat.gui.matching.DefaultMatches
+ChatMatches.autoSavePath=chat/ChatMatches
+SimpleChatPanel.menuMode=hover,click
+
+######################################
+# SDF application size defaults
+######################################
+AlertApplication.width=757
+AlertApplication.height=427
+
+RangeBearingGridEditor.width=607
+RangeBearingGridEditor.height=430
+RangeBearingGridApplication.width=607
+RangeBearingGridApplication.height=430
+
+DetailEditor.width=1060
+DetailEditor.height=577
+
+DoctrineApplication.width=754
+DoctrineApplication.height=485
+
+ViewKeys.width=630
+ViewKeys.height=430
+
+GeoControl.width=759
+GeoControl.height=562
+
+UserShapesApplication.width=605
+UserShapesApplication.height=446
+
+Preferences.width=800
+Preferences.height=475
+
+PrintPanel.width=429
+PrintPanel.height=262
+
+ContactApp.width=645
+ContactApp.height=586
+
+SpecificTrackListApplication.width=850
+SpecificTrackListApplication.height=156
+
+TrackListApplication.width=850
+TrackListApplication.height=156
+
+Status.width=799
+Status.height=563
+
+TrackCounterApplication.width=906
+TrackCounterApplication.height=374
+
+TrackPresentation.width=700
+TrackPresentation.height=498
+
+ViewLinks.width=390
+ViewLinks.height=277
+
+SpotlightOrFilterPresetsEditor.width=600
+SpotlightOrFilterPresetsEditor.height=400
+
+################################
+# Dimmer labels
+################################
+backgroundDimmer.name=Map Layer:
+spotlightShadowDimmer.name=Spotlight Bg:
+
+#
+# Definition of the Enum subgroup for the AltitudeMode on a GroundOverlay
+#
+com.solipsys.geo.kml.impl.KmlAltitudeMode.groundOverlay.location=\
+config/default/resources/geo/groundOverlayAltitudeMode.properties
+
+com.solipsys.geo.kml.impl.KmlScreenUnitEnum.size.location=\
+config/default/resources/geo/screenOverlaySize.properties
+
+com.solipsys.nlp.extractor.NumComparison\$NumCompTypeEnum.distCondition.location=\
+config/default/resources/geo/distCondition.properties
+
+#
+# Allows the Pan, Offset, and Drag pointers to be become the default
+# pointer when they are selected
+#
+com.solipsys.geo.view.pointer.OffsetPointer.setAsDefault=true
+com.solipsys.geo.view.pointer.PanPointer.setAsDefault=true
+com.solipsys.geo.view.pointer.DragPointer.setAsDefault=true
+ZoomSettings.autoSavePath=pointer/Zoom
+
+CopyPointerGeoLocation.latitude.format=DD:MM:SS.SSH
+CopyPointerGeoLocation.longitude.format=DDD:MM:SS.SSH
+
+PathControl2D.minRange=0
+
+#
+# Alert Sources 
+#
+alertSource.uids=DefaultChatManager SharedDoctrine LocalDoctrine \
+                 @getvariable (ADDITIONAL_ALERT_SOURCES)
+alertSource.defaultPriority=20
+
+alertSource.DefaultChatManager.name=Chat
+alertSource.DefaultChatManager.priority=15
+
+alertSource.SharedDoctrine.name=Shared Doctrine
+alertSource.SharedDoctrine.priority=15
+
+alertSource.LocalDoctrine.name=Local Doctrine
+alertSource.LocalDoctrine.priority=5
+
+#
+# Alert Destinations 
+#
+alertDestination.uids=tacsit toolbar app log \
+                      @getvariable (ADDITIONAL_ALERT_DESTINATIONS)
+
+alertDestination.tacsit.name=TacSit
+alertDestination.tacsit.cutoff=10
+alertDestination.toolbar.name=Toolbar
+alertDestination.toolbar.cutoff=20
+alertDestination.app.name=Alerts App
+alertDestination.app.cutoff=80
+alertDestination.log.name=Log File
+
+Help.locations=jar:file:lib/sdfhelp.jar!/JavaHelp/jhelpset.hs, @getvariable (ADDITIONAL_HELP)
+
+ChatUI.defaultPanel=com.solipsys.chat.gui.DefaultChatPanel
+
+@include ( @computer .sdf.prp )

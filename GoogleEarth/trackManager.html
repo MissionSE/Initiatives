@@ -5,16 +5,29 @@
     <link rel="stylesheet" type="text/css" href="guistyle.css">
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
-      var parentWindow;
-      var parentURI;
+      var parentWindow = null;
+      var parentURI = null;
 
       function toggleTracks(setting) {
-        var rawData = {
-          key : "tracks",
-          value : setting,
-        };
-        var data = JSON.stringify(rawData);
-        parentWindow.postMessage(data,parentURI);
+        //Set the hook by tn button to enabled/disabled
+        document.getElementById("hookbytn").disabled = !setting;
+        
+        if (null != parentWindow) {
+          var rawData = {
+            key : "tracks",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-17)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"tracks", data1:setting,data2:null,data3:null}, function(data) {
+          });
+        }        
       }
       
       function toggleTrackSimulator(setting) {
@@ -44,19 +57,19 @@
 
       var interval;
       var updateNum = 0;
-      var increment = true;
+      var increment = false;
 
       function updateTracks() {
         
-        if (updateNum < 10) {
-          increment = true;
-        }
-        else if (updateNum >= 10 && updateNum < 20) {
+        if (updateNum < 100) {
           increment = false;
+        }
+        else if (updateNum >= 100 && updateNum < 200) {
+          increment = true;
         }
         else {
           updateNum = 0;
-          increment = true;
+          increment = false;
         }
           
         var url = "updateTracks.php";
@@ -83,6 +96,46 @@
         $.post(url, {}, function() {
         });
       }
+      
+      function trackSummary() {
+        var width = 250;
+        var height = 600;
+        var myWindow = window.open("trackSummary.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+
+      function hookByTn() {
+        var width = 250;
+        var height = 350;
+        var myWindow = window.open("hookByTn.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+
+      function globalTrackControl() {
+        var width = 250;
+        var height = 350;
+        var myWindow = window.open("globalTrackControl.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+
+      function addTrack() {
+        var width = 250;
+        var height = 350;
+        var myWindow = window.open("addTrack.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
     </script>
   </head>
   
@@ -103,8 +156,21 @@
         On
         <input type="radio" name="sim" value="On" onclick=toggleTrackSimulator(true)><br />
       </h4>
+      <hr>
       <br />
         <button id="resettracks" class="button" onclick="resetTracks()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Reset Track Positions</button>
+      <br />
+      <br />
+        <button id="tracksummary" class="button" onclick="trackSummary()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Track Summary</button>
+      <br />
+      <br />
+        <button id="hookbytn" class="button" disabled="disabled" onclick="hookByTn()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Hook By TN</button>
+      <br />
+      <br />
+        <button id="global" class="button" onclick="globalTrackControl()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Global Track Control</button>
+      <br />
+      <br />
+        <button id="addtrack" class="button" onclick="addTrack()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Add Track</button>
     </div>
   </body>
 </html>

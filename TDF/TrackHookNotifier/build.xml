@@ -1,0 +1,104 @@
+<project name="TrackHookNotifier" default="package" basedir=".">
+  <description>
+    Build file for TrackHookNotifier, by mse.
+  </description>
+  
+  <!-- Update this periodically as your version changes. -->
+  <property name="version" value="1.0" />
+
+  <property name="src" location="src"/>
+  <property name="rsrc" location="rsrc"/>
+  <property name="build" location="build"/>
+  <property name="release" location="release"/>
+  <property name="var" location="var"/>
+  <property name="localSdkPath" location="/home/jamie2/Solipsys/TDF-5.3.2"/>
+
+  <path id="compile.classpath">
+    <fileset dir="${localSdkPath}/lib">
+      <include name="*.jar" />
+    </fileset>
+    <fileset dir="${var}/lib">
+       <include name="*.jar" />
+     </fileset>
+  </path>
+  
+  <target name="init">
+    <exec executable="hostname" outputproperty="computer.hostname"/>
+    <!-- Set up the timestamps -->
+    <tstamp>
+      <format property="timestamp" pattern="MMddyyyy-hh:mm:ss" />
+    </tstamp>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${release}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source" >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac includeantruntime="false" 
+           srcdir="${src}" destdir="${build}"
+           classpathref="compile.classpath" />
+  </target>
+
+  <target name="jar" depends="compile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${release}/lib"/>
+
+    <!-- Put everything in ${build} into the trackhooknotifier.jar file -->
+    <jar jarfile="${release}/lib/trackhooknotifier.jar">
+      <fileset dir="${build}"/>
+      <fileset dir="${rsrc}"/>
+      <manifest>
+        <attribute name="Built-By" value="mse"/>
+        <section name="com/mse/trackhooknotifier">
+          <attribute name="Specification-Title" value="TrackHookNotifier"/>
+          <attribute name="Specification-Version" value="${version}-${computer.hostname}-${timestamp}"/>
+          <attribute name="Specification-Vendor" value="mse"/>
+          <attribute name="Implementation-Title" value="TrackHookNotifier"/>
+          <attribute name="Implementation-Version" value="${version}-${computer.hostname}-${timestamp}"/>
+          <attribute name="Implementation-Vendor" value="mse"/>
+        </section>
+      </manifest>
+    </jar> 
+  </target>
+
+  <target name="build" depends="package"
+        description="generate the distribution" >
+  </target>
+  
+  <target name="package" depends="jar,extra"
+          description="Generate the actual packaged extension jar.">
+    <jar jarfile="trackhooknotifier.ext.jar" basedir="${release}">
+
+      <manifest>
+        <attribute name="Built-By" value="mse"/>
+        <section name="com/mse/trackhooknotifier">
+          <attribute name="Specification-Title" value="TrackHookNotifier"/>
+          <attribute name="Specification-Version" value="${version}-${computer.hostname}-${timestamp}"/>
+          <attribute name="Specification-Vendor" value="mse"/>
+          <attribute name="Implementation-Title" value="TrackHookNotifier"/>
+          <attribute name="Implementation-Version" value="${version}-${computer.hostname}-${timestamp}"/>
+          <attribute name="Implementation-Vendor" value="mse"/>
+        </section>
+      </manifest>
+    
+    </jar>
+  </target>
+  
+  <target name="extra" depends="init"
+          description="copy config files and unchanged jars" >
+    <copy todir="${release}">
+      <fileset dir="${var}" />
+    </copy>
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+  
+</project>

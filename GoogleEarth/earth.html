@@ -71,7 +71,6 @@
         var MAX_TRACK_ID = 1000;
         var trackPlacemarks = [];
         var trackData = [];
-
         var trackUpdateNum = 0;
         var geocoder;
         var incrementTracks = true;
@@ -86,13 +85,22 @@
         var twitterSearch;
         var blank = false;
         var priHookedTrackId = 0;
+        var offsetToPriHook = false;
+        var offsetToTrackID = false;
+        var offsetTrackID = 0;
+        var hookPlacemark=null;
         var trackUpdateInterval;
         var closeControlInterval;
+        var viewRangeSet = false;
+        var tracksTagsDisplayed = false;
+        var trackSymbolScale = 1.0;
 
+        console.log("calling google.load");
         google.load("earth", "1", {"other_params":"sensor=false"});
 
         function init() {
-          google.earth.createInstance('map3d', initCB, failureCB);
+            google.earth.createInstance('map3d', initCB, failureCB);
+            console.log("init - done google earth createInstance");    
         }
 
         function initCB(instance) {
@@ -134,6 +142,8 @@
                     progressBar.style.width = (250 * streamingPercent / 100) + 'px';
                 }
             }, 100);
+            
+            setInterval(function(){getRemoteCommands()},500);
         }
    
         function failureCB(errorCode) {
@@ -146,7 +156,8 @@
         }
 
         function createViewLookAt(lat,lon) {
-            var lookAt = ge.createLookAt('');
+            //var lookAt = ge.createLookAt('');
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
             var latStr = lat;
             var lonStr = lon;
             var convertedLat;
@@ -169,13 +180,21 @@
 
             lookAt.setLatitude(convertedLat);
             lookAt.setLongitude(convertedLon);
-            lookAt.setRange(1200000.0);
+            //Only set the view range on the first call
+            if (false == viewRangeSet) {
+                viewRangeSet = true;
+                lookAt.setRange(1200000.0);
+            }
             // Set the FlyTo speed.
             ge.getOptions().setFlyToSpeed(0.5);
             ge.getView().setAbstractView(lookAt);
         }
         
         function offsetToAddress(address) {
+            offsetOS = false;
+            offsetToPriHook = false;
+            offsetToTrackID = false;
+            
             //Get the geo location from the address string
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -198,97 +217,98 @@
             var url = "http://localhost:8888/earth/getOwnship.php";
 
             $.post(url, {trackId:1}, function(data) {
-                var os = ge.createPlacemark('1');
-                //Store the placemark in the trackPlacemarks array
-                trackPlacemarks.push(os);
-                //os.setName("Ownship");
-                ge.getFeatures().appendChild(os);
+                $.each(data,function(key,value) {
+                    var os = ge.createPlacemark('1');
+                    //Store the placemark in the trackPlacemarks array
+                    trackPlacemarks.push(os);
+                    //os.setName("Ownship");
+                    ge.getFeatures().appendChild(os);
+            
+                    // Create style map for placemark
+                    var icon = ge.createIcon('');
+                    icon.setHref(destroyer);
+                    var style = ge.createStyle('');
+                    style.getIconStyle().setIcon(icon);
+                    style.getIconStyle().setScale(trackSymbolScale);
+                    os.setStyleSelector(style);
+            
+                    osLatStr = value.trackLat;
+                    osLonStr = value.trackLon;
+    
+                    if (typeof osLatStr == "string") {
+                        osLat = parseFloat(osLatStr);
+                    }
+                    else {
+                        osLat = osLatStr;
+                    }
+                    
+                    if (typeof osLonStr == "string") {
+                        osLon = parseFloat(osLonStr);
+                    }
+                    else {
+                        osLon = osLonStr;
+                    }
+                    
+                    // Create point
+                    var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                    var point = ge.createPoint('');
+                    point.setLatitude(osLat);
+                    point.setLongitude(osLon);
+                    os.setGeometry(point);
+                    
+    
+                    //Store the tweet information in an object
+                    var trackObj = {
+                        tn:1,
+                        lat:osLat,
+                        lon:osLon,
+                        altitude:0,
+                        course:value.trackCourse,
+                        speed:value.trackSpeed,
+                        id:value.trackIdentity,
+                        tag:value.trackTag,
+                    };
+                    
+                    //Add the track object to the array
+                    trackData.push(trackObj);
+    
+                    os.setVisibility(false);
+
+                    // event listeners can use any functions, even anonymous functions
+                    google.earth.addEventListener(os, 'click', function(event) {
+                        var text = '';
+                    
+                        function addToMessage(append1, append2) { 
+                            text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
+                        }
+                    
+                        priHookedTrackId = event.getCurrentTarget().getId();
         
-                // Create style map for placemark
-                var icon = ge.createIcon('');
-                icon.setHref(destroyer);
-                var style = ge.createStyle('');
-                style.getIconStyle().setIcon(icon);
-                style.getIconStyle().setScale(1.5);
-                os.setStyleSelector(style);
-        
-                osLatStr = data.trackLat;
-                osLonStr = data.trackLon;
-
-                if (typeof osLatStr == "string") {
-                    osLat = parseFloat(osLatStr);
-                }
-                else {
-                    osLat = osLatStr;
-                }
-                
-                if (typeof osLonStr == "string") {
-                    osLon = parseFloat(osLonStr);
-                }
-                else {
-                    osLon = osLonStr;
-                }
-                
-                // Create point
-                var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-                var point = ge.createPoint('');
-                point.setLatitude(osLat);
-                point.setLongitude(osLon);
-                os.setGeometry(point);
-                
-
-                //Store the tweet information in an object
-                var trackObj = {
-                    tn:1,
-                    lat:osLat,
-                    lon:osLon,
-                    altitude:0,
-                    course:0,
-                    speed:0,
-                    id:data.trackIdentity
-                };
-                
-                //Add the track object to the array
-                trackData.push(trackObj);
-
-                // event listeners can use any functions, even anonymous functions
-                google.earth.addEventListener(os, 'click', function(event) {
-                var text = '';
-            
-                function addToMessage(append1, append2) { 
-                    text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
-                }
-            
-                addToMessage('Track ID', trackData[trackID].tn);
-                addToMessage('latitude', trackData[trackID].lat.toFixed(2));
-                addToMessage('longitude', trackData[trackID].lon.toFixed(2));
-                addToMessage('altitude', trackData[trackID].altitude);
-                addToMessage('course', trackData[trackID].course);
-                addToMessage('speed', trackData[trackID].speed);
-                addToMessage('id', trackData[trackID].id);
-                
-                // Prevent default balloon from popping up for marker placemarks
-                event.preventDefault(); 
-            
-                document.getElementById('close-control').innerHTML = text;
+                        addToMessage('Track ID', trackData[priHookedTrackId].tn);
+                        addToMessage('latitude', trackData[priHookedTrackId].lat.toFixed(2));
+                        addToMessage('longitude', trackData[priHookedTrackId].lon.toFixed(2));
+                        addToMessage('altitude', trackData[priHookedTrackId].altitude);
+                        addToMessage('course', trackData[priHookedTrackId].course);
+                        addToMessage('speed', trackData[priHookedTrackId].speed);
+                        addToMessage('id', trackData[priHookedTrackId].id);
+                        
+                        // Prevent default balloon from popping up for marker placemarks
+                        event.preventDefault(); 
+                    
+                        document.getElementById('close-control').innerHTML = text;
+                        
+                    });
                 });
-
-                os.setVisibility(false);
+    
             });
         }
         
         function updateTracks() {
             //Only update if tracks are displayed
             if (tracksDisplayed) {
-                if (trackUpdateNum >= 10) {
-                    incrementTracks = false;
-                }
-                else {
-                    incrementTracks = true;
-                }
                 var url = "getTracks.php";
     
-                $.post(url, {incrementVar:incrementTracks}, function(data) {
+                $.post(url, {}, function(data) {
                     //Get the list of child nodes from Google Earth
                     var children = ge.getFeatures().getChildNodes();
 
@@ -301,33 +321,47 @@
                             trackNumber = value.trackNum;
                         }
                         var child = getChildForId(trackNumber);
-                        latStr = value.trackLat;
-                        lonStr = value.trackLon;
-
-                        if (typeof latStr == "string") {
-                            lat = parseFloat(latStr);
-                        }
-                        else {
-                            lat = latStr;
-                        }
-                    
-                        if (typeof lonStr == "string") {
-                            lon = parseFloat(lonStr);
-                        }
-                        else {
-                            lon = lonStr;
-                        }
-
-                        // Create point
-                        var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-                        var point = ge.createPoint('');
-                        point.setLatitude(lat);
-                        point.setLongitude(lon);
-                        child.setGeometry(point);
+                        if (null != child) {
+                            //console.log("updateTracks got child for track number "+trackNumber);
+                            latStr = value.trackLat;
+                            lonStr = value.trackLon;
+    
+                            if (typeof latStr == "string") {
+                                lat = parseFloat(latStr);
+                            }
+                            else {
+                                lat = latStr;
+                            }
                         
-                        //Offset to Ownship if enabled
-                        if (trackNumber == '1' && true == offsetOS) {
-                            createViewLookAt(lat,lon);
+                            if (typeof lonStr == "string") {
+                                lon = parseFloat(lonStr);
+                            }
+                            else {
+                                lon = lonStr;
+                            }
+    
+                            // Create point
+                            var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                            var point = ge.createPoint('');
+                            point.setLatitude(lat);
+                            point.setLongitude(lon);
+                            child.setGeometry(point);
+                            
+                            //Set icon size
+                            var style = child.getStyleSelector().getIconStyle();
+                            if (style != null) {
+                                //console.log("updateTracks trackNumber = "+trackNumber+" setting placemark scale");
+                                if (trackSymbolScale != style.getScale()) {
+                                    style.setScale(trackSymbolScale);
+                                }
+                            }
+                            
+                            //Offset to track if enabled
+                            if ((trackNumber == '1' && true == offsetOS) ||
+                                (priHookedTrackId == trackNumber && true == offsetToPriHook) ||
+                                (offsetToTrackID == true && offsetTrackID == trackNumber)) {
+                                    createViewLookAt(lat,lon);
+                            }
                         }
                     });
                     
@@ -336,10 +370,46 @@
             }
         }
         
+        function createHookSymbol(centerLat, centerLng, radius) {
+        
+            function makeCircle(centerLat, centerLng, radius) {
+        
+                var ring = ge.createLinearRing('');
+                var steps = 36;
+                var pi2 = Math.PI * 2;
+                for (var i = 0; i < steps; i++) {
+                  var lat = centerLat + radius * Math.cos(i / steps * pi2);
+                  var lng = centerLng + radius * Math.sin(i / steps * pi2);
+                  ring.getCoordinates().pushLatLngAlt(lat, lng, 0);
+                }
+                return ring;
+            }
+        
+            hookPlacemark = ge.createPlacemark('');
+            hookPlacemark.setGeometry(ge.createPolygon(''));
+
+            // Create a style
+            hookPlacemark.setStyleSelector(ge.createStyle(''));
+            var hookStyle = hookPlacemark.getStyleSelector().getPolyStyle();
+            hookStyle.getColor().set('4400FFFF');  // aabbggrr format
+            
+            var outer = ge.createLinearRing('');
+            hookPlacemark.getGeometry().setOuterBoundary(makeCircle(centerLat, centerLng, radius));
+            ge.getFeatures().appendChild(hookPlacemark);
+        }
+        
+        function deleteHookSymbol() {
+            if (null != hookPlacemark) {
+                ge.getFeatures().removeChild(hookPlacemark);
+            }
+        }
+
         function updateCloseControl() {
-            //Only update if tracks are displayed
-            if (tracksDisplayed) {
+            //Only update if tracks are displayed and a track is hooked
+            if (tracksDisplayed && priHookedTrackId > 0) {
                 var url = "getTracks.php";
+                
+                //Get tracks from the database
                 $.post(url, {}, function(data) {
                     $.each(data,function(key,value) {
                         var trackNumber;
@@ -350,9 +420,12 @@
                             trackNumber = value.trackNum;
                         }
 
+                        //If this is the hooked track
                         if (trackNumber == priHookedTrackId) {
                             var text = '';
                             var lat,lon;
+                            var latStr = value.trackLat;
+                            var lonStr = value.trackLon;
                             if (typeof value.trackLat == "string") {
                                 lat = parseFloat(latStr);
                             }
@@ -367,7 +440,7 @@
                                 lon = lonStr;
                             }
                                
-                            console.log("track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse+"\n");
+                            console.log("updateCloseControl track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse);
                             text+='Track ID'+ ': ' +value.trackNum+'\n<br />';
                             text+='latitude'+ ': ' +lat.toFixed(2)+'\n<br />';
                             text+='longitude'+ ': ' +lon.toFixed(2)+'\n<br />';
@@ -376,12 +449,19 @@
                             text+='speed'+ ': ' +value.trackSpeed+'\n<br />';
                             text+='id'+ ': ' +value.trackIdentity+'\n<br />';
                             
+                            //Update page with new close control text
                             document.getElementById('close-control').innerHTML = text;
+
+                            deleteHookSymbol();
+                            
+                            createHookSymbol(lat,lon,0.35);
+
                         }
                     });
                 });            
             }
         }
+        
         function getChildForId(id) {
             var children = ge.getFeatures().getChildNodes();
     
@@ -393,6 +473,7 @@
                 }
             }
             
+            console.log("getChildForId ERROR could not find child for id = "+id);
             return null;
         }
         
@@ -424,7 +505,7 @@
 
                         var style = ge.createStyle('');
                         style.getIconStyle().setIcon(icon);
-                        style.getIconStyle().setScale(1.0);
+                        style.getIconStyle().setScale(trackSymbolScale);
                         track.setStyleSelector(style);
 
                         latStr = value.trackLat;
@@ -450,9 +531,10 @@
                             lat:lat,
                             lon:lon,
                             altitude:0,
-                            course:0,
-                            speed:0,
-                            id:value.trackIdentity
+                            course:value.trackCourse,
+                            speed:value.trackSpeed,
+                            id:value.trackIdentity,
+                            tag:value.trackTag
                         };
                         
                         //Add the track object to the array
@@ -463,19 +545,19 @@
                         var point = ge.createPoint('');
                         point.setLatitude(lat);
                         point.setLongitude(lon);
-                        console.log("createTracks tn = "+trackData[index].tn+" lat = "+trackData[index].lat.toFixed(2)+" lon = "+trackData[index].lon.toFixed(2));
-                        trackPlacemarks[index].setGeometry(point);
+                        //console.log("createTracks tn = "+value.trackNum+" tag = "+value.trackTag);
+                        track.setGeometry(point);
 
                         // event listeners can use any functions, even anonymous functions
-                        google.earth.addEventListener(trackPlacemarks[index], 'click', function(event) {
+                        google.earth.addEventListener(track, 'click', function(event) {
                             var text = '';
-            
+                        
                             function addToMessage(append1, append2) { 
                                 text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
                             }
-
+                        
                             var trackID = event.getCurrentTarget().getId()-1;
-
+                        
                             priHookedTrackId = event.getCurrentTarget().getId();
                             
                             //addToMessage("Placemark Name",trackPlacemarks[trackID].getName());
@@ -486,10 +568,10 @@
                             addToMessage('course', trackData[trackID].course);
                             addToMessage('speed', trackData[trackID].speed);
                             addToMessage('id', trackData[trackID].id);
-            
+                        
                             // Prevent default balloon from popping up for marker placemarks
                             event.preventDefault(); 
-            
+                        
                             document.getElementById('close-control').innerHTML = text;
                         });
                     }
@@ -587,18 +669,15 @@
 
         function addMouseClickListener() {
             // listen to the click event on the globe and window
-            //google.earth.addEventListener(ge.getWindow(), 'click', function(event) {
-            //if (event.getDidHitGlobe()) {
-            //    //If this isn't a track need to clear close control
-            //    if (event.getTarget().getType() == 'KmlPlacemark' &&
-            //        event.getTarget().getGeometry().getType() == 'KmlPoint') {
-            //        var placemark = event.getTarget();
-            //    }
-            //    else {
-            //        document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";                    
-            //    }
-            //});
-            //}
+            google.earth.addEventListener(ge.getWindow(), 'click', function(event) {
+                if ('GEGlobe' == event.getTarget().getType()) {
+                    if (priHookedTrackId != 0) {
+                        deleteHookSymbol();
+                        priHookedTrackId = 0;
+                        document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";                    
+                    }
+                }
+            });
         }
         
         function createGroundOverlay() {
@@ -621,6 +700,14 @@
                 ge.getFeatures().appendChild(groundOverlay);
             }
             else {
+                var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                var north = center.getLatitude() + .35;
+                var south = center.getLatitude() - .35;
+                var east = center.getLongitude() + .55;
+                var west = center.getLongitude() - .55;
+                var rotation = 0;
+                var latLonBox = groundOverlay.getLatLonBox();
+                latLonBox.setBox(north, south, east, west, rotation);
                 groundOverlay.setVisibility(true);
             }
         }
@@ -919,12 +1006,38 @@
             }
             
             trackUpdateInterval = setInterval(function(){updateTracks()},3000);
-            closeControlInterval = setInterval(function(){updateCloseControl()},2000);
+            closeControlInterval = setInterval(function(){updateCloseControl()},3000);
         }
         
+        function displayTrackTags() {            
+            var tn;
+            var child;
+            for (var i = 0; i < trackData.length; i++) {
+                tn = trackData[i].tn;
+                child = getChildForId(tn);
+                if (child) {
+                    //console.log("displayTrackTags got child for tn = "+tn+" tag = "+trackData[i].tag);
+                    child.setName(trackData[i].tag);
+                }
+            }
+        }
+        
+        function clearTrackTags() {
+            var tn;
+            var child;
+            for (var i = 0; i < trackData.length; i++) {
+                tn = trackData[i].tn;
+                child = getChildForId(tn);
+                if (child) {
+                    child.setName("");
+                }
+            }
+        }
+
         var greenButton = "rgba(0,255,0,0.8)";
         var redButton = "rgba(255,0,0,0.8)";
-        
+        //var redButton = "rgba(255,204,0,0.8)";
+
         function highlightGrids() {
             var element = document.getElementById("Grids");
             element.style.background = (gridsOn == true) ? greenButton : redButton;
@@ -1030,16 +1143,6 @@
             element.style.background = (blank == true) ? greenButton : redButton;
         }
 
-        function highlightBlank2() {
-            var element = document.getElementById("Blank2");
-            element.style.background = (blank == true) ? greenButton : redButton;
-        }
-
-        function highlightBlank3() {
-            var element = document.getElementById("Blank3");
-            element.style.background = (blank == true) ? greenButton : redButton;
-        }
-
         function highlightButtons() {
             highlightGrids();
             highlightEarthSettings();
@@ -1050,8 +1153,6 @@
             highlightWeather();
             highlightTwitter();
             highlightBlank1();
-            highlightBlank2();
-            highlightBlank3();
         }
 
         function playCsedsTour() {
@@ -1169,111 +1270,40 @@
         
         function displayNationalWeather() {
             var href;
-            href = projectDomain+'weather3.kml';
+            href = projectDomain+'weather2.kml';
             google.earth.fetchKml(ge, href, function(weatherKMLObject) {
                 if (weatherKMLObject) {
                     ge.getFeatures().appendChild(weatherKMLObject);
                 }
             });
-            
-        function displayWeatherWarnings() {
-            var href;
-            href = projectDomain+'NWS_Warnings.kmz';
-            google.earth.fetchKml(ge, href, function(weatherKMLObject) {
-                if (weatherKMLObject) {
-                    ge.getFeatures().appendChild(weatherKMLObject);
-                }
-            });
-        }
-
-            //href = 'http://localhost:8888/earth/NWS_Warnings.kmz';
-            //google.earth.fetchKml(ge, href, function(weatherKMLObject) {
-            //    if (weatherKMLObject) {
-            //        ge.getFeatures().appendChild(weatherKMLObject);
-            //    }
-            //});
-
-            //href = 'http://localhost:8888/earth/NWS_northeast_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject2) {
-            //    if (kmlObject2) {
-            //        alert("displayWeather got kmlObject2");
-            //        ge.getFeatures().appendChild(kmlObject2);
-            //    }
-            //});
-
-            //href = 'http://localhost:8888/earth/NWS_southeast_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject3) {
-            //    if (kmlObject3) {
-            //        //alert("displayWeather got kmlObject");
-            //        ge.getFeatures().appendChild(kmlObject3);
-            //    }
-            //});
-            //
-            //href = 'http://localhost:8888/earth/NWS_centgrtlakes_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject4) {
-            //    if (kmlObject4) {
-            //        //alert("displayWeather got kmlObject");
-            //        ge.getFeatures().appendChild(kmlObject4);
-            //    }
-            //});
-            //
-            //href = 'http://localhost:8888/earth/NWS_pacnorthwest_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject4) {
-            //    if (kmlObject4) {
-            //        //alert("displayWeather got kmlObject");
-            //        ge.getFeatures().appendChild(kmlObject4);
-            //    }
-            //});
-            //
-            //href = 'http://localhost:8888/earth/NWS_pacsouthwest_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject5) {
-            //    if (kmlObject5) {
-            //        ge.getFeatures().appendChild(kmlObject5);
-            //    }
-            //});
-            //
-            //href = 'http://localhost:8888/earth/NWS_southmissvly_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject6) {
-            //    if (kmlObject6) {
-            //        //alert("displayWeather got kmlObject");
-            //        ge.getFeatures().appendChild(kmlObject6);
-            //    }
-            //
-            //href = 'http://localhost:8888/earth/NWS_northrockies_N0R_RadarLoop.kmz';
-            //google.earth.fetchKml(ge, href, function(kmlObject7) {
-            //    if (kmlObject7) {
-            //        //alert("displayWeather got kmlObject");
-            //        ge.getFeatures().appendChild(kmlObject7);
-            //    }
-            //});
         }
         
         function displayWeatherWindow() {
-            openWin("Weather Manager","weatherManager.html",250,500,1050,0);
+            openWin("Weather Manager","weatherManager.html",200,500,1100,0);
         }
 
         function displayGridsWindow() {
-            openWin("Grid Manager","gridManager.html",250,350,1050,0);
+            openWin("Grid Manager","gridManager.html",200,350,1100,0);
         }
 
         function displayEarthSettingsWindow() {
-            openWin("Earth Settings Manager","earthSettingsManager.html",250,700,1050,0);
+            openWin("Earth Settings Manager","earthSettingsManager.html",200,700,1100,0);
         }
 
         function displayViewWindow() {
-            openWin("View Manager","viewManager.html",250,600,1050,0);
+            openWin("View Manager","viewManager.html",200,750,1100,0);
         }
         
         function displayOverlayWindow() {
-            openWin("Overlay Manager","overlayManager.html",250,350,1050,0);
+            openWin("Overlay Manager","overlayManager.html",200,350,1100,0);
         }
 
         function displayTracksWindow() {
-            openWin("Track Manager","trackManager.html",250,350,1050,0);
+            openWin("Track Manager","trackManager.html",200,550,1100,0);
         }
 
         function displayTwitterWindow() {
-            openWin("Twitter Manager","twitterManager.html",250,400,1050,0);
+            openWin("Twitter Manager","twitterManager.html",200,400,1100,0);
         }
 
         function clearTwitterSymbols() {
@@ -1422,66 +1452,31 @@
                 
                 //Determine message type based on json.key
                 if (json.key == 'grids') {
-                    if (json.value == true) {
-                        ge.getOptions().setGridVisibility(true);
-                    }
-                    else {
-                        ge.getOptions().setGridVisibility(false);
-                    }
+                    (json.value == true) ? grids("true") : grids("false");
                 }
                 else if (json.key == 'range rings') {
-                    if (json.value == true) {
-                        createRangeRings();
-                        rangeRingDisplayed = !rangeRingDisplayed;
-                    }
-                    else {
-                        clearRangeRings();
-                        rangeRingDisplayed = !rangeRingDisplayed;
-                    }
+                    (json.value == true) ? rangeRings("true") : rangeRings("false");
                 }
                 else if (json.key == 'national weather') {
-                    if (json.value == true) {
-                        displayNationalWeather();
-                    }
-                    else {
-                        clearWeather();
-                    }
+                    (json.value == true) ? nationalWeather("true") : nationalWeather("false");
                 }
                 else if (json.key == 'local weather') {
-                    if (json.value == true) {
-                        displayPhiladelphiaWeather();
-                    }
-                    else {
-                        clearWeather();
-                    }
+                    (json.value == true) ? localWeather("true") : localWeather("false");
                 }
                 else if (json.key == 'weather warnings') {
-                    if (json.value == true) {
-                        displayWeatherWarnings();
-                    }
-                    else {
-                        clearWeather();
-                    }
+                    (json.value == true) ? displayWeatherWarnings() : clearWeather();
                 }
                 else if (json.value == 'offset ownship') {
-                    createViewLookAt(csedsLat,csedsLon);
+                    offsetOwnship();
                 }
                 else if (json.value == 'offset pri hook') {
-                    //How?!?
-                }
-                else if (json.value == 'offset sec hook') {
-                    //How?!?
+                    offsetPriHook();
                 }
                 else if (json.value == 'offset track') {
-                    var trackID = json.trackID;
-                    //How?!?
+                    offsetTrack(json.trackID);
                 }
                 else if (json.value == 'offset lat lon') {
-                    var lat = json.lat;
-                    var lon = json.lon;
-                    //alert("offset lat lon lat = "+lat+" lon = "+lon);
-                    //Create a view look at with this location
-                    createViewLookAt(lat,lon);
+                    offsetLatLon(lat,lon);
                 }
                 else if (json.value == 'offset address') {
                     var address = json.address;
@@ -1489,82 +1484,34 @@
                     offsetToAddress(address);
                 }
                 else if (json.key == 'sun') {
-                    if (json.value == true) {
-                        ge.getSun().setVisibility(true);
-                    }
-                    else {
-                        ge.getSun().setVisibility(false);
-                    }
-                }
+                    (true == json.value) ? sun("true") : sun("false");
+               }
                 else if (json.key == 'inset map') {
-                    if (json.value == true) {
-                        ge.getOptions().setOverviewMapVisibility(true);
-                    }
-                    else {
-                        ge.getOptions().setOverviewMapVisibility(false);
-                    }
+                    (json.value == true) ? insetMapDisplay("true") : insetMapDisplay("false");
                 }
                 else if (json.key == 'borders') {
-                    if (json.value == true) {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
-                    }
-                    else {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
-                    }
+                    (json.value == true) ? borders("true") : borders("false");
                 }
                 else if (json.key == 'roads') {
-                    if (json.value == true) {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
-                    }
-                    else {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);
-                    }
+                    (json.value == true) ? roads("true") : roads("false");
                 }
                 else if (json.key == 'buildings') {
-                    if (json.value == true) {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
-                        setTimeout(function() {
-                            var la = ge.createLookAt('');
-                            //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
-                            la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
-                            ge.getView().setAbstractView(la);
-                        }, 3000);
-                    }
-                    else {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, false);
-                    }
+                    (json.value == true) ? buildings("true") : buildings("false");
                 }
                 else if (json.key == 'terrain') {
-                    if (json.value == true) {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
-                    }
-                    else {
-                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, false);
-                    }
+                    (json.value == true) ? terrain("true") : terrain("false");
                 }
                 else if (json.key == 'google') {
-                    if (json.value == true) {
-                        createGroundOverlay();
-                    }
-                    else {
-                        clearGroundOverlay();
-                    }
+                    (json.value == true) ? googleDisplay("true") : googleDisplay("false");
                 }
                 else if (json.key == 'geo') {
-                    if (json.value == true) {
-                        createJpegOverlay();
-                    }
-                    else {
-                        clearJpegOverlay();
-                    }
+                   (json.value == true) ? geo("true") : geo("false");
                 }
                 else if (json.key == 'tracks') {
-                    if (json.value == true) {
-                        displayTracks();
-                    }
-                    else {
-                        clearTracks();
-                    }
+                    (json.value == true) ? tracks("true") : tracks("false");
+                }
+                else if (json.key == 'track tags') {
+                    (json.value == true) ? trackTags("true") : trackTags("false");
                 }
                 else if (json.key == 'twitter feed') {
                     console.log("earth received message "+json.key+ " json.displayWindow = "+json.displayWindow);
@@ -1616,35 +1563,335 @@
                     }
                 }
                 else if (json.key == 'map type') {
-                    if ("earth" == json.value) {
-                        console.log("setting map type to earth");
-                        ge.getOptions().setMapType(ge.MAP_TYPE_EARTH);
-                    }
-                    else {
-                        console.log("setting map type to sky");
-                        ge.getOptions().setMapType(ge.MAP_TYPE_SKY);
-                    }
+                    mapType(json.value);
                 }
                 else if (json.key == 'status bar') {
-                    //alert("setting status bar to "+json.value);
-                    ge.getOptions().setStatusBarVisibility(json.value);
+                    (true == json.value) ? statusBar("true") : statusBar("false");
                 }
                 else if (json.key == 'atmosphere') {
-                    //alert("setting atmosphere to "+json.value);
-                    ge.getOptions().setAtmosphereVisibility(json.value);
+                    (true == json.value) ? atmosphere("true") : atmosphere("false");
                 }
                 else if (json.key == 'camera tilt') {
-                    //console.log("setting camera tilt to "+json.value);
-                    //Get the current view
-                    var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                    cameraTilt(parseInt(json.value));
+                }
+                else if (json.key == 'range') {
+                    console.log("setting camera range");
                     
-                    //Set the new camera tilt
-                    lookAt.setTilt(parseInt(json.value));
-                    
-                    //Update the view in Google Earth.
-                    ge.getView().setAbstractView(lookAt);
+                    ("range in" == json.value) ? rangeIn() : rangeOut();
                 }
             },false);
+        }
+        
+        function rangeIn() {
+            console.log("ranging the camera in");
+            //Get the current view
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+
+            // Zoom in to half the current range.
+            lookAt.setRange(lookAt.getRange() / 5.0);
+            
+            //Update the view in Google Earth.
+            ge.getView().setAbstractView(lookAt);
+        }
+        
+        function rangeOut() {
+            console.log("ranging the camera out");
+            //Get the current view
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+
+            // Zoom in to half the current range.
+            lookAt.setRange(lookAt.getRange() * 5.0);
+            
+            //Update the view in Google Earth.
+            ge.getView().setAbstractView(lookAt);
+        }
+        
+        function offsetOwnship() {
+            offsetOS = true;
+            offsetToPriHook = false;
+            offsetToTrackID = false;
+            createViewLookAt(csedsLat,csedsLon);            
+        }
+        
+        function offsetPriHook() {
+            offsetOS = false;
+            offsetToPriHook = true;
+            offsetToTrackID = false;            
+        }
+        
+        function offsetTrack(id) {
+            offsetOS = false;
+            offsetToPriHook = false;
+            offsetToTrackID = true;
+            offsetTrackID = id;
+        }
+        
+        function offsetLatLon(lat,lon) {
+            offsetOS = false;
+            offsetToPriHook = false;
+            offsetToTrackID = false;
+            //Create a view look at with this location
+            createViewLookAt(lat,lon);            
+        }
+
+        function cameraTilt(value) {
+            //console.log("setting camera tilt to "+json.value);
+            //Get the current view
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+            
+            //Set the new camera tilt
+            lookAt.setTilt(parseInt(value));
+            
+            //Update the view in Google Earth.
+            ge.getView().setAbstractView(lookAt);    
+        }
+
+        function sun(value) {
+            console.log("sun value = "+value);
+            if (value == "true") {
+                ge.getSun().setVisibility(true);
+            }
+            else {
+                ge.getSun().setVisibility(false);
+            }
+         }
+
+        function insetMapDisplay(value) {
+            if (value == "true") {
+                ge.getOptions().setOverviewMapVisibility(true);
+            }
+            else {
+                ge.getOptions().setOverviewMapVisibility(false);
+            }
+        }
+
+        function borders(value) {
+            if (value == "true") {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+            }
+            else {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+            }
+        }
+
+        function roads(value) {
+            if (value == "true") {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
+            }
+            else {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);                
+            }
+        }
+        
+        function buildings(value) {
+            if (value == "true") {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+                setTimeout(function() {
+                    var la = ge.createLookAt('');
+                    //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
+                    la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
+                    ge.getView().setAbstractView(la);
+                }, 2000);
+            }
+            else {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, false);                
+            }
+        }
+        
+        function terrain(value) {
+            if (value == "true") {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+            }
+            else {
+                ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, false);
+            }
+        }
+        
+        function mapType(value) {
+            if ("earth" == value) {
+                console.log("setting map type to earth");
+                ge.getOptions().setMapType(ge.MAP_TYPE_EARTH);
+            }
+            else {
+                console.log("setting map type to sky");
+                ge.getOptions().setMapType(ge.MAP_TYPE_SKY);
+            }  
+        }
+    
+        function statusBar(value) {
+            if ("true" == value) {
+                //alert("setting status bar to "+json.value);
+                ge.getOptions().setStatusBarVisibility(true);
+            }
+            else {
+                ge.getOptions().setStatusBarVisibility(false);
+            }
+        }
+        
+        function atmosphere(value) {
+            ("true" == value) ? ge.getOptions().setAtmosphereVisibility(true) : ge.getOptions().setAtmosphereVisibility(false);
+        }
+        
+        function grids(value) {
+            ("true" == value) ? ge.getOptions().setGridVisibility(true) : ge.getOptions().setGridVisibility(false);
+        }
+        
+        function rangeRings(value) {
+            if ("true" == value) {
+                createRangeRings();
+                rangeRingDisplayed = !rangeRingDisplayed;
+            }
+            else {
+                clearRangeRings();
+                rangeRingDisplayed = !rangeRingDisplayed;
+            }
+        }
+        
+        function googleDisplay(value) {
+            ("true" == value) ? createGroundOverlay() : clearGroundOverlay();
+        }
+        
+        function geo(value) {
+            ("true" == value) ? createJpegOverlay() : clearJpegOverlay();
+        }
+        
+        function nationalWeather(value) {
+            ("true" == value) ? displayNationalWeather() : clearWeather();
+        }
+
+        function localWeather(value) {
+            ("true" == value) ? displayPhiladelphiaWeather() : clearWeather();
+        }
+        
+        function tracks(value) {
+            ("true" == value) ? displayTracks() : clearTracks();
+        }
+        
+        function trackTags(value) {
+            ("true" == value) ? displayTrackTags() : clearTrackTags();
+        }
+        
+        function hookByTn(tn) {
+            priHookedTrackId = tn;
+        }
+
+        function getRemoteCommands() {
+            var url = "getCommands.php";
+            
+            $.post(url, {}, function(data) {
+
+                $.each(data,function(key,value) {
+                    //Handle the command from remote window
+                    handleRemoteCommand(value.id,value.text,value.data1,value.data2,value.data3);
+
+                    //Delete command from database
+                    deleteRemoteCommand(value.id);
+                });
+            });
+        }
+        
+        function handleRemoteCommand(id,text,data1,data2,data3) {
+            console.log("handleRemoteCommand command = "+text+" data1 = "+data1+" data2 = "+data2+" data3 = "+data3);
+            if ("range in" == text) {
+                rangeIn();
+            }
+            else if ("range out" == text) {
+                rangeOut();
+            }
+            else if ("offset ownship" == text) {
+                offsetOwnship();
+            }
+            else if ("offset pri hook" == text) {
+                offsetPriHook();
+            }
+            else if ("offset track" == text) {
+                offsetTrack(data1);
+            }
+            else if ("offset lat lon" == text) {
+                offsetLatLon(data1,data2);
+            }
+            else if ("offset address" == text) {
+                offsetToAddress(data1);
+            }
+            else if ("camera tilt" == text) {
+                cameraTilt(data1);
+            }
+            else if ("sun" == text) {
+                sun(data1);
+            }
+            else if ("inset map" == text) {
+                insetMapDisplay(data1);
+            }
+            else if ("borders" == text) {
+                borders(data1);
+            }
+            else if ("roads" == text) {
+                roads(data1);
+            }
+            else if ("buildings" == text) {
+                buildings(data1);
+            }
+            else if ("terrain" == text) {
+                terrain(data1);
+            }
+            else if ("map type" == text) {
+                mapType(data1);
+            }
+            else if ("status bar" == text) {
+                statusBar(data1);
+            }
+            else if ("atmosphere" == text) {
+                atmosphere(data1);
+            }
+            else if ("grids" == text) {
+                grids(data1);
+            }
+            else if ("range rings" == text) {
+                rangeRings(data1);
+            }
+            else if ("google" == text) {
+                googleDisplay(data1);
+            }
+            else if ("geo" == text) {
+                geo(data1);
+            }
+            else if ("national weather" == text) {
+                nationalWeather(data1);
+            }
+            else if ("local weather" == text) {
+                localWeather(data1);
+            }
+            else if ("tracks" == text) {
+                tracks(data1);
+            }
+            else if ("track tags" == text) {
+                trackTags(data1);
+            }
+            else if ("hook by tn" == text) {
+                hookByTn(data1);
+            }
+            else if ("track size" == text) {
+                if ("dot" == data1) {
+                    trackSymbolScale = 0.2;
+                }
+                else if ("small" == data1) {
+                    trackSymbolScale = 0.5;
+                }
+                else if ("normal" == data1) {
+                    trackSymbolScale = 1.0;
+                }
+                else if ("enlarged" == data1) {
+                    trackSymbolScale = 2.0;
+                }
+            }
+        }
+
+        function deleteRemoteCommand(commandId) {            
+            var url = "deleteCommand.php";
+            
+            $.post(url, {id:commandId}, function(data) {
+                //console.log("deleteCommand returned "+data);
+            });
         }
 
         google.setOnLoadCallback(init);
@@ -1660,16 +1907,14 @@
             <button id="Grids" onclick="displayGridsWindow()">Grids</button>
             <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
-            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
             <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
             <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
+            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
             <button id="Blank1">Blank</button>
-            <button id="Blank2">Blank</button>
-            <button id="Blank3">Blank</button>
         </div>
         <style type="text/css">
             #progress-container {
-                width: 1250px;
+                width: 1300px;
                 height: 3px;
                 background-color: #009;
             }
