@@ -18,10 +18,10 @@ import java.util.logging.Logger;
  */
 public class PacketReceiver
 {
-    //The CommonFieldParser that is used to correlate the data from the Sources.
-    CommonFieldParser cfp;
-    //Reference to the ObjectRefinementModule, which receives data once it has been through this module.
-    ObjectRefinementModule orm;
+    //Reference to the CorrelateSources, which is used to correlate the data from the Sources.
+    CorrelateSources cs;
+    //Reference to the PackSupportingData, which receives data once it has been through this module.
+    PackSupportingData psd;
     //Reference to the Database, which receives data once it has been through this module.
     Database db;
     //The list of currently observed Sources.
@@ -45,9 +45,9 @@ public class PacketReceiver
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-        cfp = new CommonFieldParser();
 	//2
-	orm = null;
+	    cs = new CorrelateSources();
+        psd = new PackSupportingData(db);
 	//3
         sources = new ArrayList<Source>();
 
@@ -94,13 +94,14 @@ public class PacketReceiver
      * The string track category of what the sensor is sensing, depending on the track type,
      * The level of fuel remaining for what the sensor is sensing"
      */
-    public void recievePacket(String data)
+    public void recievePacket(String data, String systemId)
     {
         
 	//Parse the data into an array of Strings, deliminated by commas.
         String[] parsedData = data.split(",", -1);
 
-        System.out.println("data:"+data);
+        System.out.println("receivePacket data: "+data);
+        System.out.println("receivePacket systemId: "+systemId);
         /*
 	 * If the amount of given data does not match up with the amount of data this program uses
 	 * to represent sources or if the data does not contain an unique identifier, something has
@@ -113,6 +114,7 @@ public class PacketReceiver
 
 	//Storage for, and retrieval of, the Source this data represents.
         Source toUpdate = searchExistingSources(parsedData[0]);
+        System.out.println("receivePacket sources: "+sources);
 
 	/*
 	 * If this program is not yet observing a Source with the given unique identification,
@@ -130,10 +132,10 @@ public class PacketReceiver
         toUpdate.update(parsedData);
 
 	//Correlate all observed data into a correlated source.
-        Source correlated = correlateSources();
+        Source correlated = cs.correlateSources(toUpdate, systemId, sources);
 
 	//Send off the newly updated source and the correlated one to the rest of the program.
-	sendUpdates(toUpdate, correlated);
+	    sendUpdates(toUpdate, correlated, systemId);
     }
 
     /*
@@ -162,78 +164,28 @@ public class PacketReceiver
     {
         Source newSource = new Source(id);
         sources.add(newSource);
+        System.out.println("receivePacket:createNewSource sources: "+sources);
         return newSource;
-    }
-
-    /**
-     * This method creates a new ArrayList, adds to it clones of the sources this class is observing
-     * and send off the list to be correlated by the CommonFieldParser. It will return the correlated
-     * source that is returned by the parser.
-     */
-    private Source correlateSources()
-    {
-	if(sources.size() == 1)
-	{
-	    return sources.get(0).clone();
-	}
-
-	ArrayList<Source> toCorrelate = new ArrayList<Source>();
-
-	for(int i = 0; i < sources.size(); i++)
-	{
-	    toCorrelate.add(sources.get(i).clone());
-	}
-	System.out.println("pkt rcvr: toCorrelate");
-	System.out.println(toCorrelate);
-	return cfp.correlateSources(toCorrelate);
     }
 
     /*
      * Once this class has done everything it needs to do, this method allows it to send off data to
      * other sections of the program.
      */
-    private void sendUpdates(Source toUpdate, Source correlated)
+    private void sendUpdates(Source toUpdate, Source correlated, String systemId)
     {
 	//Here the newly updated source and the correlated source are sent to be saved by the Database.
 	try
 	{
-		db.updateBuilder(toUpdate.clone());
-	    db.updateBuilder(correlated.clone());
+	    System.out.println("receivePacket:sendUpdates toUpdate = "+ toUpdate);
+	    db.updateS1Builder(toUpdate.clone());
+	    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
+	    db.updateSystemBuilder(correlated.clone());
 	}
 	catch(Exception e)
 	{}
 
-	//Checks to see if the ObjectRefinementModule has been hooked up yet.
-	if(orm == null)
-	{
-	    /*
-	     * When the ObejctRefinementModule is first created, it requires a Source. It, however,
-	     * cannot receive a Source until this class has received data for and created one itself.
-	     * Because of this, the ObejctRefinementModule must wait to be instantiated until now.
-	     */
-            
-	    orm = new ObjectRefinementModule(toUpdate.clone(), db);
-	    System.out.println("pkt rcvr: instantiated orm, db = "+ db);
-	}
-	else
-	{
-	    /*
-	     * An new ArrayList is created with the correlated Source in position 0, along with
-	     * clones of all other observed sources, all for the purpose of creating an array
-	     * of Sources with that same format that can be sent off to the ObjectRefinementModule.
-	     */
-	    ArrayList<Source> toSend = new ArrayList<Source>();
-
-	    toSend.add(correlated);
-
-	    for(int i = 0; i < sources.size(); i++)
-	    {
-		toSend.add(sources.get(i).clone());
-	    }
-	    System.out.println("pkt rcvr: toSend");
-	    System.out.println(toSend);   
-	    orm.refineObject(toSend.toArray(new Source[0]));
-	}
+	psd.packSupportingData(toUpdate, correlated, systemId, sources);
     }
 
 }

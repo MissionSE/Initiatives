@@ -1,4 +1,4 @@
-package datacorrelation;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary.database.copy;
 
 /**
  * @Class Database.java
@@ -30,7 +30,9 @@ package datacorrelation;
 import java.sql.*;
 import java.util.ArrayList;
 
-public final class Database {
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+
+public final class Database implements DatabaseAccessor {
 
     Connection conn;
     final boolean debugging;
@@ -42,18 +44,23 @@ public final class Database {
      *
      * <p>This constructor will create a connection to a new Database using the
      * HSQLDB driver. The structure of the database will then be added to the
-     * new database. The tables being created are: Dynamic, Static and Categories.</p>
+     * new database. The tables being created are: fusedTrackData, Static and Categories.</p>
      *
      * <p>
      * Each Database Table serves a specific purpose: <br />
-     * <strong>Dynamic:</strong> Source Information that is constantly changing.<br />
+     * <strong>fusedTrackData:</strong> Source Information that is constantly changing.<br />
      * <strong>Static:</strong> Source Information that will remain the same during
      * the duration of the program<br />
      * </p>
      *
      * @param dbname - The base of the randomly generated filename.
      */
-    public Database(String dbname) throws Exception {
+    public Database(String dbname) {
+
+
+    }
+
+    public void setupDatabase() throws Exception {
 
         //The base Database cannot be null.
         if (dbname == null) {
@@ -98,7 +105,7 @@ public final class Database {
 
         /*
          * Each time a new database is created, it must be pre populated with
-         * the static and dynamic table structures.
+         * the static and fusedTrackData table structures.
          */
         try {
 
@@ -107,9 +114,10 @@ public final class Database {
              * to be NULL with the exception of the uniqueId. Incoming sources
              * without a UniqueId are useless to other modules.
              */
-            create("CREATE TABLE dynamic("
+            create("CREATE TABLE fusedTrackData("
                     + "id INTEGER IDENTITY, "
                     + "uniqueId VARCHAR(256) NOT NULL, "
+                    + "sourceTypeKey INTEGER,"
                     + "threat INTEGER,"
                     + "latitude DOUBLE, "
                     + "longitude DOUBLE, "
@@ -126,24 +134,24 @@ public final class Database {
                     + "positionX DOUBLE, "
                     + "positionY DOUBLE, "
                     + "positionZ DOUBLE, "
+                    + "trackPlatform VARCHAR(32), "
+                    + "trackCategory VARCHAR(32), "
                     + "dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
 
             if (debugging) {
-                System.out.println("Dynamic Table Created Sucessfully.");
+                System.out.println("fusedTrackData Table Created Sucessfully.");
             }
 
-            create("CREATE TABLE staticInfo("
+            create("CREATE TABLE sourceType("
                     + "id INTEGER IDENTITY, "
                     + "uniqueId VARCHAR(256) NOT NULL, "
                     + "trackType VARCHAR(32), "
-                    + "trackPlatform VARCHAR(32), "
-                    + "trackCategory VARCHAR(32), "
                     + "dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
             if (debugging) {
                 System.out.println("Static Table Created Sucessfully.");
             }
-
+            
         } catch (SQLException e) {
 
             /*
@@ -157,10 +165,9 @@ public final class Database {
             if (debugging) {
                 System.err.println(e);
             }
-        }
-
+        }   	
     }
-
+    
     /**
      * This method will query the Database for a unique list of every
      * UniqueId currently stored in the database. Each UniqueId will be added
@@ -290,7 +297,7 @@ public final class Database {
 
     /**
      * Given a Source this method will break up the information within the
-     * module and add it to either the Dynamic or Static databases.
+     * module and add it to either the fusedTrackData or Static databases.
      *
      * If the Source is null, or missing a uniqueId the method is not executed
      * because a null Source or Source without a uniqueId is useless.
@@ -366,8 +373,8 @@ public final class Database {
             staticUpdate.close();
         }
 
-        //Dynamic Information
-        String dynamicQuery = "INSERT INTO dynamic("
+        //fusedTrackData Information
+        String dynamicQuery = "INSERT INTO fusedTrackData("
                 + "uniqueId,"
                 + "threat,"
                 + "latitude,"
@@ -512,7 +519,7 @@ public final class Database {
 
         /**
          * Create a new Source object and add the Static information to it.
-         * This will be used while iterating through the dynamic information
+         * This will be used while iterating through the fusedTrackData information
          * later. It is more efficent to create a Object containing the Static
          * information rather than iterating through a ResultSet X amount of
          * times.
@@ -533,14 +540,14 @@ public final class Database {
 
     private Timestamp getFirstTimeEntryInDatabase(String uniqueId) throws SQLException {
 
-        String query = "SELECT dateCreated FROM dynamic WHERE uniqueId = ?";
+        String query = "SELECT dateCreated FROM fusedTrackData WHERE uniqueId = ?";
 
         PreparedStatement statement = conn.prepareStatement(query);
         statement.setString(1, uniqueId);
         ResultSet result = statement.executeQuery();
 
 
-        //iterate through the dynamic results, create a new source object
+        //iterate through the fusedTrackData results, create a new source object
         //and all it to the Source array which will be returned to the
         //requesting module.
         while (result.next()) {
@@ -592,8 +599,8 @@ public final class Database {
         if (startingTimeStamp.before(firstEntry)) {
             startingTimeStamp = firstEntry;
         }
-        //String dynamicQuery = "SELECT * FROM dynamic WHERE (dateCreated BETWEEN ? AND ?) AND (uniqueId = ?)";
-        String dynamicQuery = "SELECT * FROM dynamic WHERE (dateCreated BETWEEN ? AND ?) AND (uniqueId = ?)";
+        //String dynamicQuery = "SELECT * FROM fusedTrackData WHERE (dateCreated BETWEEN ? AND ?) AND (uniqueId = ?)";
+        String dynamicQuery = "SELECT * FROM fusedTrackData WHERE (dateCreated BETWEEN ? AND ?) AND (uniqueId = ?)";
         PreparedStatement statement = conn.prepareStatement(dynamicQuery);
         statement.setTimestamp(1, endingTimeStamp);
         statement.setTimestamp(2, startingTimeStamp);
@@ -601,7 +608,7 @@ public final class Database {
         ResultSet dynamicResults = statement.executeQuery();
 
 
-        //iterate through the dynamic results, create a new source object
+        //iterate through the fusedTrackData results, create a new source object
         //and all it to the Source array which will be returned to the
         //requesting module.
         while (dynamicResults.next()) {
@@ -663,7 +670,7 @@ public final class Database {
         Source staticSource = getStaticInformation(uniqueId);
 
         /**
-         * Fetch the Dynamic Information.
+         * Fetch the fusedTrackData Information.
          */
         Timestamp fromTimeStamp = new Timestamp(fromTime);
         Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
@@ -672,7 +679,7 @@ public final class Database {
             fromTimeStamp = firstEntry;
         }
 
-        String dynamicQuery = "SELECT * FROM dynamic WHERE dateCreated BETWEEN ? AND ? AND uniqueId = ?";
+        String dynamicQuery = "SELECT * FROM fusedTrackData WHERE dateCreated BETWEEN ? AND ? AND uniqueId = ?";
         PreparedStatement statement = conn.prepareStatement(dynamicQuery);
         statement.setTimestamp(1, currentTimeStamp);
         statement.setTimestamp(2, fromTimeStamp);
@@ -682,7 +689,7 @@ public final class Database {
 
         ArrayList<Source> resultArray = new ArrayList<Source>();
 
-        //iterate through the dynamic results, create a new source object
+        //iterate through the fusedTrackData results, create a new source object
         //and all it to the Source array which will be returned to the
         //requesting module.
         while (dynamicResults.next()) {

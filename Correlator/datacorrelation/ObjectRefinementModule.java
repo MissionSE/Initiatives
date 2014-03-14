@@ -177,8 +177,6 @@ public class ObjectRefinementModule {
                 temp.setErrorX(measurements[i].getErrorX());
                 temp.setErrorY(measurements[i].getErrorY());
                 temp.setErrorZ(measurements[i].getErrorZ());
-                System.out.println("orm i= " + i); 
-                System.out.println("temp= " + temp);
                 tempStateVector.plusEquals(computeCorrectionPhase(temp));
                 
             }
@@ -211,7 +209,7 @@ public class ObjectRefinementModule {
         try {
             //Send to math Functions and output and database
             //Send updatedSource to           
-            db.updateBuilder(updatedSource);            
+            db.updateSystemBuilder(updatedSource);            
             //analysisModule.setSource(updatedSource);
         } catch (SQLException ex) {
             Logger.getLogger(ObjectRefinementModule.class.getName()).log(Level.SEVERE, null, ex);

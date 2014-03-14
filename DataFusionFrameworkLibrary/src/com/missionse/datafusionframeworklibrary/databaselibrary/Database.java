@@ -1,4 +1,4 @@
-package com.missionse.datafusionframeworklibrary.database;
+package com.missionse.datafusionframeworklibrary.databaselibrary;
 
 /**
  * @Class Database.java
@@ -29,8 +29,6 @@ package com.missionse.datafusionframeworklibrary.database;
  */
 import java.sql.*;
 import java.util.ArrayList;
-
-import com.missionse.datafusionframeworklibrary.Source;
 
 public final class Database implements DatabaseAccessor {
 

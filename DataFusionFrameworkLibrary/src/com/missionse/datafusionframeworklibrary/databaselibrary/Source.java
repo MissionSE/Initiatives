@@ -1,4 +1,4 @@
-package datacorrelation;
+package com.missionse.datafusionframeworklibrary.databaselibrary;
 
 public class Source {
 
@@ -310,7 +310,8 @@ public class Source {
      */
     public void update(String[] data)
     {
-	//Index starts at 1 and goes until all variables have been accounted for.
+
+    	//Index starts at 1 and goes until all variables have been accounted for.
 	int index = 1;
 
 	//For each item, it checks to see if valid data for it exists and assigns it.

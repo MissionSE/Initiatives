@@ -1,6 +1,8 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
+
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /*
  * The CommonFieldParser is used to correlate a list of sources into one source.
@@ -16,10 +18,10 @@ public class CommonFieldParser
      * This is the method that recieves and oversees all steps of the correlating algorithm.
      * At the end, it will return the correlated source.
      */
-    public Source correlateSources(ArrayList<Source> sources)
+    public Source correlateSources(ArrayList<Source> sources, String id)
     {
 	//All correlated sources in the program are created with a identification of 3CS.
-	Source correlated = new Source("3CS");
+	Source correlated = new Source(id);
 	//Create storage for unused sources during steps of the correlation process.
 	ArrayList<Source> unused = new ArrayList<Source>();
 

@@ -1,4 +1,4 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 /** Eigenvalues and eigenvectors of a real matrix.
 <P>

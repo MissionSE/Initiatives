@@ -1,4 +1,4 @@
-package com.missionse.datafusionframeworklibrary.database;
+package com.missionse.datafusionframeworklibrary.databaselibrary;
 
 public interface DatabaseAccessor {
 
