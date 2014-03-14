@@ -11,12 +11,10 @@ package com.missionse.datafusionframeworklibrary;
 public class FinalDriver {
 
     static PacketReceiver packetReceiver = new PacketReceiver();
-    // First source will be sent to packetReceiver
+    // First source will be sent to packetReceiver   
     static Source source1;
     // Second source will be sent to packetReceiver
     static Source source2;
-    // Second source will be sent to packetReceiver
-    static Source source3;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -33,9 +31,6 @@ public class FinalDriver {
         source2 = new Source("2", "platform", "category", 1, 0.3, 0.2, 99,
                 99, 99, 0.3, .2, .1, 40, 41.99422, -119.305333, .1, 2500, 0.2);
 
-        source3 = new Source("3", "platform", "category", 1, 0.3, 0.25, 99,
-                99, 99, 0.3, .3, .1, 40, 41.99420, -119.305338, .1, 2500, 0.2);
-        
         //source1.setPositionLatitude(0.0);
         //source1.setPositionLongitude(0.0);
 
@@ -50,6 +45,9 @@ public class FinalDriver {
 //        source1 = new DriverSource("1", 41.94417, -119.305344, 2500.00);
 //        source2 = new DriverSource("2", 41.94424, -119.305366, 2500.00);
 
+        packetReceiver.recievePacket(source1.toString(),"3CS");
+        packetReceiver.recievePacket(source2.toString(),"3CS");
+
         int counter = 0;
         
         while (true) {
@@ -62,12 +60,8 @@ public class FinalDriver {
                 source2.setPositionLatitude(source2.getPositionLatitude() + .6);
                 source2.setPositionLongitude(source2.getPositionLongitude() + .6);
 
-                source3.setPositionLatitude(source3.getPositionLatitude() + .6);
-                source3.setPositionLongitude(source3.getPositionLongitude() + .6);
-
-                packetReceiver.recievePacket(source1.toString());
-                packetReceiver.recievePacket(source2.toString());
-                packetReceiver.recievePacket(source3.toString());
+                packetReceiver.recievePacket(source1.toString(),"3CS");
+                packetReceiver.recievePacket(source2.toString(),"3CS");
 
                 counter++;
 

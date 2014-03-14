@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import database.Database;
-
 /** <p>Object Refinement Module receives a new measurement source, and attempts to
  *  apply it to the currently tracked state object. A Kalman filter is used
  *  to approximate the target object, through multiple sensors.
@@ -179,8 +177,6 @@ public class ObjectRefinementModule {
                 temp.setErrorX(measurements[i].getErrorX());
                 temp.setErrorY(measurements[i].getErrorY());
                 temp.setErrorZ(measurements[i].getErrorZ());
-                System.out.println("orm i= " + i); 
-                System.out.println("temp= " + temp);
                 tempStateVector.plusEquals(computeCorrectionPhase(temp));
                 
             }
@@ -213,7 +209,7 @@ public class ObjectRefinementModule {
         try {
             //Send to math Functions and output and database
             //Send updatedSource to           
-            db.updateBuilder(updatedSource);            
+            db.updateSystemBuilder(updatedSource);            
             //analysisModule.setSource(updatedSource);
         } catch (SQLException ex) {
             Logger.getLogger(ObjectRefinementModule.class.getName()).log(Level.SEVERE, null, ex);
