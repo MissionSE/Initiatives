@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /*
@@ -96,14 +97,14 @@ public class PacketReceiver
      * The string track category of what the sensor is sensing, depending on the track type,
      * The level of fuel remaining for what the sensor is sensing"
      */
-    public void recievePacket(String data, String systemId)
+    public void recievePacket(String data)
     {
         
 	//Parse the data into an array of Strings, deliminated by commas.
         String[] parsedData = data.split(",", -1);
 
         System.out.println("receivePacket data: "+data);
-        System.out.println("receivePacket systemId: "+systemId);
+
         /*
 	 * If the amount of given data does not match up with the amount of data this program uses
 	 * to represent sources or if the data does not contain an unique identifier, something has
@@ -134,10 +135,10 @@ public class PacketReceiver
         toUpdate.update(parsedData);
 
 	//Correlate all observed data into a correlated source.
-        Source correlated = cs.correlateSources(toUpdate, systemId, sources);
+        Source correlated = cs.correlateSources(toUpdate, sources);
 
 	//Send off the newly updated source and the correlated one to the rest of the program.
-	    sendUpdates(toUpdate, correlated, systemId);
+	    sendUpdates(toUpdate, correlated);
     }
 
     /*
@@ -174,7 +175,7 @@ public class PacketReceiver
      * Once this class has done everything it needs to do, this method allows it to send off data to
      * other sections of the program.
      */
-    private void sendUpdates(Source toUpdate, Source correlated, String systemId)
+    private void sendUpdates(Source toUpdate, Source correlated)
     {
 	//Here the newly updated source and the correlated source are sent to be saved by the Database.
 	try
@@ -187,7 +188,7 @@ public class PacketReceiver
 	catch(Exception e)
 	{}
 
-	psd.packSupportingData(toUpdate, correlated, systemId, sources);
+	psd.packSupportingData(toUpdate, correlated, sources);
     }
 
 }

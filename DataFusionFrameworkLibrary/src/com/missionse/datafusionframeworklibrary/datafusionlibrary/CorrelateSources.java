@@ -19,7 +19,7 @@ public class CorrelateSources
 	 * and send off the list to be correlated by the CommonFieldParser. It will return the correlated
 	 * source that is returned by the parser.
 	 */
-	public Source correlateSources(Source toUpdate, String systemId, ArrayList<Source> sources)
+	public Source correlateSources(Source toUpdate, ArrayList<Source> sources)
 	{
 		if(sources.size() == 1)
 		{

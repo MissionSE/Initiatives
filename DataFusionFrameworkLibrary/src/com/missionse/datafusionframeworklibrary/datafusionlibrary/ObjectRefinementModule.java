@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /** <p>Object Refinement Module receives a new measurement source, and attempts to

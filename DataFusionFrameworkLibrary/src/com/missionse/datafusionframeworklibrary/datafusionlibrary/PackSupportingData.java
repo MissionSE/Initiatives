@@ -2,6 +2,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 public class PackSupportingData {
@@ -21,7 +22,7 @@ public class PackSupportingData {
      * Once this class has done everything it needs to do, this method allows it to send off data to
      * other sections of the program.
      */
-    public void packSupportingData(Source toUpdate, Source correlated, String systemId, ArrayList<Source> sources)
+    public void packSupportingData(Source toUpdate, Source correlated, ArrayList<Source> sources)
     {
 
 	//Checks to see if the ObjectRefinementModule has been hooked up yet.

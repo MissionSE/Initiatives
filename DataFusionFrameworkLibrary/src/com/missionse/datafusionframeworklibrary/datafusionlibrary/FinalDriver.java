@@ -47,8 +47,8 @@ public class FinalDriver {
 //        source1 = new DriverSource("1", 41.94417, -119.305344, 2500.00);
 //        source2 = new DriverSource("2", 41.94424, -119.305366, 2500.00);
 
-        packetReceiver.recievePacket(source1.toString(),"3CS");
-        packetReceiver.recievePacket(source2.toString(),"3CS");
+        packetReceiver.recievePacket(source1.toString());
+        packetReceiver.recievePacket(source2.toString());
 
         int counter = 0;
         
@@ -62,8 +62,8 @@ public class FinalDriver {
                 source2.setPositionLatitude(source2.getPositionLatitude() + .6);
                 source2.setPositionLongitude(source2.getPositionLongitude() + .6);
 
-                packetReceiver.recievePacket(source1.toString(),"3CS");
-                packetReceiver.recievePacket(source2.toString(),"3CS");
+                packetReceiver.recievePacket(source1.toString());
+                packetReceiver.recievePacket(source2.toString());
 
                 counter++;
 
