@@ -1,0 +1,57 @@
+package com.mse.trackhooknotifier;
+
+import com.solipsys.system.Environment;
+import com.solipsys.system.Environment.DynamicModule;
+
+import com.solipsys.context.ContextConstants;
+import com.solipsys.context.ContextUtil;
+
+import com.solipsys.view.View;
+import com.solipsys.view.event.ViewMechanicsEvent;
+import com.solipsys.view.event.ViewMechanicsListener;
+
+public class TrackHookViewManager 
+    implements DynamicModule {
+
+    protected String name="TrackHookViewManager";
+    protected Object state = UNINITIALIZED;
+
+    public TrackHookViewManager() { 
+	System.out.println("TrackHookViewManager - Constructed");
+    }
+    public void destroy() {
+	System.out.println("Destroying" + name);
+	state = DESTROYED;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public Object getState() {
+	return state;
+    }
+
+    public void init(Environment arg0) {
+	System.out.println("Initializing " + name);
+    }
+
+    public void start() {
+	System.out.println("Starting " + name);
+	String v = (String) ContextConstants.VIEW;
+	if (v != null) {
+	    System.out.println("Found a view named: " + v);
+	}
+	else {
+
+	    System.out.println("No view view found");
+	}
+	state = STARTED;
+    }
+
+    public void stop() {
+	System.out.println("Stopping " + name);
+	state = STOPPED;
+    }
+  
+}
