@@ -1,4 +1,4 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 /** QR Decomposition.
 <P>

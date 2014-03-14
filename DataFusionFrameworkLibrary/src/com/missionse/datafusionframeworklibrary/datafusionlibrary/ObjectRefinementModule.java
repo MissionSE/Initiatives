@@ -1,8 +1,10 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /** <p>Object Refinement Module receives a new measurement source, and attempts to
  *  apply it to the currently tracked state object. A Kalman filter is used

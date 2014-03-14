@@ -1,9 +1,11 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /*
  * Class PacketReciever is the main input class for this program. It takes in packets of data

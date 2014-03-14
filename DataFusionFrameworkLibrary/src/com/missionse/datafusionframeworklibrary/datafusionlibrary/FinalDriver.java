@@ -2,7 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
+
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /**
  *

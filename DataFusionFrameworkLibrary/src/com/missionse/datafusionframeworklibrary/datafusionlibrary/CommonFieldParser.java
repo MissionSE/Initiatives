@@ -1,6 +1,8 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
+
+import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
 /*
  * The CommonFieldParser is used to correlate a list of sources into one source.

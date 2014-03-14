@@ -1,4 +1,4 @@
-package com.missionse.datafusionframeworklibrary;
+package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 public class Maths {
    /** sqrt(a^2 + b^2) without under/overflow. **/
