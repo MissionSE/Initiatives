@@ -136,6 +136,36 @@
         //Move window location
         myWindow.moveTo(1050,0);      
       }
+
+      function modifyTrack() {
+        var width = 250;
+        var height = 350;
+        var myWindow = window.open("modifyTrack.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+ 
+      function dropTrack() {
+        var width = 250;
+        var height = 350; 
+        var myWindow = window.open("dropTrack.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+
+      function addTrackRing() {
+        var width = 250;
+        var height = 500; 
+        var myWindow = window.open("addTrackRing.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
     </script>
   </head>
   
@@ -158,19 +188,23 @@
       </h4>
       <hr>
       <br />
-        <button id="resettracks" class="button" onclick="resetTracks()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Reset Track Positions</button>
-      <br />
-      <br />
-        <button id="tracksummary" class="button" onclick="trackSummary()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Track Summary</button>
-      <br />
-      <br />
-        <button id="hookbytn" class="button" disabled="disabled" onclick="hookByTn()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Hook By TN</button>
-      <br />
-      <br />
-        <button id="global" class="button" onclick="globalTrackControl()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Global Track Control</button>
-      <br />
-      <br />
-        <button id="addtrack" class="button" onclick="addTrack()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0);}>Add Track</button>
+      <div id=buttons>
+        <button id="resettracks" class="button" onclick="resetTracks()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Reset Track Positions</button>
+        <br />
+        <button id="tracksummary" class="button" onclick="trackSummary()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Track Summary</button>
+        <br />
+        <button id="hookbytn" class="button" disabled="disabled" onclick="hookByTn()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Hook By TN</button>
+        <br />
+        <button id="global" class="button" onclick="globalTrackControl()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Global Track Control</button>
+        <br />
+        <button id="addtrack" class="button" onclick="addTrack()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Add Track</button>
+        <br />
+        <button id="trackring" class="button" onclick="addTrackRing()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Add Track Ring</button>
+        <br />
+        <button id="modifytrack" class="button" onclick="modifyTrack()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Modify Track</button>
+        <br />
+        <button id="droptrack" class="button" onclick="dropTrack()" style={border:medium; color:rgb(0,0,153); background-color:rgb(255,204,0); float:left;}>Drop Track</button>
+      </div>
     </div>
   </body>
 </html>

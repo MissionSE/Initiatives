@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drop Track</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var blank = ".....";
+      var trackNum;
+      
+      function getTrackNumber() {
+        var temp = document.getElementById("number");
+        trackNum = temp.options[temp.selectedIndex].value;
+        console.log("getTrackNumber selected track "+trackNum);
+        if (blank != trackNum) {
+          document.getElementById("dropTrack").disabled = false;
+        }
+      }
+      
+      function setTrackNumber(value) {
+        trackNum = value;
+        var element = document.getElementById("number");
+        var temp = document.createElement("option");
+        temp.text = trackNum;
+        element.add(temp);
+        console.log("trackNum = "+trackNum);
+      }
+      
+      function dropTrack() {
+        //Post data to database
+        var url = "dropTrack.php";
+        $.post(url, {num:trackNum}, function(data) {
+          console.log("dropTrack.php returned "+data);
+
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-14)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"drop track",data1:trackNum,data2:null,data3:null}, function(data) {
+          });
+
+          //Update option menu with new list of track IDs
+          init();
+        });
+      }
+      
+      function getTrackIDs() {
+        //Get list of track numbers to populate option menu
+        var url = "getTrackIDs.php";
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            setTrackNumber(value.trackNum);
+          });
+        });
+      }
+
+      function init() {
+        console.log("init");
+        document.getElementById("number").options.length = 0;
+        setTrackNumber(blank);
+        getTrackIDs();
+      }
+      </script>
+    </script>
+  </head>
+  
+  <body onload=init()>
+    <div>
+      <h3>Track Number</h3>
+      <select name="number" id="number" class="select" onchange=getTrackNumber()>
+      </select>
+      <hr>
+      <input id=dropTrack type="button" class="button" value="Drop Track" disabled="disabled" onclick=dropTrack()>
+    </div>
+  </body>
+</html>

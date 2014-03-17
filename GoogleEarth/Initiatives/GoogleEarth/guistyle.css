@@ -1,0 +1,49 @@
+html, body {
+  margin: 0px;
+  background: rgb(0,0,153);
+}
+h1, h2 {
+  font-style: normal;
+  text-align: center;
+  color:rgb(255,204,0);
+}
+h3, h4, h5, h6 {
+  font-style: normal;
+  color:rgb(255,204,0);
+}
+.button {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);
+}
+.number {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);
+}
+.textarea {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);
+}
+
+.select {
+  border:medium;
+  color:rgb(0,0,153);
+  background-color:rgb(255,204,0);  
+}
+
+input {
+  font-style: normal;
+  background: rgb(255,204,0);
+}
+
+input[type='range'] {
+    -webkit-appearance: none;
+    background:rgb(255,204,0);
+    height:10px;
+    width:75px;
+    border-radius: 1px;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.6);
+}
+

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Track</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var blank = ".....";
+      var trackID = null;
+      var trackPlat = null;
+      var trackLat = null;
+      var trackLon = null;
+      var trackAlt = null;
+      var trackCat = null;
+      var trackCrs = null;
+      var trackSpd = null;
+      var tag = null;
+      var locationsInterval;
+      
+      function trackIdentity() {
+        var temp = document.getElementById("id");
+        trackID = temp.options[temp.selectedIndex].value;
+        console.log("trackID = "+trackID);
+      }
+      
+      function trackPlatform() {
+        var temp = document.getElementById("platform");
+        trackPlat = temp.options[temp.selectedIndex].value;
+        console.log("trackPlat = "+trackPlat);
+      }
+      
+      function trackLatitude() {
+        trackLat =  document.getElementById("latitude").value;
+        console.log("trackLat = "+trackLat);
+      }
+      
+      function trackLongitude() {
+        trackLon = document.getElementById("longitude").value;
+        console.log("trackLon = "+trackLon);
+      }
+      
+      function trackAltitude() {
+        trackAlt =  document.getElementById("altitude").value;
+        console.log("trackAlt = "+trackAlt);
+      }
+      
+      function trackCategory() {
+        var temp = document.getElementById("category");
+        trackCat = temp.options[temp.selectedIndex].value;
+        console.log("trackCat = "+trackCat);
+      }
+      
+      function trackCourse() {
+        trackCrs = document.getElementById("course").value;
+        console.log("trackCrs = "+trackCrs);
+      }
+      
+      function trackSpeed() {
+        trackSpd = document.getElementById("speed").value;
+        console.log("trackSpd = "+trackSpd);
+      }
+      
+      function trackTag() {
+        tag = document.getElementById("tag").value;
+        console.log("tag = "+tag);
+      }
+      
+      function addTrack() {
+        var valid = true;
+
+        //All fields but tag are mandatory
+        if (null == trackID) {
+          alert("track identity entry mandatory");
+          valid = false;
+          document.getElementById("id").focus();
+        }
+        else if (null == trackPlat) {
+          alert("track platform entry mandatory");
+          valid = false;
+          document.getElementById("platform").focus();
+        }
+        else if (null == trackLat) {
+          alert("track latitude entry mandatory");
+          valid = false;
+          document.getElementById("latitude").focus();
+        }
+        else if (null == trackLon) {
+          alert("track longitude entry mandatory");
+          valid = false;
+          document.getElementById("longitude").focus();
+        }
+        else if (null == trackAlt) {
+          alert("track altitude entry mandatory");
+          valid = false;
+          document.getElementById("altitude").focus();
+        }
+        else if (null == trackCat) {
+          alert("track category entry mandatory");
+          valid = false;
+          document.getElementById("category").focus();
+        }
+        else if (null == trackCrs) {
+          alert("track course entry mandatory");
+          valid = false;
+          document.getElementById("course").focus();
+        }
+        else if (null == trackSpd) {
+          alert("track speed entry mandatory");
+          valid = false;
+          document.getElementById("speed").focus();
+        }
+        
+        if (true == valid) {
+          console.log("addTrack all checks passed");
+          //Post data to database
+          var url = "addTrack.php";
+          $.post(url, {id:trackID,platform:trackPlat,lat:trackLat,lon:trackLon,alt:trackAlt,cat:trackCat,crs:trackCrs,spd:trackSpd,tag:tag}, function(data) {
+            console.log("addTracks.php returned "+data);
+            if (data == 1) {
+              //Clear fields upon success
+              clearFields();
+            }
+          });
+        }
+      }
+      
+      function getTrackIdentities() {
+        var url = "getTrackIdentities.php";
+        var element = document.getElementById("id");
+        var temp = document.createElement("option");
+        temp.text = blank;
+        element.add(temp);
+        
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var option = document.createElement("option");
+            option.text = value.name;
+            element.add(option);
+          });        
+        });
+      }
+      
+      function getTrackPlatforms() {
+        var url = "getTrackPlatforms.php";
+        var element = document.getElementById("platform");
+        var temp = document.createElement("option");
+        temp.text = blank;
+        element.add(temp);
+        
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var option = document.createElement("option");
+            option.text = value.name;
+            element.add(option);
+          });        
+        });
+      }
+      
+      function getTrackCategories() {
+        var url = "getTrackCategories.php";
+        var element = document.getElementById("category");
+        var temp = document.createElement("option");
+        temp.text = blank;
+        element.add(temp);
+        
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var option = document.createElement("option");
+            option.text = value.name;
+            element.add(option);
+          });        
+        });
+      }
+      
+      function captureBalltab() {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-13)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"capture balltab",data1:null,data2:null,data3:null}, function(data) {
+        });
+        
+        //Start periodic
+        locationsInterval = setInterval(function(){checkForLocations()},1000);
+      }
+      
+      function checkForLocations() {
+        var url = "getClickLocations.php";
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            trackLat = value.latitude;
+            trackLon = value.longitude;
+            document.getElementById("latitude").value = trackLat;
+            document.getElementById("longitude").value = trackLon;
+            var url = "deleteClickLocations.php";
+            $.post(url, {}, function(data) {
+              console.log("deleteClickLocation returned "+data);
+            });
+  
+            //Stop the periodic
+            clearInterval(locationsInterval);
+          });
+          
+        });
+      }
+
+      function clearFields() {
+      }
+
+      function init() {
+        console.log("init");
+        //Populate the option menus from the database
+        getTrackIdentities();
+        
+        getTrackPlatforms();
+        
+        getTrackCategories();
+      }
+      </script>
+    </script>
+  </head>
+  
+  <body onload=init()>
+    <div id = offset>
+      <h3>Track Identity</h3>
+      <select name="id" id="id" class="select" onchange=trackIdentity()>
+      </select>
+      <h3>Track Platform</h3>
+      <select name="platform" id="platform" class="select" onchange=trackPlatform()>
+      </select>
+      <br />
+      <br />
+      <input id=hookTn type="button" class="button" value="Capture Balltab" onclick=captureBalltab()>
+      <h3>Track Latitude</h3>
+      <textarea id=latitude class="textarea" placeholder="xxx" onblur=trackLatitude()></textarea>
+      <h3>Track Longitude</h3>
+      <textarea id=longitude class="textarea" placeholder="xxx" onblur=trackLongitude()></textarea>
+      <h3>Track Altitude</h3>
+      <textarea id=altitude class="textarea" placeholder="xxx" onblur=trackAltitude()></textarea>
+      <h3>Track Categories</h3>
+      <select name="category" id="category" class="select" onchange=trackCategory()>
+      </select>
+      <h3>Track Course</h3>
+      <textarea id=course class="textarea" placeholder="xxx" onblur=trackCourse()></textarea>
+      <h3>Track Speed</h3>
+      <textarea id=speed class="textarea" placeholder="xxx" onblur=trackSpeed()></textarea>
+      <h3>Track Tag</h3>
+      <textarea id=tag class="textarea" placeholder="xxx" onblur=trackTag()></textarea>
+      <hr>
+      <input type="button" class="button" value="Add Track" onclick=addTrack()>
+    </div>
+  </body>
+</html>

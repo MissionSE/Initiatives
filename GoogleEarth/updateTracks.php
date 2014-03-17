@@ -10,8 +10,6 @@ $selectQuery = "SELECT trackNum,trackLat,trackLon,trackAlt,trackCourse,trackSpee
 
 $selectResult = mysql_query($selectQuery) or die('Sorry, could not find any tracks');
 
-$delta = 0.1;
-
 while($row = mysql_fetch_array($selectResult, MYSQL_ASSOC)) {
 
     $trackNum = $row['trackNum'];
@@ -25,17 +23,7 @@ while($row = mysql_fetch_array($selectResult, MYSQL_ASSOC)) {
     $trackCourse = $row['trackCourse'];
     
     $trackSpeed = $row['trackSpeed'];
-    
-    //Flip the track course into opposite direction
-    //if ("true" == $incrementVar) {
-    //    if ($trackCourse < 180) {
-    //        $trackCourse = $trackCourse + 180;    
-    //    }
-    //    else {
-    //        $trackCourse = $trackCourse - 180;
-    //    }
-    //}
-    
+        
     //Determine R in meters based on speed
     //R = xxx mi/hr x 1609.333 m/mi x 1/1800 hr/2sec
     $R = $trackSpeed * 1609.333 * (1/1800);

@@ -3,6 +3,19 @@
 <head>
     <title>Google Earth</title>
     <link rel="stylesheet" href="style.css" type="text/css"/>
+    <style type="text/css">
+        #progress-container {
+            width: 1300px;
+            height: 3px;
+            background-color: #009;
+        }
+
+        #progress-bar {
+            width: 250px;
+            height: 3px;
+            background-color: white;
+        } 
+    </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
@@ -14,6 +27,7 @@
         var bordersOn = false;
         var insetMap = false;
         var tracksDisplayed = false;
+        var tracksCreated = false;
         var csedsTour = false;
         var drawLine=false;
         var ownshipSymbol=false;
@@ -91,9 +105,13 @@
         var hookPlacemark=null;
         var trackUpdateInterval;
         var closeControlInterval;
+        var newTrackInterval;
         var viewRangeSet = false;
         var tracksTagsDisplayed = false;
         var trackSymbolScale = 1.0;
+        var lastTrackID = 0;
+        var captureBalltabMode = false;
+        var compassKmlObject;
 
         console.log("calling google.load");
         google.load("earth", "1", {"other_params":"sensor=false"});
@@ -114,10 +132,6 @@
             
             createViewLookAt(csedsLat,csedsLon);
 
-            createOwnship();
-            
-            createTracks();
-            
             addMouseMoveListener();
             
             addMouseClickListener();
@@ -126,7 +140,7 @@
 
             geocoder = new google.maps.Geocoder();            
 
-            // Update streaming progress every 100ms
+            // Update streaming progress every 250ms
             setInterval(function() {
                 var streamingPercent = ge.getStreamingPercent();
                 var progressBar = document.getElementById('progress-bar');
@@ -141,7 +155,7 @@
                     progressBar.style.backgroundColor = '#c00';
                     progressBar.style.width = (250 * streamingPercent / 100) + 'px';
                 }
-            }, 100);
+            }, 250);
             
             setInterval(function(){getRemoteCommands()},500);
         }
@@ -267,6 +281,7 @@
                         speed:value.trackSpeed,
                         id:value.trackIdentity,
                         tag:value.trackTag,
+                        placemark:os
                     };
                     
                     //Add the track object to the array
@@ -309,9 +324,6 @@
                 var url = "getTracks.php";
     
                 $.post(url, {}, function(data) {
-                    //Get the list of child nodes from Google Earth
-                    var children = ge.getFeatures().getChildNodes();
-
                     $.each(data,function(key,value) {
                         var trackNumber;
                         if (typeof value.trackNum == "number") {
@@ -341,7 +353,6 @@
                             }
     
                             // Create point
-                            var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
                             var point = ge.createPoint('');
                             point.setLatitude(lat);
                             point.setLongitude(lon);
@@ -354,6 +365,13 @@
                                 if (trackSymbolScale != style.getScale()) {
                                     style.setScale(trackSymbolScale);
                                 }
+
+                                //Set track symbol
+                                var icon = style.getIcon();
+                                //Determine the symbol based on category and platform
+                                icon.setHref(getTrackSymbol(value.trackCategory,
+                                                            value.trackIdentity,
+                                                            value.trackPlatform));
                             }
                             
                             //Offset to track if enabled
@@ -368,6 +386,113 @@
                     trackUpdateNum++;
                 });            
             }
+        }
+        
+        function checkForNewTracks() {
+            var url = "getTracks.php";
+
+            $.post(url, {}, function(data) {
+                $.each(data,function(key,value) {
+                    var trackNumber;
+                    if (typeof value.trackNum == "number") {
+                        trackNumber = parseInt(value.trackNum);
+                    }
+                    else {
+                        trackNumber = value.trackNum;
+                    }
+                    lastTrackID = trackNumber;
+                    var child = getChildForId(trackNumber);
+                    if (null == child) {
+                        //Found a new track
+                        //console.log("checkForNewTracks found new track "+trackNumber);
+                        //var index = value.trackNum-1;
+                        var track = ge.createPlacemark(trackNumber);
+
+                        //Add the placemark to the trackPlacemarks array
+                        trackPlacemarks.push(track);
+
+                        ge.getFeatures().appendChild(track);
+                        var icon = ge.createIcon('');
+
+                        //Determine the symbol based on category and platform
+                        icon.setHref(getTrackSymbol(value.trackCategory,
+                                                    value.trackIdentity,
+                                                    value.trackPlatform));
+
+                        var style = ge.createStyle('');
+                        style.getIconStyle().setIcon(icon);
+                        style.getIconStyle().setScale(trackSymbolScale);
+                        track.setStyleSelector(style);
+
+                        latStr = value.trackLat;
+                        lonStr = value.trackLon;
+
+                        if (typeof latStr == "string") {
+                                lat = parseFloat(latStr);
+                            }
+                            else {
+                                lat = latStr;
+                            }
+                    
+                            if (typeof lonStr == "string") {
+                                lon = parseFloat(lonStr);
+                            }
+                            else {
+                                lon = lonStr;
+                            }
+                        
+                        //Store the track information in an object
+                        var trackObj = {
+                            tn:value.trackNum,
+                            lat:lat,
+                            lon:lon,
+                            altitude:value.trackAlt,
+                            course:value.trackCourse,
+                            speed:value.trackSpeed,
+                            id:value.trackIdentity,
+                            tag:value.trackTag,
+                            placemark:track
+                        };
+                        
+                        //Add the track object to the array
+                        trackData.push(trackObj);
+                        
+                        // Create point
+                        var point = ge.createPoint('');
+                        point.setLatitude(lat);
+                        point.setLongitude(lon);
+                        //console.log("checkForNewTracks tn = "+value.trackNum+" tag = "+value.trackTag);
+                        track.setGeometry(point);
+
+                        // event listeners can use any functions, even anonymous functions
+                        google.earth.addEventListener(track, 'click', function(event) {
+                            var text = '';
+                        
+                            function addToMessage(append1, append2) { 
+                                text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
+                            }
+                        
+                            var trackID = event.getCurrentTarget().getId()-1;
+                        
+                            priHookedTrackId = event.getCurrentTarget().getId();
+                            
+                            //addToMessage("Placemark Name",trackPlacemarks[trackID].getName());
+                            addToMessage('Track ID', trackData[trackID].tn);
+                            addToMessage('latitude', trackData[trackID].lat.toFixed(2));
+                            addToMessage('longitude', trackData[trackID].lon.toFixed(2));
+                            addToMessage('altitude', trackData[trackID].altitude);
+                            addToMessage('course', trackData[trackID].course);
+                            addToMessage('speed', trackData[trackID].speed);
+                            addToMessage('id', trackData[trackID].id);
+                        
+                            // Prevent default balloon from popping up for marker placemarks
+                            event.preventDefault(); 
+                        
+                            document.getElementById('close-control').innerHTML = text;
+                        });
+                    }
+                });
+            });
         }
         
         function createHookSymbol(centerLat, centerLng, radius) {
@@ -440,7 +565,7 @@
                                 lon = lonStr;
                             }
                                
-                            console.log("updateCloseControl track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse);
+                            //console.log("updateCloseControl track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse);
                             text+='Track ID'+ ': ' +value.trackNum+'\n<br />';
                             text+='latitude'+ ': ' +lat.toFixed(2)+'\n<br />';
                             text+='longitude'+ ': ' +lon.toFixed(2)+'\n<br />';
@@ -454,18 +579,25 @@
 
                             deleteHookSymbol();
                             
-                            createHookSymbol(lat,lon,0.35);
+                            createHookSymbol(lat,lon,0.45);
 
                         }
                     });
                 });            
             }
+            //else {
+            //    document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";
+            //}
         }
         
         function getChildForId(id) {
             var children = ge.getFeatures().getChildNodes();
+            var end = children.getLength();
+            if (end > MAX_TRACK_ID) {
+                end = MAX_TRACK_ID;  
+            }
     
-            for(var i = 0; i < children.getLength(); i++) { 
+            for(var i = 0; i < end; i++) { 
                 var child = children.item(i);
         
                 if(child.getId() == id) {
@@ -489,8 +621,17 @@
                 console.log("createTracks data.length = "+data.length);
                 $.each(data,function(key,value) {
                     if (value.trackNum > 1) {
-                        var index = value.trackNum-1;
-                        var track = ge.createPlacemark(value.trackNum.toString());
+                        //var index = value.trackNum-1;
+                        //lastTrackID = value.trackNum;
+                        //console.log("createTracks value.trackNum "+value.trackNum+"value.trackNum.toString "+value.trackNum.toString());
+                        var track;
+                        if (typeof value.trackNum == "string") {
+                            track = ge.createPlacemark(value.trackNum);
+                        }
+                        else {
+                            track = ge.createPlacemark(value.trackNum.toString());                            
+                        }
+                        //var track = ge.createPlacemark(value.trackNum.toString());
 
                         //Add the placemark to the trackPlacemarks array
                         trackPlacemarks.push(track);
@@ -534,7 +675,8 @@
                             course:value.trackCourse,
                             speed:value.trackSpeed,
                             id:value.trackIdentity,
-                            tag:value.trackTag
+                            tag:value.trackTag,
+                            placemark:track
                         };
                         
                         //Add the track object to the array
@@ -674,8 +816,16 @@
                     if (priHookedTrackId != 0) {
                         deleteHookSymbol();
                         priHookedTrackId = 0;
-                        document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";                    
                     }
+                    document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";
+                }
+                
+                if (true == captureBalltabMode) {
+                    console.log("addMouseClickListener captureBalltabMode writing lat = "+event.getLatitude()+" lon = "+event.getLongitude());
+                    //Write the location to database
+                    var url = "writeClickLocations.php";
+                    $.post(url, {lat:event.getLatitude().toFixed(4),lon:event.getLongitude().toFixed(4)}, function(data) {});
+                    captureBalltabMode = false;
                 }
             });
         }
@@ -1252,10 +1402,7 @@
         }
         
         function clearWeather() {
-            var features = ge.getFeatures();
-            while (features.getLastChild() != null) {
-                features.removeChild(features.getLastChild());
-            }
+            clearAllFeatures();
         }
 
         function displayPhiladelphiaWeather() {
@@ -1278,6 +1425,54 @@
             });
         }
         
+        function displayCompassRose() {
+            console.log("displayCompassRose");
+            var href = projectDomain+'CompassTool.kmz';
+            google.earth.fetchKml(ge,href,function(compassKmlObject) {
+                if (compassKmlObject) {
+                    ge.getFeatures().appendChild(compassKmlObject);
+                }
+            });
+        }
+        
+        function clearCompassRose() {
+            console.log("clearCompassRose");
+            clearAllFeatures();
+        }
+        
+        function displayGoogleMap() {
+            var href = projectDomain+'terrain.kml';
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+        
+        function clearGoogleMap() {
+            clearAllFeatures();
+        }
+        
+        function displaySatellite() {
+            var href = projectDomain+'SatelliteDatabase/doc.kml';
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+        
+        function clearSatellite() {
+            clearAllFeatures();
+        }
+        
+        function clearAllFeatures() {
+            var features = ge.getFeatures();
+            while (features.getLastChild() != null) {
+                features.removeChild(features.getLastChild());
+            }            
+        }
+
         function displayWeatherWindow() {
             openWin("Weather Manager","weatherManager.html",200,500,1100,0);
         }
@@ -1295,10 +1490,15 @@
         }
         
         function displayOverlayWindow() {
-            openWin("Overlay Manager","overlayManager.html",200,350,1100,0);
+            openWin("Overlay Manager","overlayManager.html",200,500,1100,0);
         }
 
         function displayTracksWindow() {
+            if (false == tracksCreated) {
+                createOwnship();
+                createTracks();
+                newTrackInterval = setInterval(function(){checkForNewTracks()},5000);
+            }
             openWin("Track Manager","trackManager.html",200,550,1100,0);
         }
 
@@ -1579,6 +1779,15 @@
                     
                     ("range in" == json.value) ? rangeIn() : rangeOut();
                 }
+                else if (json.key == 'compass rose') {
+                    (true == json.value) ? displayCompassRose() : clearCompassRose();
+                }
+                else if (json.key == 'google map') {
+                    (true == json.value) ? displayGoogleMap() : clearGoogleMap();
+                }
+                else if (json.key == 'satellite') {
+                    (true == json.value) ? displaySatellite() : clearSatellite();
+                }
             },false);
         }
         
@@ -1774,6 +1983,76 @@
         function hookByTn(tn) {
             priHookedTrackId = tn;
         }
+        
+        function dropTrack(tn) {
+            console.log("dropTrack tn "+tn);
+            //Remove the placemark for this track
+            var child = getChildForId(tn);
+            if (child != null) {
+                for(var i = trackData.length - 1; i >= 0; i--) {
+                    if(trackData[i].placemark == child) {
+                        console.log("dropTrack found match for tn "+tn+" at index "+i);
+                        trackData.splice(i, 1);
+                    }
+                }
+                ge.getFeatures().removeChild(child);
+                //Drop hook
+                if (priHookedTrackId == tn) {
+                    deleteHookSymbol();
+                    priHookedTrackId = 0;
+                }
+            }            
+        }
+        
+        function addTrackRing() {
+            console.log("addTrackRing");
+            //Get track ring data from database
+            var url = "getTrackRings.php";
+            $.post(url, {}, function(data) {
+                $.each(data,function(key,value) {
+                    //Create ring of tracks
+                    var steps = parseInt(value.numTracks);
+                    var pi2 = Math.PI * 2;
+                    var centerLat = parseFloat(value.latitude);
+                    var centerLon = parseFloat(value.longitude);
+                    var radius = value.radius/50;
+                    console.log("addTrackRing numTracks = "+steps+" centerLat = "+centerLat+" centerLon = "+centerLon+" radius = "+radius+"platform = "+value.platform+" category = "+value.category);
+
+                    for (var i = 0; i < steps; i++) {
+                        //console.log("i = "+i+" (i/steps*pi2) = "+i/steps*pi2+" Math.cos = "+Math.cos(i/steps*pi2));
+                        var lat = centerLat + radius * Math.cos(i / steps * pi2);
+                        var lon = centerLon + radius * Math.sin(i / steps * pi2);
+                        console.log("addTrackRing lat = "+lat+" lon = "+lon);
+                        var course = 180 + (360/steps*i);
+                        if (course > 360) {
+                            course -= 360;
+                        }
+                        lastTrackID++;
+                        var url = "addTrack.php";
+                        $.post(url, {id:value.identity,platform:value.platform,lat:lat,lon:lon,alt:value.altitude,cat:value.category,crs:course,spd:value.speed,tag:""}, function(data) {});
+                    }
+
+                    //Remove item from database
+                    var url = "deleteTrackRings.php";
+                    $.post(url, {}, function(data) {
+                        console.log("deleteTrackRings returned "+data);
+                    });
+                });
+            });
+        }
+
+        function compassRose(value) {
+            console.log("compassRose value = "+value);
+            ("true" == value) ? displayCompassRose() : clearCompassRose();
+        }
+
+        function googleMap(value) {
+            ("true" == value) ? displayGoogleMap() : clearGoogleMap();
+        }
+        
+        function satellite(value) {
+            ("true" == value) ? displaySatellite() : clearSatellite();
+        }
 
         function getRemoteCommands() {
             var url = "getCommands.php";
@@ -1884,6 +2163,24 @@
                     trackSymbolScale = 2.0;
                 }
             }
+            else if ("drop track" == text){
+                dropTrack(data1);
+            }
+            else if ("add track ring" == text) {
+                addTrackRing();
+            }
+            else if ("capture balltab" == text) {
+                captureBalltabMode = true;
+            }
+            else if ("compass rose" == text) {
+                compassRose(data1);
+            }
+            else if ("google map" == text) {
+                googleMap(data1);
+            }
+            else if ("satellite" == text) {
+                satellite(data1);
+            }
         }
 
         function deleteRemoteCommand(commandId) {            
@@ -1912,19 +2209,6 @@
             <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
             <button id="Blank1">Blank</button>
         </div>
-        <style type="text/css">
-            #progress-container {
-                width: 1300px;
-                height: 3px;
-                background-color: #009;
-            }
-    
-            #progress-bar {
-                width: 250px;
-                height: 3px;
-                background-color: white;
-            } 
-        </style>
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
