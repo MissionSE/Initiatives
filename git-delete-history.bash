@@ -1,6 +1,10 @@
 #!/bin/bash
 set -o errexit
  
+# This script did something but when I tried to push to github it failed.  The following website
+# gave me good results.  I don't know if this script was even necessary using the following:
+#  https://help.github.com/articles/remove-sensitive-data
+
 # Author: David Underhill
 # Script to permanently delete files/folders from your git repository.  To use 
 # it, cd to your repository's root and then run the script with a list of paths

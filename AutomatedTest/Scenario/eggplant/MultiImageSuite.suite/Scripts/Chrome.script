@@ -1,51 +1,54 @@
 to start
 	Log "Begin Chrome.start"
-	Click "ImagesForNewMaps/SpotlightSearchIcon"
+	Click "SymLinkForImages/SpotlightSearchIcon"
 	TypeText "Chrome", Return
 	TypeText 
 	
 end start
 
 to openNewWindow
-	Click "ImagesForNewMaps/ChromeFileMenu"
-	Click "ImagesForNewMaps/ChromeNewWindowMenu"
+	Click "SymLinkForImages/ChromeFileMenu"
+	Click "SymLinkForImages/ChromeNewWindowMenu"
 	
 end openNewWindow
 
-to navigateToGoogleMaps
-	TypeText "google.com/maps", Return
-	TypeText "google.com/maps",Return
-	WaitFor 8.0, "ImagesForNewMaps/ChromeSearchBox"
+to navigateToGoogleMaps url
+	TypeText url,Return
+	WaitFor 8.0, "SymLinkForImages/ChromeSearchBox"
+	Click "SymLinkForImages/ChromeSearchBox"
 end navigateToGoogleMaps
 
 to enterWhittendaleDriveAddress
 	TypeText "121 Whittendale Drive, 08057",Return
-	Click "ImagesForNewMaps/ChromeEarthImage"
-	WaitFor 8.0, "ImagesForNewMaps/ChromeWhittendaleDrBuilding"
+	#	WaitFor 8.0, "SymLinkForImages/ChromeWhittendaleDrBuilding"
 end enterWhittendaleDriveAddress
 
 to enterCherryHillMallAddress
-	Click "ImagesForNewMaps/ChromeAddressSearchBox"
+	Click "SymLinkForImages/ChromeSearchBox"
 	TypeText CommandKey,"a"
 	TypeText "cherry Hill Mall, Cherry Hill NJ",Return
-	WaitFor 8.0, "ImagesForNewMaps/ChromeCherryHillMallBuilding"
+	WaitFor 8.0, "SymLinkForImages/ChromeCherryHillMallBuilding"
 end enterCherryHillMallAddress
 
 to getDirections
-	Click "ImagesForNewMaps/ChromeDirectionsIcon"
-	Click "ImagesForNewMaps/Chrome121WhitteodaleDrMoorestownNJGoogleTextImage"
+	#	Click "SymLinkForImages/ChromeDirectionsIcon"
+	#	Click "SymLinkForImages/Chrome121WhitteodaleDrMoorestownNJGoogleTextImage"
 end getDirections
 
 to verifyDirections
-	Click "ImagesForNewMaps/ChromeMinimizeExploreOptions"
-	Click "ImagesForNewMaps/ChromeWhittendaleDrMoorestownText"
-	Click "ImagesForNewMaps/ChromeHideTrafficImage"
-	WaitFor 8.0, "ImagesForNewMaps/ChromeRouteforDirections"
-	WaitFor 8.0, "ImagesForNewMaps/ChromeRouteforDirections"
+
+	if ImageFound ("SymLinkForImages/ChromeMinimizeExploreOptions") then
+		Click "SymLinkForImages/ChromeMinimizeExploreOptions"
+	end if
+	
+	Click "SymLinkForImages/ChromeCarImageTravelOption"
+	Click "SymLinkForImages/ChromeWhittendaleDrMoorestownText"
+	Click "SymLinkForImages/ChromeHideTrafficImage"
+	WaitFor 8.0, "SymLinkForImages/ChromeRouteforDirections"
 end verifyDirections
 
 to closeMapsWindow
-	Click "ImagesForNewMaps/ChromeCloseMapsWindow"
+	Click "SymLinkForImages/ChromeCloseMapsWindow"
 end closeMapsWindow
 
 
