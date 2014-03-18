@@ -1,0 +1,91 @@
+
+Goal is to use CIWi to install and uninstall a component to a host over a network.
+
+Launch Firefox
+	Navigate to rhelserv1/ciwi/ciwi/
+
+On "CIWI Login" screen,
+	Type Username: ciwi
+	Type Password: asd123
+	Click "Login" or "type return"
+
+On the "Domain" window, 
+	Select "Innovation Lab" from dropdown
+	Click "Set Domain"
+
+Now at "Main Menu" screen, 
+	Click "Components
+
+On the "Components" screen, 
+	Click "Modify" for the ADS component
+
+On the "Component Status" screen, 
+	Click the tab "By Host"
+	Click the "Install" button for the rhel1 host
+
+On "Remote Login Credentials" screen,
+	For "Username", type "autotest"
+	For "Password", type "autotest"
+	For "Install as User", delete all contents of the text entry box
+	Click "Next"
+
+On "Installation Path" screen, 
+	Type "/home/autotest/ciwi"
+	Click "Next"
+
+On "Site Specific Questions" screen
+	Click "Next"
+
+On "Physical Hosts" screen
+	Click "Next"
+
+On "Summary" screen
+	Click "Install"
+
+On the screen that pops up, 
+	Verify "submitted"
+	Click "OK"
+
+On the "Components" screen,
+	Click the "Modify" button for the ADS component
+
+On the "Component Status" screen, 
+	Click the tab "By Host"
+	Wait for up to 1 minute for the rhel1 "Status" column to display "Installed"
+
+	### Uninstallation
+
+	Click "Uninstall"
+
+On "Remote Login Credentials" screen,
+	For "Username", type "autotest"
+	For "Password", type "autotest"
+	For "Uninstall as User", delete all contents of the text entry box
+	Click "Next"
+
+On "Site Specific Questions" screen
+	Click "Next"
+
+On "Hosts" screen 
+	Click "Next"
+
+On "Summary" screen
+	Click "Uninstall"
+
+On the screen that pops up, 
+	Verify "submitted"
+	Click "OK"
+
+On the "Components" screen,
+	Click the "Modify" button for the ADS component
+
+On the "Component Status" screen, 
+	Click the tab "By Host"
+	Wait for up to 1 minute for the rhel1 "Status" column to display "Uninstalled"
+	Click "Logout"
+
+Exit Firefox
+
+
+
+

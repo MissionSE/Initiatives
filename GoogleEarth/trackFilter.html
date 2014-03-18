@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Track Filter</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      function toggleFriend(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"friend filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+
+      function toggleHostile(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"hostile filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+
+      function toggleUnknown(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"unknown filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+
+      function toggleNeutral(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"neutral filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+
+      function toggleAir(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"air filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+
+      function toggleSurface(widget) {
+        //Call php script to write the command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"surface filter", data1:widget.checked,data2:null,data3:null}, function(data) {
+        });        
+      }
+      
+    </script>
+  </head>
+  
+  <body>
+    <div id=global style=color:yellow>
+      <h3>
+        <label for="friend"><input type="checkbox" id="friend" name="friend" onclick=toggleFriend(this) checked="true">Friend</label><br />
+        <label for="hostile"><input type="checkbox" id = "hostile" name="hostile" onclick=toggleHostile(this) checked="true">Hostile</label><br />
+        <label for="unknown"><input type="checkbox" id="unknown" name="unknown" onclick=toggleUnknown(this) checked="true">Unknown</label><br />
+        <label for="neutral"><input type="checkbox" id="neutral" name="neutral" onclick=toggleNeutral(this) checked="true">Neutral</label><br />
+        <label for="air"><input type="checkbox" id="air" name="air" onclick=toggleAir(this) checked="true">Air</label><br />
+        <label for="surface"><input type="checkbox" id="surface" name="surface" onclick=toggleSurface(this) checked="true">Surface</label>
+      </h3>
+    </div>
+  </body>
+</html>

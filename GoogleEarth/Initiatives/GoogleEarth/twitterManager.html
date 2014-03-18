@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twitter Manager</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+      var searchString = "Superbowl";
+      var feedWindowDisplayed = false;
+
+      function toggleTwitterFeed(setting) {
+        var rawData = {
+          key : "twitter feed",
+          value : setting,
+          search: searchString,
+          displayWindow:setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+        feedWindowDisplayed = setting;
+      }
+      
+      function toggleTwitterSymbols(setting) {
+        var rawData = {
+          key : "twitter symbols",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+      
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          if(event.origin !== 'http://localhost:8888') return;
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "twitter",
+            value : "twitterManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+      }
+
+      function newSearch() {
+        //Get the search string from the DOM
+        searchString = document.getElementById('search').value;
+        console.log("twitterManager searchString = "+searchString);
+
+        //Only send message to parent window if twitter feed is displayed
+        if (true == feedWindowDisplayed) {        
+          var rawData = {
+            key : "twitter feed",
+            value:false,
+            search: searchString,
+            displayWindow:false,
+          };
+
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,parentURI);
+        }
+        
+        var url = "http://localhost:8888/earth/deleteTweetsFromDB.php";
+        //Delete the tweets from the previous search
+        $.post(url, {}, function(data) {
+          console.log("delete tweets returned "+data);
+        });
+      }
+    </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div id = tracks>
+      <h3>Twitter Search</h3>
+      <h4>
+        <input type="text" name="search" value = "#Superbowl" id="search"/>
+        <input type="button" value="Search" onclick="newSearch();"/>
+      </h4>
+      <hr>
+      <h3>Twitter Feed Window</h3>
+      <h4>
+        Off  
+        <input type="radio" name="feed" value="Off" onclick=toggleTwitterFeed(false)><br />
+        On
+        <input type="radio" name="feed" value="On" onclick=toggleTwitterFeed(true)><br />
+      </h4>
+      <hr>
+      <h3>Twitter Symbols</h3>
+      <h4>
+        Off  
+        <input type="radio" name="symbols" value="Off" onclick=toggleTwitterSymbols(false)><br />
+        On
+        <input type="radio" name="symbols" value="On" onclick=toggleTwitterSymbols(true)><br />
+      </h4>
+    </div>
+  </body>
+</html>

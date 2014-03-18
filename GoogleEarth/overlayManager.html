@@ -48,6 +48,66 @@
         }        
       }
 
+      function toggleCompassRose(setting) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "compass rose",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"compass rose",data1:setting,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function toggleGoogleMap(setting) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "google map",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"google map",data1:setting,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function toggleSatellite(setting) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "satellite",
+            value : setting,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"satellite",data1:setting,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
       function processEvents() {
         //respond to events
         window.addEventListener('message',function(event) {
@@ -81,6 +141,27 @@
         <input type="radio" name="geo" value="Off" onclick=toggleGeo(false)><br />
         On
         <input type="radio" name="geo" value="On" onclick=toggleGeo(true)><br />
+      </h4>
+      <h3>Compass Overlay</h3>
+      <h4>
+        Off  
+        <input type="radio" name="compass" value="Off" onclick=toggleCompassRose(false)><br />
+        On
+        <input type="radio" name="compass" value="On" onclick=toggleCompassRose(true)><br />
+      </h4>
+      <h3>Google Map Overlay</h3>
+      <h4>
+        Off  
+        <input type="radio" name="map" value="Off" onclick=toggleGoogleMap(false)><br />
+        On
+        <input type="radio" name="map" value="On" onclick=toggleGoogleMap(true)><br />
+      </h4>
+      <h3>Satellite Overlay</h3>
+      <h4>
+        Off  
+        <input type="radio" name="sat" value="Off" onclick=toggleSatellite(false)><br />
+        On
+        <input type="radio" name="sat" value="On" onclick=toggleSatellite(true)><br />
       </h4>
     </div>
   </body>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <title>Earth Settings Manager</title>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+      
+      function toggleSun(setting) {
+        //alert("sun set to "+value);
+        var rawData = {
+          key : "sun",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+      
+      function toggleInsetMap(setting) {
+        //alert("map set to "+value);
+        var rawData = {
+          key : "inset map",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+      
+      function toggleBorders(setting) {
+        //alert("borders set to "+value);
+        var rawData = {
+          key : "borders",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function toggleRoads(setting) {
+        var rawData = {
+          key : "roads",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function toggleBuildings(setting) {
+        //alert("buildings set to "+value);
+        var rawData = {
+          key : "buildings",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function toggleTerrain(setting) {
+        //alert("terrain set to "+value);
+        var rawData = {
+          key : "terrain",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function setMapType(type) {
+        var rawData = {
+          key : "map type",
+          value : type,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function toggleStatusBar(setting) {
+        var rawData = {
+          key : "status bar",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function toggleAtmosphere(setting) {
+        var rawData = {
+          key : "atmosphere",
+          value : setting,
+        };
+        var data = JSON.stringify(rawData);
+        parentWindow.postMessage(data,parentURI);
+      }
+
+      function processEvents() {
+        //alert("processEvents entered");
+        //respond to events
+        window.addEventListener('message',function(event) {
+          if(event.origin !== 'http://localhost:8888') return;
+          //alert('earthSettingsManager message received:  ' + event.data,event);
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "earthSettings",
+            value : "earthSettingsManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+      }
+    </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div id = grids>
+      <h3>Sun</h3>
+      <h4>
+        Off  
+        <input type="radio" name="sun" value="Off" onclick=toggleSun(false)><br />
+        On
+        <input type="radio" name="sun" value="On" onclick=toggleSun(true)><br />
+      </h4>
+      <hr>
+      <h3>Inset Map</h3>
+      <h4>
+        Off  
+        <input type="radio" name="map" value="Off" onclick=toggleInsetMap(false)><br />
+        On
+        <input type="radio" name="map" value="On" onclick=toggleInsetMap(true)><br />
+      </h4>
+      <hr>
+      <h3>Roads</h3>
+      <h4>
+        Off  
+        <input type="radio" name="roads" value="Off" onclick=toggleRoads(false)><br />
+        On
+        <input type="radio" name="roads" value="On" onclick=toggleRoads(true)><br />
+      </h4>
+      <hr>
+      <h3>Borders</h3>
+      <h4>
+        Off  
+        <input type="radio" name="borders" value="Off" onclick=toggleBorders(false)><br />
+        On
+        <input type="radio" name="borders" value="On" onclick=toggleBorders(true)><br />
+      </h4>
+      <hr>
+      <h3>Buildings</h3>
+      <h4>
+        Off  
+        <input type="radio" name="buildings" value="Off" onclick=toggleBuildings(false)><br />
+        On
+        <input type="radio" name="buildings" value="On" onclick=toggleBuildings(true)><br />
+      </h4>
+      <hr>
+      <h3>Terrain</h3>
+      <h4>
+        Off  
+        <input type="radio" name="terrain" value="Off" onclick=toggleTerrain(false)><br />
+        On
+        <input type="radio" name="terrain" value="On" onclick=toggleTerrain(true)><br />
+      </h4>
+      <hr>
+      <h3>Map Type</h3>
+      <h4>
+        Earth  
+        <input type="radio" name="map" value="Earth" onclick=setMapType("earth")><br />
+        Sky
+        <input type="radio" name="map" value="Sky" onclick=setMapType("sky")><br />
+      </h4>
+      <hr>
+      <h3>Status Bar</h3>
+      <h4>
+        Off  
+        <input type="radio" name="status" value="Off" onclick=toggleStatusBar(false)><br />
+        On
+        <input type="radio" name="status" value="On" onclick=toggleStatusBar(true)><br />
+      </h4>
+      <hr>
+      <h3>Atmosphere</h3>
+      <h4>
+        Off  
+        <input type="radio" name="atmosphere" value="Off" onclick=toggleAtmosphere(false)><br />
+        On
+        <input type="radio" name="atmosphere" value="On" onclick=toggleAtmosphere(true)><br />
+      </h4>
+    </div>
+  </body>
+</html>
