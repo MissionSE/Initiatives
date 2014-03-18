@@ -34,12 +34,14 @@ public class TrackHookNotifier
 	if (selectionID == 0) {
 	    curPriHook = null;
 	    TrackData td = new TrackData(TrackData.PRI_HOOK, "", "", "", "", "", "", "", "", "");
+	    System.err.println(td.toString());
 	    TrackDataWriter.writeSql(td);
 	}
 
 	if (selectionID == 1) {
 	    curSecHook = null;
 	    TrackData td = new TrackData(TrackData.SEC_HOOK, "", "", "", "", "", "", "", "", "");
+	    System.err.println(td.toString());
 	    TrackDataWriter.writeSql(td);
 	}
     }
