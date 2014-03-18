@@ -3,3 +3,8 @@ build/
 release/
 **/bin
 **/#*
+**/.#*
+.externalToolBuilders/
+eclimd.log
+workbench.xmi
+scratch/
