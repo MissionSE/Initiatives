@@ -1,6 +1,7 @@
 package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * Class DataAssociation is the main input class for this program. It takes in measurement
@@ -25,14 +26,6 @@ public class DataAssociation {
 
         return null;
 
-	}
-
-	/**
-	 * This method will sort a received list of associated candidates in the desired statistical order.
-	 */
-	private ArrayList<String> sortList(ArrayList<String> candidateList)
-	{
-		return candidateList;
 	}
 
 }
