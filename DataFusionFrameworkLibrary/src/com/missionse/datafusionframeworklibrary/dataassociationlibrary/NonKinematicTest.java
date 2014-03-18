@@ -4,18 +4,18 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
  * Class NonKinematicAssociation will perform necessary non-kinematic tests for data association.
  * A true/false indicator will be returned.
  */
-public class NonKinematicEvaluation {
+public class NonKinematicTest {
 
-    public NonKinematicEvaluation()
+    public NonKinematicTest()
     {}
 
 	/**
 	 * This method will perform necessary non-kinematic tests for data association.
 	 */
-	public boolean nonKinematicAssociation()
+	public boolean nonKinematicTest()
 	{		
-		liveSimAssociation();
-		categoryAssociation();
+		liveSim();
+		category();
 		return false;
 
 	}
@@ -23,7 +23,7 @@ public class NonKinematicEvaluation {
 	/**
 	 * This method will live/sim test for data association .
 	 */
-	private boolean liveSimAssociation()
+	private boolean liveSim()
 	{
 		return false;
 
@@ -32,7 +32,7 @@ public class NonKinematicEvaluation {
 	/**
 	 * This method will perform category test for data association .
 	 */
-	private boolean categoryAssociation()
+	private boolean category()
 	{
 		return false;
 

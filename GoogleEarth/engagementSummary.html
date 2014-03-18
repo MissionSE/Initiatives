@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Engagement Summary</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow;
+      var parentURI;
+      var engagementUpdateInterval;
+
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          if(event.origin !== 'http://localhost:8888') return;
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "engagements",
+            value : "engagementSummary received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+      }
+
+      function getEngagements() {
+        var tab ='&nbsp &nbsp &nbsp';
+        var space = '&nbsp&nbsp';
+        var element = document.getElementById("engagements");
+        var url = "getEngagements.php";
+        var header = "<u><b>"+"TargetTN"+tab+"Weapon"+tab+"WeaponTN"+tab+tab+"Status"+"</b></u>"+"<br />";
+        element.innerHTML = header;
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            var text;
+
+            text = tab+value.targetTN+tab;
+            if (value.targetTN < 10) {
+              text+=space;
+            }
+            text+=tab+tab;
+            text += value.weapon+tab;
+            text+=tab;
+            text += value.weaponTN+tab;
+            if (value.weaponTN < 10) {
+              text+=space;
+            }
+            text+=tab+tab+tab;
+            text += value.status+tab+'<br /><hr>';
+            element.innerHTML += text;
+          });        
+        });
+      }
+      
+      function startUpdate() {
+        getEngagements();
+        engagementUpdateInterval = setInterval(function(){getEngagements()},2000);
+      }
+
+    </script>
+  </head>
+  
+  <body onload=startUpdate()>
+    <div id = engagements style=color:yellow>
+    </div>
+  </body>
+</html>

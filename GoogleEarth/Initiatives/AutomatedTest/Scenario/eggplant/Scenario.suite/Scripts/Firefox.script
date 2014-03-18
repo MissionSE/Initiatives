@@ -1,0 +1,48 @@
+Properties
+	running: false
+end properties
+
+to start
+	Log "BEGIN Firefox.start"
+	
+	if not Firefox.isRunning() then
+		Click "FirefoxLaunchIcon"
+		WaitFor 8.0, "FirefoxActive"
+		set my running to true
+	end if
+	
+end start
+
+to navigate url
+
+	DoubleClick "FirefoxAddressBar"
+	typetext url, Return
+	
+end navigate
+
+to quit
+
+	Click "FirefoxFileMenu"
+	Click "FirefoxQuitFromMenu"
+	set my running to false
+	
+end quit
+
+function isRunning()
+	if ImageFound(0, "FirefoxInactive") then
+		Click "FirefoxInactive"
+		wait 1
+	end if
+	
+	if ImageFound(0, "FirefoxActive")
+		return true
+	end if
+	
+	return false
+	
+end isRunning
+
+
+
+
+

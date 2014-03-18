@@ -5,23 +5,49 @@
     <link rel="stylesheet" type="text/css" href="guistyle.css">
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
+      var blank = ".....";
+      var trackNum;
+      
       function hookTn() {
-        var tn = document.getElementById("tracktn").value;
+        var temp = document.getElementById("number");
+        trackNum = temp.options[temp.selectedIndex].value;
 
         //Call php script to write the hook command to the database
         var url = document.URL.slice(0,document.URL.length-13)+"writeCommand.php";
         
         //Write command to database
-        $.post(url, {command:"hook by tn",data1:tn,data2:null,data3:null}, function(data) {
+        $.post(url, {command:"hook by tn",data1:trackNum,data2:null,data3:null}, function(data) {
         });
       }
       
+      function setTrackNumber(value) {
+        trackNum = value;
+        var element = document.getElementById("number");
+        var temp = document.createElement("option");
+        temp.text = trackNum;
+        element.add(temp);
+        console.log("trackNum = "+trackNum);
+      }
+      
+      function getTrackIDs() {
+        setTrackNumber(blank);
+        //Get list of track numbers to populate option menu
+        var url = "getTrackIDs.php";
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            setTrackNumber(value.trackNum);
+          });
+        });
+      }
     </script>
   </head>
   
-  <body>
+  <body onload=getTrackIDs()>
     <div id =hookbytn style=color:yellow>
-      <textarea id=tracktn class="textarea" placeholder="tn"></textarea>
+      <h3>Track Number</h3>
+      <select name="number" id="number" class="select" onchange=hookTn()>
+      </select>
+      <br />
       <br />
       <input id=hookTn type="button" class="button" value="Hook TN" onclick=hookTn()>
     </div>

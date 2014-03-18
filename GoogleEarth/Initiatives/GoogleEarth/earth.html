@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Google Earth</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        var projectDomain = 'http://localhost:8888/earth/';
+        var ge;
+        var gridsOn = false;
+        var terrainOn = false;
+        var bordersOn = false;
+        var insetMap = false;
+        var tracksDisplayed = false;
+        var csedsTour = false;
+        var drawLine=false;
+        var ownshipSymbol=false;
+        var blankButton1=false;
+        var offsetOS=false;
+        var groundOverlayDisplayed=false;
+        var groundOverlay;
+        var sunDisplayed=false;
+        var buildingsDisplayed=false;
+        var jpegOverlayDisplayed=false;
+        var jpegOverlayCreated=false;
+        var jpegOverlay;
+        var koreaOverlay;
+        var weatherDisplayed=false;
+        var weatherKMLObject;
+        var phillyWeatherDisplayed=false;
+        var blankButton10=false;
+        var lineStringPlacemark;
+        var lineStringPlacemarkCreated = false;
+        var groundOverlay;
+        var groundOverlayCreated = false;
+        var rangeRingPlacemark;
+        var rangeRingDisplayed = false;
+        var rangeRingCreated = false;
+        var symbolWebsite = 'http://dev.bridgeborn.com/symbology/WarfightingSymbologyHandler.ashx?hierarchy=';
+        var friendSurf = symbolWebsite+'WAR.SSUF&forcetype=friend';
+        var cruiser = symbolWebsite+'WAR.SSUF.CBTT.LNE.CRU&forcetype=friend';
+        var battleship = symbolWebsite+'WAR.SSUF.CBTT.LNE.BBS&forcetype=friend';
+        var destroyer = symbolWebsite+'WAR.SSUF.CBTT.LNE.DD&forcetype=friend';
+        var littoral = symbolWebsite+'WAR.SSUF.CBTT.LNE.LL&forcetype=friend';
+        var frigate = symbolWebsite+'WAR.SSUF.CBTT.LNE.FFR&forcetype=friend';
+        var friendAir = symbolWebsite+'WAR.AIRTRK&forcetype=friend';
+        var friendFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=friend';
+        var unknownSurf = symbolWebsite+'WAR.SSUF&forcetype=unknown';
+        var unknownMissile = symbolWebsite+'WAR.AIRTRK.WPN&forcetype=unknown';
+        var unknownAir = symbolWebsite+'WAR.AIRTRK&forcetype=unknown';
+        var unknownFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=unknown';
+        var hostileSurf = symbolWebsite+'WAR.SSUF&forcetype=hostile';
+        var hostileMissile = symbolWebsite+'WAR.AIRTRK.WPN&forcetype=hostile';
+        var hostileAir = symbolWebsite+'WAR.AIRTRK&forcetype=hostile';
+        var hostileFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=hostile';
+        var neutralSurf = symbolWebsite+'WAR.SSUF&forcetype=neutral';
+        var neutralMissile = symbolWebsite+'WAR.AIRTRK.WPN&forcetype=neutral';
+        var neutralAir = symbolWebsite+'WAR.AIRTRK&forcetype=neutral';
+        var neutralFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=neutral';
+        var destroyerJpeg = projectDomain+'destroyer.jpg';
+        var useOwnshipJpeg = true;
+        var trackID=1;
+        var csedsLat = 39.980261;
+        var csedsLon = -74.90117;
+        var osLatStr;
+        var osLonStr;
+        var osLat;
+        var osLon;
+        var MAX_TRACK_ID = 1000;
+        var trackPlacemarks = [];
+        var trackData = [];
+
+        var trackUpdateNum = 0;
+        var geocoder;
+        var incrementTracks = true;
+        var twitterFeedWindow;
+        var twitterFeedWindowDisplayed = false;
+        var twitterFeedInterval;
+        var tweetsDisplayed = false;
+        var tweetIcon = projectDomain+'images/twitter-bird-light.png';
+        var tweetPlacemark;
+        var tweetPlacemarkArray = new Array();
+        var tweetsArray = [];
+        var twitterSearch;
+        var blank = false;
+        var priHookedTrackId = 0;
+        var offsetToPriHook = false;
+        var offsetToTrackID = false;
+        var offsetTrackID = 0;
+        var hookPlacemark=null;
+        var trackUpdateInterval;
+        var closeControlInterval;
+        var viewRangeSet = false;
+
+        google.load("earth", "1", {"other_params":"sensor=false"});
+
+        function init() {
+          google.earth.createInstance('map3d', initCB, failureCB);
+        }
+
+        function initCB(instance) {
+            ge = instance;
+            ge.getWindow().setVisibility(true);
+            ge.getOptions().setStatusBarVisibility(true);
+            ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);
+            ge.getOptions().setTerrainExaggeration(3.0);
+
+            enableLayers();
+            
+            createViewLookAt(csedsLat,csedsLon);
+
+            createOwnship();
+            
+            createTracks();
+            
+            addMouseMoveListener();
+            
+            addMouseClickListener();
+            
+            highlightButtons();
+
+            geocoder = new google.maps.Geocoder();            
+
+            // Update streaming progress every 100ms
+            setInterval(function() {
+                var streamingPercent = ge.getStreamingPercent();
+                var progressBar = document.getElementById('progress-bar');
+                if (streamingPercent == 100) {
+                    // streaming complete, hide the progress bar
+                    progressBar.style.backgroundColor = '#0a0';
+                    progressBar.style.width = '250px';
+                }
+                else {
+                    // show the progress bar, max width is 250 as per the stylesheet
+                    //progressBar.style.backgroundColor = '#00f';
+                    progressBar.style.backgroundColor = '#c00';
+                    progressBar.style.width = (250 * streamingPercent / 100) + 'px';
+                }
+            }, 100);
+        }
+   
+        function failureCB(errorCode) {
+            alert("Error = "+errorCode);
+        }
+    
+        function enableLayers() {
+            ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+            ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);
+        }
+
+        function createViewLookAt(lat,lon) {
+            //var lookAt = ge.createLookAt('');
+            var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+            var latStr = lat;
+            var lonStr = lon;
+            var convertedLat;
+            var convertedLon;
+            
+            //Convert input parameters to floats
+            if (typeof latStr == "string") {
+                convertedLat = parseFloat(latStr);
+            }
+            else {
+                convertedLat = latStr;
+            }
+                
+            if (typeof lonStr == "string") {
+                convertedLon = parseFloat(lonStr);
+            }
+            else {
+                convertedLon = lonStr;
+            }
+
+            lookAt.setLatitude(convertedLat);
+            lookAt.setLongitude(convertedLon);
+            //Only set the view range on the first call
+            if (false == viewRangeSet) {
+                viewRangeSet = true;
+                lookAt.setRange(1200000.0);
+            }
+            // Set the FlyTo speed.
+            ge.getOptions().setFlyToSpeed(0.5);
+            ge.getView().setAbstractView(lookAt);
+        }
+        
+        function offsetToAddress(address) {
+            //Get the geo location from the address string
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    //alert("offsetToAddress location = "+results[0].geometry.location);
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(1200000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });
+        }
+        
+        function createOwnship() {
+            var url = "http://localhost:8888/earth/getOwnship.php";
+
+            $.post(url, {trackId:1}, function(data) {
+                var os = ge.createPlacemark('1');
+                //Store the placemark in the trackPlacemarks array
+                trackPlacemarks.push(os);
+                //os.setName("Ownship");
+                ge.getFeatures().appendChild(os);
+        
+                // Create style map for placemark
+                var icon = ge.createIcon('');
+                icon.setHref(destroyer);
+                var style = ge.createStyle('');
+                style.getIconStyle().setIcon(icon);
+                style.getIconStyle().setScale(1.0);
+                os.setStyleSelector(style);
+        
+                osLatStr = data.trackLat;
+                osLonStr = data.trackLon;
+
+                if (typeof osLatStr == "string") {
+                    osLat = parseFloat(osLatStr);
+                }
+                else {
+                    osLat = osLatStr;
+                }
+                
+                if (typeof osLonStr == "string") {
+                    osLon = parseFloat(osLonStr);
+                }
+                else {
+                    osLon = osLonStr;
+                }
+                
+                // Create point
+                var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                var point = ge.createPoint('');
+                point.setLatitude(osLat);
+                point.setLongitude(osLon);
+                os.setGeometry(point);
+                
+
+                //Store the tweet information in an object
+                var trackObj = {
+                    tn:1,
+                    lat:osLat,
+                    lon:osLon,
+                    altitude:0,
+                    course:0,
+                    speed:0,
+                    id:data.trackIdentity
+                };
+                
+                //Add the track object to the array
+                trackData.push(trackObj);
+
+                // event listeners can use any functions, even anonymous functions
+                google.earth.addEventListener(os, 'click', function(event) {
+                    var text = '';
+                
+                    function addToMessage(append1, append2) { 
+                        text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
+                    }
+                
+                    priHookedTrackId = event.getCurrentTarget().getId();
+    
+                    addToMessage('Track ID', trackData[priHookedTrackId].tn);
+                    addToMessage('latitude', trackData[priHookedTrackId].lat.toFixed(2));
+                    addToMessage('longitude', trackData[priHookedTrackId].lon.toFixed(2));
+                    addToMessage('altitude', trackData[priHookedTrackId].altitude);
+                    addToMessage('course', trackData[priHookedTrackId].course);
+                    addToMessage('speed', trackData[priHookedTrackId].speed);
+                    addToMessage('id', trackData[priHookedTrackId].id);
+                    
+                    // Prevent default balloon from popping up for marker placemarks
+                    event.preventDefault(); 
+                
+                    document.getElementById('close-control').innerHTML = text;
+                    
+                });
+    
+                os.setVisibility(false);
+            });
+        }
+        
+        function updateTracks() {
+            //Only update if tracks are displayed
+            if (tracksDisplayed) {
+                var url = "getTracks.php";
+    
+                $.post(url, {}, function(data) {
+                    //Get the list of child nodes from Google Earth
+                    var children = ge.getFeatures().getChildNodes();
+
+                    $.each(data,function(key,value) {
+                        var trackNumber;
+                        if (typeof value.trackNum == "number") {
+                            trackNumber = parseInt(value.trackNum);
+                        }
+                        else {
+                            trackNumber = value.trackNum;
+                        }
+                        var child = getChildForId(trackNumber);
+                        latStr = value.trackLat;
+                        lonStr = value.trackLon;
+
+                        if (typeof latStr == "string") {
+                            lat = parseFloat(latStr);
+                        }
+                        else {
+                            lat = latStr;
+                        }
+                    
+                        if (typeof lonStr == "string") {
+                            lon = parseFloat(lonStr);
+                        }
+                        else {
+                            lon = lonStr;
+                        }
+
+                        // Create point
+                        var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                        var point = ge.createPoint('');
+                        point.setLatitude(lat);
+                        point.setLongitude(lon);
+                        child.setGeometry(point);
+                        
+                        //Offset to track if enabled
+                        if ((trackNumber == '1' && true == offsetOS) ||
+                            (priHookedTrackId == trackNumber && true == offsetToPriHook) ||
+                            (offsetToTrackID == true && offsetTrackID == trackNumber)) {
+                                createViewLookAt(lat,lon);
+                        }
+                    });
+                    
+                    trackUpdateNum++;
+                });            
+            }
+        }
+        
+        function createHookSymbol(centerLat, centerLng, radius) {
+        
+            function makeCircle(centerLat, centerLng, radius) {
+        
+                var ring = ge.createLinearRing('');
+                var steps = 36;
+                var pi2 = Math.PI * 2;
+                for (var i = 0; i < steps; i++) {
+                  var lat = centerLat + radius * Math.cos(i / steps * pi2);
+                  var lng = centerLng + radius * Math.sin(i / steps * pi2);
+                  ring.getCoordinates().pushLatLngAlt(lat, lng, 0);
+                }
+                return ring;
+            }
+        
+            hookPlacemark = ge.createPlacemark('');
+            hookPlacemark.setGeometry(ge.createPolygon(''));
+
+            // Create a style
+            hookPlacemark.setStyleSelector(ge.createStyle(''));
+            var hookStyle = hookPlacemark.getStyleSelector().getPolyStyle();
+            hookStyle.getColor().set('4400FFFF');  // aabbggrr format
+            
+            var outer = ge.createLinearRing('');
+            hookPlacemark.getGeometry().setOuterBoundary(makeCircle(centerLat, centerLng, radius));
+            ge.getFeatures().appendChild(hookPlacemark);
+        }
+        
+        function deleteHookSymbol() {
+            if (null != hookPlacemark) {
+                ge.getFeatures().removeChild(hookPlacemark);
+            }
+        }
+
+        function updateCloseControl() {
+            //Only update if tracks are displayed
+            if (tracksDisplayed) {
+                var url = "getTracks.php";
+                
+                //Get tracks from the database
+                $.post(url, {}, function(data) {
+                    $.each(data,function(key,value) {
+                        var trackNumber;
+                        if (typeof value.trackNum == "string") {
+                            trackNumber = parseInt(value.trackNum);
+                        }
+                        else {
+                            trackNumber = value.trackNum;
+                        }
+
+                        console.log("updateCloseControl comparing trackNumber "+trackNumber+" to priHookedTrackId "+priHookedTrackId);
+                        //If this is the hooked track
+                        if (trackNumber == priHookedTrackId) {
+                            var text = '';
+                            var lat,lon;
+                            var latStr = value.trackLat;
+                            var lonStr = value.trackLon;
+                            if (typeof value.trackLat == "string") {
+                                lat = parseFloat(latStr);
+                            }
+                            else {
+                                lat = latStr;
+                            }
+                        
+                            if (typeof value.trackLon == "string") {
+                                lon = parseFloat(lonStr);
+                            }
+                            else {
+                                lon = lonStr;
+                            }
+                               
+                            console.log("track id "+value.trackNum+" lat "+lat.toFixed(2)+" lon "+lon.toFixed(2)+" course "+value.trackCourse+"\n");
+                            text+='Track ID'+ ': ' +value.trackNum+'\n<br />';
+                            text+='latitude'+ ': ' +lat.toFixed(2)+'\n<br />';
+                            text+='longitude'+ ': ' +lon.toFixed(2)+'\n<br />';
+                            text+='altitude'+ ': ' +value.trackAlt+'\n <br />';
+                            text+='course'+ ': ' +value.trackCourse+'\n<br />';
+                            text+='speed'+ ': ' +value.trackSpeed+'\n<br />';
+                            text+='id'+ ': ' +value.trackIdentity+'\n<br />';
+                            
+                            //Update page with new close control text
+                            document.getElementById('close-control').innerHTML = text;
+
+                            deleteHookSymbol();
+                            
+                            createHookSymbol(lat,lon,0.35);
+
+                        }
+                    });
+                });            
+            }
+        }
+        
+        function getChildForId(id) {
+            var children = ge.getFeatures().getChildNodes();
+    
+            for(var i = 0; i < children.getLength(); i++) { 
+                var child = children.item(i);
+        
+                if(child.getId() == id) {
+                    return child;
+                }
+            }
+            
+            return null;
+        }
+        
+        function createTracks() {
+            var url = projectDomain+"getTracks.php";
+
+            var outputData='';
+
+            var lat,latStr,lon,lonStr;
+            
+            //Get track data from the database
+            $.post(url, {trackId:1}, function(data) {
+                console.log("createTracks data.length = "+data.length);
+                $.each(data,function(key,value) {
+                    if (value.trackNum > 1) {
+                        var index = value.trackNum-1;
+                        var track = ge.createPlacemark(value.trackNum.toString());
+
+                        //Add the placemark to the trackPlacemarks array
+                        trackPlacemarks.push(track);
+
+                        ge.getFeatures().appendChild(track);
+                        var icon = ge.createIcon('');
+
+                        //Determine the symbol based on category and platform
+                        icon.setHref(getTrackSymbol(value.trackCategory,
+                                                    value.trackIdentity,
+                                                    value.trackPlatform));
+
+                        var style = ge.createStyle('');
+                        style.getIconStyle().setIcon(icon);
+                        style.getIconStyle().setScale(1.0);
+                        track.setStyleSelector(style);
+
+                        latStr = value.trackLat;
+                        lonStr = value.trackLon;
+
+                        if (typeof latStr == "string") {
+                                lat = parseFloat(latStr);
+                            }
+                            else {
+                                lat = latStr;
+                            }
+                    
+                            if (typeof lonStr == "string") {
+                                lon = parseFloat(lonStr);
+                            }
+                            else {
+                                lon = lonStr;
+                            }
+                        
+                        //Store the tweet information in an object
+                        var trackObj = {
+                            tn:value.trackNum,
+                            lat:lat,
+                            lon:lon,
+                            altitude:0,
+                            course:0,
+                            speed:0,
+                            id:value.trackIdentity
+                        };
+                        
+                        //Add the track object to the array
+                        trackData.push(trackObj);
+                        
+                        // Create point
+                        var la = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                        var point = ge.createPoint('');
+                        point.setLatitude(lat);
+                        point.setLongitude(lon);
+                        console.log("createTracks tn = "+value.trackNum);
+                        trackPlacemarks[index].setGeometry(point);
+
+                        // event listeners can use any functions, even anonymous functions
+                        google.earth.addEventListener(trackPlacemarks[index], 'click', function(event) {
+                            var text = '';
+            
+                            function addToMessage(append1, append2) { 
+                                text += ' ' + append1 + ': ' + append2 + '\n<br />' ;
+                            }
+
+                            var trackID = event.getCurrentTarget().getId()-1;
+
+                            priHookedTrackId = event.getCurrentTarget().getId();
+                            
+                            //addToMessage("Placemark Name",trackPlacemarks[trackID].getName());
+                            addToMessage('Track ID', trackData[trackID].tn);
+                            addToMessage('latitude', trackData[trackID].lat.toFixed(2));
+                            addToMessage('longitude', trackData[trackID].lon.toFixed(2));
+                            addToMessage('altitude', trackData[trackID].altitude);
+                            addToMessage('course', trackData[trackID].course);
+                            addToMessage('speed', trackData[trackID].speed);
+                            addToMessage('id', trackData[trackID].id);
+            
+                            // Prevent default balloon from popping up for marker placemarks
+                            event.preventDefault(); 
+            
+                            document.getElementById('close-control').innerHTML = text;
+                        });
+                    }
+                });
+                
+                if (false == tracksDisplayed) {
+                    clearTracks();
+                }
+            });            
+        }
+        
+        function getTrackSymbol(category,identity,platform) {
+            if ("surface" == category) {
+                if ("friend" == identity) {
+                    if ("destroyer" == platform) {
+                        return destroyer;
+                    }
+                    else if ("battleship" == platform) {
+                        return battleship;
+                    }
+                    else if ("frigate" == platform) {
+                        return frigate;
+                    }
+                    else {
+                        return friendSurf;
+                    }
+                }
+                else if ("hostile" == identity) {
+                    return hostileSurf;
+                }
+                else if ("unknown" == identity) {
+                    return unknownSurf;
+                }
+                else {
+                    return neutralSurf;
+                }
+            }
+            else if ("air" == category) {
+                if ("friend" == identity) {
+                    if ("fighter" == platform) {
+                        return friendFighter;
+                    }
+                    else {
+                        return friendAir;
+                    }
+                }
+                else if ("hostile" == identity) {
+                    if ("missile" == platform) {
+                        return hostileMissile;
+                    }
+                    else if ("fighter" == platform) {
+                        return hostileFighter;
+                    }
+                    else {
+                        return hostileAir;
+                    }
+                }
+                else if ("unknown" == identity) {
+                    if ("missile" == platform) {
+                        return unknownMissile;
+                    }
+                    else if ("fighter" == platform) {
+                        return unknownFighter;
+                    }
+                    else {
+                        return unknownAir;
+                    }
+                }
+                else {
+                    if ("missile" == platform) {
+                        return neutralMissile;
+                    }
+                    else if ("fighter" == platform) {
+                        return neutralFighter;
+                    }
+                    else {
+                        return neutralAir;
+                    }
+                }
+            }
+            else {
+                return destroyerJpeg;
+            }
+        }
+
+        function addMouseMoveListener() {
+            // listen to the click event on the globe and window
+            google.earth.addEventListener(ge.getWindow(), 'mousemove', function(event) {
+                if (event.getDidHitGlobe()) {
+                    var latitude = event.getLatitude();
+                    var longitude = event.getLongitude();
+                }
+            });
+        }
+
+        function addMouseClickListener() {
+            // listen to the click event on the globe and window
+            //google.earth.addEventListener(ge.getWindow(), 'click', function(event) {
+            //if (event.getDidHitGlobe()) {
+            //    //If this isn't a track need to clear close control
+            //    if (event.getTarget().getType() == 'KmlPlacemark' &&
+            //        event.getTarget().getGeometry().getType() == 'KmlPoint') {
+            //        var placemark = event.getTarget();
+            //    }
+            //    else {
+            //        document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";                    
+            //    }
+            //});
+            //}
+        }
+        
+        function createGroundOverlay() {
+            if (false == groundOverlayCreated) {
+                groundOverlayCreated = true;
+                groundOverlay = ge.createGroundOverlay('2000');
+                groundOverlay.setIcon(ge.createIcon(''))
+                groundOverlay.getIcon().setHref("http://www.google.com/intl/en_ALL/images/logo.gif");
+                groundOverlay.setLatLonBox(ge.createLatLonBox(''));
+    
+                var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                var north = center.getLatitude() + .35;
+                var south = center.getLatitude() - .35;
+                var east = center.getLongitude() + .55;
+                var west = center.getLongitude() - .55;
+                var rotation = 0;
+                var latLonBox = groundOverlay.getLatLonBox();
+                latLonBox.setBox(north, south, east, west, rotation);
+    
+                ge.getFeatures().appendChild(groundOverlay);
+            }
+            else {
+                groundOverlay.setVisibility(true);
+            }
+        }
+        
+        function clearGroundOverlay() {
+            groundOverlay.setVisibility(false);
+        }
+
+        function createJpegOverlay() {
+            if (false == jpegOverlayCreated) {
+                jpegOverlayCreated = true;
+                jpegOverlay = ge.createGroundOverlay('2100');
+                jpegOverlay.setIcon(ge.createIcon(''))
+                jpegOverlay.getIcon().setHref(projectDomain+"korea_1m.jpg");
+                jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
+                jpegOverlay.setOpacity(25);
+                
+                var koreaLat = 38;
+                var koreaLon = 131;
+                createViewLookAt(koreaLat,koreaLon);
+
+                var north = 41.5;
+                var south = 36.5;
+                var east = 128.84;
+                var west = 134.84;
+                var rotation = 0;
+                var latLonBox = jpegOverlay.getLatLonBox();
+                latLonBox.setBox(north, south, east, west, rotation);
+                
+                ge.getFeatures().appendChild(jpegOverlay);                
+            }
+            else {
+                var koreaLat = 38;
+                var koreaLon = 131;
+                createViewLookAt(koreaLat,koreaLon);
+                jpegOverlay.setVisibility(true);
+            }
+        }
+        
+        function clearJpegOverlay() {
+            jpegOverlay.setVisibility(false);
+        }
+        
+        function toggleGrids() {
+            if (gridsOn) {
+                //turn grids off
+                ge.getOptions().setGridVisibility(false);
+            }
+            else {
+                //turn grids on
+                ge.getOptions().setGridVisibility(true);    
+            }
+
+            gridsOn = !gridsOn;
+
+            highlightGrids();
+        }
+
+        function toggleTerrain() {
+            if (terrainOn) {
+                //turn terrain off
+                ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, false);
+           }
+            else {
+                //turn terrain on
+                ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+            }
+
+            terrainOn = !terrainOn;
+
+            highlightTerrain();
+        }
+
+        function toggleBorders() {
+            if (bordersOn) {
+                //turn borders off
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+           }
+            else {
+                //turn borders on
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+            }
+
+            bordersOn = !bordersOn;
+
+            highlightBorders();
+        }
+
+        function toggleInsetMap() {
+            if (insetMap) {
+                //turn inset map off
+                ge.getOptions().setOverviewMapVisibility(false);
+            }
+            else {
+                //turn inset map on
+                ge.getOptions().setOverviewMapVisibility(true);
+            }
+
+            insetMap = !insetMap;
+
+            highlightInsetMap();
+        }
+
+        function toggleTracks() {
+            if (tracksDisplayed) {
+                //turn tracks off
+                clearTracks();
+            }
+            else {
+                //turn tracks on
+                displayTracks();
+            }
+
+            tracksDisplayed = !tracksDisplayed;
+
+            highlightTracks();
+        }
+
+        function togglePolyline() {
+            if (drawLine) {
+                //turn polyline off
+                ClearPolyline();
+            }
+            else {
+                //turn polyline on
+                DrawPolyline();
+            }
+
+            drawLine = !drawLine;
+
+            highlightDrawLine();
+        }
+
+        function toggleOffsetOS() {
+            if (offsetOS) {
+            }
+            else {
+                createViewLookAt(csedsLat,csedsLon);
+            }
+
+            offsetOS = !offsetOS;
+
+            highlightOffsetOS();
+        }
+
+        function toggleGroundOverlay() {
+            if (groundOverlayDisplayed) {
+                clearGroundOverlay();
+            }
+            else {
+                createGroundOverlay()
+            }
+
+            groundOverlayDisplayed = !groundOverlayDisplayed;
+
+            highlightGroundOverlay();
+        }
+
+        function toggleRangeRings() {
+            if (rangeRingDisplayed) {
+                clearRangeRings();
+            }
+            else {
+                createRangeRings();
+            }
+
+            rangeRingDisplayed = !rangeRingDisplayed;
+
+            highlightRangeRings();
+        }
+
+        function toggleSun() {
+            if (sunDisplayed) {
+                //turn off
+                ge.getSun().setVisibility(false);
+            }
+            else {
+                //turn on
+                ge.getSun().setVisibility(true);
+            }
+
+            sunDisplayed = !sunDisplayed;
+
+            highlightSun();
+        }
+
+        function toggleBuildings() {
+            if (buildingsDisplayed) {
+                //turn off
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, false);
+            }
+            else {
+                //turn on
+                ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+                setTimeout(function() {
+                var la = ge.createLookAt('');
+                //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
+                la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
+                ge.getView().setAbstractView(la);
+                }, 3000);
+            }
+
+            buildingsDisplayed = !buildingsDisplayed;
+
+            highlightBuildings();
+        }
+
+        function toggleJpegOverlay() {
+            if (jpegOverlayDisplayed) {
+                //turn off
+                clearJpegOverlay();
+            }
+            else {
+                //turn on
+                createJpegOverlay();
+            }
+
+            jpegOverlayDisplayed = !jpegOverlayDisplayed;
+
+            highlightJpegOverlay();
+        }
+
+        function toggleWeather() {
+            if (weatherDisplayed) {
+                //turn off
+                clearWeather();
+            }
+            else {
+                //turn on
+                displayWeather();
+            }
+
+            weatherDisplayed = !weatherDisplayed;
+
+            highlightWeather();
+        }
+
+        function togglePhillyWeather() {
+            if (phillyWeatherDisplayed) {
+                //turn off
+                clearWeather();
+            }
+            else {
+                //turn on
+                displayPhiladelphiaWeather();
+            }
+
+            phillyWeatherDisplayed = !phillyWeatherDisplayed;
+
+            highlightPhillyWeather();
+        }
+
+        function toggleBlankButton10() {
+            if (blankButton10) {
+                //turn off
+            }
+            else {
+                //turn on
+            }
+
+        
+            blankButton10 = !blankButton10;
+
+            highlightBlankButton10();
+        }
+
+        function clearTracks() {
+            tracksDisplayed = false;
+            var children = ge.getFeatures().getChildNodes();
+
+            for(var i = 0; i < children.getLength(); i++) { 
+                var child = children.item(i);
+                //This clears any KmlPlacemark how can we clear just tracks???
+                if(child.getType() == 'KmlPlacemark') {
+                    if (child.getId() < MAX_TRACK_ID) {
+                        child.setVisibility(false);
+                    }
+                }
+            }
+            
+            clearInterval(trackUpdateInterval);
+            clearInterval(closeControlInterval);
+        }
+        
+        function displayTracks() {
+            tracksDisplayed = true;
+            var children = ge.getFeatures().getChildNodes();
+
+            for(var i = 0; i < children.getLength(); i++) { 
+                var child = children.item(i);
+                if(child.getType() == 'KmlPlacemark') {
+                    if (child.getId() < MAX_TRACK_ID) {
+                        child.setVisibility(true);
+                    }
+                }
+            }
+            
+            trackUpdateInterval = setInterval(function(){updateTracks()},3000);
+            closeControlInterval = setInterval(function(){updateCloseControl()},2000);
+        }
+        
+        var greenButton = "rgba(0,255,0,0.8)";
+        var redButton = "rgba(255,0,0,0.8)";
+        
+        function highlightGrids() {
+            var element = document.getElementById("Grids");
+            element.style.background = (gridsOn == true) ? greenButton : redButton;
+        }
+
+        function highlightEarthSettings() {
+            var element = document.getElementById("EarthSettings");
+            element.style.background = redButton;
+        }
+
+        function highlightOverlay() {
+            var element = document.getElementById("Overlay");
+            element.style.background = redButton;
+        }
+
+        function highlightWeather() {
+            var element = document.getElementById("Weather");
+            element.style.background = redButton;
+        }
+
+        function highlightTwitter() {
+            var element = document.getElementById("Twitter");
+            element.style.background = redButton;
+        }
+
+        function highlightView() {
+            var element = document.getElementById("View");
+            element.style.background = redButton;
+        }
+
+        function highlightTerrain() {
+            var element = document.getElementById("Terrain");
+            element.style.background = (terrainOn == true) ? greenButton : redButton;
+        }
+
+        function highlightBorders() {
+            var element = document.getElementById("Borders");
+            element.style.background = (bordersOn == true) ? greenButton : redButton;
+        }
+
+        function highlightInsetMap() {
+            var element = document.getElementById("InsetMap");
+            element.style.background = (insetMap == true) ? greenButton : redButton;
+        }
+
+        function highlightTracks() {
+            var element = document.getElementById("Tracks");
+            element.style.background = (tracksDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightCsedsTour() {
+            var element = document.getElementById("CsedsTour");
+            element.style.background = (csedsTour == true) ? greenButton : redButton;
+        }
+
+        function highlightDrawLine() {
+            var element = document.getElementById("DrawLine");
+            element.style.background = (drawLine == true) ? greenButton : redButton;
+        }
+
+        function highlightBlankButton1() {
+            var element = document.getElementById("BlankButton1");
+            element.style.background = (blankButton1 == true) ? greenButton : redButton;
+        }
+
+        function highlightOffsetOS() {
+            var element = document.getElementById("OffsetOwnship");
+            element.style.background = (offsetOS == true) ? greenButton : redButton;
+        }
+
+        function highlightGroundOverlay() {
+            var element = document.getElementById("GroundOverlay");
+            element.style.background = (groundOverlayDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightRangeRings() {
+            var element = document.getElementById("RangeRings");
+            element.style.background = (rangeRingDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightSun() {
+            var element = document.getElementById("Sun");
+            element.style.background = (sunDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightBuildings() {
+            var element = document.getElementById("Buildings");
+            element.style.background = (buildingsDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightJpegOverlay() {
+            var element = document.getElementById("JpegOverlay");
+            element.style.background = (jpegOverlayDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightPhillyWeather() {
+            var element = document.getElementById("PhillyWeather");
+            element.style.background = (phillyWeatherDisplayed == true) ? greenButton : redButton;
+        }
+
+        function highlightBlank1() {
+            var element = document.getElementById("Blank1");
+            element.style.background = (blank == true) ? greenButton : redButton;
+        }
+
+        function highlightButtons() {
+            highlightGrids();
+            highlightEarthSettings();
+            highlightOverlay();
+            highlightView();
+            highlightTracks();
+            highlightCsedsTour();
+            highlightWeather();
+            highlightTwitter();
+            highlightBlank1();
+
+        }
+
+        function playCsedsTour() {
+            var href = projectDomain+'csedsTour.kml';
+
+            google.earth.fetchKml(ge, href, kmlFinishedLoading);
+
+            function kmlFinishedLoading(object) {
+                ge.getTourPlayer().setTour(object);
+                ge.getTourPlayer().play();
+            }    
+        }
+        
+        function DrawPolyline() {            
+            if (false == lineStringPlacemarkCreated) {
+                // Create the placemark
+                lineStringPlacemark = ge.createPlacemark('1000');
+
+                // Create the LineString
+                var lineString = ge.createLineString('');
+                lineStringPlacemark.setGeometry(lineString);
+                lineString.setExtrude(true);
+                lineString.setAltitudeMode(ge.ALTITUDE_RELATIVE_TO_GROUND);
+    
+                lineString.getCoordinates().pushLatLngAlt(39.98,-74.90,0);
+                lineString.getCoordinates().pushLatLngAlt(39.98,-74.00,0);
+                
+                // Create a style and set width and color of line
+                lineStringPlacemark.setStyleSelector(ge.createStyle(''));
+                var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
+                lineStyle.setWidth(5);
+                lineStyle.getColor().set('99000000');  // aabbggrr format
+                lineStringPlacemarkCreated=true;
+                // Add the feature to Earth
+                ge.getFeatures().appendChild(lineStringPlacemark);
+            }
+            else {
+                lineStringPlacemark.setVisibility(true);
+            }
+        }
+
+        function ClearPolyline() {
+            lineStringPlacemark.setVisibility(false);
+        }
+
+        function makeCircle(radius, x, y) {
+            var center = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+            var ring = ge.createLinearRing('');
+            var steps = 36;
+            var pi2 = Math.PI * 2;
+
+            for (var i = 0; i < steps; i++) {
+                var lat = center.getLatitude() + x + radius * Math.cos(i / steps * pi2);
+                var lng = center.getLongitude() + y + radius * Math.sin(i / steps * pi2);
+                ring.getCoordinates().pushLatLngAlt(lat, lng, 0);
+            }
+
+            return ring;
+        }
+
+        function createRangeRings() {
+            if (false == rangeRingCreated) {
+                rangeRingCreated = true;
+                rangeRingPlacemark = ge.createPlacemark('3000');
+                rangeRingPlacemark.setGeometry(ge.createMultiGeometry(''));
+                var geoms = rangeRingPlacemark.getGeometry().getGeometries();
+                geoms.appendChild(makeCircle(.25, 0, 0));
+                geoms.appendChild(makeCircle(.55, 0, 0));
+                geoms.appendChild(makeCircle(.85, 0, 0));
+                geoms.appendChild(makeCircle(1.15, 0, 0));
+                geoms.appendChild(makeCircle(1.45, 0, 0));
+                geoms.appendChild(makeCircle(1.75, 0, 0));
+                geoms.appendChild(makeCircle(2.05, 0, 0));
+                geoms.appendChild(makeCircle(2.05, 0, 0));
+                geoms.appendChild(makeCircle(2.35, 0, 0));
+                geoms.appendChild(makeCircle(2.65, 0, 0));
+                geoms.appendChild(makeCircle(2.95, 0, 0));
+                geoms.appendChild(makeCircle(3.25, 0, 0));
+                geoms.appendChild(makeCircle(3.55, 0, 0));
+                geoms.appendChild(makeCircle(3.85, 0, 0));
+                geoms.appendChild(makeCircle(4.15, 0, 0));
+                ge.getFeatures().appendChild(rangeRingPlacemark);
+            }
+            else {
+                rangeRingPlacemark.setVisibility(true);
+            }
+        }
+        
+        function clearRangeRings() {
+            if (rangeRingDisplayed) {
+                rangeRingPlacemark.setVisibility(false);
+            }
+        }
+        
+        function displayWeather() {
+            displayNationalWeather();
+        }
+        
+        function clearWeather() {
+            var features = ge.getFeatures();
+            while (features.getLastChild() != null) {
+                features.removeChild(features.getLastChild());
+            }
+        }
+
+        function displayPhiladelphiaWeather() {
+            var href;
+            href = projectDomain+'NWS_DIX_N0R_RadarLoop/doc.kml';
+            google.earth.fetchKml(ge, href, function(kmlObject) {
+                if (kmlObject) {
+                    ge.getFeatures().appendChild(kmlObject);
+                }
+            });
+        }
+        
+        function displayNationalWeather() {
+            var href;
+            href = projectDomain+'weather3.kml';
+            google.earth.fetchKml(ge, href, function(weatherKMLObject) {
+                if (weatherKMLObject) {
+                    ge.getFeatures().appendChild(weatherKMLObject);
+                }
+            });
+        }
+        
+        function displayWeatherWindow() {
+            openWin("Weather Manager","weatherManager.html",250,500,1050,0);
+        }
+
+        function displayGridsWindow() {
+            openWin("Grid Manager","gridManager.html",250,350,1050,0);
+        }
+
+        function displayEarthSettingsWindow() {
+            openWin("Earth Settings Manager","earthSettingsManager.html",250,700,1050,0);
+        }
+
+        function displayViewWindow() {
+            openWin("View Manager","viewManager.html",250,750,1050,0);
+        }
+        
+        function displayOverlayWindow() {
+            openWin("Overlay Manager","overlayManager.html",250,350,1050,0);
+        }
+
+        function displayTracksWindow() {
+            openWin("Track Manager","trackManager.html",250,350,1050,0);
+        }
+
+        function displayTwitterWindow() {
+            openWin("Twitter Manager","twitterManager.html",250,400,1050,0);
+        }
+
+        function clearTwitterSymbols() {
+            var len = tweetPlacemarkArray.length;
+            //Loop through array and remove placemarks from GE
+            for (var i = 0; i < len; i++) {
+                ge.getFeatures().removeChild(tweetPlacemarkArray[i]);
+            }
+            
+            //Loop through array and remove each item
+            //Done in two loops since single loop wouldn't work
+            for (var j = 0; j < len; j++) {
+                tweetPlacemarkArray.shift();
+            }
+        }
+
+        function updateTweets() {
+            //Only update if tweets are displayed
+            if (tweetsDisplayed) {
+                var url = "getTweets.php";
+                var maxTweetSymbols = 100;
+                var numTweetSymbols = 0;
+                $.post(url, {}, function(data) {
+                        $.each(data,function(key,value) {
+                            numTweetSymbols++;
+                            if (numTweetSymbols <= maxTweetSymbols) {
+                                var location = value.location;
+                                console.log("updateTweets location = "+location);
+                                var tweetid = value.tweetid;
+                                var username = value.username;
+                                var text = value.text;
+                                var profileimage = value.profileimage;
+                                //console.log("updateTweets text = "+text);
+
+                                //Store the tweet information in an object
+                                var obj = {
+                                    tweetid: tweetid,
+                                    location: location,
+                                    username: username,
+                                    text: text,
+                                    profileimage: profileimage,
+                                    placemark: null
+                                };
+                                
+                                //Add the tweet object to the array
+                                tweetsArray.push(obj);
+                                
+
+                                //Get the geo location from the address string
+                                geocoder.geocode( { 'address': location}, function(results, status) {
+                                    //Check if valid geo location
+                                    if (status == google.maps.GeocoderStatus.OK) {
+                                        console.log("updateTweets found location for "+location+" lat = "+results[0].geometry.location.lat()+" lon = "+results[0].geometry.location.lng())
+
+                                        tweetPlacemark = ge.createPlacemark('');
+                                        ge.getFeatures().appendChild(tweetPlacemark);
+                                        //Add the placemark to the array
+                                        tweetPlacemarkArray.push(tweetPlacemark);
+                                        //Find the tweetsArray index for this location
+                                        var i = findTweetsByLocation(location);
+                                        if (i != null) {
+                                            console.log("geocode storing placemark "+tweetPlacemark+"in item "+i);
+                                            //Store this placemark in tweetsArray
+                                            tweetsArray[i].placemark = tweetPlacemark;
+                                            var image = "<img src="+tweetsArray[i].profileimage+" width='42' height='42'/>";
+                                            tweetPlacemark.setName(image+username+":"+text);
+                                        }
+                                        else
+                                        {
+                                            console.log("geocode could not find tweet by location");
+                                        }
+            
+                                        // Create style map for placemark
+                                        var icon = ge.createIcon('');
+                                        icon.setHref(tweetIcon);
+                                        var style = ge.createStyle('');
+                                        style.getIconStyle().setIcon(icon);
+                                        style.getIconStyle().setScale(2.0);
+                                        tweetPlacemark.setStyleSelector(style);
+                                        
+                                        // Create point
+                                        var point = ge.createPoint('');
+                                        point.setLatitude(results[0].geometry.location.lat());
+                                        point.setLongitude(results[0].geometry.location.lng());
+                                        tweetPlacemark.setGeometry(point);
+                                    }
+                                    else {
+                                        console.log('Geocode was not successful status: ' + status+' for location |'+location+'|');
+                                    }
+                                });
+                            }
+                        })
+                });
+            }
+        }
+        
+        function findTweetsByLocation(location) {
+            var len = tweetsArray.length;
+            for (var i = 0; i < len; i++) {
+                if (tweetsArray[i].location == location) {
+                    return i;
+                }
+            }
+            return null;
+        }
+        
+        function findTweetsByPlacemark(placemark) {
+            var len = tweetsArray.length;
+            for (var i = 0; i < len; i++) {
+                if (JSON.stringify(tweetsArray[i].placemark) === JSON.stringify(placemark)) {
+                    console.log("findTweetsByPlacemark found match in item "+i);
+                    return i;
+                }
+            }
+            return null;
+        }
+        
+        function openWin(name,url,width,height,x,y) {
+            //Open input window with parameters
+            var myWindow = window.open(url,"","width="+width+",height="+height);
+            //Set focus on new window
+            myWindow.focus();
+            //Move window to input location
+            myWindow.moveTo(x,y);
+    
+            var domain ="http://localhost:8888";
+    
+            //Message the child on an interval
+            var myInterval = setInterval(function(){
+                var date = new Date();
+                var message = 'Hello!  The time is: ' + date.toString();
+                //send the message and target URI so child can communicate with this window
+                myWindow.postMessage(message,domain); 
+            },2000);
+            
+            //listen for response back
+            window.addEventListener('message',function(event) {
+                //Ignore unsolicited messages
+                if(event.origin !== domain) return;
+
+                //Clear the interval communicating to the child
+                clearInterval(myInterval);
+        
+                //Parse JSON passed by window
+                var json = jQuery.parseJSON(event.data);
+                
+                //Determine message type based on json.key
+                if (json.key == 'grids') {
+                    if (json.value == true) {
+                        ge.getOptions().setGridVisibility(true);
+                    }
+                    else {
+                        ge.getOptions().setGridVisibility(false);
+                    }
+                }
+                else if (json.key == 'range rings') {
+                    if (json.value == true) {
+                        createRangeRings();
+                        rangeRingDisplayed = !rangeRingDisplayed;
+                    }
+                    else {
+                        clearRangeRings();
+                        rangeRingDisplayed = !rangeRingDisplayed;
+                    }
+                }
+                else if (json.key == 'national weather') {
+                    if (json.value == true) {
+                        displayNationalWeather();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.key == 'local weather') {
+                    if (json.value == true) {
+                        displayPhiladelphiaWeather();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.key == 'weather warnings') {
+                    if (json.value == true) {
+                        displayWeatherWarnings();
+                    }
+                    else {
+                        clearWeather();
+                    }
+                }
+                else if (json.value == 'offset ownship') {
+                    offsetOS = true;
+                    offsetToPriHook = false;
+                    offsetToTrackID = false;
+                    createViewLookAt(csedsLat,csedsLon);
+                }
+                else if (json.value == 'offset pri hook') {
+                    offsetOS = false;
+                    offsetToPriHook = true;
+                    offsetToTrackID = false;
+                }
+                else if (json.value == 'offset track') {
+                    offsetOS = false;
+                    offsetToPriHook = false;
+                    offsetToTrackID = true;
+                    offsetTrackID = json.trackID;
+                }
+                else if (json.value == 'offset lat lon') {
+                    offsetOS = false;
+                    offsetToPriHook = false;
+                    offsetToTrackID = false;
+                    var lat = json.lat;
+                    var lon = json.lon;
+                    //Create a view look at with this location
+                    createViewLookAt(lat,lon);
+                }
+                else if (json.value == 'offset address') {
+                    offsetOS = false;
+                    offsetToPriHook = false;
+                    offsetToTrackID = false;
+                    var address = json.address;
+                    
+                    offsetToAddress(address);
+                }
+                else if (json.key == 'sun') {
+                    if (json.value == true) {
+                        ge.getSun().setVisibility(true);
+                    }
+                    else {
+                        ge.getSun().setVisibility(false);
+                    }
+                }
+                else if (json.key == 'inset map') {
+                    if (json.value == true) {
+                        ge.getOptions().setOverviewMapVisibility(true);
+                    }
+                    else {
+                        ge.getOptions().setOverviewMapVisibility(false);
+                    }
+                }
+                else if (json.key == 'borders') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, false);
+                    }
+                }
+                else if (json.key == 'roads') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, false);
+                    }
+                }
+                else if (json.key == 'buildings') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+                        setTimeout(function() {
+                            var la = ge.createLookAt('');
+                            //Stock Exchange (lat,lon, altitude, altitude mode, heading, tilt, range)
+                            la.set(40.705556, -74.009722, 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 0, 30, 1500);
+                            ge.getView().setAbstractView(la);
+                        }, 3000);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, false);
+                    }
+                }
+                else if (json.key == 'terrain') {
+                    if (json.value == true) {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, true);
+                    }
+                    else {
+                        ge.getLayerRoot().enableLayerById(ge.LAYER_TERRAIN, false);
+                    }
+                }
+                else if (json.key == 'google') {
+                    if (json.value == true) {
+                        createGroundOverlay();
+                    }
+                    else {
+                        clearGroundOverlay();
+                    }
+                }
+                else if (json.key == 'geo') {
+                    if (json.value == true) {
+                        createJpegOverlay();
+                    }
+                    else {
+                        clearJpegOverlay();
+                    }
+                }
+                else if (json.key == 'tracks') {
+                    if (json.value == true) {
+                        displayTracks();
+                    }
+                    else {
+                        clearTracks();
+                    }
+                }
+                else if (json.key == 'twitter feed') {
+                    console.log("earth received message "+json.key+ " json.displayWindow = "+json.displayWindow);
+                        twitterSearch = json.search;
+                        console.log("earth.html twitterSearch = "+twitterSearch);
+                        if (true == json.displayWindow && false == twitterFeedWindowDisplayed) {
+                            twitterFeedWindowDisplayed = true;
+                            //Display twitter feed window
+                            twitterFeedWindow = window.open("twitterFeed.html","","width="+250+",height="+350);
+                            //Move window to input location
+                            twitterFeedWindow.moveTo(1100,500);
+                            //Pass the search string in a message to the window
+                            twitterFeedInterval = setInterval(function(){
+                                //send the message and target URI so child can communicate with this window
+                                twitterFeedWindow.postMessage(twitterSearch,domain); 
+                            },2000); 
+                        }
+                        else {
+                            twitterFeedWindowDisplayed = false;
+                            //Clear twitter feed window
+                            twitterFeedWindow.close();
+                        }
+                }
+                else if (json.key == 'twitter symbols') {
+                    if (json.value == true) {
+                        //Display twitter symbols
+                        tweetsDisplayed = true;
+                        //Call function immediately
+                        updateTweets();
+                    }
+                    else {
+                        //Clear twitter symbols
+                        clearTwitterSymbols();
+
+                        tweetsDisplayed = false;
+                        
+                        //Clear the twitter symbol interval
+                        clearInterval(twitterFeedInterval);
+
+                        var i;
+
+                        //Clear the arrays
+                        for(i = 0; i < tweetPlacemarkArray.length; i++) {
+                            tweetPlacemarkArray.pop();
+                        }
+                        for (i = 0; i < tweetsArray.length; i++) {
+                            tweetsArray.pop();
+                        }
+                    }
+                }
+                else if (json.key == 'map type') {
+                    if ("earth" == json.value) {
+                        console.log("setting map type to earth");
+                        ge.getOptions().setMapType(ge.MAP_TYPE_EARTH);
+                    }
+                    else {
+                        console.log("setting map type to sky");
+                        ge.getOptions().setMapType(ge.MAP_TYPE_SKY);
+                    }
+                }
+                else if (json.key == 'status bar') {
+                    //alert("setting status bar to "+json.value);
+                    ge.getOptions().setStatusBarVisibility(json.value);
+                }
+                else if (json.key == 'atmosphere') {
+                    //alert("setting atmosphere to "+json.value);
+                    ge.getOptions().setAtmosphereVisibility(json.value);
+                }
+                else if (json.key == 'camera tilt') {
+                    //console.log("setting camera tilt to "+json.value);
+                    //Get the current view
+                    var lookAt = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                    
+                    //Set the new camera tilt
+                    lookAt.setTilt(parseInt(json.value));
+                    
+                    //Update the view in Google Earth.
+                    ge.getView().setAbstractView(lookAt);
+                }
+            },false);
+        }
+        
+        google.setOnLoadCallback(init);
+
+        
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <button id="View" onclick="displayViewWindow()">View Settings</button>
+            <button id="EarthSettings" onclick="displayEarthSettingsWindow()">Earth Settings</button>
+            <button id="Grids" onclick="displayGridsWindow()">Grids</button>
+            <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
+            <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
+            <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
+            <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
+            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
+            <button id="Blank1">Blank</button>
+        </div>
+        <style type="text/css">
+            #progress-container {
+                width: 1250px;
+                height: 3px;
+                background-color: #009;
+            }
+    
+            #progress-bar {
+                width: 250px;
+                height: 3px;
+                background-color: white;
+            } 
+        </style>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="main">
+            <div id="map3d"></div>
+        </div>
+        <div id="close-control">
+            <script type="text/javascript">
+                document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";
+            </script>
+        </div>
+    </div>
+</body>
+</html>
