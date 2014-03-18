@@ -6,9 +6,9 @@ $con = mysql_connect("localhost", "test", "test") or die('Sorry, could not conne
 
 mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
     
-$query = "SELECT trackNum,trackCategory,trackIdentity,trackPlatform,trackLat,trackLon,trackAlt,trackCourse,trackSpeed,trackTag,missileInventory from tracks";
+$query = "SELECT targetTN,weapon,weaponTN,status from engagements";
 
-$result = mysql_query($query) or die('Sorry, could not find any tracks');
+$result = mysql_query($query) or die('Sorry, could not find any engagements');
 
 $json = array();
 

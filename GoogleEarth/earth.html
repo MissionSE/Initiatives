@@ -53,14 +53,14 @@
         var rangeRingDisplayed = false;
         var rangeRingCreated = false;
         var symbolWebsite = 'http://dev.bridgeborn.com/symbology/WarfightingSymbologyHandler.ashx?hierarchy=';
-        var friendSurf = symbolWebsite+'WAR.SSUF&forcetype=friend';
-        var cruiser = symbolWebsite+'WAR.SSUF.CBTT.LNE.CRU&forcetype=friend';
-        var battleship = symbolWebsite+'WAR.SSUF.CBTT.LNE.BBS&forcetype=friend';
-        var destroyer = symbolWebsite+'WAR.SSUF.CBTT.LNE.DD&forcetype=friend';
-        var littoral = symbolWebsite+'WAR.SSUF.CBTT.LNE.LL&forcetype=friend';
-        var frigate = symbolWebsite+'WAR.SSUF.CBTT.LNE.FFR&forcetype=friend';
-        var friendAir = symbolWebsite+'WAR.AIRTRK&forcetype=friend';
-        var friendFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=friend';
+        var friendSurf = symbolWebsite+'WAR.SSUF&forcetype=friend&imageformat=TIF';
+        var cruiser = symbolWebsite+'WAR.SSUF.CBTT.LNE.CRU&forcetype=friend&imageformat=TIF';
+        var battleship = symbolWebsite+'WAR.SSUF.CBTT.LNE.BBS&forcetype=friend&imageformat=TIF';
+        var destroyer = symbolWebsite+'WAR.SSUF.CBTT.LNE.DD&forcetype=friend&imageformat=TIF';
+        var littoral = symbolWebsite+'WAR.SSUF.CBTT.LNE.LL&forcetype=friend&imageformat=TIF';
+        var frigate = symbolWebsite+'WAR.SSUF.CBTT.LNE.FFR&forcetype=friend&imageformat=TIF';
+        var friendAir = symbolWebsite+'WAR.AIRTRK&forcetype=friend&imageformat=TIF';
+        var friendFighter = symbolWebsite+'WAR.AIRTRK.MIL.FIXD.FTR&forcetype=friend&imageformat=TIF';
         var unknownSurf = symbolWebsite+'WAR.SSUF&forcetype=unknown';
         var unknownMissile = symbolWebsite+'WAR.AIRTRK.WPN&forcetype=unknown';
         var unknownAir = symbolWebsite+'WAR.AIRTRK&forcetype=unknown';
@@ -277,10 +277,12 @@
                         lat:osLat,
                         lon:osLon,
                         altitude:0,
+                        cat:value.trackCategory,
                         course:value.trackCourse,
                         speed:value.trackSpeed,
                         id:value.trackIdentity,
                         tag:value.trackTag,
+                        inv:value.missileInventory,
                         placemark:os
                     };
                     
@@ -306,6 +308,7 @@
                         addToMessage('course', trackData[priHookedTrackId].course);
                         addToMessage('speed', trackData[priHookedTrackId].speed);
                         addToMessage('id', trackData[priHookedTrackId].id);
+                        addToMessage('inventory',trackData[priHookedTrackId].inv);
                         
                         // Prevent default balloon from popping up for marker placemarks
                         event.preventDefault(); 
@@ -447,10 +450,12 @@
                             lat:lat,
                             lon:lon,
                             altitude:value.trackAlt,
+                            cat:value.trackCategory,
                             course:value.trackCourse,
                             speed:value.trackSpeed,
                             id:value.trackIdentity,
                             tag:value.trackTag,
+                            inv:value.missileInventory,
                             placemark:track
                         };
                         
@@ -573,6 +578,7 @@
                             text+='course'+ ': ' +value.trackCourse+'\n<br />';
                             text+='speed'+ ': ' +value.trackSpeed+'\n<br />';
                             text+='id'+ ': ' +value.trackIdentity+'\n<br />';
+                            text+='inventory'+ ': '+value.missileInventory+'\n<br />';
                             
                             //Update page with new close control text
                             document.getElementById('close-control').innerHTML = text;
@@ -672,10 +678,12 @@
                             lat:lat,
                             lon:lon,
                             altitude:0,
+                            cat:value.trackCategory,
                             course:value.trackCourse,
                             speed:value.trackSpeed,
                             id:value.trackIdentity,
                             tag:value.trackTag,
+                            inv:value.missileInventory,
                             placemark:track
                         };
                         
@@ -873,7 +881,7 @@
                 jpegOverlay.setIcon(ge.createIcon(''))
                 jpegOverlay.getIcon().setHref(projectDomain+"korea_1m.jpg");
                 jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
-                jpegOverlay.setOpacity(25);
+                jpegOverlay.setOpacity(0.25);
                 
                 var koreaLat = 38;
                 var koreaLon = 131;
@@ -1736,6 +1744,7 @@
                         }
                 }
                 else if (json.key == 'twitter symbols') {
+                    console.log("json.key = "+json.key+" json.value = "+json.value);
                     if (json.value == true) {
                         //Display twitter symbols
                         tweetsDisplayed = true;
@@ -1787,6 +1796,18 @@
                 }
                 else if (json.key == 'satellite') {
                     (true == json.value) ? displaySatellite() : clearSatellite();
+                }
+                else if (json.key == 'friend filter') {
+                    (true == json.value) ? friendFilter("true") : friendFilter("false");
+                }
+                else if (json.key == 'hostile filter') {
+                    (true == json.value) ? hostileFilter("true") : hostileFilter("false");
+                }
+                else if (json.key == 'unknown filter') {
+                    (true == json.value) ? unknownFilter("true") : unknownFilter("false");
+                }
+                else if (json.key == 'neutral filter') {
+                    (true == json.value) ? neutralFilter("true") : neutralFilter("false");
                 }
             },false);
         }
@@ -2053,6 +2074,84 @@
         function satellite(value) {
             ("true" == value) ? displaySatellite() : clearSatellite();
         }
+        
+        function friendFilter(value) {
+            console.log("friendFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("friend" == trackData[i].id) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }
+        }
+
+        function hostileFilter(value) {
+            console.log("hostileFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("hostile" == trackData[i].id) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }
+        }
+
+        function unknownFilter(value) {
+            console.log("unknownFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("unknown" == trackData[i].id) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }
+        }
+
+        function neutralFilter(value) {
+            console.log("neutralFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("neutral" == trackData[i].id) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }            
+        }
+
+        function airFilter(value) {
+            console.log("airFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("air" == trackData[i].cat) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }            
+        }
+
+        function surfaceFilter(value) {
+            console.log("surfaceFilter value = "+value);
+            for (var i = 0; i < trackData.length; i++) {
+                if ("surface" == trackData[i].cat) {
+                    tn = trackData[i].tn;
+                    child = getChildForId(tn);
+                    if (child) {
+                        ("true" == value) ? child.setOpacity(1.0) : child.setOpacity(0.1);
+                    }
+                }
+            }            
+        }
 
         function getRemoteCommands() {
             var url = "getCommands.php";
@@ -2181,6 +2280,24 @@
             else if ("satellite" == text) {
                 satellite(data1);
             }
+            else if ("friend filter" == text) {
+                friendFilter(data1);
+            }
+            else if ("hostile filter" == text) {
+                hostileFilter(data1);
+            }
+            else if ("unknown filter" == text) {
+                unknownFilter(data1);
+            }
+            else if ("neutral filter" == text) {
+                neutralFilter(data1);
+            }
+            else if ("air filter" == text) {
+                airFilter(data1);
+            }
+            else if ("surface filter" == text) {
+                surfaceFilter(data1);
+            }
         }
 
         function deleteRemoteCommand(commandId) {            
@@ -2193,6 +2310,18 @@
 
         google.setOnLoadCallback(init);
 
+        function distanceBetweenTwoLocations(lat1,lon1,lat2,lon2) {
+            var R = 6371; // km
+            var dLat = (lat2-lat1).toRad();
+            var dLon = (lon2-lon1).toRad();
+            //var lat1 = lat1.toRad();
+            //var lat2 = lat2.toRad();
+            
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c;            
+        }
         
     </script>
 </head>

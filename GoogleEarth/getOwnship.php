@@ -6,7 +6,7 @@ $con = mysql_connect("localhost", "test", "test") or die('Sorry, could not conne
 
 mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
     
-$query = "SELECT trackNum,trackCategory,trackIdentity,trackPlatform,trackLat,trackLon,trackAlt,trackCourse,trackSpeed,trackTag from tracks WHERE trackNum = 1";
+$query = "SELECT trackNum,trackCategory,trackIdentity,trackPlatform,trackLat,trackLon,trackAlt,trackCourse,trackSpeed,trackTag,missileInventory from tracks WHERE trackNum = 1";
 
 $result = mysql_query($query) or die('Sorry, could not find any tracks');
 
