@@ -8,11 +8,11 @@
       var parentWindow = null;
       var parentURI = null;
 
-      function toggleGoogle(setting) {
+      function toggleGoogle(widget) {
         if (null != parentWindow) {
         var rawData = {
-          key : "google",
-          value : setting,
+          key : "jpeg",
+          value : widget.checked,
         };
         var data = JSON.stringify(rawData);
         parentWindow.postMessage(data,parentURI);
@@ -22,17 +22,16 @@
           var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
 
           //Write command to database
-          $.post(url, {command:"google",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"jpeg",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
       
-      function toggleGeo(setting) {
+      function toggleKorea(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "geo",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           //alert("overlayManager data = "+data);
@@ -43,19 +42,18 @@
           var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
 
           //Write command to database
-          $.post(url, {command:"geo",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"geo",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleCompassRose(setting) {
+      function toggleCompassRose(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "compass rose",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
-          //alert("overlayManager data = "+data);
           parentWindow.postMessage(data,parentURI);
         }
         else {
@@ -63,16 +61,16 @@
           var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
 
           //Write command to database
-          $.post(url, {command:"compass rose",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"compass rose",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleGoogleMap(setting) {
+      function toggleGoogleMap(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "google map",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           //alert("overlayManager data = "+data);
@@ -83,16 +81,16 @@
           var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
 
           //Write command to database
-          $.post(url, {command:"google map",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"google map",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleSatellite(setting) {
+      function toggleSatellite(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "satellite",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           //alert("overlayManager data = "+data);
@@ -103,7 +101,67 @@
           var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
 
           //Write command to database
-          $.post(url, {command:"satellite",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"satellite",data1:widget.checked,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function toggleStates(widget) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "us states",
+            value : widget.checked,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"us states",data1:widget.checked,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function toggleMH370(widget) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "mh370",
+            value : widget.checked,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"mh370",data1:widget.checked,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function toggleBuoys(widget) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "buoys",
+            value : widget.checked,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"buoys",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
@@ -127,42 +185,16 @@
   
   <body onload="processEvents()">
     <div id = grids>
-      <h3>Google Overlay</h3>
-      <h4>
-        Off  
-        <input type="radio" name="google" value="Off" onclick=toggleGoogle(false)><br />
-        On
-        <input type="radio" name="google" value="On" onclick=toggleGoogle(true)><br />
-      </h4>
-      <hr>
-      <h3>Geo Overlay</h3>
-      <h4>
-        Off  
-        <input type="radio" name="geo" value="Off" onclick=toggleGeo(false)><br />
-        On
-        <input type="radio" name="geo" value="On" onclick=toggleGeo(true)><br />
-      </h4>
-      <h3>Compass Overlay</h3>
-      <h4>
-        Off  
-        <input type="radio" name="compass" value="Off" onclick=toggleCompassRose(false)><br />
-        On
-        <input type="radio" name="compass" value="On" onclick=toggleCompassRose(true)><br />
-      </h4>
-      <h3>Google Map Overlay</h3>
-      <h4>
-        Off  
-        <input type="radio" name="map" value="Off" onclick=toggleGoogleMap(false)><br />
-        On
-        <input type="radio" name="map" value="On" onclick=toggleGoogleMap(true)><br />
-      </h4>
-      <h3>Satellite Overlay</h3>
-      <h4>
-        Off  
-        <input type="radio" name="sat" value="Off" onclick=toggleSatellite(false)><br />
-        On
-        <input type="radio" name="sat" value="On" onclick=toggleSatellite(true)><br />
-      </h4>
+      <h3>
+        <label for="google"><input type="checkbox" id="google" name="google" onclick=toggleGoogle(this)>Google Overlay</label><br /><br />
+        <label for="korea"><input type="checkbox" id="korea" name="korea" onclick=toggleKorea(this)>Korea Geo Overlay</label><br /><br />
+        <label for="compass"><input type="checkbox" id="compass" name="compass" onclick=toggleCompassRose(this)>Compass Overlay</label><br /><br />
+        <label for="map"><input type="checkbox" id="map" name="map" onclick=toggleGoogleMap(this)>Google Map Overlay</label><br /><br />
+        <label for="sat"><input type="checkbox" id="sat" name="sat" onclick=toggleSatellite(this)>Satellite Overlay</label><br /><br />
+        <label for="states"><input type="checkbox" id="states" name="states" onclick=toggleStates(this)>US States Overlay</label><br /><br />
+        <label for="mh370"><input type="checkbox" id="mh370" name="states" onclick=toggleMH370(this)>MH 370 Overlay</label><br /><br />
+        <label for="buoys"><input type="checkbox" id="buoys" name="buoys" onclick=toggleBuoys(this)>Buoys Overlay</label><br />
+      </h3>
     </div>
   </body>
 </html>

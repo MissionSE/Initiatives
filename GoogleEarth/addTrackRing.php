@@ -17,10 +17,12 @@
     
     $spd = $_POST['spd'];
     
-    $con = mysql_connect("localhost", "test", "test") or die('Sorry, could not connect to database server');
-    
-    mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
+    //$con = mysql_connect("localhost", "test", "test") or die('Sorry, could not connect to database server');
+    //
+    //mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
         
+    include("connectToDatabase.inc.php");
+
     $query =    "INSERT INTO trackRings (latitude,longitude,radius,numTracks,identity,platform,altitude,category,speed)".
                 "VALUES ('$lat','$lon','$radius','$num','$id','$plat','$alt','$cat','$spd')";
     
