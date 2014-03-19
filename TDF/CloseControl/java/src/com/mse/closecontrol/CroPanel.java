@@ -7,13 +7,14 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.UIManager;
-import javax.swing.Timer;
 
-public class CroPanel extends JPanel implements ActionListener {
+public class CroPanel extends JPanel  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private JLabel tnLabel;
 	private JLabel tnValue;
@@ -41,15 +42,11 @@ public class CroPanel extends JPanel implements ActionListener {
 
 	private String panelName =null; 
 	
-	private Timer dataBaseTimer;
-	private SqlReader trackDB;
 	public CroPanel(String pName) {
 		setBackground(UIManager.getColor("Button.darkShadow"));
 		setPanelName(pName);
 		setupPanel();
-		trackDB = new SqlReader();
-		dataBaseTimer = new Timer(1000, this);
-		dataBaseTimer.start();
+
 	}
 	
 	private void setupPanel() {
@@ -133,19 +130,15 @@ public class CroPanel extends JPanel implements ActionListener {
 	private void setPanelName(String panelName) {
 		this.panelName = panelName;
 	}
-	void updateHookLabels(TrackData priHook, TrackData secHook) {
-		System.out.println("PH: " + priHook.getTrackNumber());
-		tnValue.setText(priHook.getTrackNumber());
+	void updateHookLabels(TrackData hookData) {
+		tnValue.setText(hookData.getTrackNumber());
+		identityValue.setText(hookData.getIdentity());
+		categoryValue.setText(hookData.getCategory());
+		platformValue.setText(hookData.getPlatform());
+		latitudeValue.setText(hookData.getLatitude());
+		longitudeValue.setText(hookData.getLongitude());
+		speedValue.setText(hookData.getSpeed());
+		courseValue.setText(hookData.getCourse());
+		
 	}
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		System.err.println("Action performed");
-		TrackData priHook=new TrackData();
-		TrackData secHook=new TrackData();
-		trackDB.executeTrackRead(priHook, secHook);
-		if (priHook != null) {
-			updateHookLabels(priHook, secHook);
-		}
-	}	
-
 }

@@ -38,11 +38,17 @@ public class TrackData {
 	    this.identity = Identity.getIdentity(tr.getIdentity(), false).toString();
 	    this.category = Category.convertValue(tr.getCategory()).getName();
 	    this.platform = Platform.getName(tr.getCategory(), tr.getPlatform());
+	    if (this.platform == null) {
+	    	this.platform = "";
+	    }
 	    this.latitude = Latitude.getLatitudeString(tr.getLatitude(), new Degrees());
 	    this.longitude = Longitude.getLongitudeString(tr.getLongitude(), new Degrees());
-	    this.speed = "" + tr.getSpeed(new MilesPerHour()) + " mph";
-	    this.altitude = "" + tr.getAltitude(new Kilofeet()) + " kft";
-	    this.course = "" + tr.getCourse(new Degrees()) + " degrees";
+	    String tmpSpd = Double.toString(tr.getSpeed(new MilesPerHour()));
+	    this.speed = "" +  tmpSpd.substring(0, 6)+ " mph";
+	    String tmpAlt = Double.toString(tr.getAltitude(new Kilofeet()));
+	    this.altitude = "" + tmpAlt.substring(0, 6) + " kft";
+	    String tmpCrs = Double.toString(tr.getCourse(new Degrees()));
+	    this.course = "" + tmpCrs.substring(0, 6) + " degrees";
 	}
 	catch(Exception e ) 
 	{

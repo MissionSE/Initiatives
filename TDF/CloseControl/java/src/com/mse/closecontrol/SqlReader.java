@@ -58,27 +58,35 @@ public class SqlReader {
 		sb.append("SELECT id, tn, category, ident, platform, latitude, longitude, speed, altitude, course FROM track_hooks ");
 		return sb;
 	}	 
-	
     public boolean executeTrackRead(TrackData priHook, TrackData secHook) {
     	
     	Connection conn = null;
     	try {
-    	    conn = connect();
+    		TrackData hook = null;
+    		conn = connect();
     	    StringBuffer sb = buildTrackSqlBuffer();
-    	    System.err.println(sb.toString());
     	    Statement statement = conn.createStatement();
     	    statement.setMaxRows(2);
     	    ResultSet rs = statement.executeQuery(sb.toString());
     	    while(rs.next()) {
     	    	if (rs.getInt("id") == 1 ) {
-    	    		priHook.setTrackNumber(rs.getString("tn"));
+    	    		priHook.setHookType(TrackData.PRI_HOOK);
+    	    		hook = priHook;
     	    	}
     	    	else if (rs.getInt("id") == 2) {
-    	    		secHook.setTrackNumber(rs.getString("tn"));
+    	    		secHook.setHookType(TrackData.SEC_HOOK);
+    	    		hook = secHook;
     	    	}
+    	    	hook.setTrackNumber(rs.getString("tn"));
+    	    	hook.setCategory(rs.getString("category"));
+    	    	hook.setIdentity(rs.getString("ident"));
+    	    	hook.setPlatform(rs.getString("platform"));
+    	    	hook.setLatitude(rs.getString("latitude"));
+    	    	hook.setLongitude(rs.getString("longitude"));
+    	    	hook.setSpeed(rs.getString("speed"));
+    	    	hook.setAltitude(rs.getString("altitude"));
+    	    	hook.setCourse(rs.getString("course"));
     	    }
-    	    System.err.println(priHook.getTrackNumber());
-    	    System.err.println(secHook.getTrackNumber());
     	    return true;
   
     	}

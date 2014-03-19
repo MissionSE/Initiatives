@@ -1,13 +1,14 @@
 package com.mse.closecontrol;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 
-public class Cro extends JFrame implements ActionListener {
+public class Cro extends JFrame  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CroPane croPane;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -37,13 +38,6 @@ public class Cro extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		croPane = new CroPane();
 		setContentPane(croPane);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		
-		revalidate();
-		repaint();
 	}
 
 }

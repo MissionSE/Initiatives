@@ -2,19 +2,20 @@ package com.mse.closecontrol;
 
 public class TrackData {
 
-    public static final int PRI_HOOK = 0;
+    public static final int NO_HOOK = -1;
+	public static final int PRI_HOOK = 0;
     public static final int SEC_HOOK = 1;
 
-    private int hookType;
-    private String trackNumber;
-    private String identity;
-    private String category;
-    private String platform;
-    private String latitude;
-    private String longitude;
-    private String speed;
-    private String altitude;
-    private String course;
+    private int hookType=NO_HOOK;
+    private String trackNumber="";
+    private String identity="";
+    private String category="";
+    private String platform="";
+    private String latitude="";
+    private String longitude="";
+    private String speed="";
+    private String altitude="";
+    private String course="";
 
     public TrackData() {
     }

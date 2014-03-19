@@ -1,23 +1,28 @@
 package com.mse.closecontrol;
 
-import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.Timer;
 
-public class CroPane extends JTabbedPane implements ChangeListener {
+public class CroPane extends JTabbedPane implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	private CroPanel priHook; 
 	private CroPanel secHook; 
+
+	private Timer dataBaseTimer;
+	private SqlReader trackDB;
 	
 	
 	public CroPane() {
 		priHook = new CroPanel("Primary Hook");
 		secHook = new CroPanel("Secondary Hook");
 		setupPane();
-		this.addChangeListener(this);
+		trackDB = new SqlReader();
+		dataBaseTimer = new Timer(250, this);
+		dataBaseTimer.start();
 	}
 
 	private void setupPane() {
@@ -28,20 +33,15 @@ public class CroPane extends JTabbedPane implements ChangeListener {
 		addTab("Secondary Hook", secHook);
 		
 	}
-
-	@Override
-	public void stateChanged(ChangeEvent change) {
-		System.err.println("Tab changed: " + this.getSelectedIndex() );
-
-		if (this.getSelectedIndex() == 0) {
-			priHook.repaint();
-
-		}
-		if (this.getSelectedIndex() == 1) {
-			secHook.repaint();
-		}
+	public void actionPerformed(ActionEvent arg0) {
+		TrackData priTrack = new TrackData();
+		TrackData secTrack = new TrackData();
+		trackDB.executeTrackRead(priTrack, secTrack);
+		priHook.updateHookLabels(priTrack);
+		secHook.updateHookLabels(secTrack);
 		revalidate();
 		repaint();
 	}
+
 	
 }
