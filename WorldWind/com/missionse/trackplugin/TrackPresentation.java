@@ -5,11 +5,9 @@ import com.missionse.worldwind.ApplicationTemplate.AppFrame;
 public class TrackPresentation implements Presentation
 {
 	AppFrame frame;
-	//TrackDataSource trackDataSource;
 
-	public TrackPresentation(/*TrackDataSource dataSource*/)
+	public TrackPresentation()
 	{
-		//this.trackDataSource = dataSource;
 	}
 
 	public void initialize(AppFrame parent)
@@ -21,9 +19,4 @@ public class TrackPresentation implements Presentation
 	{
 		return this;
 	}
-
-	//public Vector<Track> getTrackData()
-	//{
-	//	return trackDataSource.getTrackData();
-	//}
 }

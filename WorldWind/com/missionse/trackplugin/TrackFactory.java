@@ -11,4 +11,6 @@ public interface TrackFactory
 	public TrackDataSource getTrackDataSource();
 	
 	public TrackHookManager getTrackHookManager();
+
+	public TrackController getTrackHistoryController();
 }

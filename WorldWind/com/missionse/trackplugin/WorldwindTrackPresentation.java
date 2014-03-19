@@ -11,11 +11,8 @@ public class WorldwindTrackPresentation extends TrackPresentation
 	MarkerLayer trackLayer;
 	IconLayer trackIconLayer;
 	
-	//Vector<Marker> trackMarkers;
-
-	public WorldwindTrackPresentation(/*TrackDataSource dataSource*/)
+	public WorldwindTrackPresentation()
 	{
-		//super(dataSource);
 	}
 
 	public void initialize(AppFrame parent)

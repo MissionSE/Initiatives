@@ -6,11 +6,9 @@ import com.missionse.worldwind.ApplicationTemplate.AppFrame;
 public class WorldwindTrackHistoryPresentation extends TrackPresentation
 {
 	MarkerLayer trackHistoryLayer;
-	//Vector<Marker> trackHistoryMarkers;
 
-	public WorldwindTrackHistoryPresentation(/*TrackDataSource dataSource*/)
+	public WorldwindTrackHistoryPresentation()
 	{
-		//super(dataSource);
 	}
 
 	public void initialize(AppFrame parent)
@@ -39,5 +37,4 @@ public class WorldwindTrackHistoryPresentation extends TrackPresentation
 		frame.insertBeforePlacenames(frame.getWwd(), trackHistoryLayer);
 		frame.getLayerPanel().update(frame.getWwd());
 	}
-
 }

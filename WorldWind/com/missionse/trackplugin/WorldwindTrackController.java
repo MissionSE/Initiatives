@@ -1,35 +1,25 @@
 package com.missionse.trackplugin;
 
-import gov.nasa.worldwind.render.UserFacingIcon;
 import gov.nasa.worldwind.render.WWIcon;
 import gov.nasa.worldwind.render.markers.Marker;
 
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class WorldwindTrackController extends TrackController
 {
-	WorldwindTrackPresentation worldwindTrackPresentation;
-	Vector<Marker> trackMarkers;
-	Vector<WWIcon> trackIcons;
+	ArrayList<Marker> trackMarkers;
+	ArrayList<WWIcon> trackIcons;
 
 	public WorldwindTrackController(TrackDataSource dataSource, TrackPresentation trackPresentation)
 	{
 		super(dataSource, trackPresentation);
 
-		if (trackPresentation instanceof WorldwindTrackPresentation)
-		{
-			this.worldwindTrackPresentation = (WorldwindTrackPresentation) trackPresentation;
-		}
+		trackMarkers = new ArrayList<Marker>();
+		trackIcons = new ArrayList<WWIcon>();
+		ArrayList<Track> tracks = trackDataSource.getTrackData();
 
-		trackMarkers = new Vector<Marker>();
-		trackIcons = new Vector<WWIcon>();
-		Vector<Track> tracks = trackDataSource.getTrackData();
-
-		Iterator<Track> it = tracks.iterator();
-		while (it.hasNext())
+		for (Track t : tracks)
 		{
-			Track t = it.next();
 			if (t instanceof WorldwindTrack)
 			{
 				WorldwindTrack wwTrack = (WorldwindTrack) t;
@@ -38,18 +28,20 @@ public class WorldwindTrackController extends TrackController
 				trackIcons.add(wwTrack.getTrackIcon());
 			}
 		}
-
-		worldwindTrackPresentation.getTrackLayer().setMarkers(trackMarkers);
-		worldwindTrackPresentation.getTrackIconLayer().setIcons(trackIcons);
+    if (this.trackPresentation instanceof WorldwindTrackPresentation)
+    {
+    	WorldwindTrackPresentation wwPresentation = (WorldwindTrackPresentation)(this.trackPresentation);
+			wwPresentation.getTrackLayer().setMarkers(trackMarkers);
+		  wwPresentation.getTrackIconLayer().setIcons(trackIcons);
+    }
 	}
 
 	public void update()
 	{
-		Vector<Track> tracks = trackDataSource.getTrackData();
-		Iterator<Track> it = tracks.iterator();
-		while (it.hasNext())
+		ArrayList<Track> tracks = trackDataSource.getTrackData();
+		for(Track t : tracks)
 		{
-			it.next().update();
+			t.update();
 		}
 	}
 }

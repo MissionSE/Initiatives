@@ -1,21 +1,20 @@
 package com.missionse.trackplugin;
 
+import java.util.ArrayList;
+
 import com.missionse.worldwind.ApplicationTemplate;
 import com.missionse.worldwind.Plugin;
 
 public class TrackPlugin implements Plugin
 {
 	ApplicationTemplate.AppFrame parent;
-	TrackController trackController;
 	TrackFactory trackFactory;
 	TrackHookManager trackHookManager;
-	
-	WorldwindTrackHistoryController thController;
-	WorldwindTrackHistoryPresentation thPresentation;
-	
+	ArrayList<TrackController> trackControllers;
 
 	public TrackPlugin()
 	{
+		this.trackControllers = new ArrayList<TrackController>();
 	}
 
 	public String getPluginName()
@@ -25,8 +24,11 @@ public class TrackPlugin implements Plugin
 
 	public void update()
 	{
-		this.trackController.update();
-		this.thController.update();
+		for (TrackController tc : trackControllers)
+		{
+			tc.update();
+		}
+		
 		this.trackHookManager.update();
 		this.parent.getWwd().redraw();
 	}
@@ -47,12 +49,9 @@ public class TrackPlugin implements Plugin
 	{
 		this.parent = parent;
 		this.trackFactory = new WorldwindTrackFactory(parent);
-		this.trackController = this.trackFactory.getTrackController();
+		this.trackControllers.add(this.trackFactory.getTrackController());
+		this.trackControllers.add(this.trackFactory.getTrackHistoryController());
 		this.trackHookManager = this.trackFactory.getTrackHookManager();
-		
-		this.thPresentation = new WorldwindTrackHistoryPresentation();
-		this.thPresentation.initialize(this.parent);
-		this.thController = new WorldwindTrackHistoryController(this.trackFactory.getTrackDataSource(), this.thPresentation, this.parent );
 	}
 
 }

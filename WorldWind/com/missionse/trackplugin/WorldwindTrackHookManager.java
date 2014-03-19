@@ -29,29 +29,28 @@ public class WorldwindTrackHookManager extends TrackHookManager
 	{
 		if (this.offsetTrack != null)
 		{
-		  if (this.offsetTrack instanceof WorldwindTrack)
-		  {
-			  WorldwindTrack wwOffset = (WorldwindTrack) this.offsetTrack;
-			  {
-				  if (wwOffset.getTrackMarker().hashCode() == hashCode)
-				  {
-					  removeTracker();
-					  return;
-				  }
-		    }
-		  }
+			if (this.offsetTrack instanceof WorldwindTrack)
+			{
+				WorldwindTrack wwOffset = (WorldwindTrack) this.offsetTrack;
+				{
+					if (wwOffset.getTrackMarker().hashCode() == hashCode)
+					{
+						removeTracker();
+						return;
+					}
+				}
+			}
 		}
-	
+
 		if (this.currentHook instanceof WorldwindTrack)
 		{
 			WorldwindTrack wwTrack = (WorldwindTrack) this.currentHook;
 			if (wwTrack.getTrackMarker().hashCode() == hashCode)
 			{
-				System.out.println("WorldwindTrackHookManager::hook");
 				createTracker(wwTrack);
 			}
 		}
-		
+
 		unhook();
 		super.hook(hashCode);
 		createAnnotationBalloon();
@@ -59,7 +58,6 @@ public class WorldwindTrackHookManager extends TrackHookManager
 
 	private void removeTracker()
 	{
-		System.out.println("::removeTracker previousAltitude is " + previousAltitude);
 		WorldwindTrack wwTrack = (WorldwindTrack) this.offsetTrack;
 		Position p = wwTrack.getTrackMarker().getPosition();
 		Position newPosition = new Position(p.getLatitude(), p.getLongitude(), this.previousAltitude);
@@ -89,22 +87,17 @@ public class WorldwindTrackHookManager extends TrackHookManager
 			{
 				createBalloonLayer();
 			}
-			System.out.println("createAnnotationBalloon");
 			String s = "Track ID: " + currentHook.getTrackID() + "\n" + "Latitude: "
 					+ (double) Math.round(currentHook.getLatitude() * 100) / 100 + "\n" + "Longitude: "
 					+ (double) Math.round(currentHook.getLongitude() * 100) / 100 + "\n" + "Altitude: "
 					+ currentHook.getAltitude() + "\n" + currentHook.getAlignment() + "   " + currentHook.getReportingSource();
-			
-			int height = this.frame.getHeight();
-			int width = this.frame.getWidth();
-			System.out.println("Width: " + width + ", Height: " + height);
 
 			Balloon balloon = new ScreenAnnotationBalloon(s, new Point(900, 850));
 
 			BalloonAttributes attrs = new BasicBalloonAttributes();
 			attrs.setSize(Size.fromPixels(200, 200));
 			attrs.setOffset(new Offset(0d, 0d, AVKey.PIXELS, AVKey.PIXELS));
-			attrs.setInsets(new Insets(10, 10, 10, 10)); // .
+			attrs.setInsets(new Insets(10, 10, 10, 10));
 			attrs.setLeaderShape(AVKey.SHAPE_NONE);
 			attrs.setTextColor(Color.WHITE);
 			attrs.setInteriorMaterial(Material.BLACK);
@@ -118,7 +111,6 @@ public class WorldwindTrackHookManager extends TrackHookManager
 
 	private void removeAnnotationBalloon()
 	{
-		System.out.println("RemoveAnnotationBalloon");
 		if (balloonLayer != null)
 		{
 			balloonLayer.removeAllRenderables();

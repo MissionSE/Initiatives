@@ -1,7 +1,6 @@
 package com.missionse.trackplugin;
 
-import java.util.Vector;
-
+import java.util.ArrayList;
 import com.missionse.graphicplugin.LatLongPoint;
 
 public class RandomTrack implements Track
@@ -15,14 +14,14 @@ public class RandomTrack implements Track
 	int directionalIndicator;
 	String alignment;
 	String reportingSource;
-	Vector<LatLongPoint> historyPoints;
+	ArrayList<LatLongPoint> historyPoints;
 	int historyThrottle;
 
 	public RandomTrack()
 	{
 		this.hooked = false;
 		this.historyThrottle = 0;
-		this.historyPoints = new Vector<LatLongPoint>();
+		this.historyPoints = new ArrayList<LatLongPoint>();
 		generateRandomTrackID();
 		generateRandomAltitude();
 		generateRandomPosition();
@@ -128,11 +127,10 @@ public class RandomTrack implements Track
 
 	public void printData()
 	{
-		RandomTrack randomTrack = new RandomTrack();
-		System.out.println("Test track " + randomTrack.getTrackID() + " is at latitude " + randomTrack.getLatitude()
-				+ " and longitude " + randomTrack.getLongitude() + " flying at altitude " + randomTrack.getAltitude()
-				+ " being reported from " + randomTrack.getReportingSource() + " and is considered "
-				+ randomTrack.getAlignment());
+		System.out.println("Test track " + this.getTrackID() + " is at latitude " + this.getLatitude()
+				+ " and longitude " + this.getLongitude() + " flying at altitude " + this.getAltitude()
+				+ " being reported from " + this.getReportingSource() + " and is considered "
+				+ this.getAlignment());
 	}
 
 	public void updatePosition()

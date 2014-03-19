@@ -1,9 +1,7 @@
 package com.missionse.trackplugin;
 
 import java.awt.Dimension;
-import java.util.Iterator;
-import java.util.Vector;
-
+import java.util.ArrayList;
 import com.missionse.graphicplugin.LatLongPoint;
 
 import gov.nasa.worldwind.geom.Angle;
@@ -21,7 +19,7 @@ public class WorldwindTrack extends RandomTrack
 {
 	Marker trackMarker;
 	WWIcon trackIcon;
-	Vector<Marker> historyMarkers;
+	ArrayList<Marker> historyMarkers;
 	MarkerAttributes trackMarkerAttributes;
 	MarkerAttributes lastTrackMarkerAttributes;
 	MarkerAttributes historyMarkerAttributes;
@@ -29,7 +27,7 @@ public class WorldwindTrack extends RandomTrack
 
 	public WorldwindTrack()
 	{
-		this.historyMarkers = new Vector<Marker>();
+		this.historyMarkers = new ArrayList<Marker>();
 		createTrackDisplay();
 	}
 
@@ -76,7 +74,6 @@ public class WorldwindTrack extends RandomTrack
 
 	public void unhook()
 	{
-		System.out.println("Unhooking track" + this.getTrackID());
 		createTrackMarkerAttributes();
 		trackMarker.setAttributes(trackMarkerAttributes);
 	}
@@ -100,7 +97,7 @@ public class WorldwindTrack extends RandomTrack
 		return this.trackIcon;
 	}
 
-	public Vector<Marker> getTrackHistoryMarkers()
+	public ArrayList<Marker> getTrackHistoryMarkers()
 	{
 		return this.historyMarkers;
 	}
@@ -143,11 +140,10 @@ public class WorldwindTrack extends RandomTrack
 
 	private void createHistoryMarkers()
 	{
-		Iterator<LatLongPoint> it = historyPoints.iterator();
 		this.historyMarkers.clear();
-		while (it.hasNext())
+		
+    for	(LatLongPoint ll : this.historyPoints)
 		{
-			LatLongPoint ll = it.next();
 			this.historyMarkers.add(new BasicMarker(Position.fromDegrees(ll.getLatitude(), ll.getLongitude(), 0),
 					historyMarkerAttributes));
 		}

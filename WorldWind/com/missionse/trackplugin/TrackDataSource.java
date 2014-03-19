@@ -1,27 +1,27 @@
 package com.missionse.trackplugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class TrackDataSource
 {
 	static int MAX_TRACKS = 5000;
-	Vector<Track> trackVector;
+	ArrayList<Track> tracks;
 	HashMap<Integer, Track> trackFinder;
 
 	public TrackDataSource()
 	{
-		this.trackVector = new Vector<Track>();
+		this.tracks = new ArrayList<Track>();
 		this.trackFinder = new HashMap<Integer, Track>();
 		for (int i = 0; i < MAX_TRACKS; i++)
 		{
-			this.trackVector.add(new WorldwindTrack());
+			this.tracks.add(new WorldwindTrack());
 		}
 	}
 
-	public Vector<Track> getTrackData()
+	public ArrayList<Track> getTrackData()
 	{
-		return this.trackVector;
+		return this.tracks;
 	}
 	
 	public HashMap<Integer, Track> getTrackFinder()
@@ -38,9 +38,9 @@ public class TrackDataSource
 	{
 		for (int i = 0; i < MAX_TRACKS; i++)
 		{
-			if (trackID == trackVector.get(i).getTrackID())
+			if (trackID == tracks.get(i).getTrackID())
 			{
-				return trackVector.get(i);
+				return tracks.get(i);
 			}
 		}
 		return new WorldwindTrack();
