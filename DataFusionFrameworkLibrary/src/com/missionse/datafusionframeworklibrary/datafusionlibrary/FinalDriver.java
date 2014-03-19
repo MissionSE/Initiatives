@@ -4,6 +4,8 @@
  */
 package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
+import java.util.ArrayList;
+
 import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 
@@ -51,8 +53,8 @@ public class FinalDriver {
 
 //        packetReceiver.recievePacket(source1.toString());
 //        packetReceiver.recievePacket(source2.toString());
-        da.associateMeasurement(source1.toString());
-
+        ArrayList<String> candidates = da.associateMeasurement(source1.toString());
+		System.out.println("driver candidates: "+candidates);
         int counter = 0;
         
         while (true) {
@@ -67,6 +69,8 @@ public class FinalDriver {
 
 //                packetReceiver.recievePacket(source1.toString());
 //                packetReceiver.recievePacket(source2.toString());
+                candidates = da.associateMeasurement(source1.toString());
+        		System.out.println("driver candidates: "+candidates);
 
                 counter++;
 

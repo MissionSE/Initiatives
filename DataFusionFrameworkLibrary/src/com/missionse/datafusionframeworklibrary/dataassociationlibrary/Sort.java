@@ -33,7 +33,6 @@ public class Sort {
 				}
 			}
 		}
-		System.out.println("sort candList: "+candidateList);
 
 		return candidateList;
 
