@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Folder id="khFolder677">
+  <name>NSSL / U. of Oklahoma CONUS Weather Products</name>
+  <visibility>1</visibility>
+  <open>1</open>
+  <description>These data are experimental and are provided for research purposes only.  Images are (C) 2009 University of Oklahoma and the National Severe Storms Laboratory.  See wdssii.org and wdssii.nssl.noaa.gov for more details.</description>
+  <LookAt id="khLookAt678">
+    <longitude>-94.30748438559675</longitude>
+    <latitude>36.29725217265685</latitude>
+    <range>5139465.519150443</range>
+    <tilt>-1.954979260987565e-014</tilt>
+    <heading>0.207606380236344</heading>
+  </LookAt>
+  <NetworkLink id="khNetworkLink698">
+    <name>Satellite: IR Temperature</name>
+    <visibility>0</visibility>
+    <Url>
+      <href>http://wdssii.nssl.noaa.gov/tiles/IR_band4_00.00/index.kmz</href>
+      <refreshMode>onInterval</refreshMode>
+      <refreshInterval>600</refreshInterval>
+    </Url>
+  </NetworkLink>
+  <NetworkLink id="khNetworkLink704">
+    <name>Satellite: Water Vapor</name>
+    <visibility>0</visibility>
+    <Url>
+      <href>http://wdssii.nssl.noaa.gov/tiles/WaterVapor_00.00/index.kmz</href>
+      <refreshMode>onInterval</refreshMode>
+      <refreshInterval>600</refreshInterval>
+    </Url>
+  </NetworkLink>
+  <NetworkLink id="khNetworkLink706">
+    <name>Satellite: Visible</name>
+    <visibility>1</visibility>
+    <Url>
+      <href>http://wdssii.nssl.noaa.gov/tiles/Visible_00.00/index.kmz</href>
+      <refreshMode>onInterval</refreshMode>
+      <refreshInterval>600</refreshInterval>
+    </Url>
+  </NetworkLink>
+  <Folder id="khFolder711">
+    <name>Color Bars</name>
+    <visibility>0</visibility>
+    <open>1</open>
+    <ScreenOverlay id="khScreenOverlay716">
+      <name>Satellite (Visible) Colorbar</name>
+      <visibility>0</visibility>
+      <Icon>
+        <href>http://wdssii.nssl.noaa.gov/geotiff/colormaps/Visible.gif</href>
+      </Icon>
+      <overlayXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <screenXY x="0.15" y="0.99" xunits="fraction" yunits="fraction"/>
+      <rotationXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <size x="-1" y="-1" xunits="pixels" yunits="pixels"/>
+    </ScreenOverlay>
+    <ScreenOverlay id="khScreenOverlay718">
+      <name>Satellite (Water Vapor) Colorbar</name>
+      <visibility>0</visibility>
+      <Icon>
+        <href>http://wdssii.nssl.noaa.gov/geotiff/colormaps/WaterVapor.gif</href>
+      </Icon>
+      <overlayXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <screenXY x="0.15" y="0.99" xunits="fraction" yunits="fraction"/>
+      <rotationXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <size x="-1" y="-1" xunits="pixels" yunits="pixels"/>
+    </ScreenOverlay>
+    <ScreenOverlay id="khScreenOverlay720">
+      <name>Satellite IR Colorbar</name>
+      <visibility>0</visibility>
+      <Icon>
+        <href>http://wdssii.nssl.noaa.gov/geotiff/colormaps/IR.gif</href>
+      </Icon>
+      <overlayXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <screenXY x="0.15" y="0.99" xunits="fraction" yunits="fraction"/>
+      <rotationXY x="0.5" y="0.5" xunits="fraction" yunits="fraction"/>
+      <size x="-1" y="-1" xunits="pixels" yunits="pixels"/>
+    </ScreenOverlay>
+  </Folder>
+  <Folder id="khFolder722">
+    <name>Contrast Adjustment</name>
+    <visibility>0</visibility>
+    <open>1</open>
+    <GroundOverlay id="khGroundOverlay723">
+      <name>White Background</name>
+      <visibility>0</visibility>
+      <color>8cffffff</color>
+      <Icon>
+        <href>http://wdssii.nssl.noaa.gov/geotiff/colormaps/white.png</href>
+      </Icon>
+      <LatLonBox id="khLatLonBox725">
+        <north>90</north>
+        <south>-90</south>
+        <east>180</east>
+        <west>-180</west>
+      </LatLonBox>
+    </GroundOverlay>
+    <GroundOverlay id="khGroundOverlay726">
+      <name>Black Background</name>
+      <visibility>0</visibility>
+      <LookAt id="khLookAt727">
+        <longitude>-93.78974364723186</longitude>
+        <latitude>42.07459568782456</latitude>
+        <range>98775.51757926619</range>
+        <tilt>-6.881627946191381e-012</tilt>
+        <heading>-0.1245650143630789</heading>
+      </LookAt>
+      <color>96ffffff</color>
+      <Icon>
+        <href>http://wdssii.nssl.noaa.gov/geotiff/colormaps/black.png</href>
+      </Icon>
+      <LatLonBox id="khLatLonBox729">
+        <north>90</north>
+        <south>-90</south>
+        <east>180</east>
+        <west>-180</west>
+      </LatLonBox>
+    </GroundOverlay>
+  </Folder>
+</Folder>
+</kml>

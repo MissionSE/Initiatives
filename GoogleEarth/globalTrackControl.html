@@ -22,6 +22,7 @@
         $.post(url, {command:"track size", data1:value,data2:null,data3:null}, function(data) {
         });        
       }
+      
     </script>
   </head>
   
@@ -29,9 +30,9 @@
     <div id=global style=color:yellow>
       <h3>Tags</h3>
       <h4>
-        <input type="radio" name="tags" value="Off" onclick=toggleTags(false)>
+        <input type="radio" name="tags" id="tagsoff" value="Off" checked="checked" onclick=toggleTags(false)>
         Off  
-        <input type="radio" name="tags" value="On" onclick=toggleTags(true)>
+        <input type="radio" name="tags" id="tagson" value="On" onclick=toggleTags(true)>
         On
       </h4>
       <hr>
@@ -41,7 +42,7 @@
         Dot  
         <br /><input type="radio" name="size" value="small" onclick=setTrackSize("small")>
         Small  
-        <br /><input type="radio" name="size" value="normal" onclick=setTrackSize("normal")>
+        <br /><input type="radio" name="size" id="normal" checked="checked" value="normal" onclick=setTrackSize("normal")>
         Normal
         <br /><input type="radio" name="size" value="large" onclick=setTrackSize("enlarged")>
         Large  

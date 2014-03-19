@@ -881,7 +881,7 @@
                 jpegOverlay.setIcon(ge.createIcon(''))
                 jpegOverlay.getIcon().setHref(projectDomain+"korea_1m.jpg");
                 jpegOverlay.setLatLonBox(ge.createLatLonBox(''));
-                jpegOverlay.setOpacity(0.25);
+                jpegOverlay.setOpacity(0.50);
                 
                 var koreaLat = 38;
                 var koreaLon = 131;
@@ -1413,6 +1413,30 @@
             clearAllFeatures();
         }
 
+        function displayRainfall() {
+            var href;
+            href = projectDomain+'weathertools/doc.kml';
+            console.log("displayRainfall href = "+href);
+            google.earth.fetchKml(ge, href, function(kmlObject) {
+                if (kmlObject) {
+                    console.log("displayRainfall inside fetchKml");
+                    ge.getFeatures().appendChild(kmlObject);
+                }
+            });
+        }
+        
+        function displayWeatherSatellite() {
+            var href;
+            href = projectDomain+'satellite/satellite.kml';
+            console.log("displayWeatherSatellite href = "+href);
+            google.earth.fetchKml(ge, href, function(kmlObject) {
+                if (kmlObject) {
+                    console.log("displayWeatherSatellite inside fetchKml");
+                    ge.getFeatures().appendChild(kmlObject);
+                }
+            });
+        }
+        
         function displayPhiladelphiaWeather() {
             var href;
             href = projectDomain+'NWS_DIX_N0R_RadarLoop/doc.kml';
@@ -1474,6 +1498,48 @@
             clearAllFeatures();
         }
         
+        function displayUsStates() {
+            //var href = projectDomain+'usstates.kmz';
+            var href = projectDomain+'us_states.kml';
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+        
+        function clearUsStates() {
+            clearAllFeatures();
+        }
+        
+        function displayMh370() {
+            //var href = projectDomain+'usstates.kmz';
+            var href = projectDomain+'mh370.kmz';
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+        
+        function clearMh370() {
+            clearAllFeatures();
+        }
+        
+        function displayBuoys() {
+            //var href = projectDomain+'usstates.kmz';
+            var href = projectDomain+'earthncwxbuoys.kmz';
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+        
+        function clearBuoys() {
+            clearAllFeatures();
+        }
+        
         function clearAllFeatures() {
             var features = ge.getFeatures();
             while (features.getLastChild() != null) {
@@ -1482,7 +1548,7 @@
         }
 
         function displayWeatherWindow() {
-            openWin("Weather Manager","weatherManager.html",200,500,1100,0);
+            openWin("Weather Manager","weatherManager.html",200,400,1100,0);
         }
 
         function displayGridsWindow() {
@@ -1490,7 +1556,7 @@
         }
 
         function displayEarthSettingsWindow() {
-            openWin("Earth Settings Manager","earthSettingsManager.html",200,700,1100,0);
+            openWin("Earth Settings Manager","earthSettingsManager.html",200,350,1100,0);
         }
 
         function displayViewWindow() {
@@ -1498,7 +1564,7 @@
         }
         
         function displayOverlayWindow() {
-            openWin("Overlay Manager","overlayManager.html",200,500,1100,0);
+            openWin("Overlay Manager","overlayManager.html",200,400,1100,0);
         }
 
         function displayTracksWindow() {
@@ -1671,6 +1737,14 @@
                 else if (json.key == 'local weather') {
                     (json.value == true) ? localWeather("true") : localWeather("false");
                 }
+                else if (json.key == 'rainfall') {
+                    console.log("json.key "+json.key+" json.value "+json.value);
+                    (json.value == true) ? rainfall("true") : rainfall("false");
+                }
+                else if (json.key == 'weather satellite') {
+                    console.log("json.key "+json.key+" json.value "+json.value);
+                    (json.value == true) ? weatherSatellite("true") : weatherSatellite("false");
+                }
                 else if (json.key == 'weather warnings') {
                     (json.value == true) ? displayWeatherWarnings() : clearWeather();
                 }
@@ -1709,7 +1783,7 @@
                 else if (json.key == 'terrain') {
                     (json.value == true) ? terrain("true") : terrain("false");
                 }
-                else if (json.key == 'google') {
+                else if (json.key == 'jpeg') {
                     (json.value == true) ? googleDisplay("true") : googleDisplay("false");
                 }
                 else if (json.key == 'geo') {
@@ -1796,6 +1870,15 @@
                 }
                 else if (json.key == 'satellite') {
                     (true == json.value) ? displaySatellite() : clearSatellite();
+                }
+                else if (json.key == 'us states') {
+                    (true == json.value) ? displayUsStates() : clearUsStates();
+                }
+                else if (json.key == 'mh370') {
+                    (true == json.value) ? displayMh370() : clearMh370();
+                }
+                else if (json.key == 'buoys') {
+                    (true == json.value) ? displayBuoys() : clearBuoys();
                 }
                 else if (json.key == 'friend filter') {
                     (true == json.value) ? friendFilter("true") : friendFilter("false");
@@ -1993,6 +2076,14 @@
             ("true" == value) ? displayPhiladelphiaWeather() : clearWeather();
         }
         
+        function rainfall(value) {
+            ("true" == value) ? displayRainfall() : clearWeather();
+        }
+        
+        function weatherSatellite(value) {
+            ("true" == value) ? displayWeatherSatellite() : clearWeather();
+        }
+        
         function tracks(value) {
             ("true" == value) ? displayTracks() : clearTracks();
         }
@@ -2073,6 +2164,18 @@
         
         function satellite(value) {
             ("true" == value) ? displaySatellite() : clearSatellite();
+        }
+        
+        function usStates(value) {
+            ("true" == value) ? displayUsStates() : clearUsStates();
+        }
+        
+        function mh370(value) {
+            ("true" == value) ? displayMh370() : clearMh370();
+        }
+        
+        function buoys(value) {
+            ("true" == value) ? displayBuoys() : clearBuoys();
         }
         
         function friendFilter(value) {
@@ -2227,7 +2330,7 @@
             else if ("range rings" == text) {
                 rangeRings(data1);
             }
-            else if ("google" == text) {
+            else if ("jpeg" == text) {
                 googleDisplay(data1);
             }
             else if ("geo" == text) {
@@ -2238,6 +2341,12 @@
             }
             else if ("local weather" == text) {
                 localWeather(data1);
+            }
+            else if ("rainfall" == text) {
+                rainfall(data1);
+            }
+            else if ("weather satellite" == text) {
+                weatherSatellite(data1);
             }
             else if ("tracks" == text) {
                 tracks(data1);
@@ -2279,6 +2388,15 @@
             }
             else if ("satellite" == text) {
                 satellite(data1);
+            }
+            else if ("us states" == text) {
+                usStates(data1);
+            }
+            else if ("mh370" == text) {
+                mh370(data1);
+            }
+            else if ("buoys" == text) {
+                buoys(data1);
             }
             else if ("friend filter" == text) {
                 friendFilter(data1);
@@ -2334,8 +2452,8 @@
             <button id="Overlay" onclick="displayOverlayWindow()">Overlays</button>
             <button id="CsedsTour" onclick="playCsedsTour()">Cseds Tour</button>
             <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
-            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
             <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
+            <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
             <button id="Blank1">Blank</button>
         </div>
         <div id="progress-container">

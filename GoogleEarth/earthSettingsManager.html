@@ -8,12 +8,12 @@
       var parentWindow = null;
       var parentURI = null;
       
-      function toggleSun(setting) {
+      function toggleSun(widget) {
         //alert("sun set to "+value);
         if (null != parentWindow) {
           var rawData = {
             key : "sun",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -24,18 +24,18 @@
 
           //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"sun",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"sun",data1:widget.checked,data2:null,data3:null}, function(data) {
             //alert("writeCommand returned "+data);
           });
         }        
       }
       
-      function toggleInsetMap(setting) {
+      function toggleInsetMap(widget) {
         //alert("map set to "+value);
         if (null != parentWindow) {
           var rawData = {
             key : "inset map",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -46,18 +46,17 @@
 
           //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"inset map",data1:setting,data2:null,data3:null}, function(data) {
+          $.post(url, {command:"inset map",data1:widget.checked,data2:null,data3:null}, function(data) {
             //alert("writeCommand returned "+data);
           });
         }        
       }
       
-      function toggleBorders(setting) {
-        //alert("borders set to "+value);
+      function toggleBorders(widget) {
         if (parentWindow != null) {
           var rawData = {
             key : "borders",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -66,19 +65,17 @@
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-25)+"writeCommand.php";
 
-          //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"borders",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"borders",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleRoads(setting) {
+      function toggleRoads(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "roads",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -89,18 +86,16 @@
 
           //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"roads",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"roads",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleBuildings(setting) {
-        //alert("buildings set to "+value);
+      function toggleBuildings(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "buildings",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -109,20 +104,17 @@
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-25)+"writeCommand.php";
 
-          //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"buildings",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"buildings",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleTerrain(setting) {
-        //alert("terrain set to "+value);
+      function toggleTerrain(widget) {
           if (null != parentWindow) {
           var rawData = {
             key : "terrain",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -131,10 +123,8 @@
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-25)+"writeCommand.php";
 
-          //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"terrain",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"terrain",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
@@ -160,11 +150,11 @@
         }        
       }
 
-      function toggleStatusBar(setting) {
+      function toggleStatusBar(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "status bar",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -172,20 +162,18 @@
         else {
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-25)+"writeCommand.php";
-
-          //alert("earthSettingsManager url = "+url);
+          
           //Write command to database
-          $.post(url, {command:"status bar",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"status bar",data1:widget.checke,data2:null,data3:null}, function(data) {
           });
         }        
       }
 
-      function toggleAtmosphere(setting) {
+      function toggleAtmosphere(widget) {
         if (null != parentWindow) {
           var rawData = {
             key : "atmosphere",
-            value : setting,
+            value : widget.checked,
           };
           var data = JSON.stringify(rawData);
           parentWindow.postMessage(data,parentURI);
@@ -194,10 +182,8 @@
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-25)+"writeCommand.php";
 
-          //alert("earthSettingsManager url = "+url);
           //Write command to database
-          $.post(url, {command:"atmosphere",data1:setting,data2:null,data3:null}, function(data) {
-            //alert("writeCommand returned "+data);
+          $.post(url, {command:"atmosphere",data1:widget.checked,data2:null,data3:null}, function(data) {
           });
         }        
       }
@@ -223,76 +209,23 @@
   
   <body onload="processEvents()">
     <div id = grids>
-      <h3>Sun</h3>
-      <h4>
-        Off  
-        <input type="radio" name="sun" value="Off" onclick=toggleSun(false)><br />
-        On
-        <input type="radio" name="sun" value="On" onclick=toggleSun(true)><br />
-      </h4>
-      <hr>
-      <h3>Inset Map</h3>
-      <h4>
-        Off  
-        <input type="radio" name="map" value="Off" onclick=toggleInsetMap(false)><br />
-        On
-        <input type="radio" name="map" value="On" onclick=toggleInsetMap(true)><br />
-      </h4>
-      <hr>
-      <h3>Roads</h3>
-      <h4>
-        Off  
-        <input type="radio" name="roads" value="Off" onclick=toggleRoads(false)><br />
-        On
-        <input type="radio" name="roads" value="On" onclick=toggleRoads(true)><br />
-      </h4>
-      <hr>
-      <h3>Borders</h3>
-      <h4>
-        Off  
-        <input type="radio" name="borders" value="Off" onclick=toggleBorders(false)><br />
-        On
-        <input type="radio" name="borders" value="On" onclick=toggleBorders(true)><br />
-      </h4>
-      <hr>
-      <h3>Buildings</h3>
-      <h4>
-        Off  
-        <input type="radio" name="buildings" value="Off" onclick=toggleBuildings(false)><br />
-        On
-        <input type="radio" name="buildings" value="On" onclick=toggleBuildings(true)><br />
-      </h4>
-      <hr>
-      <h3>Terrain</h3>
-      <h4>
-        Off  
-        <input type="radio" name="terrain" value="Off" onclick=toggleTerrain(false)><br />
-        On
-        <input type="radio" name="terrain" value="On" onclick=toggleTerrain(true)><br />
-      </h4>
-      <hr>
-      <h3>Map Type</h3>
+      <h3>
+        <label for="sun"><input type="checkbox" id="sun" name="sun" onclick=toggleSun(this)>Sun</label><br />
+        <label for="insetmap"><input type="checkbox" id="insetmap" name="insetmap" onclick=toggleInsetMap(this)>Inset Map</label><br />
+        <label for="roads"><input type="checkbox" id="roads" name="roads" onclick=toggleRoads(this)>Roads</label><br />
+        <label for="borders"><input type="checkbox" id="borders" name="borders" onclick=toggleBorders(this)>Borders</label><br />
+        <label for="buildings"><input type="checkbox" id="buildings" name="buildings" onclick=toggleBuildings(this)>Buildings</label><br />
+        <label for="terrain"><input type="checkbox" id="terrain" name="terrain" onclick=toggleTerrain(this)>Terrain</label><br />
+        <label for="status"><input type="checkbox" id="status" name="status" onclick=toggleStatusBar(this) checked="true">Status Bar</label><br />
+        <label for="atmosphere"><input type="checkbox" id="atmosphere" name="atmosphere" onclick=toggleAtmosphere(this)>Atmosphere</label><br />
+        <hr>
+        Map Type
+      </h3>
       <h4>
         Earth  
         <input type="radio" name="map" value="Earth" onclick=setMapType("earth")><br />
         Sky
         <input type="radio" name="map" value="Sky" onclick=setMapType("sky")><br />
-      </h4>
-      <hr>
-      <h3>Status Bar</h3>
-      <h4>
-        Off  
-        <input type="radio" name="status" value="Off" onclick=toggleStatusBar(false)><br />
-        On
-        <input type="radio" name="status" value="On" onclick=toggleStatusBar(true)><br />
-      </h4>
-      <hr>
-      <h3>Atmosphere</h3>
-      <h4>
-        Off  
-        <input type="radio" name="atmosphere" value="Off" onclick=toggleAtmosphere(false)><br />
-        On
-        <input type="radio" name="atmosphere" value="On" onclick=toggleAtmosphere(true)><br />
       </h4>
     </div>
   </body>

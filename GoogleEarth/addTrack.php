@@ -18,10 +18,12 @@ $spd = $_POST['spd'];
 
 $tag = $_POST['tag'];
 
-$con = mysql_connect("localhost", "test", "test") or die('Sorry, could not connect to database server');
-
-mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
+//$con = mysql_connect("localhost", "test", "test") or die('Sorry, could not connect to database server');
+//
+//mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
     
+include("connectToDatabase.inc.php");
+
 $query =    "INSERT INTO tracks (trackIdentity,trackPlatform,trackLat,trackLon,trackAlt,trackCategory,trackCourse,trackSpeed,trackTag)".
             "VALUES ('$id','$plat','$lat','$lon','$alt','$cat','$crs','$spd','$tag')";
 

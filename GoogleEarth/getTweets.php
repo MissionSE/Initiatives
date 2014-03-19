@@ -8,9 +8,9 @@ header("Content-Type: application/json");
     
 include("connectToDatabase.inc.php");
 
-$query = "SELECT trackNum,trackCategory,trackIdentity,trackPlatform,trackLat,trackLon,trackAlt,trackCourse,trackSpeed,trackTag,missileInventory from tracks";
+$query = "SELECT tweetid,location, username, text, profileimage from tweets";
 
-$result = mysql_query($query) or die('Sorry, could not find any tracks');
+$result = mysql_query($query) or die('Sorry, could not find any tweets');
 
 $json = array();
 
