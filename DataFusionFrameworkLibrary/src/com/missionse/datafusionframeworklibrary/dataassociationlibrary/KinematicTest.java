@@ -7,9 +7,9 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 public class KinematicTest {
 	private double range_gate = 3.0;
 	private double speed_gate = 0.05;
-	private double course_gate = 5.0;
 	private double height_gate = 1.67;
-
+	private double course_gate = 5.0;
+	
     public KinematicTest()
     {}
 
@@ -18,16 +18,18 @@ public class KinematicTest {
 	 */
 	public boolean kinematicTest()
 	{
-		
+		boolean valid = false;
 	    double x1, x2, y1, y2, z1, z2;
 	    double vx1, vx2, vy1, vy2, vz1, vz2;
 	    double c1, c2;
 	    double h1, h2;
-	    XYZposAssociation(x1, x2, y1, y2, z1, z2);
-		XYZvelAssociation(vx1, vx2, vy1, vy2, vz1, vz2);
-		heightAssociation(h1, h2);
-		courseAssociation(c1, c2);
-		return false;
+//	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);
+//		valid = XYZvelAssociation(vx1, vy1, vz1, vx2, vy2, vz2);
+//		valid = heightAssociation(h1, h2);
+	    valid = XYZposAssociation(41.99417, -119.305344, 2500.0, 41.9942, -119.305333, 2500.0);
+		valid = XYZvelAssociation(0.3, 0.3, 0.2, 0.3, 0.3, 0.2);
+
+		return valid;
 
 	}
 	
@@ -38,6 +40,7 @@ public class KinematicTest {
 	{
 		double distance;  
 		distance  = distance(x1,y1,z1,x2,y2,z2);
+        System.out.println("KinematicTest XYZposAssociation: "+distance);        // create return array of candidate is'd
 		
         // compare position difference with range gate
 		if (distance < range_gate)
@@ -63,6 +66,7 @@ public class KinematicTest {
 	{
 		double velocity;  
 		velocity  = velocity(vx1,vy1,vz1,vx2,vy2,vz2);				
+        System.out.println("KinematicTest XYZvelAssociation: "+velocity);        // create return array of candidate is'd
 
         // compare velocity difference with speed gate
 		if (velocity < speed_gate)
@@ -90,6 +94,7 @@ public class KinematicTest {
 	{
 		double height = 0.0;
 		height = height(h1, h2);
+        System.out.println("KinematicTest height: "+height);        // create return array of candidate is'd
 		
         // compare altitude difference with height gate
 		if (height < height_gate)

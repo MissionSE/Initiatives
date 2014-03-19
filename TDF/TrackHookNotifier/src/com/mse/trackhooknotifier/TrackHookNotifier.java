@@ -1,7 +1,6 @@
 package com.mse.trackhooknotifier;
 
 import java.util.Enumeration;
-
 import com.solipsys.tdf.test.client.TestTrackNumber;
 import com.solipsys.tdf.track.TrackDatabase;
 import com.solipsys.tdf.track.number.TrackNumberList;
@@ -17,12 +16,13 @@ public class TrackHookNotifier
 {
     protected String name="TrackHookNotifier";
 
-    protected String priHookNum=null;
-    protected String secHookNum=null;
+    protected String curPriHook=null;
+    protected String curSecHook=null;
+
     protected TrackDatabase trackDB = TrackDatabase.getDefault();
 
     public TrackHookNotifier(){ 
-	
+
     }
     
     public void deselectionOccurred(ViewSelectEvent notice) {
@@ -32,16 +32,25 @@ public class TrackHookNotifier
 	System.out.println("Selection ID: " + notice.getSelectionID(0));
 
 	if (selectionID == 0) {
-	    priHookNum = null;
+	    curPriHook = null;
+	    TrackData td = new TrackData(TrackData.PRI_HOOK, "", "", "", "", "", "", "", "", "");
+	    System.err.println(td.toString());
+	    TrackDataWriter.writeSql(td);
 	}
+
 	if (selectionID == 1) {
-	    secHookNum = null;
+	    curSecHook = null;
+	    TrackData td = new TrackData(TrackData.SEC_HOOK, "", "", "", "", "", "", "", "", "");
+	    System.err.println(td.toString());
+	    TrackDataWriter.writeSql(td);
 	}
     }
 
     public void selectionOccurred(ViewSelectEvent notice)  {
 	try {
 	    System.out.println("TrackHookNotifier::selectionOccurred");
+	    String priHookNum = null;
+	    String secHookNum = null;
 
 	    Selectable selected = notice.getSelection(0);
 	    System.out.println("Selection ID: " + notice.getSelectionID(0));
@@ -66,18 +75,26 @@ public class TrackHookNotifier
 			}
 		    }
 
-		    if (priHookNum != null) {
+		    if (priHookNum != null && !priHookNum.equals(curPriHook)) {
+
 			TestTrackNumber priTrackNum = new TestTrackNumber(priHookNum);
 			TrackReport tr = (TrackReport)trackDB.getTrack(priTrackNum);
-			TrackData priTrack = new TrackData(priHookNum, tr);
-			System.out.println (priTrack.toString());
+			TrackData priTrack = new TrackData(TrackData.PRI_HOOK, priHookNum, tr);
+			TrackDataWriter.writeJson(priTrack);
+			if (false == TrackDataWriter.writeSql(priTrack)) {
+			    System.err.println("Unable to write primary track to DB");
+			}
 		    }
 		
-		    if (secHookNum != null) {
+		    if (secHookNum != null && !secHookNum.equals(curSecHook)) {
+
 			TestTrackNumber secTrackNum = new TestTrackNumber(secHookNum);
 			TrackReport tr = (TrackReport)trackDB.getTrack(secTrackNum);
-			TrackData secTrack = new TrackData(secHookNum, tr);
-			System.out.println(secTrack.toString());
+			TrackData secTrack = new TrackData(TrackData.SEC_HOOK, secHookNum, tr);
+			TrackDataWriter.writeJson(secTrack);
+			if (false == TrackDataWriter.writeSql(secTrack)) {
+			    System.err.println("Unable to write secondary track to DB");
+			}
 		    }
 		}
 	    }

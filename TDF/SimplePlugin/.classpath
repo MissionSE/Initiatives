@@ -56,7 +56,6 @@
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/nitf.jar"/>
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/plaf.jar"/>
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/sdf.jar"/>
-        <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/sdfexample.jar"/>
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/sdfhelp.jar"/>
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/servlet-2.5.jar"/>
         <classpathentry kind="lib" path="/home/jamie2/Solipsys/TDF-5.3.2/lib/slf4j-api-1.6.0.jar"/>
