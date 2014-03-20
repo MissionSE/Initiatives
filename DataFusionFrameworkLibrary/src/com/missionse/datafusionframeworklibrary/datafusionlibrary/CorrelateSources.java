@@ -3,6 +3,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class CorrelateSources
 {
@@ -19,14 +20,14 @@ public class CorrelateSources
 	 * and send off the list to be correlated by the CommonFieldParser. It will return the correlated
 	 * source that is returned by the parser.
 	 */
-	public Source correlateSources(Source toUpdate, ArrayList<Source> sources)
+	public SourceDataModel correlateSources(SourceDataModel toUpdate, ArrayList<SourceDataModel> sources)
 	{
 		if(sources.size() == 1)
 		{
 		    return sources.get(0).clone();
 		}
 
-		ArrayList<Source> toCorrelate = new ArrayList<Source>();
+		ArrayList<SourceDataModel> toCorrelate = new ArrayList<SourceDataModel>();
 
 		for(int i = 0; i < sources.size(); i++)
 		{

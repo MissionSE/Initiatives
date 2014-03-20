@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
  * Class PacketReciever is the main input class for this program. It takes in packets of data
@@ -28,7 +28,7 @@ public class PacketReceiver
     //Reference to the Database, which receives data once it has been through this module.
     Database db;
     //The list of currently observed Sources.
-    private ArrayList<Source> sources;
+    private ArrayList<SourceDataModel> sources;
     //The number of variables that this program uses to represent a Source.
     private int numSourceVariables;
 
@@ -43,7 +43,8 @@ public class PacketReceiver
     {
 	//1
 	try {
-		db = new Database("SSO");
+		db = new Database();
+		db.setupDatabase("SSO");
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -52,7 +53,7 @@ public class PacketReceiver
 	    cs = new CorrelateSources();
         psd = new PackSupportingData(db);
 	//3
-        sources = new ArrayList<Source>();
+        sources = new ArrayList<SourceDataModel>();
 
 	/*
 	 * This line of code sets numSourceVariables to however many class variables make up the
@@ -60,7 +61,7 @@ public class PacketReceiver
 	 * dynamically at runtime so that any alterations to class Source will be automatically
 	 * reflected instead of counting the variables, reassigning the static field, etc.
 	 */
-	numSourceVariables = Source.class.getDeclaredFields().length;
+	numSourceVariables = SourceDataModel.class.getDeclaredFields().length;
     }
 
     //For database use.
@@ -110,13 +111,16 @@ public class PacketReceiver
 	 * to represent sources or if the data does not contain an unique identifier, something has
 	 * gone wrong and the data is ignored.
 	 */
+        System.out.println("receivePacket parsedData.length: "+parsedData.length);
+        System.out.println("receivePacket numSourceVariables: "+numSourceVariables); 
+        
         if(parsedData.length != numSourceVariables || parsedData[0].compareTo("") == 0)
         {
             return;
         }
 
 	//Storage for, and retrieval of, the Source this data represents.
-        Source toUpdate = searchExistingSources(parsedData[0]);
+        SourceDataModel toUpdate = searchExistingSources(parsedData[0]);
         System.out.println("receivePacket sources: "+sources);
 
 	/*
@@ -135,9 +139,11 @@ public class PacketReceiver
         toUpdate.update(parsedData);
 
 	//Correlate all observed data into a correlated source.
-        Source correlated = cs.correlateSources(toUpdate, sources);
+        SourceDataModel correlated = cs.correlateSources(toUpdate, sources);
 
-	//Send off the newly updated source and the correlated one to the rest of the program.
+        System.out.println("receivePacket correlated: "+correlated);
+
+        //Send off the newly updated source and the correlated one to the rest of the program.
 	    sendUpdates(toUpdate, correlated);
     }
 
@@ -145,9 +151,9 @@ public class PacketReceiver
      * This method searches through the sources that already exist, looking for one
      * with the given unique ID. If no such source is found, it returns null.
      */
-    private Source searchExistingSources(String id)
+    private SourceDataModel searchExistingSources(String id)
     {
-        for(Source s : sources)
+        for(SourceDataModel s : sources)
         {
             if(s.getUniqueId().compareTo(id) == 0)
             {
@@ -163,9 +169,9 @@ public class PacketReceiver
      * with the given identification string. A source created this way has nothing else
      * set yet, effectively making it empty.
      */
-    private Source createNewSource(String id)
+    private SourceDataModel createNewSource(String id)
     {
-        Source newSource = new Source(id);
+        SourceDataModel newSource = new SourceDataModel(id);
         sources.add(newSource);
         System.out.println("receivePacket:createNewSource sources: "+sources);
         return newSource;
@@ -175,20 +181,21 @@ public class PacketReceiver
      * Once this class has done everything it needs to do, this method allows it to send off data to
      * other sections of the program.
      */
-    private void sendUpdates(Source toUpdate, Source correlated)
+    private void sendUpdates(SourceDataModel toUpdate, SourceDataModel correlated)
     {
 	//Here the newly updated source and the correlated source are sent to be saved by the Database.
 	try
 	{
 	    System.out.println("receivePacket:sendUpdates toUpdate = "+ toUpdate);
-	    db.updateS1Builder(toUpdate.clone());
+	    db.updateSourceBuilder(toUpdate.clone());
 	    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
-	    db.updateSystemBuilder(correlated.clone());
+	    db.updateSourceBuilder(correlated.clone());
 	}
 	catch(Exception e)
 	{}
-
-	psd.packSupportingData(toUpdate, correlated, sources);
+    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
+    System.out.println("receivePacket:sendUpdates sources = "+ sources);   
+    psd.packSupportingData(toUpdate, correlated, sources);
     }
 
 }

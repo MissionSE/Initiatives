@@ -371,16 +371,20 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 
 		//If the Source is null, or doesn't contain a uniqueId,
 		//the information is worthless.
+		
 		if ((source == null) || (source.getUniqueId() == null)) {
 			//throw exception.
 		}
-
 		//Before executing any statements, make sure that the uniqueId doesn't
 		//already exist in the database.
 		String staticExist = "SELECT * FROM sourceTrackData WHERE uniqueId = ?";
+	       System.out.println("updateSourceBuilder 01: ");
 		PreparedStatement staticCheck = conn.prepareCall(staticExist);
+	       System.out.println("updateSourceBuilder 02: ");
 		staticCheck.setString(1, source.getUniqueId());
+	       System.out.println("updateSourceBuilder 03: ");
 		ResultSet queryResult = staticCheck.executeQuery();
+	       System.out.println("updateSourceBuilder 04: ");
 
 
 		//Count the number of results, should be either 0 or 1.
@@ -395,8 +399,9 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		 * uniqueId is being inserted into the database. If the number is 1,
 		 * it means a row already exists containing the uniqueId.
 		 */
+        System.out.println("updateSourceBuilder counter: "+counter);
 		if (counter < 1) {
-
+			
 			//Static Information
 			String staticQuery = "INSERT INTO sourceTrackData("
 					+ "uniqueId,"
@@ -422,6 +427,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
+		       System.out.println("updateSourceBuilder 1: ");
 
 			staticStatement.setString(1, source.getUniqueId());
 			staticStatement.setString(2, source.getSourceTrackType());
@@ -443,6 +449,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			staticStatement.setDouble(18, source.getPositionAltitude());
 			staticStatement.setString(19, source.getTrackPlatform());
 			staticStatement.setString(20, source.getTrackCategory());
+		       System.out.println("updateSourceBuilder 2: ");
 
 			staticStatement.execute();
 			staticStatement.close();

@@ -5,7 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataModel;
 
 /** <p>Object Refinement Module receives a new measurement source, and attempts to
  *  apply it to the currently tracked state object. A Kalman filter is used
@@ -90,18 +91,18 @@ public class ObjectRefinementModule {
     private static double TIME_DIFFERENCE_OF_SOURCES;
 
 //**************************METHODS*******************************************
-    public ObjectRefinementModule(Source source, Database db) {
+    public ObjectRefinementModule(SourceDataModel sourceDataModel, Database db) {
 
         this.db = db;
         //analysisModule = new Analysis(source, db, this);
         //Initialize the kalman filter
         // Time = 1/HZ
-        TIME_DIFFERENCE_OF_SOURCES = (1 / source.getUpdateHertz());
+        TIME_DIFFERENCE_OF_SOURCES = (1 / sourceDataModel.getUpdateHertz());
         
         // Intialize all matrices/vectors
         
         // Initializes the prediction and correction estimates to first measurment
-        state_x_pre = assembleStateEst(source);
+        state_x_pre = assembleStateEst(sourceDataModel);
         
         state_x_post = state_x_pre;
 
@@ -117,9 +118,9 @@ public class ObjectRefinementModule {
         };
         state_transition = new Matrix(tr);
         //Sets previousSpeeds for future Acceleration computation
-        prevSpeedX = source.getSpeedX();
-        prevSpeedY = source.getSpeedY();
-        prevSpeedZ = source.getSpeedZ();
+        prevSpeedX = sourceDataModel.getSpeedX();
+        prevSpeedY = sourceDataModel.getSpeedY();
+        prevSpeedZ = sourceDataModel.getSpeedZ();
 
 
         measurement_matrix = Matrix.identity(STATE_ELEMENTS_SIZE, STATE_ELEMENTS_SIZE);
@@ -140,7 +141,7 @@ public class ObjectRefinementModule {
      * Index[0] = Correlated source object
      * index[1..N]: Original Sources with error values preserved for kalman filtering
      */
-    public void refineObject(Source[] measurements) {
+    public void refineObject(SourceDataModel[] sourceDataModels) {
 
         //Step1: Compute the prediction phase based on Laws of physics
         computePredictionPhase();
@@ -161,25 +162,25 @@ public class ObjectRefinementModule {
         };
 
         Matrix tempStateVector = new Matrix(placeHolder);
-        Source temp = measurements[0];               // Corresponds to correlated Source        
+        SourceDataModel temp = sourceDataModels[0];               // Corresponds to correlated Source        
 
         // Check whether we only have one source to fuse, thus we only compute Correction
         // for the single updated measurement
-        if (measurements.length == 2) {
-            temp.setErrorX(measurements[1].getErrorX());
-            temp.setErrorY(measurements[1].getErrorY());
-            temp.setErrorZ(measurements[1].getErrorZ());
+        if (sourceDataModels.length == 2) {
+            temp.setErrorX(sourceDataModels[1].getErrorX());
+            temp.setErrorY(sourceDataModels[1].getErrorY());
+            temp.setErrorZ(sourceDataModels[1].getErrorZ());
             state_x_post = computeCorrectionPhase(temp);
         }
         else {
-            for (int i = 1; i < measurements.length; i++) {
+            for (int i = 1; i < sourceDataModels.length; i++) {
                 //*NOTE* This resets the error for each individual measurement,
                 //which allows the filter to fuse the correlated source with
                 // error percentage for each source, allowing for a better overall
                 //      measurement
-                temp.setErrorX(measurements[i].getErrorX());
-                temp.setErrorY(measurements[i].getErrorY());
-                temp.setErrorZ(measurements[i].getErrorZ());
+                temp.setErrorX(sourceDataModels[i].getErrorX());
+                temp.setErrorY(sourceDataModels[i].getErrorY());
+                temp.setErrorZ(sourceDataModels[i].getErrorZ());
                 tempStateVector.plusEquals(computeCorrectionPhase(temp));
                 
             }
@@ -190,7 +191,7 @@ public class ObjectRefinementModule {
             double[][] averageVector = tempStateVector.getArray();
 
             for (int row = 0; row < STATE_ELEMENTS_SIZE; row++) {
-                averageVector[row][0] = averageVector[row][0] / (measurements.length-1);
+                averageVector[row][0] = averageVector[row][0] / (sourceDataModels.length-1);
             }
             //Now that we have the Average of kalmanized measurements, create a new
             // state_X_post based off of it.
@@ -198,7 +199,7 @@ public class ObjectRefinementModule {
         }
         System.out.println("state_x_post= " + state_x_post);
         //Assemble the new source from state vector
-        Source updatedSource = reconstructSource(measurements[0]);
+        SourceDataModel updatedSource = reconstructSource(sourceDataModels[0]);
         System.out.println("updatedSource= " + updatedSource);
         
         // Update the prevSpeed for our Object for future acceleration computation'
@@ -207,12 +208,12 @@ public class ObjectRefinementModule {
         prevSpeedY = updatedSource.getSpeedY();
         prevSpeedZ = updatedSource.getSpeedZ();
 
-        measurements[0] = updatedSource;                //Override correlated input source
+        sourceDataModels[0] = updatedSource;                //Override correlated input source
         //to reflect newly fused data vector
         try {
             //Send to math Functions and output and database
             //Send updatedSource to           
-            db.updateSystemBuilder(updatedSource);            
+            db.updateSourceBuilder(updatedSource);            
             //analysisModule.setSource(updatedSource);
         } catch (SQLException ex) {
             Logger.getLogger(ObjectRefinementModule.class.getName()).log(Level.SEVERE, null, ex);
@@ -257,7 +258,7 @@ public class ObjectRefinementModule {
      *
      * @return: corrected state estimate using the new measurements
      */
-    public Matrix computeCorrectionPhase(Source s1) {
+    public Matrix computeCorrectionPhase(SourceDataModel s1) {
 
         //Matrix updatedMeasurement = new Matrix(measurementUpdate);
         Matrix updatedMeasurement = assembleStateEst(s1);
@@ -352,7 +353,7 @@ public class ObjectRefinementModule {
      * @return: Matrix corresponding to the new state vector obtained from the
      *          Source.
      */
-    private Matrix assembleStateEst(Source s1) {
+    private Matrix assembleStateEst(SourceDataModel s1) {
 
         // Compute acceleration for our target, using acceleration definition,
         // a=(Vk -Vk-1)/Time_Difference
@@ -383,7 +384,7 @@ public class ObjectRefinementModule {
      *                       vector.
      * @return: The source representing our correlated stateVector
      */
-    private Source reconstructSource(Source updatedSource) {
+    private SourceDataModel reconstructSource(SourceDataModel updatedSource) {
 
         double[][] currStateVector = state_x_post.getArray();
 

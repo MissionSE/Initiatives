@@ -3,7 +3,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
 
@@ -22,7 +22,7 @@ public class PackSupportingData {
      * Once this class has done everything it needs to do, this method allows it to send off data to
      * other sections of the program.
      */
-    public void packSupportingData(Source toUpdate, Source correlated, ArrayList<Source> sources)
+    public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, ArrayList<SourceDataModel> sources)
     {
 
 	//Checks to see if the ObjectRefinementModule has been hooked up yet.
@@ -44,7 +44,7 @@ public class PackSupportingData {
 	     * clones of all other observed sources, all for the purpose of creating an array
 	     * of Sources with that same format that can be sent off to the ObjectRefinementModule.
 	     */
-	    ArrayList<Source> toSend = new ArrayList<Source>();
+	    ArrayList<SourceDataModel> toSend = new ArrayList<SourceDataModel>();
 
 	    toSend.add(correlated);
 
@@ -53,7 +53,7 @@ public class PackSupportingData {
 		toSend.add(sources.get(i).clone());
 	    }
 	    System.out.println("psd toSend: "+toSend);
-	    orm.refineObject(toSend.toArray(new Source[0]));
+	    orm.refineObject(toSend.toArray(new SourceDataModel[0]));
 	}
     }
 

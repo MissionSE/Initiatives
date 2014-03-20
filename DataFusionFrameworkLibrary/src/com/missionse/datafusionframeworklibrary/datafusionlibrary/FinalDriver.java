@@ -7,7 +7,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /**
  *
@@ -15,11 +15,11 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
  */
 public class FinalDriver {
 
-//    static PacketReceiver packetReceiver = new PacketReceiver();
+    static PacketReceiver packetReceiver = new PacketReceiver();
     // First source will be sent to packetReceiver   
-    static Source source1;
+    static SourceDataModel source1;
     // Second source will be sent to packetReceiver
-    static Source source2;
+    static SourceDataModel source2;
     static DataAssociation da  = new DataAssociation();
 
 
@@ -31,11 +31,11 @@ public class FinalDriver {
 
     public FinalDriver() throws InterruptedException {
 
-        source1 = new Source("1", "platform", "category", 1, .3, 0.3, 99,
-                99, 99, 0.4, .1, .1, 40, 41.99417, -119.305344, .1, 2500, 0.2);
+        source1 = new SourceDataModel("1","S1", "platform", "category", 1, .3, 0.3, 99,
+                99, 99, 0.4, .1, .1, 40, 0.0, 41.99417, -119.305344, .1, 2500, 0.2);
 
-        source2 = new Source("2", "platform", "category", 1, 0.3, 0.2, 99,
-                99, 99, 0.3, .2, .1, 40, 41.99422, -119.305333, .1, 2500, 0.2);
+        source2 = new SourceDataModel("2","S2", "platform", "category", 1, 0.3, 0.2, 99,
+                99, 99, 0.3, .2, .1, 40, 0.0, 41.99422, -119.305333, .1, 2500, 0.2);
 
         //source1.setPositionLatitude(0.0);
         //source1.setPositionLongitude(0.0);
@@ -51,10 +51,10 @@ public class FinalDriver {
 //        source1 = new DriverSource("1", 41.94417, -119.305344, 2500.00);
 //        source2 = new DriverSource("2", 41.94424, -119.305366, 2500.00);
 
-//        packetReceiver.recievePacket(source1.toString());
-//        packetReceiver.recievePacket(source2.toString());
-        ArrayList<String> candidates = da.associateMeasurement(source1.toString());
-		System.out.println("driver candidates: "+candidates);
+        packetReceiver.recievePacket(source1.toString());
+        packetReceiver.recievePacket(source2.toString());
+//        ArrayList<String> candidates = da.associateMeasurement(source1.toString());
+//		System.out.println("driver candidates: "+candidates);
         int counter = 0;
         
         while (true) {
@@ -67,10 +67,10 @@ public class FinalDriver {
                 source2.setPositionLatitude(source2.getPositionLatitude() + .6);
                 source2.setPositionLongitude(source2.getPositionLongitude() + .6);
 
-//                packetReceiver.recievePacket(source1.toString());
-//                packetReceiver.recievePacket(source2.toString());
-                candidates = da.associateMeasurement(source1.toString());
-        		System.out.println("driver candidates: "+candidates);
+                packetReceiver.recievePacket(source1.toString());
+                packetReceiver.recievePacket(source2.toString());
+//                candidates = da.associateMeasurement(source1.toString());
+//        		System.out.println("driver candidates: "+candidates);
 
                 counter++;
 
