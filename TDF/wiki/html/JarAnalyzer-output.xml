@@ -1,0 +1,3691 @@
+<?xml version="1.0"?>
+<JarAnalyzer>
+    <Jars>
+
+        <Jar name="arcims.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>109</ClassCount>
+                    <AbstractClassCount>1</AbstractClassCount>
+                    <PackageCount>4</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.01</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.01</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.arcims</Package>
+                    <Package>com.solipsys.arcims.context</Package>
+                    <Package>com.solipsys.arcims.data</Package>
+                    <Package>com.solipsys.arcims.layer</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="astro.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>11</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>6</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.80</Instability>
+                    <Distance>0.20</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.astro</Package>
+                    <Package>com.solipsys.astro.coordinate</Package>
+                    <Package>com.solipsys.astro.star</Package>
+                    <Package>com.solipsys.astro.track</Package>
+                    <Package>com.solipsys.astro.track.report</Package>
+                    <Package>com.solipsys.astro.track.symbol.mutant</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="axis.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>855</ClassCount>
+                    <AbstractClassCount>87</AbstractClassCount>
+                    <PackageCount>82</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.10</Abstractness>
+                    <Efferent>10</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.10</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.axis</Package>
+                    <Package>com.solipsys.axis.application.axisview</Package>
+                    <Package>com.solipsys.axis.application.historypresentation</Package>
+                    <Package>com.solipsys.axis.application.options</Package>
+                    <Package>com.solipsys.axis.application.sharedtracks.context</Package>
+                    <Package>com.solipsys.axis.application.sharedtracks.display</Package>
+                    <Package>com.solipsys.axis.application.trackpresentation</Package>
+                    <Package>com.solipsys.axis.contact</Package>
+                    <Package>com.solipsys.axis.contact.application</Package>
+                    <Package>com.solipsys.axis.contact.context</Package>
+                    <Package>com.solipsys.axis.contact.controller</Package>
+                    <Package>com.solipsys.axis.contact.datatransfer</Package>
+                    <Package>com.solipsys.axis.contact.tree</Package>
+                    <Package>com.solipsys.axis.geo</Package>
+                    <Package>com.solipsys.axis.geo.application.geocontrol</Package>
+                    <Package>com.solipsys.axis.geo.effect</Package>
+                    <Package>com.solipsys.axis.geo.geometry</Package>
+                    <Package>com.solipsys.axis.geo.geometry.display</Package>
+                    <Package>com.solipsys.axis.geo.getter</Package>
+                    <Package>com.solipsys.axis.geo.graphics</Package>
+                    <Package>com.solipsys.axis.geo.gui.view</Package>
+                    <Package>com.solipsys.axis.geo.imagery</Package>
+                    <Package>com.solipsys.axis.geo.imagery.context</Package>
+                    <Package>com.solipsys.axis.geo.imagery.event</Package>
+                    <Package>com.solipsys.axis.geo.kml</Package>
+                    <Package>com.solipsys.axis.geo.kml.application</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry.display</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry.display.appearance</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry.immutable</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry.mutable</Package>
+                    <Package>com.solipsys.axis.geo.kml.geometry.operation</Package>
+                    <Package>com.solipsys.axis.geo.kml.impl</Package>
+                    <Package>com.solipsys.axis.geo.kml.impl.display</Package>
+                    <Package>com.solipsys.axis.geo.kml.operation</Package>
+                    <Package>com.solipsys.axis.geo.line.display</Package>
+                    <Package>com.solipsys.axis.geo.path.context</Package>
+                    <Package>com.solipsys.axis.geo.path.display</Package>
+                    <Package>com.solipsys.axis.geo.shaped.constrained.display</Package>
+                    <Package>com.solipsys.axis.geo.shaped.constrained.operation</Package>
+                    <Package>com.solipsys.axis.geo.shaped.display</Package>
+                    <Package>com.solipsys.axis.geo.terrain</Package>
+                    <Package>com.solipsys.axis.geo.usershape.application</Package>
+                    <Package>com.solipsys.axis.geo.usershape.context</Package>
+                    <Package>com.solipsys.axis.geo.usershape.display</Package>
+                    <Package>com.solipsys.axis.geo.util</Package>
+                    <Package>com.solipsys.axis.geo.view</Package>
+                    <Package>com.solipsys.axis.geo.view.context</Package>
+                    <Package>com.solipsys.axis.geo.view.event</Package>
+                    <Package>com.solipsys.axis.geo.view.key</Package>
+                    <Package>com.solipsys.axis.geo.view.light</Package>
+                    <Package>com.solipsys.axis.geo.view.operation</Package>
+                    <Package>com.solipsys.axis.geo.view.pointer</Package>
+                    <Package>com.solipsys.axis.geo.view.updater</Package>
+                    <Package>com.solipsys.axis.graphics</Package>
+                    <Package>com.solipsys.axis.graphics.scale</Package>
+                    <Package>com.solipsys.axis.line.display</Package>
+                    <Package>com.solipsys.axis.math</Package>
+                    <Package>com.solipsys.axis.model3d</Package>
+                    <Package>com.solipsys.axis.model3d.axm</Package>
+                    <Package>com.solipsys.axis.model3d.collada</Package>
+                    <Package>com.solipsys.axis.model3d.obj</Package>
+                    <Package>com.solipsys.axis.offscreen.display</Package>
+                    <Package>com.solipsys.axis.track.display</Package>
+                    <Package>com.solipsys.axis.track.display.context</Package>
+                    <Package>com.solipsys.axis.track.display.enhancement</Package>
+                    <Package>com.solipsys.axis.track.display.history</Package>
+                    <Package>com.solipsys.axis.track.display.renderer</Package>
+                    <Package>com.solipsys.axis.track.display.renderer.ntds</Package>
+                    <Package>com.solipsys.axis.track.drawable</Package>
+                    <Package>com.solipsys.axis.track.drawable.context</Package>
+                    <Package>com.solipsys.axis.util</Package>
+                    <Package>com.solipsys.axis.view</Package>
+                    <Package>com.solipsys.axis.view.detail</Package>
+                    <Package>com.solipsys.axis.view.drawable</Package>
+                    <Package>com.solipsys.axis.view.light</Package>
+                    <Package>com.solipsys.axis.view.manager.effect</Package>
+                    <Package>com.solipsys.axis.view.manager.indicator</Package>
+                    <Package>com.solipsys.axis.view.manager.rollover</Package>
+                    <Package>com.solipsys.axis.view.manager.selection</Package>
+                    <Package>com.solipsys.axis.view.manager.tag</Package>
+                    <Package>com.solipsys.axis.view.pointer</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>license.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>astro.jar</Jar>
+                    <Jar>kml-2.2.jar</Jar>
+                    <Jar>xmlbeans-2.4.jar</Jar>
+                    <Jar>collada-1.4.jar</Jar>
+                    <Jar>TimingFramework-0.55.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="collada-1.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>3167</ClassCount>
+                    <AbstractClassCount>914</AbstractClassCount>
+                    <PackageCount>3</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.29</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.21</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.collada.x2005.x11.colladaSchema</Package>
+                    <Package>org.collada.x2005.x11.colladaSchema.impl</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sDAA6D260A74685A2ACA90E4FD43A1860</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>xmlbeans-2.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-beanutils-1.7.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>111</ClassCount>
+                    <AbstractClassCount>10</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.41</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.beanutils</Package>
+                    <Package>org.apache.commons.beanutils.locale</Package>
+                    <Package>org.apache.commons.collections</Package>
+                    <Package>org.apache.commons.beanutils.locale.converters</Package>
+                    <Package>org.apache.commons.beanutils.converters</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jcl-over-slf4j-1.6.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.commons.collections.comparators</Package>
+                    <Package>org.apache.commons.collections.keyvalue</Package>
+                    <Package>org.apache.commons.collections.set</Package>
+                    <Package>org.apache.commons.collections.list</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-fileupload-1.2.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>44</ClassCount>
+                    <AbstractClassCount>12</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.27</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.73</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.fileupload</Package>
+                    <Package>org.apache.commons.fileupload.disk</Package>
+                    <Package>org.apache.commons.fileupload.portlet</Package>
+                    <Package>org.apache.commons.fileupload.servlet</Package>
+                    <Package>org.apache.commons.fileupload.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.commons.io.output</Package>
+                    <Package>org.apache.commons.io</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="commons-lang-2.1.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>110</ClassCount>
+                    <AbstractClassCount>12</AbstractClassCount>
+                    <PackageCount>8</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.89</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.lang</Package>
+                    <Package>org.apache.commons.lang.builder</Package>
+                    <Package>org.apache.commons.lang.enum</Package>
+                    <Package>org.apache.commons.lang.enums</Package>
+                    <Package>org.apache.commons.lang.exception</Package>
+                    <Package>org.apache.commons.lang.math</Package>
+                    <Package>org.apache.commons.lang.mutable</Package>
+                    <Package>org.apache.commons.lang.time</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="concurrent-1.3.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>221</ClassCount>
+                    <AbstractClassCount>22</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.10</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.90</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>EDU.oswego.cs.dl.util.concurrent</Package>
+                    <Package>EDU.oswego.cs.dl.util.concurrent.misc</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="dynamicjava.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>360</ClassCount>
+                    <AbstractClassCount>53</AbstractClassCount>
+                    <PackageCount>14</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.85</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>koala.dynamicjava.classfile</Package>
+                    <Package>koala.dynamicjava.classinfo</Package>
+                    <Package>koala.dynamicjava.gui</Package>
+                    <Package>koala.dynamicjava.gui.resource</Package>
+                    <Package>koala.dynamicjava.interpreter</Package>
+                    <Package>koala.dynamicjava.interpreter.context</Package>
+                    <Package>koala.dynamicjava.interpreter.error</Package>
+                    <Package>koala.dynamicjava.interpreter.modifier</Package>
+                    <Package>koala.dynamicjava.interpreter.throwable</Package>
+                    <Package>koala.dynamicjava.parser</Package>
+                    <Package>koala.dynamicjava.parser.wrapper</Package>
+                    <Package>koala.dynamicjava.tree</Package>
+                    <Package>koala.dynamicjava.tree.visitor</Package>
+                    <Package>koala.dynamicjava.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="ecj-4.3.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>474</ClassCount>
+                    <AbstractClassCount>81</AbstractClassCount>
+                    <PackageCount>21</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.17</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.83</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.eclipse.jdt.internal.compiler.apt.dispatch</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.apt.model</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.apt.util</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.lookup</Package>
+                    <Package>org.eclipse.jdt.core</Package>
+                    <Package>org.eclipse.jdt.core.compiler</Package>
+                    <Package>org.eclipse.jdt.core.compiler.batch</Package>
+                    <Package>org.eclipse.jdt.internal.antadapter</Package>
+                    <Package>org.eclipse.jdt.internal.compiler</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.ast</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.batch</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.classfmt</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.codegen</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.env</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.flow</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.impl</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.parser</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.parser.diagnose</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.problem</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.tool</Package>
+                    <Package>org.eclipse.jdt.internal.compiler.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.tools.ant</Package>
+                    <Package>org.eclipse.jdt.core.index</Package>
+                    <Package>org.eclipse.jdt.core.util</Package>
+                    <Package>org.apache.tools.ant.taskdefs.compilers</Package>
+                    <Package>org.apache.tools.ant.taskdefs</Package>
+                    <Package>org.apache.tools.ant.types</Package>
+                    <Package>org.apache.tools.ant.util</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gdx.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>136</ClassCount>
+                    <AbstractClassCount>3</AbstractClassCount>
+                    <PackageCount>8</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.02</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.78</Instability>
+                    <Distance>0.20</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.gdx.adrg</Package>
+                    <Package>com.solipsys.gdx.dted</Package>
+                    <Package>com.solipsys.gdx.geotiff</Package>
+                    <Package>com.solipsys.gdx.griddata</Package>
+                    <Package>com.solipsys.gdx.nitf</Package>
+                    <Package>com.solipsys.gdx.nitf.header</Package>
+                    <Package>com.solipsys.gdx.nitf.header.rpf</Package>
+                    <Package>com.solipsys.gdx.nitf.raw</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>nitf.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="geo.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>3474</ClassCount>
+                    <AbstractClassCount>325</AbstractClassCount>
+                    <PackageCount>162</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>10</Afferent>
+                    <Instability>0.41</Instability>
+                    <Distance>0.50</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.geo</Package>
+                    <Package>com.solipsys.geo.application.geocontrol</Package>
+                    <Package>com.solipsys.geo.application.viewlocator</Package>
+                    <Package>com.solipsys.geo.bean</Package>
+                    <Package>com.solipsys.geo.chart.transform.type</Package>
+                    <Package>com.solipsys.geo.chat.autopoints</Package>
+                    <Package>com.solipsys.geo.chat.autopoints.component</Package>
+                    <Package>com.solipsys.geo.chat.autopoints.getter</Package>
+                    <Package>com.solipsys.geo.chat.context</Package>
+                    <Package>com.solipsys.geo.condition</Package>
+                    <Package>com.solipsys.geo.coordinate</Package>
+                    <Package>com.solipsys.geo.coordinate.datatransfer</Package>
+                    <Package>com.solipsys.geo.coordinate.getter</Package>
+                    <Package>com.solipsys.geo.coordinate.operation</Package>
+                    <Package>com.solipsys.geo.coordinate.system</Package>
+                    <Package>com.solipsys.geo.drawable</Package>
+                    <Package>com.solipsys.geo.enums.facc</Package>
+                    <Package>com.solipsys.geo.extractor</Package>
+                    <Package>com.solipsys.geo.extractor.airspace</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.condition</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.detail</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.enums</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.flightexplorer</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.getter</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.nfdc</Package>
+                    <Package>com.solipsys.geo.extractor.airspace.raw</Package>
+                    <Package>com.solipsys.geo.extractor.dafif</Package>
+                    <Package>com.solipsys.geo.extractor.dafif.ed6</Package>
+                    <Package>com.solipsys.geo.extractor.dafif.getter</Package>
+                    <Package>com.solipsys.geo.extractor.dafif2</Package>
+                    <Package>com.solipsys.geo.extractor.dafif2.getter</Package>
+                    <Package>com.solipsys.geo.extractor.jgw</Package>
+                    <Package>com.solipsys.geo.extractor.vpf</Package>
+                    <Package>com.solipsys.geo.extractor.vpf.context</Package>
+                    <Package>com.solipsys.geo.extractor.vpf.db_util</Package>
+                    <Package>com.solipsys.geo.extractor.worldfile</Package>
+                    <Package>com.solipsys.geo.extractor.wpi</Package>
+                    <Package>com.solipsys.geo.extractor.wpi.enums</Package>
+                    <Package>com.solipsys.geo.extractor.wpi.getter</Package>
+                    <Package>com.solipsys.geo.feature</Package>
+                    <Package>com.solipsys.geo.feature.application</Package>
+                    <Package>com.solipsys.geo.feature.attributeio</Package>
+                    <Package>com.solipsys.geo.feature.comparator</Package>
+                    <Package>com.solipsys.geo.feature.context</Package>
+                    <Package>com.solipsys.geo.feature.detail</Package>
+                    <Package>com.solipsys.geo.feature.display</Package>
+                    <Package>com.solipsys.geo.feature.display.appearance</Package>
+                    <Package>com.solipsys.geo.feature.impl</Package>
+                    <Package>com.solipsys.geo.feature.set</Package>
+                    <Package>com.solipsys.geo.feature.set.analyzing</Package>
+                    <Package>com.solipsys.geo.feature.set.gridded</Package>
+                    <Package>com.solipsys.geo.feature.set.spatial</Package>
+                    <Package>com.solipsys.geo.geometry</Package>
+                    <Package>com.solipsys.geo.geometry.detail</Package>
+                    <Package>com.solipsys.geo.geometry.display</Package>
+                    <Package>com.solipsys.geo.geometry.display.appearance</Package>
+                    <Package>com.solipsys.geo.geometry.display.appearance.operation</Package>
+                    <Package>com.solipsys.geo.geometry.getter</Package>
+                    <Package>com.solipsys.geo.geometry.immutable</Package>
+                    <Package>com.solipsys.geo.geometry.iterator</Package>
+                    <Package>com.solipsys.geo.geometry.mutable</Package>
+                    <Package>com.solipsys.geo.geometry.mutable.cellname</Package>
+                    <Package>com.solipsys.geo.geometry.mutable.cellname.operation</Package>
+                    <Package>com.solipsys.geo.geometry.mutable.context</Package>
+                    <Package>com.solipsys.geo.geometry.mutable.datatransfer</Package>
+                    <Package>com.solipsys.geo.geometry.operation</Package>
+                    <Package>com.solipsys.geo.geometry.pointer</Package>
+                    <Package>com.solipsys.geo.geometry.setter</Package>
+                    <Package>com.solipsys.geo.getter</Package>
+                    <Package>com.solipsys.geo.gps</Package>
+                    <Package>com.solipsys.geo.gps.component</Package>
+                    <Package>com.solipsys.geo.graphics</Package>
+                    <Package>com.solipsys.geo.graphics.detail</Package>
+                    <Package>com.solipsys.geo.grid</Package>
+                    <Package>com.solipsys.geo.grid.cgrs</Package>
+                    <Package>com.solipsys.geo.grid.gars</Package>
+                    <Package>com.solipsys.geo.grid.mgrs</Package>
+                    <Package>com.solipsys.geo.gui</Package>
+                    <Package>com.solipsys.geo.gui.contextual</Package>
+                    <Package>com.solipsys.geo.gui.view</Package>
+                    <Package>com.solipsys.geo.imagery</Package>
+                    <Package>com.solipsys.geo.imagery.context</Package>
+                    <Package>com.solipsys.geo.kml</Package>
+                    <Package>com.solipsys.geo.kml.application</Package>
+                    <Package>com.solipsys.geo.kml.context</Package>
+                    <Package>com.solipsys.geo.kml.datatransfer</Package>
+                    <Package>com.solipsys.geo.kml.formatter</Package>
+                    <Package>com.solipsys.geo.kml.geometry</Package>
+                    <Package>com.solipsys.geo.kml.geometry.display</Package>
+                    <Package>com.solipsys.geo.kml.geometry.operation</Package>
+                    <Package>com.solipsys.geo.kml.getter</Package>
+                    <Package>com.solipsys.geo.kml.impl</Package>
+                    <Package>com.solipsys.geo.kml.impl.display</Package>
+                    <Package>com.solipsys.geo.kml.operation</Package>
+                    <Package>com.solipsys.geo.kml.renderer</Package>
+                    <Package>com.solipsys.geo.kml.setter</Package>
+                    <Package>com.solipsys.geo.kml.tree</Package>
+                    <Package>com.solipsys.geo.layer</Package>
+                    <Package>com.solipsys.geo.layer.display</Package>
+                    <Package>com.solipsys.geo.line</Package>
+                    <Package>com.solipsys.geo.line.detail</Package>
+                    <Package>com.solipsys.geo.line.display</Package>
+                    <Package>com.solipsys.geo.line.getter</Package>
+                    <Package>com.solipsys.geo.magnetism</Package>
+                    <Package>com.solipsys.geo.nlp.extractor</Package>
+                    <Package>com.solipsys.geo.operation</Package>
+                    <Package>com.solipsys.geo.operation.constraint</Package>
+                    <Package>com.solipsys.geo.operation.context</Package>
+                    <Package>com.solipsys.geo.path</Package>
+                    <Package>com.solipsys.geo.path.application</Package>
+                    <Package>com.solipsys.geo.path.context</Package>
+                    <Package>com.solipsys.geo.path.datatransfer</Package>
+                    <Package>com.solipsys.geo.path.display</Package>
+                    <Package>com.solipsys.geo.path.style</Package>
+                    <Package>com.solipsys.geo.projection</Package>
+                    <Package>com.solipsys.geo.reference</Package>
+                    <Package>com.solipsys.geo.reference.condition</Package>
+                    <Package>com.solipsys.geo.reference.getter</Package>
+                    <Package>com.solipsys.geo.server</Package>
+                    <Package>com.solipsys.geo.server.imagery</Package>
+                    <Package>com.solipsys.geo.server.imagery.context</Package>
+                    <Package>com.solipsys.geo.shaped</Package>
+                    <Package>com.solipsys.geo.shaped.constrained</Package>
+                    <Package>com.solipsys.geo.shaped.constrained.condition</Package>
+                    <Package>com.solipsys.geo.shaped.constrained.display</Package>
+                    <Package>com.solipsys.geo.shaped.constrained.operation</Package>
+                    <Package>com.solipsys.geo.shaped.datatransfer</Package>
+                    <Package>com.solipsys.geo.shaped.display</Package>
+                    <Package>com.solipsys.geo.shaped.operation</Package>
+                    <Package>com.solipsys.geo.shaped.pointer</Package>
+                    <Package>com.solipsys.geo.terrain</Package>
+                    <Package>com.solipsys.geo.terrain.graph</Package>
+                    <Package>com.solipsys.geo.text</Package>
+                    <Package>com.solipsys.geo.text.detector</Package>
+                    <Package>com.solipsys.geo.text.editor</Package>
+                    <Package>com.solipsys.geo.usershape</Package>
+                    <Package>com.solipsys.geo.usershape.application</Package>
+                    <Package>com.solipsys.geo.usershape.component</Package>
+                    <Package>com.solipsys.geo.usershape.condition</Package>
+                    <Package>com.solipsys.geo.usershape.context</Package>
+                    <Package>com.solipsys.geo.usershape.datatransfer</Package>
+                    <Package>com.solipsys.geo.usershape.display</Package>
+                    <Package>com.solipsys.geo.usershape.event</Package>
+                    <Package>com.solipsys.geo.usershape.getter</Package>
+                    <Package>com.solipsys.geo.usershape.operation</Package>
+                    <Package>com.solipsys.geo.usershape.operation.timeinterval</Package>
+                    <Package>com.solipsys.geo.usershape.pointer</Package>
+                    <Package>com.solipsys.geo.usershape.setter</Package>
+                    <Package>com.solipsys.geo.usershape.tree</Package>
+                    <Package>com.solipsys.geo.usershape.type</Package>
+                    <Package>com.solipsys.geo.usershape.type.timeinterval</Package>
+                    <Package>com.solipsys.geo.util</Package>
+                    <Package>com.solipsys.geo.view</Package>
+                    <Package>com.solipsys.geo.view.autocenter</Package>
+                    <Package>com.solipsys.geo.view.clip</Package>
+                    <Package>com.solipsys.geo.view.context</Package>
+                    <Package>com.solipsys.geo.view.event</Package>
+                    <Package>com.solipsys.geo.view.key</Package>
+                    <Package>com.solipsys.geo.view.manager.rollover</Package>
+                    <Package>com.solipsys.geo.view.operation</Package>
+                    <Package>com.solipsys.geo.view.pointer</Package>
+                    <Package>com.solipsys.geo.view.region</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>license.jar</Jar>
+                    <Jar>kml-2.2.jar</Jar>
+                    <Jar>xmlbeans-2.4.jar</Jar>
+                    <Jar>TimingFramework-0.55.jar</Jar>
+                    <Jar>jfreechart-1.0.3.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>arcims.jar</Jar>
+                    <Jar>astro.jar</Jar>
+                    <Jar>axis.jar</Jar>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>mtf.jar</Jar>
+                    <Jar>nitf.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>tdf.jar</Jar>
+                    <Jar>telestrator.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="geoapi-nogenerics-2.1.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>659</ClassCount>
+                    <AbstractClassCount>549</AbstractClassCount>
+                    <PackageCount>55</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.83</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>10</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.17</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.opengis.go.display</Package>
+                    <Package>org.opengis.go.display.event</Package>
+                    <Package>org.opengis.go.display.style</Package>
+                    <Package>org.opengis.go.display.style.event</Package>
+                    <Package>org.opengis.go.display.canvas.web</Package>
+                    <Package>org.opengis.go.display.canvas.map2d.web</Package>
+                    <Package>org.opengis.go.display.canvas.map2d</Package>
+                    <Package>org.opengis.go.display.canvas</Package>
+                    <Package>org.opengis.go.display.primitive</Package>
+                    <Package>org.opengis.go.display.primitive.store</Package>
+                    <Package>org.opengis.go</Package>
+                    <Package>org.opengis.go.spatial</Package>
+                    <Package>org.opengis.sld</Package>
+                    <Package>org.opengis.util</Package>
+                    <Package>org.opengis.metadata</Package>
+                    <Package>org.opengis.metadata.content</Package>
+                    <Package>org.opengis.metadata.maintenance</Package>
+                    <Package>org.opengis.metadata.quality</Package>
+                    <Package>org.opengis.metadata.identification</Package>
+                    <Package>org.opengis.metadata.lineage</Package>
+                    <Package>org.opengis.metadata.spatial</Package>
+                    <Package>org.opengis.metadata.constraint</Package>
+                    <Package>org.opengis.metadata.extent</Package>
+                    <Package>org.opengis.metadata.citation</Package>
+                    <Package>org.opengis.metadata.distribution</Package>
+                    <Package>org.opengis.layer</Package>
+                    <Package>org.opengis.layer.source</Package>
+                    <Package>org.opengis.referencing.cs</Package>
+                    <Package>org.opengis.referencing.crs</Package>
+                    <Package>org.opengis.referencing</Package>
+                    <Package>org.opengis.referencing.datum</Package>
+                    <Package>org.opengis.referencing.operation</Package>
+                    <Package>org.opengis.temporal</Package>
+                    <Package>org.opengis.feature.type</Package>
+                    <Package>org.opengis.feature</Package>
+                    <Package>org.opengis.feature.display.canvas.web</Package>
+                    <Package>org.opengis.feature.display.canvas</Package>
+                    <Package>org.opengis.feature.display</Package>
+                    <Package>org.opengis.feature.simple</Package>
+                    <Package>org.opengis.geometry</Package>
+                    <Package>org.opengis.geometry.complex</Package>
+                    <Package>org.opengis.geometry.aggregate</Package>
+                    <Package>org.opengis.geometry.coordinate</Package>
+                    <Package>org.opengis.geometry.primitive</Package>
+                    <Package>org.opengis.filter</Package>
+                    <Package>org.opengis.filter.sort</Package>
+                    <Package>org.opengis.filter.expression</Package>
+                    <Package>org.opengis.filter.identity</Package>
+                    <Package>org.opengis.filter.spatial</Package>
+                    <Package>org.opengis.filter.capability</Package>
+                    <Package>org.opengis.coverage</Package>
+                    <Package>org.opengis.coverage.grid</Package>
+                    <Package>org.opengis.coverage.grid.quadrilateral</Package>
+                    <Package>org.opengis.coverage.processing</Package>
+                    <Package>org.opengis.parameter</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-vpf-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="geotools.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>72</ClassCount>
+                    <AbstractClassCount>4</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.06</Abstractness>
+                    <Efferent>10</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.06</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.geotools</Package>
+                    <Package>com.solipsys.geotools.extractor</Package>
+                    <Package>com.solipsys.geotools.extractor.impl</Package>
+                    <Package>com.solipsys.geotools.wms</Package>
+                    <Package>com.solipsys.geotools.wms.context</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gluegen-rt.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>17</ClassCount>
+                    <AbstractClassCount>2</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.sun.gluegen.runtime</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-api-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>169</ClassCount>
+                    <AbstractClassCount>128</AbstractClassCount>
+                    <PackageCount>13</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.76</Abstractness>
+                    <Efferent>5</Efferent>
+                    <Afferent>7</Afferent>
+                    <Instability>0.42</Instability>
+                    <Distance>0.18</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.catalog</Package>
+                    <Package>org.geotools.event</Package>
+                    <Package>org.geotools.filter</Package>
+                    <Package>org.geotools.filter.expression</Package>
+                    <Package>org.geotools.styling</Package>
+                    <Package>org.geotools.util</Package>
+                    <Package>org.geotools.data</Package>
+                    <Package>org.geotools.data.collection</Package>
+                    <Package>org.geotools.geometry.jts</Package>
+                    <Package>org.geotools.feature</Package>
+                    <Package>org.geotools.feature.visitor</Package>
+                    <Package>org.geotools.feature.type</Package>
+                    <Package>org.geotools.feature.collection</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jts-1.8.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-epsg-hsql-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-vpf-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>gt2-referencing-2.4.4.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-epsg-hsql-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>4</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>5</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.00</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.referencing.factory.epsg</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>hsqldb-1.8.0.7.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-main-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>687</ClassCount>
+                    <AbstractClassCount>97</AbstractClassCount>
+                    <PackageCount>35</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.14</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>8</Afferent>
+                    <Instability>0.47</Instability>
+                    <Distance>0.39</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.factory</Package>
+                    <Package>org.geotools.xml.transform</Package>
+                    <Package>org.geotools.catalog</Package>
+                    <Package>org.geotools.catalog.adaptable</Package>
+                    <Package>org.geotools.catalog.styling</Package>
+                    <Package>org.geotools.catalog.defaults</Package>
+                    <Package>org.geotools.event</Package>
+                    <Package>org.geotools.filter</Package>
+                    <Package>org.geotools.filter.parser</Package>
+                    <Package>org.geotools.filter.identity</Package>
+                    <Package>org.geotools.filter.function</Package>
+                    <Package>org.geotools.filter.function.math</Package>
+                    <Package>org.geotools.filter.expression</Package>
+                    <Package>org.geotools.filter.visitor</Package>
+                    <Package>org.geotools.filter.spatial</Package>
+                    <Package>org.geotools.gml</Package>
+                    <Package>org.geotools.gml.producer</Package>
+                    <Package>org.geotools.styling</Package>
+                    <Package>org.geotools.styling.visitor</Package>
+                    <Package>org.geotools.util</Package>
+                    <Package>org.geotools.data</Package>
+                    <Package>org.geotools.data.view</Package>
+                    <Package>org.geotools.data.store</Package>
+                    <Package>org.geotools.data.crs</Package>
+                    <Package>org.geotools.data.memory</Package>
+                    <Package>org.geotools.data.ows</Package>
+                    <Package>org.geotools.data.collection</Package>
+                    <Package>org.geotools.ows</Package>
+                    <Package>org.geotools.geometry.jts</Package>
+                    <Package>org.geotools.geometry.jts.coordinatesequence</Package>
+                    <Package>org.geotools.geometry.coordinatesequence</Package>
+                    <Package>org.geotools.feature</Package>
+                    <Package>org.geotools.feature.visitor</Package>
+                    <Package>org.geotools.feature.type</Package>
+                    <Package>org.geotools.feature.collection</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                    <Jar>commons-beanutils-1.7.0.jar</Jar>
+                    <Jar>concurrent-1.3.4.jar</Jar>
+                    <Jar>jdom-1.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-epsg-hsql-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>gt2-referencing-2.4.4.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>junit.framework</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-metadata-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>268</ClassCount>
+                    <AbstractClassCount>15</AbstractClassCount>
+                    <PackageCount>20</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.06</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>9</Afferent>
+                    <Instability>0.25</Instability>
+                    <Distance>0.69</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.factory</Package>
+                    <Package>org.geotools.metadata</Package>
+                    <Package>org.geotools.metadata.iso.lineage</Package>
+                    <Package>org.geotools.metadata.iso</Package>
+                    <Package>org.geotools.metadata.iso.maintenance</Package>
+                    <Package>org.geotools.metadata.iso.extent</Package>
+                    <Package>org.geotools.metadata.iso.content</Package>
+                    <Package>org.geotools.metadata.iso.spatial</Package>
+                    <Package>org.geotools.metadata.iso.constraint</Package>
+                    <Package>org.geotools.metadata.iso.distribution</Package>
+                    <Package>org.geotools.metadata.iso.quality</Package>
+                    <Package>org.geotools.metadata.iso.identification</Package>
+                    <Package>org.geotools.metadata.iso.citation</Package>
+                    <Package>org.geotools.metadata.sql</Package>
+                    <Package>org.geotools.resources</Package>
+                    <Package>org.geotools.resources.i18n</Package>
+                    <Package>org.geotools.io</Package>
+                    <Package>org.geotools.util</Package>
+                    <Package>org.geotools.util.logging</Package>
+                    <Package>org.geotools.math</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>jcl-over-slf4j-1.6.0.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-epsg-hsql-2.4.4.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-vpf-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-referencing-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>383</ClassCount>
+                    <AbstractClassCount>32</AbstractClassCount>
+                    <PackageCount>19</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>8</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.59</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.referencing.factory</Package>
+                    <Package>org.geotools.referencing.factory.epsg</Package>
+                    <Package>org.geotools.referencing.factory.wms</Package>
+                    <Package>org.geotools.referencing</Package>
+                    <Package>org.geotools.referencing.wkt</Package>
+                    <Package>org.geotools.referencing.crs</Package>
+                    <Package>org.geotools.referencing.cs</Package>
+                    <Package>org.geotools.referencing.datum</Package>
+                    <Package>org.geotools.referencing.operation</Package>
+                    <Package>org.geotools.referencing.operation.matrix</Package>
+                    <Package>org.geotools.referencing.operation.builder</Package>
+                    <Package>org.geotools.referencing.operation.projection</Package>
+                    <Package>org.geotools.referencing.operation.transform</Package>
+                    <Package>org.geotools.resources</Package>
+                    <Package>org.geotools.resources.geometry</Package>
+                    <Package>org.geotools.measure</Package>
+                    <Package>org.geotools.geometry</Package>
+                    <Package>org.geotools.parameter</Package>
+                    <Package>org.geotools.nature</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-epsg-hsql-2.4.4.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-vpf-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>gt2-main-2.4.4.jar</Cycle>
+                    <Cycle>gt2-api-2.4.4.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-shapefile-2.4.4-sol.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>95</ClassCount>
+                    <AbstractClassCount>9</AbstractClassCount>
+                    <PackageCount>16</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.88</Instability>
+                    <Distance>0.03</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.catalog.shapefile</Package>
+                    <Package>org.geotools.data.shapefile</Package>
+                    <Package>org.geotools.data.shapefile.shp.xml</Package>
+                    <Package>org.geotools.data.shapefile.shp</Package>
+                    <Package>org.geotools.data.shapefile.indexed</Package>
+                    <Package>org.geotools.data.shapefile.dbf</Package>
+                    <Package>org.geotools.data.shapefile.prj</Package>
+                    <Package>org.geotools.index.quadtree</Package>
+                    <Package>org.geotools.index.quadtree.fs</Package>
+                    <Package>org.geotools.index.rtree</Package>
+                    <Package>org.geotools.index.rtree.cachefs</Package>
+                    <Package>org.geotools.index.rtree.database</Package>
+                    <Package>org.geotools.index.rtree.database.mysql</Package>
+                    <Package>org.geotools.index.rtree.memory</Package>
+                    <Package>org.geotools.index.rtree.fs</Package>
+                    <Package>org.geotools.index</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>jdom-1.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>geotools.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-vpf-2.4.4-sol.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>49</ClassCount>
+                    <AbstractClassCount>10</AbstractClassCount>
+                    <PackageCount>7</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.20</Abstractness>
+                    <Efferent>5</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.20</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.data.vpf</Package>
+                    <Package>org.geotools.data.vpf.exc</Package>
+                    <Package>org.geotools.data.vpf.file</Package>
+                    <Package>org.geotools.data.vpf.ifc</Package>
+                    <Package>org.geotools.data.vpf.io</Package>
+                    <Package>org.geotools.data.vpf.readers</Package>
+                    <Package>org.geotools.data.vpf.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-wms-2.4.4-sol.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>199</ClassCount>
+                    <AbstractClassCount>17</AbstractClassCount>
+                    <PackageCount>8</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>8</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.89</Instability>
+                    <Distance>0.02</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.wms.v1_1_1.bindings</Package>
+                    <Package>org.geotools.data.wms</Package>
+                    <Package>org.geotools.data.wms.request</Package>
+                    <Package>org.geotools.data.wms.xml</Package>
+                    <Package>org.geotools.data.wms.response</Package>
+                    <Package>org.geotools.data.wms.gce</Package>
+                    <Package>org.geotools.data.ows</Package>
+                    <Package>org.geotools.catalog.wms</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-referencing-2.4.4.jar</Jar>
+                    <Jar>commons-lang-2.1.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>geotools.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.eclipse.xsd.util</Package>
+                    <Package>org.eclipse.xsd</Package>
+                    <Package>org.geotools.xlink</Package>
+                    <Package>org.picocontainer</Package>
+                    <Package>ink</Package>
+                    <Package>org.geotools.coverage.grid</Package>
+                    <Package>org.geotools.coverage</Package>
+                    <Package>org.geotools.coverage.grid.io</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="gt2-xml-2.4.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>349</ClassCount>
+                    <AbstractClassCount>29</AbstractClassCount>
+                    <PackageCount>10</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>5</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.83</Instability>
+                    <Distance>0.09</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.geotools.xml</Package>
+                    <Package>org.geotools.xml.filter</Package>
+                    <Package>org.geotools.xml.gml</Package>
+                    <Package>org.geotools.xml.schema</Package>
+                    <Package>org.geotools.xml.schema.impl</Package>
+                    <Package>org.geotools.xml.styling</Package>
+                    <Package>org.geotools.xml.xLink</Package>
+                    <Package>org.geotools.xml.handlers</Package>
+                    <Package>org.geotools.xml.handlers.xsi</Package>
+                    <Package>org.geotools.xml.xsi</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>geoapi-nogenerics-2.1.0.jar</Jar>
+                    <Jar>jts-1.8.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>ink</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="hsqldb-1.8.0.7.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>301</ClassCount>
+                    <AbstractClassCount>32</AbstractClassCount>
+                    <PackageCount>13</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.89</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package></Package>
+                    <Package>org.hsqldb</Package>
+                    <Package>org.hsqldb.index</Package>
+                    <Package>org.hsqldb.jdbc</Package>
+                    <Package>org.hsqldb.lib</Package>
+                    <Package>org.hsqldb.lib.java</Package>
+                    <Package>org.hsqldb.persist</Package>
+                    <Package>org.hsqldb.resources</Package>
+                    <Package>org.hsqldb.rowio</Package>
+                    <Package>org.hsqldb.scriptio</Package>
+                    <Package>org.hsqldb.store</Package>
+                    <Package>org.hsqldb.types</Package>
+                    <Package>org.hsqldb.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-epsg-hsql-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jai_codec.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>95</ClassCount>
+                    <AbstractClassCount>11</AbstractClassCount>
+                    <PackageCount>4</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.sun.media.jai.codec</Package>
+                    <Package>com.sun.media.jai.codecimpl</Package>
+                    <Package>com.sun.media.jai.codecimpl.fpx</Package>
+                    <Package>com.sun.media.jai.codecimpl.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jai_core.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>821</ClassCount>
+                    <AbstractClassCount>83</AbstractClassCount>
+                    <PackageCount>16</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.10</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>javax.media.jai</Package>
+                    <Package>javax.media.jai.iterator</Package>
+                    <Package>javax.media.jai.operator</Package>
+                    <Package>javax.media.jai.registry</Package>
+                    <Package>javax.media.jai.remote</Package>
+                    <Package>javax.media.jai.tilecodec</Package>
+                    <Package>javax.media.jai.util</Package>
+                    <Package>javax.media.jai.widget</Package>
+                    <Package>com.sun.media.jai.iterator</Package>
+                    <Package>com.sun.media.jai.mlib</Package>
+                    <Package>com.sun.media.jai.opimage</Package>
+                    <Package>com.sun.media.jai.remote</Package>
+                    <Package>com.sun.media.jai.rmi</Package>
+                    <Package>com.sun.media.jai.tilecodec</Package>
+                    <Package>com.sun.media.jai.util</Package>
+                    <Package>com.sun.media.jai.widget</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jcl-over-slf4j-1.6.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>9</ClassCount>
+                    <AbstractClassCount>2</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.22</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.45</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.commons.logging.impl</Package>
+                    <Package>org.apache.commons.logging</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.6.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>commons-beanutils-1.7.0.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jcommon-1.0.6.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>205</ClassCount>
+                    <AbstractClassCount>29</AbstractClassCount>
+                    <PackageCount>18</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.14</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.86</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.keypoint</Package>
+                    <Package>org.jfree</Package>
+                    <Package>org.jfree.base</Package>
+                    <Package>org.jfree.base.config</Package>
+                    <Package>org.jfree.base.log</Package>
+                    <Package>org.jfree.base.modules</Package>
+                    <Package>org.jfree.date</Package>
+                    <Package>org.jfree.io</Package>
+                    <Package>org.jfree.layout</Package>
+                    <Package>org.jfree.resources</Package>
+                    <Package>org.jfree.text</Package>
+                    <Package>org.jfree.threads</Package>
+                    <Package>org.jfree.ui</Package>
+                    <Package>org.jfree.ui.about</Package>
+                    <Package>org.jfree.ui.about.resources</Package>
+                    <Package>org.jfree.ui.action</Package>
+                    <Package>org.jfree.ui.tabbedui</Package>
+                    <Package>org.jfree.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jfreechart-1.0.3.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jdom-1.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>75</ClassCount>
+                    <AbstractClassCount>9</AbstractClassCount>
+                    <PackageCount>8</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.88</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package></Package>
+                    <Package>org.jdom.adapters</Package>
+                    <Package>org.jdom</Package>
+                    <Package>org.jdom.filter</Package>
+                    <Package>org.jdom.input</Package>
+                    <Package>org.jdom.output</Package>
+                    <Package>org.jdom.transform</Package>
+                    <Package>org.jdom.xpath</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.jaxen</Package>
+                    <Package>org.jaxen.jdom</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jetty-6.1.24.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>236</ClassCount>
+                    <AbstractClassCount>41</AbstractClassCount>
+                    <PackageCount>14</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.17</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.50</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.mortbay.jetty.webapp</Package>
+                    <Package>org.mortbay.jetty.handler</Package>
+                    <Package>org.mortbay.jetty</Package>
+                    <Package>org.mortbay.jetty.security</Package>
+                    <Package>org.mortbay.jetty.servlet</Package>
+                    <Package>org.mortbay.jetty.nio</Package>
+                    <Package>org.mortbay.jetty.deployer</Package>
+                    <Package>org.mortbay.jetty.bio</Package>
+                    <Package>org.mortbay.xml</Package>
+                    <Package>org.mortbay.resource</Package>
+                    <Package>org.mortbay.io</Package>
+                    <Package>org.mortbay.io.nio</Package>
+                    <Package>org.mortbay.io.bio</Package>
+                    <Package>org.mortbay.servlet.jetty</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jetty-util-6.1.24.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jetty-rewrite-handler-6.1.24.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jetty-rewrite-handler-6.1.24.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>18</ClassCount>
+                    <AbstractClassCount>4</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.22</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.22</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.mortbay.jetty.handler.rewrite</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jetty-6.1.24.jar</Jar>
+                    <Jar>jetty-util-6.1.24.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jetty-util-6.1.24.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>105</ClassCount>
+                    <AbstractClassCount>17</AbstractClassCount>
+                    <PackageCount>6</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.16</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.51</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.mortbay.log</Package>
+                    <Package>org.mortbay.util</Package>
+                    <Package>org.mortbay.util.ajax</Package>
+                    <Package>org.mortbay.servlet</Package>
+                    <Package>org.mortbay.component</Package>
+                    <Package>org.mortbay.thread</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.6.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jetty-6.1.24.jar</Jar>
+                    <Jar>jetty-rewrite-handler-6.1.24.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jfreechart-1.0.3.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>509</ClassCount>
+                    <AbstractClassCount>112</AbstractClassCount>
+                    <PackageCount>34</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.22</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.25</Instability>
+                    <Distance>0.53</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jfree.chart</Package>
+                    <Package>org.jfree.chart.annotations</Package>
+                    <Package>org.jfree.chart.axis</Package>
+                    <Package>org.jfree.chart.block</Package>
+                    <Package>org.jfree.chart.demo</Package>
+                    <Package>org.jfree.chart.editor</Package>
+                    <Package>org.jfree.chart.encoders</Package>
+                    <Package>org.jfree.chart.entity</Package>
+                    <Package>org.jfree.chart.event</Package>
+                    <Package>org.jfree.chart.imagemap</Package>
+                    <Package>org.jfree.chart.labels</Package>
+                    <Package>org.jfree.chart.needle</Package>
+                    <Package>org.jfree.chart.plot</Package>
+                    <Package>org.jfree.chart.renderer</Package>
+                    <Package>org.jfree.chart.renderer.category</Package>
+                    <Package>org.jfree.chart.renderer.xy</Package>
+                    <Package>org.jfree.chart.resources</Package>
+                    <Package>org.jfree.chart.servlet</Package>
+                    <Package>org.jfree.chart.title</Package>
+                    <Package>org.jfree.chart.urls</Package>
+                    <Package>org.jfree.chart.util</Package>
+                    <Package>org.jfree.data</Package>
+                    <Package>org.jfree.data.category</Package>
+                    <Package>org.jfree.data.contour</Package>
+                    <Package>org.jfree.data.function</Package>
+                    <Package>org.jfree.data.gantt</Package>
+                    <Package>org.jfree.data.general</Package>
+                    <Package>org.jfree.data.io</Package>
+                    <Package>org.jfree.data.jdbc</Package>
+                    <Package>org.jfree.data.resources</Package>
+                    <Package>org.jfree.data.statistics</Package>
+                    <Package>org.jfree.data.time</Package>
+                    <Package>org.jfree.data.xml</Package>
+                    <Package>org.jfree.data.xy</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>jcommon-1.0.6.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jgroups-2.12.1-sol.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>953</ClassCount>
+                    <AbstractClassCount>117</AbstractClassCount>
+                    <PackageCount>24</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.38</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jgroups</Package>
+                    <Package>org.jgroups.annotations</Package>
+                    <Package>org.jgroups.auth</Package>
+                    <Package>org.jgroups.blocks</Package>
+                    <Package>org.jgroups.blocks.executor</Package>
+                    <Package>org.jgroups.blocks.locking</Package>
+                    <Package>org.jgroups.blocks.mux</Package>
+                    <Package>org.jgroups.client</Package>
+                    <Package>org.jgroups.conf</Package>
+                    <Package>org.jgroups.debug</Package>
+                    <Package>org.jgroups.demos</Package>
+                    <Package>org.jgroups.demos.applets</Package>
+                    <Package>org.jgroups.demos.wb</Package>
+                    <Package>org.jgroups.jmx</Package>
+                    <Package>org.jgroups.logging</Package>
+                    <Package>org.jgroups.mux</Package>
+                    <Package>org.jgroups.persistence</Package>
+                    <Package>org.jgroups.protocols</Package>
+                    <Package>org.jgroups.protocols.pbcast</Package>
+                    <Package>org.jgroups.stack</Package>
+                    <Package>org.jgroups.tests</Package>
+                    <Package>org.jgroups.tests.perf</Package>
+                    <Package>org.jgroups.tests.perf.transports</Package>
+                    <Package>org.jgroups.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>bsh</Package>
+                    <Package>org.testng.annotations</Package>
+                    <Package>org.testng</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jhall.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>315</ClassCount>
+                    <AbstractClassCount>38</AbstractClassCount>
+                    <PackageCount>9</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.12</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.sun.java.help.impl</Package>
+                    <Package>com.sun.java.help.search</Package>
+                    <Package>javax.help.plaf.basic</Package>
+                    <Package>javax.help.plaf</Package>
+                    <Package>javax.help</Package>
+                    <Package>javax.help.event</Package>
+                    <Package>javax.help.search</Package>
+                    <Package>javax.help.resources</Package>
+                    <Package>javax.help.tagext</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jogl.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>458</ClassCount>
+                    <AbstractClassCount>71</AbstractClassCount>
+                    <PackageCount>18</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.16</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.sun.opengl.cg</Package>
+                    <Package>com.sun.opengl.impl</Package>
+                    <Package>com.sun.opengl.impl.error</Package>
+                    <Package>com.sun.opengl.impl.glue</Package>
+                    <Package>com.sun.opengl.impl.mipmap</Package>
+                    <Package>com.sun.opengl.impl.nurbs</Package>
+                    <Package>com.sun.opengl.impl.packrect</Package>
+                    <Package>com.sun.opengl.impl.registry</Package>
+                    <Package>com.sun.opengl.impl.tessellator</Package>
+                    <Package>com.sun.opengl.impl.x11</Package>
+                    <Package>com.sun.opengl.util</Package>
+                    <Package>com.sun.opengl.util.j2d</Package>
+                    <Package>com.sun.opengl.util.texture</Package>
+                    <Package>com.sun.opengl.util.texture.spi</Package>
+                    <Package>javax.media.opengl</Package>
+                    <Package>javax.media.opengl.glu</Package>
+                    <Package>com.sun.opengl.impl.macosx</Package>
+                    <Package>com.sun.opengl.impl.windows</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jsr108-0.01.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>24</ClassCount>
+                    <AbstractClassCount>4</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.17</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>javax.units</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jts-1.8.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>327</ClassCount>
+                    <AbstractClassCount>37</AbstractClassCount>
+                    <PackageCount>33</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>7</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.89</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.vividsolutions.jts</Package>
+                    <Package>com.vividsolutions.jts.algorithm</Package>
+                    <Package>com.vividsolutions.jts.geom</Package>
+                    <Package>com.vividsolutions.jts.geom.impl</Package>
+                    <Package>com.vividsolutions.jts.geom.util</Package>
+                    <Package>com.vividsolutions.jts.geomgraph</Package>
+                    <Package>com.vividsolutions.jts.geomgraph.index</Package>
+                    <Package>com.vividsolutions.jts.index</Package>
+                    <Package>com.vividsolutions.jts.index.bintree</Package>
+                    <Package>com.vividsolutions.jts.index.chain</Package>
+                    <Package>com.vividsolutions.jts.index.quadtree</Package>
+                    <Package>com.vividsolutions.jts.index.strtree</Package>
+                    <Package>com.vividsolutions.jts.index.sweepline</Package>
+                    <Package>com.vividsolutions.jts.io</Package>
+                    <Package>com.vividsolutions.jts.linearref</Package>
+                    <Package>com.vividsolutions.jts.noding</Package>
+                    <Package>com.vividsolutions.jts.noding.snapround</Package>
+                    <Package>com.vividsolutions.jts.operation</Package>
+                    <Package>com.vividsolutions.jts.operation.buffer</Package>
+                    <Package>com.vividsolutions.jts.operation.distance</Package>
+                    <Package>com.vividsolutions.jts.operation.linemerge</Package>
+                    <Package>com.vividsolutions.jts.operation.overlay</Package>
+                    <Package>com.vividsolutions.jts.operation.overlay.snap</Package>
+                    <Package>com.vividsolutions.jts.operation.overlay.validate</Package>
+                    <Package>com.vividsolutions.jts.operation.polygonize</Package>
+                    <Package>com.vividsolutions.jts.operation.predicate</Package>
+                    <Package>com.vividsolutions.jts.operation.relate</Package>
+                    <Package>com.vividsolutions.jts.operation.valid</Package>
+                    <Package>com.vividsolutions.jts.planargraph</Package>
+                    <Package>com.vividsolutions.jts.planargraph.algorithm</Package>
+                    <Package>com.vividsolutions.jts.precision</Package>
+                    <Package>com.vividsolutions.jts.simplify</Package>
+                    <Package>com.vividsolutions.jts.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-api-2.4.4.jar</Jar>
+                    <Jar>gt2-main-2.4.4.jar</Jar>
+                    <Jar>gt2-shapefile-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-vpf-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-wms-2.4.4-sol.jar</Jar>
+                    <Jar>gt2-xml-2.4.4.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jul-to-slf4j-1.6.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.50</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.slf4j.bridge</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.6.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="jvmcheck.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>4</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.jvmcheck</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="kml-2.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1893</ClassCount>
+                    <AbstractClassCount>488</AbstractClassCount>
+                    <PackageCount>7</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.26</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.33</Instability>
+                    <Distance>0.41</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.w3.x2005.atom</Package>
+                    <Package>org.w3.x2005.atom.impl</Package>
+                    <Package>x0.oasisNamesTcCiqXsdschemaXAL2</Package>
+                    <Package>x0.oasisNamesTcCiqXsdschemaXAL2.impl</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.s94BDDEDF769FA4BE0D9CA89A5462CEA6</Package>
+                    <Package>net.opengis.kml.x22</Package>
+                    <Package>net.opengis.kml.x22.impl</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>xmlbeans-2.4.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>2</Package>
+                    <Package>2.impl</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="license.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>9</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>4</Afferent>
+                    <Instability>0.20</Instability>
+                    <Distance>0.80</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.lm</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="log4j.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>259</ClassCount>
+                    <AbstractClassCount>28</AbstractClassCount>
+                    <PackageCount>19</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>17</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.89</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.log4j.xml</Package>
+                    <Package>org.apache.log4j.lf5.viewer</Package>
+                    <Package>org.apache.log4j.lf5.viewer.categoryexplorer</Package>
+                    <Package>org.apache.log4j.lf5.viewer.configure</Package>
+                    <Package>org.apache.log4j.lf5</Package>
+                    <Package>org.apache.log4j.lf5.util</Package>
+                    <Package>org.apache.log4j.spi</Package>
+                    <Package>org.apache.log4j</Package>
+                    <Package>org.apache.log4j.helpers</Package>
+                    <Package>org.apache.log4j.chainsaw</Package>
+                    <Package>org.apache.log4j.varia</Package>
+                    <Package>org.apache.log4j.net</Package>
+                    <Package>org.apache.log4j.jmx</Package>
+                    <Package>org.apache.log4j.or</Package>
+                    <Package>org.apache.log4j.or.sax</Package>
+                    <Package>org.apache.log4j.or.jms</Package>
+                    <Package>org.apache.log4j.config</Package>
+                    <Package>org.apache.log4j.nt</Package>
+                    <Package>org.apache.log4j.jdbc</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>arcims.jar</Jar>
+                    <Jar>astro.jar</Jar>
+                    <Jar>axis.jar</Jar>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>gt2-metadata-2.4.4.jar</Jar>
+                    <Jar>jgroups-2.12.1-sol.jar</Jar>
+                    <Jar>license.jar</Jar>
+                    <Jar>martyr.jar</Jar>
+                    <Jar>mtf.jar</Jar>
+                    <Jar>nitf.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>slf4j-log4j12-1.6.0.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>tdf.jar</Jar>
+                    <Jar>telestrator.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="martyr.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>180</ClassCount>
+                    <AbstractClassCount>19</AbstractClassCount>
+                    <PackageCount>12</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.11</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.39</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>f00f.net.irc.martyr</Package>
+                    <Package>f00f.net.irc.martyr.clientstate</Package>
+                    <Package>f00f.net.irc.martyr.commands</Package>
+                    <Package>f00f.net.irc.martyr.dcc</Package>
+                    <Package>f00f.net.irc.martyr.errors</Package>
+                    <Package>f00f.net.irc.martyr.modes</Package>
+                    <Package>f00f.net.irc.martyr.modes.channel</Package>
+                    <Package>f00f.net.irc.martyr.modes.user</Package>
+                    <Package>f00f.net.irc.martyr.replies</Package>
+                    <Package>f00f.net.irc.martyr.services</Package>
+                    <Package>f00f.net.irc.martyr.test</Package>
+                    <Package>f00f.net.irc.martyr.util</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.junit</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="mtf.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>78</ClassCount>
+                    <AbstractClassCount>12</AbstractClassCount>
+                    <PackageCount>9</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.15</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.mtf</Package>
+                    <Package>com.solipsys.mtf.aco</Package>
+                    <Package>com.solipsys.mtf.ato</Package>
+                    <Package>com.solipsys.mtf.field</Package>
+                    <Package>com.solipsys.mtf.geometry</Package>
+                    <Package>com.solipsys.mtf.geometry.immutable</Package>
+                    <Package>com.solipsys.mtf.geometry.iterator</Package>
+                    <Package>com.solipsys.mtf.geometry.mutable</Package>
+                    <Package>com.solipsys.mtf.geometry.operation</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>geo.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="nitf.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>58</ClassCount>
+                    <AbstractClassCount>5</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.09</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.nitf</Package>
+                    <Package>com.solipsys.nitf.header</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="plaf.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>429</ClassCount>
+                    <AbstractClassCount>17</AbstractClassCount>
+                    <PackageCount>5</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.04</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.04</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.smudgedink.plaf</Package>
+                    <Package>com.smudgedink.plaf.ion</Package>
+                    <Package>com.smudgedink.plaf.shine</Package>
+                    <Package>com.smudgedink.plaf.shine.painter</Package>
+                    <Package>com.smudgedink.plaf.shine.round</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>TimingFramework-0.55.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="sdf.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>2177</ClassCount>
+                    <AbstractClassCount>178</AbstractClassCount>
+                    <PackageCount>110</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.08</Abstractness>
+                    <Efferent>7</Efferent>
+                    <Afferent>3</Afferent>
+                    <Instability>0.70</Instability>
+                    <Distance>0.22</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.sdf.application.manualtrack</Package>
+                    <Package>com.solipsys.sdf.track</Package>
+                    <Package>com.solipsys.tdf.application.datarecorder</Package>
+                    <Package>com.solipsys.tdf.application.datarecorder.icons</Package>
+                    <Package>com.solipsys.tdf.application.historylist</Package>
+                    <Package>com.solipsys.tdf.application.historylist.context</Package>
+                    <Package>com.solipsys.tdf.application.historypresentation</Package>
+                    <Package>com.solipsys.tdf.application.hook</Package>
+                    <Package>com.solipsys.tdf.application.hook.condition</Package>
+                    <Package>com.solipsys.tdf.application.hook.search</Package>
+                    <Package>com.solipsys.tdf.application.imageviewer</Package>
+                    <Package>com.solipsys.tdf.application.main</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack.context</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack.editor</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack.model</Package>
+                    <Package>com.solipsys.tdf.application.multigraph</Package>
+                    <Package>com.solipsys.tdf.application.multiview</Package>
+                    <Package>com.solipsys.tdf.application.pairinglist</Package>
+                    <Package>com.solipsys.tdf.application.rangebearinggrid</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.condition</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.context</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.display</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.event</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.getter</Package>
+                    <Package>com.solipsys.tdf.application.sharedtracks.widget</Package>
+                    <Package>com.solipsys.tdf.application.trackcounter</Package>
+                    <Package>com.solipsys.tdf.application.trackedit</Package>
+                    <Package>com.solipsys.tdf.application.trackedit.context</Package>
+                    <Package>com.solipsys.tdf.application.trackedit.toolbar</Package>
+                    <Package>com.solipsys.tdf.application.trackedit.type</Package>
+                    <Package>com.solipsys.tdf.application.trackgraph</Package>
+                    <Package>com.solipsys.tdf.application.tracklist</Package>
+                    <Package>com.solipsys.tdf.application.tracklist.condition</Package>
+                    <Package>com.solipsys.tdf.application.tracklist.context</Package>
+                    <Package>com.solipsys.tdf.application.tracklist.widget</Package>
+                    <Package>com.solipsys.tdf.application.trackoptions</Package>
+                    <Package>com.solipsys.tdf.application.trackpresentation</Package>
+                    <Package>com.solipsys.tdf.attribute</Package>
+                    <Package>com.solipsys.tdf.attribute.colorizer</Package>
+                    <Package>com.solipsys.tdf.attribute.formatter</Package>
+                    <Package>com.solipsys.tdf.attribute.getter</Package>
+                    <Package>com.solipsys.tdf.attribute.getter.stale</Package>
+                    <Package>com.solipsys.tdf.bean</Package>
+                    <Package>com.solipsys.tdf.chart.colorizer</Package>
+                    <Package>com.solipsys.tdf.chart.dimension</Package>
+                    <Package>com.solipsys.tdf.chart.model</Package>
+                    <Package>com.solipsys.tdf.chart.transform.type</Package>
+                    <Package>com.solipsys.tdf.chat.mentioned</Package>
+                    <Package>com.solipsys.tdf.chat.mentioned.getter</Package>
+                    <Package>com.solipsys.tdf.condition</Package>
+                    <Package>com.solipsys.tdf.contact</Package>
+                    <Package>com.solipsys.tdf.contact.application</Package>
+                    <Package>com.solipsys.tdf.contact.detail</Package>
+                    <Package>com.solipsys.tdf.contact.display</Package>
+                    <Package>com.solipsys.tdf.contact.display.context</Package>
+                    <Package>com.solipsys.tdf.contact.display.controller</Package>
+                    <Package>com.solipsys.tdf.contact.display.datatransfer</Package>
+                    <Package>com.solipsys.tdf.contact.display.event</Package>
+                    <Package>com.solipsys.tdf.contact.display.impl</Package>
+                    <Package>com.solipsys.tdf.contact.display.style</Package>
+                    <Package>com.solipsys.tdf.contact.display.symbol</Package>
+                    <Package>com.solipsys.tdf.contact.display.tree</Package>
+                    <Package>com.solipsys.tdf.contact.doctrine</Package>
+                    <Package>com.solipsys.tdf.contact.event</Package>
+                    <Package>com.solipsys.tdf.contact.getter</Package>
+                    <Package>com.solipsys.tdf.contact.impl</Package>
+                    <Package>com.solipsys.tdf.context</Package>
+                    <Package>com.solipsys.tdf.doctrine</Package>
+                    <Package>com.solipsys.tdf.doctrine.attributor</Package>
+                    <Package>com.solipsys.tdf.doctrine.context</Package>
+                    <Package>com.solipsys.tdf.drawable</Package>
+                    <Package>com.solipsys.tdf.graphics.style</Package>
+                    <Package>com.solipsys.tdf.gui</Package>
+                    <Package>com.solipsys.tdf.gui.view</Package>
+                    <Package>com.solipsys.tdf.line</Package>
+                    <Package>com.solipsys.tdf.line.context</Package>
+                    <Package>com.solipsys.tdf.line.detail</Package>
+                    <Package>com.solipsys.tdf.line.display</Package>
+                    <Package>com.solipsys.tdf.line.getter</Package>
+                    <Package>com.solipsys.tdf.net.annotation</Package>
+                    <Package>com.solipsys.tdf.nlp</Package>
+                    <Package>com.solipsys.tdf.nlp.creator</Package>
+                    <Package>com.solipsys.tdf.nlp.extractor</Package>
+                    <Package>com.solipsys.tdf.nlp.processor</Package>
+                    <Package>com.solipsys.tdf.offscreen</Package>
+                    <Package>com.solipsys.tdf.text.detector</Package>
+                    <Package>com.solipsys.tdf.track</Package>
+                    <Package>com.solipsys.tdf.track.colorizer</Package>
+                    <Package>com.solipsys.tdf.track.component</Package>
+                    <Package>com.solipsys.tdf.track.condition</Package>
+                    <Package>com.solipsys.tdf.track.context</Package>
+                    <Package>com.solipsys.tdf.track.detail</Package>
+                    <Package>com.solipsys.tdf.track.enhancement</Package>
+                    <Package>com.solipsys.tdf.track.format</Package>
+                    <Package>com.solipsys.tdf.track.getter</Package>
+                    <Package>com.solipsys.tdf.track.history</Package>
+                    <Package>com.solipsys.tdf.track.io</Package>
+                    <Package>com.solipsys.tdf.track.number</Package>
+                    <Package>com.solipsys.tdf.track.report</Package>
+                    <Package>com.solipsys.tdf.track.search</Package>
+                    <Package>com.solipsys.tdf.track.spotlight</Package>
+                    <Package>com.solipsys.tdf.track.spotlight.context</Package>
+                    <Package>com.solipsys.tdf.track.spotlight.datatransfer</Package>
+                    <Package>com.solipsys.tdf.track.symbol</Package>
+                    <Package>com.solipsys.tdf.track.symbol.block</Package>
+                    <Package>com.solipsys.tdf.track.symbol.ntds</Package>
+                    <Package>com.solipsys.tdf.view.autocenter</Package>
+                    <Package>com.solipsys.tdf.view.context</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>license.jar</Jar>
+                    <Jar>TimingFramework-0.55.jar</Jar>
+                    <Jar>jfreechart-1.0.3.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>astro.jar</Jar>
+                    <Jar>axis.jar</Jar>
+                    <Jar>tdf.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="servlet-2.5.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>42</ClassCount>
+                    <AbstractClassCount>26</AbstractClassCount>
+                    <PackageCount>2</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.62</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>javax.servlet</Package>
+                    <Package>javax.servlet.http</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="slf4j-api-1.6.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>23</ClassCount>
+                    <AbstractClassCount>10</AbstractClassCount>
+                    <PackageCount>3</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.43</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>4</Afferent>
+                    <Instability>0.20</Instability>
+                    <Distance>0.37</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.slf4j.helpers</Package>
+                    <Package>org.slf4j</Package>
+                    <Package>org.slf4j.spi</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-log4j12-1.6.0.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>jcl-over-slf4j-1.6.0.jar</Jar>
+                    <Jar>jetty-util-6.1.24.jar</Jar>
+                    <Jar>jul-to-slf4j-1.6.0.jar</Jar>
+                    <Jar>slf4j-log4j12-1.6.0.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>slf4j-log4j12-1.6.0.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="slf4j-log4j12-1.6.0.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>6</ClassCount>
+                    <AbstractClassCount>0</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.00</Abstractness>
+                    <Efferent>2</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.67</Instability>
+                    <Distance>0.33</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.slf4j.impl</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>slf4j-api-1.6.0.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>slf4j-api-1.6.0.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                    <Cycle>slf4j-api-1.6.0.jar</Cycle>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="smack-3.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>197</ClassCount>
+                    <AbstractClassCount>30</AbstractClassCount>
+                    <PackageCount>11</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>2</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.85</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jivesoftware.smack</Package>
+                    <Package>org.jivesoftware.smack.debugger</Package>
+                    <Package>org.jivesoftware.smack.filter</Package>
+                    <Package>org.jivesoftware.smack.packet</Package>
+                    <Package>org.jivesoftware.smack.provider</Package>
+                    <Package>org.jivesoftware.smack.proxy</Package>
+                    <Package>org.jivesoftware.smack.sasl</Package>
+                    <Package>org.jivesoftware.smack.util</Package>
+                    <Package>org.jivesoftware.smack.util.collections</Package>
+                    <Package>org.xmlpull.mxp1</Package>
+                    <Package>org.xmlpull.v1</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>smackx-3.2.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="smackx-3.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>494</ClassCount>
+                    <AbstractClassCount>46</AbstractClassCount>
+                    <PackageCount>31</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.09</Abstractness>
+                    <Efferent>1</Efferent>
+                    <Afferent>1</Afferent>
+                    <Instability>0.50</Instability>
+                    <Distance>0.41</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jivesoftware.smackx</Package>
+                    <Package>org.jivesoftware.smackx.bookmark</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.ibb</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.ibb.packet</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.ibb.provider</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.socks5</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.socks5.packet</Package>
+                    <Package>org.jivesoftware.smackx.bytestreams.socks5.provider</Package>
+                    <Package>org.jivesoftware.smackx.commands</Package>
+                    <Package>org.jivesoftware.smackx.filetransfer</Package>
+                    <Package>org.jivesoftware.smackx.muc</Package>
+                    <Package>org.jivesoftware.smackx.packet</Package>
+                    <Package>org.jivesoftware.smackx.provider</Package>
+                    <Package>org.jivesoftware.smackx.pubsub</Package>
+                    <Package>org.jivesoftware.smackx.pubsub.listener</Package>
+                    <Package>org.jivesoftware.smackx.pubsub.packet</Package>
+                    <Package>org.jivesoftware.smackx.pubsub.provider</Package>
+                    <Package>org.jivesoftware.smackx.pubsub.util</Package>
+                    <Package>org.jivesoftware.smackx.search</Package>
+                    <Package>org.jivesoftware.smackx.workgroup</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.agent</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.ext.forms</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.ext.history</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.ext.macros</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.ext.notes</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.packet</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.settings</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.user</Package>
+                    <Package>org.jivesoftware.smackx.workgroup.util</Package>
+                    <Package>com.jcraft.jzlib</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>smack-3.2.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="sol.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>5662</ClassCount>
+                    <AbstractClassCount>846</AbstractClassCount>
+                    <PackageCount>282</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.15</Abstractness>
+                    <Efferent>14</Efferent>
+                    <Afferent>11</Afferent>
+                    <Instability>0.56</Instability>
+                    <Distance>0.29</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.action</Package>
+                    <Package>com.solipsys.action.datatransfer</Package>
+                    <Package>com.solipsys.action.macro</Package>
+                    <Package>com.solipsys.action.macro.event</Package>
+                    <Package>com.solipsys.alerts</Package>
+                    <Package>com.solipsys.alerts.alert</Package>
+                    <Package>com.solipsys.alerts.alert.enums</Package>
+                    <Package>com.solipsys.alerts.alert.getter</Package>
+                    <Package>com.solipsys.alerts.alert.setter</Package>
+                    <Package>com.solipsys.alerts.application</Package>
+                    <Package>com.solipsys.alerts.audible</Package>
+                    <Package>com.solipsys.alerts.audible.datatransfer</Package>
+                    <Package>com.solipsys.alerts.context</Package>
+                    <Package>com.solipsys.alerts.doctrine</Package>
+                    <Package>com.solipsys.alerts.event</Package>
+                    <Package>com.solipsys.alerts.gui</Package>
+                    <Package>com.solipsys.alerts.gui.list</Package>
+                    <Package>com.solipsys.alerts.gui.table</Package>
+                    <Package>com.solipsys.alerts.gui.view</Package>
+                    <Package>com.solipsys.alerts.gui.viewer</Package>
+                    <Package>com.solipsys.alerts.impl</Package>
+                    <Package>com.solipsys.alerts.impl.alert</Package>
+                    <Package>com.solipsys.alerts.impl.alert.getter</Package>
+                    <Package>com.solipsys.alerts.impl.client</Package>
+                    <Package>com.solipsys.alerts.impl.event</Package>
+                    <Package>com.solipsys.alerts.impl.module</Package>
+                    <Package>com.solipsys.alerts.impl.server</Package>
+                    <Package>com.solipsys.alerts.userdefined</Package>
+                    <Package>com.solipsys.application</Package>
+                    <Package>com.solipsys.application.about</Package>
+                    <Package>com.solipsys.application.context</Package>
+                    <Package>com.solipsys.application.detail</Package>
+                    <Package>com.solipsys.application.detail.context</Package>
+                    <Package>com.solipsys.application.event</Package>
+                    <Package>com.solipsys.application.help</Package>
+                    <Package>com.solipsys.application.imageviewer</Package>
+                    <Package>com.solipsys.application.imageviewer.context</Package>
+                    <Package>com.solipsys.application.indicator</Package>
+                    <Package>com.solipsys.application.preferences</Package>
+                    <Package>com.solipsys.application.print</Package>
+                    <Package>com.solipsys.application.quickedit</Package>
+                    <Package>com.solipsys.application.search</Package>
+                    <Package>com.solipsys.application.system</Package>
+                    <Package>com.solipsys.application.system.threadwatch</Package>
+                    <Package>com.solipsys.application.system.threadwatch.getter</Package>
+                    <Package>com.solipsys.application.viewkeys</Package>
+                    <Package>com.solipsys.application.workspace</Package>
+                    <Package>com.solipsys.application.workspace.boundspolicy</Package>
+                    <Package>com.solipsys.application.workspace.event</Package>
+                    <Package>com.solipsys.attribute</Package>
+                    <Package>com.solipsys.attribute.comparator</Package>
+                    <Package>com.solipsys.attribute.getter</Package>
+                    <Package>com.solipsys.attribute.model</Package>
+                    <Package>com.solipsys.attribute.setter</Package>
+                    <Package>com.solipsys.bean</Package>
+                    <Package>com.solipsys.chart</Package>
+                    <Package>com.solipsys.chart.dimension</Package>
+                    <Package>com.solipsys.chart.display</Package>
+                    <Package>com.solipsys.chart.jfree</Package>
+                    <Package>com.solipsys.chart.jfree.creator</Package>
+                    <Package>com.solipsys.chart.jfree.plot</Package>
+                    <Package>com.solipsys.chart.jfree.renderer</Package>
+                    <Package>com.solipsys.chart.model</Package>
+                    <Package>com.solipsys.chart.model.context</Package>
+                    <Package>com.solipsys.chart.model.datatransfer</Package>
+                    <Package>com.solipsys.chart.model.functiondef</Package>
+                    <Package>com.solipsys.chart.space</Package>
+                    <Package>com.solipsys.chart.transform</Package>
+                    <Package>com.solipsys.chart.transform.type</Package>
+                    <Package>com.solipsys.chat</Package>
+                    <Package>com.solipsys.chat.attribute</Package>
+                    <Package>com.solipsys.chat.collaboration</Package>
+                    <Package>com.solipsys.chat.collaboration.context</Package>
+                    <Package>com.solipsys.chat.data</Package>
+                    <Package>com.solipsys.chat.data.getter</Package>
+                    <Package>com.solipsys.chat.detail</Package>
+                    <Package>com.solipsys.chat.event</Package>
+                    <Package>com.solipsys.chat.expander</Package>
+                    <Package>com.solipsys.chat.getter</Package>
+                    <Package>com.solipsys.chat.gui</Package>
+                    <Package>com.solipsys.chat.gui.context</Package>
+                    <Package>com.solipsys.chat.gui.datatransfer</Package>
+                    <Package>com.solipsys.chat.gui.event</Package>
+                    <Package>com.solipsys.chat.gui.matching</Package>
+                    <Package>com.solipsys.chat.gui.matching.datatransfer</Package>
+                    <Package>com.solipsys.chat.irc</Package>
+                    <Package>com.solipsys.chat.jabber</Package>
+                    <Package>com.solipsys.condition</Package>
+                    <Package>com.solipsys.condition.context</Package>
+                    <Package>com.solipsys.condition.datatransfer</Package>
+                    <Package>com.solipsys.condition.impl</Package>
+                    <Package>com.solipsys.condition.tree</Package>
+                    <Package>com.solipsys.context</Package>
+                    <Package>com.solipsys.context.component</Package>
+                    <Package>com.solipsys.context.condition</Package>
+                    <Package>com.solipsys.context.creator</Package>
+                    <Package>com.solipsys.context.event</Package>
+                    <Package>com.solipsys.context.group</Package>
+                    <Package>com.solipsys.context.menu</Package>
+                    <Package>com.solipsys.context.type</Package>
+                    <Package>com.solipsys.doctrine</Package>
+                    <Package>com.solipsys.doctrine.action</Package>
+                    <Package>com.solipsys.doctrine.application</Package>
+                    <Package>com.solipsys.doctrine.context</Package>
+                    <Package>com.solipsys.doctrine.datatransfer</Package>
+                    <Package>com.solipsys.doctrine.event</Package>
+                    <Package>com.solipsys.doctrine.gui</Package>
+                    <Package>com.solipsys.doctrine.shared</Package>
+                    <Package>com.solipsys.doctrine.shared.gui</Package>
+                    <Package>com.solipsys.doctrine.tree</Package>
+                    <Package>com.solipsys.drawable</Package>
+                    <Package>com.solipsys.dx</Package>
+                    <Package>com.solipsys.dynamicloader</Package>
+                    <Package>com.solipsys.enums</Package>
+                    <Package>com.solipsys.extension</Package>
+                    <Package>com.solipsys.extension.servlet</Package>
+                    <Package>com.solipsys.graphics</Package>
+                    <Package>com.solipsys.graphics.appearance</Package>
+                    <Package>com.solipsys.graphics.cgm</Package>
+                    <Package>com.solipsys.graphics.colorizer</Package>
+                    <Package>com.solipsys.graphics.colorizer.global</Package>
+                    <Package>com.solipsys.graphics.colorizer.global.context</Package>
+                    <Package>com.solipsys.graphics.colorizer.global.datatransfer</Package>
+                    <Package>com.solipsys.graphics.colorizer.global.type</Package>
+                    <Package>com.solipsys.graphics.detail</Package>
+                    <Package>com.solipsys.graphics.detail.datatransfer</Package>
+                    <Package>com.solipsys.graphics.detail.title</Package>
+                    <Package>com.solipsys.graphics.detail.tree</Package>
+                    <Package>com.solipsys.graphics.enums</Package>
+                    <Package>com.solipsys.graphics.offscreen</Package>
+                    <Package>com.solipsys.graphics.sprite</Package>
+                    <Package>com.solipsys.graphics.style</Package>
+                    <Package>com.solipsys.graphics.style.operation</Package>
+                    <Package>com.solipsys.graphics.symbol</Package>
+                    <Package>com.solipsys.graphics.symbol.mutant</Package>
+                    <Package>com.solipsys.graphics.symbol.mutant.datatransfer</Package>
+                    <Package>com.solipsys.graphics.symbol.mutant.tree</Package>
+                    <Package>com.solipsys.graphics.texture</Package>
+                    <Package>com.solipsys.gui</Package>
+                    <Package>com.solipsys.gui.action</Package>
+                    <Package>com.solipsys.gui.border</Package>
+                    <Package>com.solipsys.gui.colorchooser</Package>
+                    <Package>com.solipsys.gui.dashboard</Package>
+                    <Package>com.solipsys.gui.datatransfer</Package>
+                    <Package>com.solipsys.gui.help</Package>
+                    <Package>com.solipsys.gui.icons</Package>
+                    <Package>com.solipsys.gui.layout</Package>
+                    <Package>com.solipsys.gui.list</Package>
+                    <Package>com.solipsys.gui.list.context</Package>
+                    <Package>com.solipsys.gui.log4j</Package>
+                    <Package>com.solipsys.gui.model</Package>
+                    <Package>com.solipsys.gui.table</Package>
+                    <Package>com.solipsys.gui.table.context</Package>
+                    <Package>com.solipsys.gui.toolbar</Package>
+                    <Package>com.solipsys.gui.tree</Package>
+                    <Package>com.solipsys.io</Package>
+                    <Package>com.solipsys.io.preprocessor</Package>
+                    <Package>com.solipsys.layer</Package>
+                    <Package>com.solipsys.layer.context</Package>
+                    <Package>com.solipsys.layer.datatransfer</Package>
+                    <Package>com.solipsys.layer.display</Package>
+                    <Package>com.solipsys.layer.tree</Package>
+                    <Package>com.solipsys.layer.type</Package>
+                    <Package>com.solipsys.model</Package>
+                    <Package>com.solipsys.model.event</Package>
+                    <Package>com.solipsys.model.generator</Package>
+                    <Package>com.solipsys.model.operation</Package>
+                    <Package>com.solipsys.naming</Package>
+                    <Package>com.solipsys.naming.env</Package>
+                    <Package>com.solipsys.naming.event</Package>
+                    <Package>com.solipsys.net</Package>
+                    <Package>com.solipsys.net.channel</Package>
+                    <Package>com.solipsys.net.discovery</Package>
+                    <Package>com.solipsys.net.discovery.panel</Package>
+                    <Package>com.solipsys.net.http</Package>
+                    <Package>com.solipsys.net.jgroups</Package>
+                    <Package>com.solipsys.net.message</Package>
+                    <Package>com.solipsys.net.objectreceiver</Package>
+                    <Package>com.solipsys.net.proxy</Package>
+                    <Package>com.solipsys.net.shared</Package>
+                    <Package>com.solipsys.net.shared.component</Package>
+                    <Package>com.solipsys.net.shared.component.annotation</Package>
+                    <Package>com.solipsys.net.shared.reqres</Package>
+                    <Package>com.solipsys.net.shared.reqres.message</Package>
+                    <Package>com.solipsys.net.solinet</Package>
+                    <Package>com.solipsys.net.talk</Package>
+                    <Package>com.solipsys.net.talk.discovery</Package>
+                    <Package>com.solipsys.net.talk.timestamp</Package>
+                    <Package>com.solipsys.net.tcp</Package>
+                    <Package>com.solipsys.nlp</Package>
+                    <Package>com.solipsys.nlp.creator</Package>
+                    <Package>com.solipsys.nlp.extractor</Package>
+                    <Package>com.solipsys.nlp.gui</Package>
+                    <Package>com.solipsys.nlp.gui.context</Package>
+                    <Package>com.solipsys.nlp.util</Package>
+                    <Package>com.solipsys.offscreen</Package>
+                    <Package>com.solipsys.offscreen.display</Package>
+                    <Package>com.solipsys.offscreen.display.context</Package>
+                    <Package>com.solipsys.operation</Package>
+                    <Package>com.solipsys.operation.constraint</Package>
+                    <Package>com.solipsys.property</Package>
+                    <Package>com.solipsys.property.condition</Package>
+                    <Package>com.solipsys.property.context</Package>
+                    <Package>com.solipsys.property.detail</Package>
+                    <Package>com.solipsys.property.formatter</Package>
+                    <Package>com.solipsys.property.table</Package>
+                    <Package>com.solipsys.property.table.context</Package>
+                    <Package>com.solipsys.property.viewer</Package>
+                    <Package>com.solipsys.scheme</Package>
+                    <Package>com.solipsys.system</Package>
+                    <Package>com.solipsys.system.collaboration</Package>
+                    <Package>com.solipsys.system.collaboration.event</Package>
+                    <Package>com.solipsys.system.collaboration.gui</Package>
+                    <Package>com.solipsys.system.collaboration.gui.callbacks</Package>
+                    <Package>com.solipsys.system.collaboration.impl</Package>
+                    <Package>com.solipsys.system.collaboration.impl.message</Package>
+                    <Package>com.solipsys.system.distributed</Package>
+                    <Package>com.solipsys.system.event</Package>
+                    <Package>com.solipsys.system.module</Package>
+                    <Package>com.solipsys.system.provider</Package>
+                    <Package>com.solipsys.system.provider.dx</Package>
+                    <Package>com.solipsys.system.provider.event</Package>
+                    <Package>com.solipsys.system.provider.gui</Package>
+                    <Package>com.solipsys.system.provider.servlet</Package>
+                    <Package>com.solipsys.system.provider.type</Package>
+                    <Package>com.solipsys.system.user</Package>
+                    <Package>com.solipsys.system.user.context.menu</Package>
+                    <Package>com.solipsys.system.user.event</Package>
+                    <Package>com.solipsys.system.user.gui</Package>
+                    <Package>com.solipsys.system.user.gui.callback</Package>
+                    <Package>com.solipsys.system.user.gui.list</Package>
+                    <Package>com.solipsys.system.user.gui.management</Package>
+                    <Package>com.solipsys.system.user.impl</Package>
+                    <Package>com.solipsys.system.user.impl.message</Package>
+                    <Package>com.solipsys.system.user.net.http</Package>
+                    <Package>com.solipsys.system.user.state</Package>
+                    <Package>com.solipsys.system.user.util</Package>
+                    <Package>com.solipsys.text</Package>
+                    <Package>com.solipsys.text.detector</Package>
+                    <Package>com.solipsys.text.editor</Package>
+                    <Package>com.solipsys.unit</Package>
+                    <Package>com.solipsys.util</Package>
+                    <Package>com.solipsys.util.config</Package>
+                    <Package>com.solipsys.util.csv</Package>
+                    <Package>com.solipsys.util.csv.gui</Package>
+                    <Package>com.solipsys.util.library</Package>
+                    <Package>com.solipsys.util.library.context</Package>
+                    <Package>com.solipsys.util.reset</Package>
+                    <Package>com.solipsys.util.resource</Package>
+                    <Package>com.solipsys.util.search</Package>
+                    <Package>com.solipsys.util.sort</Package>
+                    <Package>com.solipsys.util.tree</Package>
+                    <Package>com.solipsys.view</Package>
+                    <Package>com.solipsys.view.detail</Package>
+                    <Package>com.solipsys.view.display</Package>
+                    <Package>com.solipsys.view.event</Package>
+                    <Package>com.solipsys.view.manager</Package>
+                    <Package>com.solipsys.view.manager.draw</Package>
+                    <Package>com.solipsys.view.manager.indicator</Package>
+                    <Package>com.solipsys.view.manager.key</Package>
+                    <Package>com.solipsys.view.manager.key.context</Package>
+                    <Package>com.solipsys.view.manager.menu</Package>
+                    <Package>com.solipsys.view.manager.rollover</Package>
+                    <Package>com.solipsys.view.manager.rollover.context</Package>
+                    <Package>com.solipsys.view.manager.selection</Package>
+                    <Package>com.solipsys.view.manager.selection.context</Package>
+                    <Package>com.solipsys.view.manager.tag</Package>
+                    <Package>com.solipsys.view.manager.tag.context</Package>
+                    <Package>com.solipsys.view.manager.time</Package>
+                    <Package>com.solipsys.view.pointer</Package>
+                    <Package>com.solipsys.view.region</Package>
+                    <Package>com.solipsys.view.search</Package>
+                    <Package>com.solipsys.view.synch</Package>
+                    <Package>com.solipsys.view.synch.application</Package>
+                    <Package>com.solipsys.view.synch.datatransfer</Package>
+                    <Package>com.solipsys.view.synch.event</Package>
+                    <Package>com.solipsys.view.synch.module</Package>
+                    <Package>com.solipsys.view.synch.tree</Package>
+                    <Package>com.solipsys.view.synch.type</Package>
+                    <Package>com.solipsys.xml</Package>
+                    <Package>com.solipsys.xml.impl</Package>
+                    <Package>com.solipsys.xml.operation</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>dynamicjava.jar</Jar>
+                    <Jar>license.jar</Jar>
+                    <Jar>jfreechart-1.0.3.jar</Jar>
+                    <Jar>jcommon-1.0.6.jar</Jar>
+                    <Jar>TimingFramework-0.55.jar</Jar>
+                    <Jar>martyr.jar</Jar>
+                    <Jar>smack-3.2.jar</Jar>
+                    <Jar>smackx-3.2.jar</Jar>
+                    <Jar>commons-fileupload-1.2.2.jar</Jar>
+                    <Jar>jetty-6.1.24.jar</Jar>
+                    <Jar>jgroups-2.12.1-sol.jar</Jar>
+                    <Jar>jul-to-slf4j-1.6.0.jar</Jar>
+                    <Jar>ecj-4.3.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>arcims.jar</Jar>
+                    <Jar>astro.jar</Jar>
+                    <Jar>axis.jar</Jar>
+                    <Jar>gdx.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>geotools.jar</Jar>
+                    <Jar>mtf.jar</Jar>
+                    <Jar>nitf.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>tdf.jar</Jar>
+                    <Jar>telestrator.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>com.solipsys.solinet.message</Package>
+                    <Package>com.solipsys.solinet</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="tdf.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1022</ClassCount>
+                    <AbstractClassCount>63</AbstractClassCount>
+                    <PackageCount>41</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.06</Abstractness>
+                    <Efferent>4</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.06</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.tdf.application.manualtrack</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack.editor</Package>
+                    <Package>com.solipsys.tdf.application.manualtrack.model</Package>
+                    <Package>com.solipsys.tdf.attribute.getter</Package>
+                    <Package>com.solipsys.tdf.bean</Package>
+                    <Package>com.solipsys.tdf.client</Package>
+                    <Package>com.solipsys.tdf.context</Package>
+                    <Package>com.solipsys.tdf.drawable</Package>
+                    <Package>com.solipsys.tdf.gui</Package>
+                    <Package>com.solipsys.tdf.intercept</Package>
+                    <Package>com.solipsys.tdf.intercept.context</Package>
+                    <Package>com.solipsys.tdf.line</Package>
+                    <Package>com.solipsys.tdf.line.detail</Package>
+                    <Package>com.solipsys.tdf.line.display</Package>
+                    <Package>com.solipsys.tdf.line.getter</Package>
+                    <Package>com.solipsys.tdf.ms6011.enums</Package>
+                    <Package>com.solipsys.tdf.ms6016.attribute</Package>
+                    <Package>com.solipsys.tdf.ms6016.attribute.getter</Package>
+                    <Package>com.solipsys.tdf.ms6016.enums</Package>
+                    <Package>com.solipsys.tdf.nlp</Package>
+                    <Package>com.solipsys.tdf.nlp.processor</Package>
+                    <Package>com.solipsys.tdf.test.client</Package>
+                    <Package>com.solipsys.tdf.test.sensor</Package>
+                    <Package>com.solipsys.tdf.test.server</Package>
+                    <Package>com.solipsys.tdf.track</Package>
+                    <Package>com.solipsys.tdf.track.colorizer</Package>
+                    <Package>com.solipsys.tdf.track.component</Package>
+                    <Package>com.solipsys.tdf.track.detail</Package>
+                    <Package>com.solipsys.tdf.track.format</Package>
+                    <Package>com.solipsys.tdf.track.getter</Package>
+                    <Package>com.solipsys.tdf.track.history</Package>
+                    <Package>com.solipsys.tdf.track.number</Package>
+                    <Package>com.solipsys.tdf.track.report</Package>
+                    <Package>com.solipsys.tdf.track.symbol.awacs</Package>
+                    <Package>com.solipsys.tdf.track.symbol.doc</Package>
+                    <Package>com.solipsys.tdf.track.symbol.iconicntds</Package>
+                    <Package>com.solipsys.tdf.track.symbol.mce</Package>
+                    <Package>com.solipsys.tdf.track.symbol.ms1477c</Package>
+                    <Package>com.solipsys.tdf.track.symbol.ms1477c.manager</Package>
+                    <Package>com.solipsys.tdf.track.symbol.ms1477c.symbol</Package>
+                    <Package>com.solipsys.tdf.track.symbol.ms2525b</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="telestrator.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>62</ClassCount>
+                    <AbstractClassCount>4</AbstractClassCount>
+                    <PackageCount>7</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.06</Abstractness>
+                    <Efferent>3</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>1.00</Instability>
+                    <Distance>0.06</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>com.solipsys.telestrator</Package>
+                    <Package>com.solipsys.telestrator.context</Package>
+                    <Package>com.solipsys.telestrator.display</Package>
+                    <Package>com.solipsys.telestrator.getter</Package>
+                    <Package>com.solipsys.telestrator.gui</Package>
+                    <Package>com.solipsys.telestrator.impl</Package>
+                    <Package>com.solipsys.telestrator.pointer</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                    <Jar>sol.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>log4j.jar</Jar>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="TimingFramework-0.55.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>48</ClassCount>
+                    <AbstractClassCount>6</AbstractClassCount>
+                    <PackageCount>3</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.13</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>5</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.87</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.jdesktop.animation.timing</Package>
+                    <Package>org.jdesktop.animation.timing.interpolation</Package>
+                    <Package>org.jdesktop.animation.timing.triggers</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>plaf.jar</Jar>
+                    <Jar>sdf.jar</Jar>
+                    <Jar>sol.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="vecmath-1.5.2.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>47</ClassCount>
+                    <AbstractClassCount>11</AbstractClassCount>
+                    <PackageCount>1</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.23</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>0</Afferent>
+                    <Instability>-1.0</Instability>
+                    <Distance>-1.0</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>javax.vecmath</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+        <Jar name="xmlbeans-2.4.jar">
+            <Summary>
+                <Statistics>
+                    <ClassCount>1517</ClassCount>
+                    <AbstractClassCount>435</AbstractClassCount>
+                    <PackageCount>53</PackageCount>
+                </Statistics>
+
+                <Metrics>
+                    <Abstractness>0.29</Abstractness>
+                    <Efferent>0</Efferent>
+                    <Afferent>4</Afferent>
+                    <Instability>0.00</Instability>
+                    <Distance>0.71</Distance>
+                </Metrics>
+
+                <Packages>
+                    <Package>org.apache.xmlbeans</Package>
+                    <Package>org.apache.xmlbeans.impl.values</Package>
+                    <Package>org.apache.xmlbeans.impl.common</Package>
+                    <Package>org.apache.xmlbeans.impl.config</Package>
+                    <Package>org.apache.xmlbeans.impl.regex</Package>
+                    <Package>org.apache.xmlbeans.impl.schema</Package>
+                    <Package>org.apache.xmlbeans.impl.util</Package>
+                    <Package>org.apache.xmlbeans.impl.validator</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.ltgfmt</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.ltgfmt.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.substwsdl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.substwsdl.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlconfig</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlconfig.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlschema</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xmlschema.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdownload</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdownload.impl</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdschema</Package>
+                    <Package>org.apache.xmlbeans.impl.xb.xsdschema.impl</Package>
+                    <Package>org.apache.xmlbeans.soap</Package>
+                    <Package>org.apache.xmlbeans.impl.tool</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLCONFIG</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLTOOLS</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLSCHEMA</Package>
+                    <Package>schemaorg_apache_xmlbeans.system.sXMLLANG</Package>
+                    <Package>org.apache.xmlbeans.impl.store</Package>
+                    <Package>org.w3c.dom</Package>
+                    <Package>org.apache.xmlbeans.impl.soap</Package>
+                    <Package>org.apache.xmlbeans.xml.stream</Package>
+                    <Package>org.apache.xmlbeans.xml.stream.events</Package>
+                    <Package>org.apache.xmlbeans.xml.stream.utils</Package>
+                    <Package>org.apache.xmlbeans.impl.richParser</Package>
+                    <Package>repackage</Package>
+                    <Package>org.apache.xmlbeans.impl.jam</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.annotation</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.classrefs</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.elements</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.javadoc</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.parser</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.internal.reflect</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.mutable</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.provider</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.visitor</Package>
+                    <Package>org.apache.xmlbeans.impl.jam.xml</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.io</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.util</Package>
+                    <Package>org.apache.xmlbeans.impl.piccolo.xml</Package>
+                    <Package>org.apache.xmlbeans.impl.inst2xsd</Package>
+                    <Package>org.apache.xmlbeans.impl.inst2xsd.util</Package>
+                    <Package>org.apache.xmlbeans.impl.xpathgen</Package>
+                    <Package>org.apache.xmlbeans.impl.xsd2inst</Package>
+                </Packages>
+
+                <OutgoingDependencies>
+                </OutgoingDependencies>
+
+                <IncomingDependencies>
+                    <Jar>axis.jar</Jar>
+                    <Jar>collada-1.4.jar</Jar>
+                    <Jar>geo.jar</Jar>
+                    <Jar>kml-2.2.jar</Jar>
+                </IncomingDependencies>
+
+                <Cycles>
+                </Cycles>
+
+                <UnresolvedDependencies>
+                    <Package>org.apache.tools.ant</Package>
+                    <Package>org.apache.tools.ant.types</Package>
+                    <Package>org.apache.tools.ant.taskdefs</Package>
+                    <Package>CONFIG</Package>
+                    <Package>S</Package>
+                    <Package>SCHEMA</Package>
+                    <Package>ANG</Package>
+                </UnresolvedDependencies>
+            </Summary>
+
+        </Jar>
+
+    </Jars>
+</JarAnalyzer>

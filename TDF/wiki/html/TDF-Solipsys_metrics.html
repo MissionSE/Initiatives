@@ -1,0 +1,882 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>JarAnalyzer Analysis</title>
+<style type="text/css">
+      body {
+        font:normal 68% verdana,arial,helvetica;
+        color:#000000;
+      }
+      
+     table.gray {
+		  background:#eeeeee
+      }
+      table tr td, tr th {
+          font-size: 68%;
+      }
+      table.details tr th{
+        font-weight: bold;
+        text-align:left;
+        background:#a6caf0;
+      }
+      table.details tr td{
+        background:#eeeee0;
+      }
+      
+      p {
+        line-height:1.5em;
+        margin-top:0.5em; margin-bottom:1.0em;
+        margin-left:2em;
+        margin-right:2em;
+      }
+      h1 {
+        margin: 0px 0px 5px; font: 165% verdana,arial,helvetica
+      }
+      h2 {
+        margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica
+      }
+      h3 {
+        margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica
+      }
+      h4 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h5 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      h6 {
+        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+      }
+      .Error {
+        font-weight:bold; color:red;
+      }
+      .Failure {
+        font-weight:bold; color:purple;
+      }
+      .Properties {
+        text-align:right;
+      }
+      </style>
+</head>
+<body>
+<h1><a name="top">JarAnalyzer Analysis</a></h1>
+<p align="right">Run with <a href="http://www.kirkk.com/main/Main/JarAnalyzer">JarAnalyzer</a> on </p>
+<hr size="2">
+<table width="100%"><tr>
+<td><a name="NVsummary"><h2>Summary</h2></a></td>
+<td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Jar Name</th>
+<th>Total Classes</th>
+<th><a href="#EXclassnumber">Abstract Classes</a></th>
+<th><a href="#EXpackagenumber">Packages</a></th>
+<th><a href="#EXabstractness">Abstractness</a></th>
+<th><a href="#EXefferent">Efferent</a></th>
+<th><a href="#EXafferent">Afferent</a></th>
+<th><a href="#EXinstability">Instability</a></th>
+<th><a href="#EXdistance">Distance</a></th>
+</tr>
+<tr>
+<td align="left"><a href="#PKarcims.jar">arcims.jar</a></td>
+<td align="right">109</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">0.01</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.01</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKastro.jar">astro.jar</a></td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">0.00</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0.75</td>
+<td align="right">0.25</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKaxis.jar">axis.jar</a></td>
+<td align="right">855</td>
+<td align="right">87</td>
+<td align="right">82</td>
+<td align="right">0.10</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.10</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKgdx.jar">gdx.jar</a></td>
+<td align="right">136</td>
+<td align="right">3</td>
+<td align="right">8</td>
+<td align="right">0.02</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0.50</td>
+<td align="right">0.48</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKgeo.jar">geo.jar</a></td>
+<td align="right">3474</td>
+<td align="right">325</td>
+<td align="right">162</td>
+<td align="right">0.09</td>
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">0.17</td>
+<td align="right">0.74</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKgeotools.jar">geotools.jar</a></td>
+<td align="right">72</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">0.06</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.06</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKjvmcheck.jar">jvmcheck.jar</a></td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.00</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">-1.0</td>
+<td align="right">-1.0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKlicense.jar">license.jar</a></td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.00</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0.00</td>
+<td align="right">1.00</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKmtf.jar">mtf.jar</a></td>
+<td align="right">78</td>
+<td align="right">12</td>
+<td align="right">9</td>
+<td align="right">0.15</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.15</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKnitf.jar">nitf.jar</a></td>
+<td align="right">58</td>
+<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">0.09</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.09</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKsdf.jar">sdf.jar</a></td>
+<td align="right">2177</td>
+<td align="right">178</td>
+<td align="right">110</td>
+<td align="right">0.08</td>
+<td align="right">4</td>
+<td align="right">3</td>
+<td align="right">0.57</td>
+<td align="right">0.35</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKsol.jar">sol.jar</a></td>
+<td align="right">5662</td>
+<td align="right">846</td>
+<td align="right">282</td>
+<td align="right">0.15</td>
+<td align="right">1</td>
+<td align="right">11</td>
+<td align="right">0.08</td>
+<td align="right">0.77</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKtdf.jar">tdf.jar</a></td>
+<td align="right">1022</td>
+<td align="right">63</td>
+<td align="right">41</td>
+<td align="right">0.06</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.06</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKtelestrator.jar">telestrator.jar</a></td>
+<td align="right">62</td>
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right">0.06</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.06</td>
+</tr>
+</table>
+<table width="100%"><tr>
+<td><a name="NVjars"><h2>Jars</h2></a></td>
+<td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr></table>
+<h3><a name="PKarcims.jar">arcims.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.01</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.01</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsol.jar">sol.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.arcims<br>com.solipsys.arcims.context<br>com.solipsys.arcims.data<br>com.solipsys.arcims.layer<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKastro.jar">astro.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 1</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 3</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.00</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.75</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.25</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsol.jar">sol.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a>
+</td>
+<td valign="top" width="33%"><a href="#PKaxis.jar">axis.jar<br></a></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.astro<br>com.solipsys.astro.coordinate<br>com.solipsys.astro.star<br>com.solipsys.astro.track<br>com.solipsys.astro.track.report<br>com.solipsys.astro.track.symbol.mutant<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKaxis.jar">axis.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 5</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.10</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.10</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsol.jar">sol.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a><a href="#PKlicense.jar">license.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a><a href="#PKastro.jar">astro.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.axis<br>com.solipsys.axis.application.axisview<br>com.solipsys.axis.application.historypresentation<br>com.solipsys.axis.application.options<br>com.solipsys.axis.application.sharedtracks.context<br>com.solipsys.axis.application.sharedtracks.display<br>com.solipsys.axis.application.trackpresentation<br>com.solipsys.axis.contact<br>com.solipsys.axis.contact.application<br>com.solipsys.axis.contact.context<br>com.solipsys.axis.contact.controller<br>com.solipsys.axis.contact.datatransfer<br>com.solipsys.axis.contact.tree<br>com.solipsys.axis.geo<br>com.solipsys.axis.geo.application.geocontrol<br>com.solipsys.axis.geo.effect<br>com.solipsys.axis.geo.geometry<br>com.solipsys.axis.geo.geometry.display<br>com.solipsys.axis.geo.getter<br>com.solipsys.axis.geo.graphics<br>com.solipsys.axis.geo.gui.view<br>com.solipsys.axis.geo.imagery<br>com.solipsys.axis.geo.imagery.context<br>com.solipsys.axis.geo.imagery.event<br>com.solipsys.axis.geo.kml<br>com.solipsys.axis.geo.kml.application<br>com.solipsys.axis.geo.kml.geometry<br>com.solipsys.axis.geo.kml.geometry.display<br>com.solipsys.axis.geo.kml.geometry.display.appearance<br>com.solipsys.axis.geo.kml.geometry.immutable<br>com.solipsys.axis.geo.kml.geometry.mutable<br>com.solipsys.axis.geo.kml.geometry.operation<br>com.solipsys.axis.geo.kml.impl<br>com.solipsys.axis.geo.kml.impl.display<br>com.solipsys.axis.geo.kml.operation<br>com.solipsys.axis.geo.line.display<br>com.solipsys.axis.geo.path.context<br>com.solipsys.axis.geo.path.display<br>com.solipsys.axis.geo.shaped.constrained.display<br>com.solipsys.axis.geo.shaped.constrained.operation<br>com.solipsys.axis.geo.shaped.display<br>com.solipsys.axis.geo.terrain<br>com.solipsys.axis.geo.usershape.application<br>com.solipsys.axis.geo.usershape.context<br>com.solipsys.axis.geo.usershape.display<br>com.solipsys.axis.geo.util<br>com.solipsys.axis.geo.view<br>com.solipsys.axis.geo.view.context<br>com.solipsys.axis.geo.view.event<br>com.solipsys.axis.geo.view.key<br>com.solipsys.axis.geo.view.light<br>com.solipsys.axis.geo.view.operation<br>com.solipsys.axis.geo.view.pointer<br>com.solipsys.axis.geo.view.updater<br>com.solipsys.axis.graphics<br>com.solipsys.axis.graphics.scale<br>com.solipsys.axis.line.display<br>com.solipsys.axis.math<br>com.solipsys.axis.model3d<br>com.solipsys.axis.model3d.axm<br>com.solipsys.axis.model3d.collada<br>com.solipsys.axis.model3d.obj<br>com.solipsys.axis.offscreen.display<br>com.solipsys.axis.track.display<br>com.solipsys.axis.track.display.context<br>com.solipsys.axis.track.display.enhancement<br>com.solipsys.axis.track.display.history<br>com.solipsys.axis.track.display.renderer<br>com.solipsys.axis.track.display.renderer.ntds<br>com.solipsys.axis.track.drawable<br>com.solipsys.axis.track.drawable.context<br>com.solipsys.axis.util<br>com.solipsys.axis.view<br>com.solipsys.axis.view.detail<br>com.solipsys.axis.view.drawable<br>com.solipsys.axis.view.light<br>com.solipsys.axis.view.manager.effect<br>com.solipsys.axis.view.manager.indicator<br>com.solipsys.axis.view.manager.rollover<br>com.solipsys.axis.view.manager.selection<br>com.solipsys.axis.view.manager.tag<br>com.solipsys.axis.view.pointer<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>net.opengis.kml.x22</a><br><a>org.apache.xmlbeans</a><br><a>org.collada.x2005.x11.colladaSchema</a><br><a>org.jdesktop.animation.timing</a><br><a>org.jdesktop.animation.timing.interpolation</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKgdx.jar">gdx.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 2</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.02</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.50</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.48</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsol.jar">sol.jar<br></a>
+</td>
+<td valign="top" width="33%">
+<a href="#PKnitf.jar">nitf.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.gdx.adrg<br>com.solipsys.gdx.dted<br>com.solipsys.gdx.geotiff<br>com.solipsys.gdx.griddata<br>com.solipsys.gdx.nitf<br>com.solipsys.gdx.nitf.header<br>com.solipsys.gdx.nitf.header.rpf<br>com.solipsys.gdx.nitf.raw<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>org.geotools.referencing.crs</a><br><a>org.geotools.referencing.operation</a><br><a>org.opengis.referencing</a><br><a>org.geotools.geometry</a><br><a>org.opengis.referencing.operation</a><br><a>org.opengis.referencing.crs</a><br><a>org.geotools.referencing</a><br><a>org.geotools.referencing.factory</a><br><a>org.opengis.referencing.datum</a><br><a>org.geotools.referencing.datum</a><br><a>org.geotools.factory</a><br><a>org.opengis.referencing.cs</a><br><a>org.opengis.parameter</a><br><a>org.geotools.resources</a><br><a>org.geotools.referencing.cs</a><br><a>org.opengis.geometry</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKgeo.jar">geo.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 10</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.09</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.17</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.74</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsol.jar">sol.jar<br></a><a href="#PKlicense.jar">license.jar<br></a>
+</td>
+<td valign="top" width="33%">
+<a href="#PKarcims.jar">arcims.jar<br></a><a href="#PKastro.jar">astro.jar<br></a><a href="#PKaxis.jar">axis.jar<br></a><a href="#PKgdx.jar">gdx.jar<br></a><a href="#PKgeotools.jar">geotools.jar<br></a><a href="#PKmtf.jar">mtf.jar<br></a><a href="#PKnitf.jar">nitf.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a><a href="#PKtdf.jar">tdf.jar<br></a><a href="#PKtelestrator.jar">telestrator.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.geo<br>com.solipsys.geo.application.geocontrol<br>com.solipsys.geo.application.viewlocator<br>com.solipsys.geo.bean<br>com.solipsys.geo.chart.transform.type<br>com.solipsys.geo.chat.autopoints<br>com.solipsys.geo.chat.autopoints.component<br>com.solipsys.geo.chat.autopoints.getter<br>com.solipsys.geo.chat.context<br>com.solipsys.geo.condition<br>com.solipsys.geo.coordinate<br>com.solipsys.geo.coordinate.datatransfer<br>com.solipsys.geo.coordinate.getter<br>com.solipsys.geo.coordinate.operation<br>com.solipsys.geo.coordinate.system<br>com.solipsys.geo.drawable<br>com.solipsys.geo.enums.facc<br>com.solipsys.geo.extractor<br>com.solipsys.geo.extractor.airspace<br>com.solipsys.geo.extractor.airspace.condition<br>com.solipsys.geo.extractor.airspace.detail<br>com.solipsys.geo.extractor.airspace.enums<br>com.solipsys.geo.extractor.airspace.flightexplorer<br>com.solipsys.geo.extractor.airspace.getter<br>com.solipsys.geo.extractor.airspace.nfdc<br>com.solipsys.geo.extractor.airspace.raw<br>com.solipsys.geo.extractor.dafif<br>com.solipsys.geo.extractor.dafif.ed6<br>com.solipsys.geo.extractor.dafif.getter<br>com.solipsys.geo.extractor.dafif2<br>com.solipsys.geo.extractor.dafif2.getter<br>com.solipsys.geo.extractor.jgw<br>com.solipsys.geo.extractor.vpf<br>com.solipsys.geo.extractor.vpf.context<br>com.solipsys.geo.extractor.vpf.db_util<br>com.solipsys.geo.extractor.worldfile<br>com.solipsys.geo.extractor.wpi<br>com.solipsys.geo.extractor.wpi.enums<br>com.solipsys.geo.extractor.wpi.getter<br>com.solipsys.geo.feature<br>com.solipsys.geo.feature.application<br>com.solipsys.geo.feature.attributeio<br>com.solipsys.geo.feature.comparator<br>com.solipsys.geo.feature.context<br>com.solipsys.geo.feature.detail<br>com.solipsys.geo.feature.display<br>com.solipsys.geo.feature.display.appearance<br>com.solipsys.geo.feature.impl<br>com.solipsys.geo.feature.set<br>com.solipsys.geo.feature.set.analyzing<br>com.solipsys.geo.feature.set.gridded<br>com.solipsys.geo.feature.set.spatial<br>com.solipsys.geo.geometry<br>com.solipsys.geo.geometry.detail<br>com.solipsys.geo.geometry.display<br>com.solipsys.geo.geometry.display.appearance<br>com.solipsys.geo.geometry.display.appearance.operation<br>com.solipsys.geo.geometry.getter<br>com.solipsys.geo.geometry.immutable<br>com.solipsys.geo.geometry.iterator<br>com.solipsys.geo.geometry.mutable<br>com.solipsys.geo.geometry.mutable.cellname<br>com.solipsys.geo.geometry.mutable.cellname.operation<br>com.solipsys.geo.geometry.mutable.context<br>com.solipsys.geo.geometry.mutable.datatransfer<br>com.solipsys.geo.geometry.operation<br>com.solipsys.geo.geometry.pointer<br>com.solipsys.geo.geometry.setter<br>com.solipsys.geo.getter<br>com.solipsys.geo.gps<br>com.solipsys.geo.gps.component<br>com.solipsys.geo.graphics<br>com.solipsys.geo.graphics.detail<br>com.solipsys.geo.grid<br>com.solipsys.geo.grid.cgrs<br>com.solipsys.geo.grid.gars<br>com.solipsys.geo.grid.mgrs<br>com.solipsys.geo.gui<br>com.solipsys.geo.gui.contextual<br>com.solipsys.geo.gui.view<br>com.solipsys.geo.imagery<br>com.solipsys.geo.imagery.context<br>com.solipsys.geo.kml<br>com.solipsys.geo.kml.application<br>com.solipsys.geo.kml.context<br>com.solipsys.geo.kml.datatransfer<br>com.solipsys.geo.kml.formatter<br>com.solipsys.geo.kml.geometry<br>com.solipsys.geo.kml.geometry.display<br>com.solipsys.geo.kml.geometry.operation<br>com.solipsys.geo.kml.getter<br>com.solipsys.geo.kml.impl<br>com.solipsys.geo.kml.impl.display<br>com.solipsys.geo.kml.operation<br>com.solipsys.geo.kml.renderer<br>com.solipsys.geo.kml.setter<br>com.solipsys.geo.kml.tree<br>com.solipsys.geo.layer<br>com.solipsys.geo.layer.display<br>com.solipsys.geo.line<br>com.solipsys.geo.line.detail<br>com.solipsys.geo.line.display<br>com.solipsys.geo.line.getter<br>com.solipsys.geo.magnetism<br>com.solipsys.geo.nlp.extractor<br>com.solipsys.geo.operation<br>com.solipsys.geo.operation.constraint<br>com.solipsys.geo.operation.context<br>com.solipsys.geo.path<br>com.solipsys.geo.path.application<br>com.solipsys.geo.path.context<br>com.solipsys.geo.path.datatransfer<br>com.solipsys.geo.path.display<br>com.solipsys.geo.path.style<br>com.solipsys.geo.projection<br>com.solipsys.geo.reference<br>com.solipsys.geo.reference.condition<br>com.solipsys.geo.reference.getter<br>com.solipsys.geo.server<br>com.solipsys.geo.server.imagery<br>com.solipsys.geo.server.imagery.context<br>com.solipsys.geo.shaped<br>com.solipsys.geo.shaped.constrained<br>com.solipsys.geo.shaped.constrained.condition<br>com.solipsys.geo.shaped.constrained.display<br>com.solipsys.geo.shaped.constrained.operation<br>com.solipsys.geo.shaped.datatransfer<br>com.solipsys.geo.shaped.display<br>com.solipsys.geo.shaped.operation<br>com.solipsys.geo.shaped.pointer<br>com.solipsys.geo.terrain<br>com.solipsys.geo.terrain.graph<br>com.solipsys.geo.text<br>com.solipsys.geo.text.detector<br>com.solipsys.geo.text.editor<br>com.solipsys.geo.usershape<br>com.solipsys.geo.usershape.application<br>com.solipsys.geo.usershape.component<br>com.solipsys.geo.usershape.condition<br>com.solipsys.geo.usershape.context<br>com.solipsys.geo.usershape.datatransfer<br>com.solipsys.geo.usershape.display<br>com.solipsys.geo.usershape.event<br>com.solipsys.geo.usershape.getter<br>com.solipsys.geo.usershape.operation<br>com.solipsys.geo.usershape.operation.timeinterval<br>com.solipsys.geo.usershape.pointer<br>com.solipsys.geo.usershape.setter<br>com.solipsys.geo.usershape.tree<br>com.solipsys.geo.usershape.type<br>com.solipsys.geo.usershape.type.timeinterval<br>com.solipsys.geo.util<br>com.solipsys.geo.view<br>com.solipsys.geo.view.autocenter<br>com.solipsys.geo.view.clip<br>com.solipsys.geo.view.context<br>com.solipsys.geo.view.event<br>com.solipsys.geo.view.key<br>com.solipsys.geo.view.manager.rollover<br>com.solipsys.geo.view.operation<br>com.solipsys.geo.view.pointer<br>com.solipsys.geo.view.region<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>net.opengis.kml.x22</a><br><a>org.apache.xmlbeans</a><br><a>org.w3.x2005.atom</a><br><a>org.jdesktop.animation.timing.interpolation</a><br><a>org.jdesktop.animation.timing</a><br><a>org.jfree.chart</a><br><a>org.jfree.chart.plot</a><br><a>org.jfree.chart.renderer.xy</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKgeotools.jar">geotools.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.06</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.06</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsol.jar">sol.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.geotools<br>com.solipsys.geotools.extractor<br>com.solipsys.geotools.extractor.impl<br>com.solipsys.geotools.wms<br>com.solipsys.geotools.wms.context<br>
+</td>
+<td valign="top" width="26%">
+<a>org.opengis.referencing</a><br><a>org.geotools.geometry</a><br><a>com.vividsolutions.jts.geom</a><br><a>org.opengis.referencing.operation</a><br><a>org.geotools.factory</a><br><a>org.apache.log4j</a><br><a>org.opengis.referencing.crs</a><br><a>org.opengis.referencing.cs</a><br><a>org.geotools.referencing</a><br><a>org.opengis.geometry</a><br><a>org.geotools.feature</a><br><a>org.geotools.data</a><br><a>org.geotools.feature.type</a><br><a>org.geotools.referencing.crs</a><br><a>org.geotools.data.shapefile</a><br><a>org.geotools.data.ows</a><br><a>org.geotools.data.wms</a><br><a>org.geotools.data.wms.response</a><br><a>org.geotools.data.wms.request</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKjvmcheck.jar">jvmcheck.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 0</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.00</td>
+<td>
+<a href="#EXinstability">Instability</a>: -1.0</td>
+<td>
+<a href="#EXdistance">Distance</a>: -1.0</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.jvmcheck<br>
+</td>
+<td valign="top" width="26%"><i>None</i></td>
+</tr>
+</table>
+<h3><a name="PKlicense.jar">license.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 4</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 0</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.00</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 1.00</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%">
+<a href="#PKaxis.jar">axis.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a><a href="#PKsol.jar">sol.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.lm<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKmtf.jar">mtf.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.15</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.15</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKgeo.jar">geo.jar<br></a><a href="#PKsol.jar">sol.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.mtf<br>com.solipsys.mtf.aco<br>com.solipsys.mtf.ato<br>com.solipsys.mtf.field<br>com.solipsys.mtf.geometry<br>com.solipsys.mtf.geometry.immutable<br>com.solipsys.mtf.geometry.iterator<br>com.solipsys.mtf.geometry.mutable<br>com.solipsys.mtf.geometry.operation<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>org.apache.log4j.spi</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKnitf.jar">nitf.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 3</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.09</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.09</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsol.jar">sol.jar<br></a><a href="#PKgdx.jar">gdx.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.nitf<br>com.solipsys.nitf.header<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKsdf.jar">sdf.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 3</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 4</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.08</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.57</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.35</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsol.jar">sol.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a><a href="#PKgdx.jar">gdx.jar<br></a><a href="#PKlicense.jar">license.jar<br></a>
+</td>
+<td valign="top" width="33%">
+<a href="#PKastro.jar">astro.jar<br></a><a href="#PKaxis.jar">axis.jar<br></a><a href="#PKtdf.jar">tdf.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.sdf.application.manualtrack<br>com.solipsys.sdf.track<br>com.solipsys.tdf.application.datarecorder<br>com.solipsys.tdf.application.datarecorder.icons<br>com.solipsys.tdf.application.historylist<br>com.solipsys.tdf.application.historylist.context<br>com.solipsys.tdf.application.historypresentation<br>com.solipsys.tdf.application.hook<br>com.solipsys.tdf.application.hook.condition<br>com.solipsys.tdf.application.hook.search<br>com.solipsys.tdf.application.imageviewer<br>com.solipsys.tdf.application.main<br>com.solipsys.tdf.application.manualtrack<br>com.solipsys.tdf.application.manualtrack.context<br>com.solipsys.tdf.application.manualtrack.editor<br>com.solipsys.tdf.application.manualtrack.model<br>com.solipsys.tdf.application.multigraph<br>com.solipsys.tdf.application.multiview<br>com.solipsys.tdf.application.pairinglist<br>com.solipsys.tdf.application.rangebearinggrid<br>com.solipsys.tdf.application.sharedtracks<br>com.solipsys.tdf.application.sharedtracks.condition<br>com.solipsys.tdf.application.sharedtracks.context<br>com.solipsys.tdf.application.sharedtracks.display<br>com.solipsys.tdf.application.sharedtracks.event<br>com.solipsys.tdf.application.sharedtracks.getter<br>com.solipsys.tdf.application.sharedtracks.widget<br>com.solipsys.tdf.application.trackcounter<br>com.solipsys.tdf.application.trackedit<br>com.solipsys.tdf.application.trackedit.context<br>com.solipsys.tdf.application.trackedit.toolbar<br>com.solipsys.tdf.application.trackedit.type<br>com.solipsys.tdf.application.trackgraph<br>com.solipsys.tdf.application.tracklist<br>com.solipsys.tdf.application.tracklist.condition<br>com.solipsys.tdf.application.tracklist.context<br>com.solipsys.tdf.application.tracklist.widget<br>com.solipsys.tdf.application.trackoptions<br>com.solipsys.tdf.application.trackpresentation<br>com.solipsys.tdf.attribute<br>com.solipsys.tdf.attribute.colorizer<br>com.solipsys.tdf.attribute.formatter<br>com.solipsys.tdf.attribute.getter<br>com.solipsys.tdf.attribute.getter.stale<br>com.solipsys.tdf.bean<br>com.solipsys.tdf.chart.colorizer<br>com.solipsys.tdf.chart.dimension<br>com.solipsys.tdf.chart.model<br>com.solipsys.tdf.chart.transform.type<br>com.solipsys.tdf.chat.mentioned<br>com.solipsys.tdf.chat.mentioned.getter<br>com.solipsys.tdf.condition<br>com.solipsys.tdf.contact<br>com.solipsys.tdf.contact.application<br>com.solipsys.tdf.contact.detail<br>com.solipsys.tdf.contact.display<br>com.solipsys.tdf.contact.display.context<br>com.solipsys.tdf.contact.display.controller<br>com.solipsys.tdf.contact.display.datatransfer<br>com.solipsys.tdf.contact.display.event<br>com.solipsys.tdf.contact.display.impl<br>com.solipsys.tdf.contact.display.style<br>com.solipsys.tdf.contact.display.symbol<br>com.solipsys.tdf.contact.display.tree<br>com.solipsys.tdf.contact.doctrine<br>com.solipsys.tdf.contact.event<br>com.solipsys.tdf.contact.getter<br>com.solipsys.tdf.contact.impl<br>com.solipsys.tdf.context<br>com.solipsys.tdf.doctrine<br>com.solipsys.tdf.doctrine.attributor<br>com.solipsys.tdf.doctrine.context<br>com.solipsys.tdf.drawable<br>com.solipsys.tdf.graphics.style<br>com.solipsys.tdf.gui<br>com.solipsys.tdf.gui.view<br>com.solipsys.tdf.line<br>com.solipsys.tdf.line.context<br>com.solipsys.tdf.line.detail<br>com.solipsys.tdf.line.display<br>com.solipsys.tdf.line.getter<br>com.solipsys.tdf.net.annotation<br>com.solipsys.tdf.nlp<br>com.solipsys.tdf.nlp.creator<br>com.solipsys.tdf.nlp.extractor<br>com.solipsys.tdf.nlp.processor<br>com.solipsys.tdf.offscreen<br>com.solipsys.tdf.text.detector<br>com.solipsys.tdf.track<br>com.solipsys.tdf.track.colorizer<br>com.solipsys.tdf.track.component<br>com.solipsys.tdf.track.condition<br>com.solipsys.tdf.track.context<br>com.solipsys.tdf.track.detail<br>com.solipsys.tdf.track.enhancement<br>com.solipsys.tdf.track.format<br>com.solipsys.tdf.track.getter<br>com.solipsys.tdf.track.history<br>com.solipsys.tdf.track.io<br>com.solipsys.tdf.track.number<br>com.solipsys.tdf.track.report<br>com.solipsys.tdf.track.search<br>com.solipsys.tdf.track.spotlight<br>com.solipsys.tdf.track.spotlight.context<br>com.solipsys.tdf.track.spotlight.datatransfer<br>com.solipsys.tdf.track.symbol<br>com.solipsys.tdf.track.symbol.block<br>com.solipsys.tdf.track.symbol.ntds<br>com.solipsys.tdf.view.autocenter<br>com.solipsys.tdf.view.context<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>org.jdesktop.animation.timing.interpolation</a><br><a>org.jdesktop.animation.timing</a><br><a>org.jfree.data.time</a><br><a>org.jfree.chart.axis</a><br><a>org.jfree.chart.plot</a><br><a>org.jfree.chart.renderer.xy</a><br><a>org.jfree.chart</a><br><a>org.jfree.chart.title</a><br><a>org.jfree.data.xy</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKsol.jar">sol.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 11</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 1</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.15</td>
+<td>
+<a href="#EXinstability">Instability</a>: 0.08</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.77</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%"><a href="#PKlicense.jar">license.jar<br></a></td>
+<td valign="top" width="33%">
+<a href="#PKarcims.jar">arcims.jar<br></a><a href="#PKastro.jar">astro.jar<br></a><a href="#PKaxis.jar">axis.jar<br></a><a href="#PKgdx.jar">gdx.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a><a href="#PKgeotools.jar">geotools.jar<br></a><a href="#PKmtf.jar">mtf.jar<br></a><a href="#PKnitf.jar">nitf.jar<br></a><a href="#PKsdf.jar">sdf.jar<br></a><a href="#PKtdf.jar">tdf.jar<br></a><a href="#PKtelestrator.jar">telestrator.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.action<br>com.solipsys.action.datatransfer<br>com.solipsys.action.macro<br>com.solipsys.action.macro.event<br>com.solipsys.alerts<br>com.solipsys.alerts.alert<br>com.solipsys.alerts.alert.enums<br>com.solipsys.alerts.alert.getter<br>com.solipsys.alerts.alert.setter<br>com.solipsys.alerts.application<br>com.solipsys.alerts.audible<br>com.solipsys.alerts.audible.datatransfer<br>com.solipsys.alerts.context<br>com.solipsys.alerts.doctrine<br>com.solipsys.alerts.event<br>com.solipsys.alerts.gui<br>com.solipsys.alerts.gui.list<br>com.solipsys.alerts.gui.table<br>com.solipsys.alerts.gui.view<br>com.solipsys.alerts.gui.viewer<br>com.solipsys.alerts.impl<br>com.solipsys.alerts.impl.alert<br>com.solipsys.alerts.impl.alert.getter<br>com.solipsys.alerts.impl.client<br>com.solipsys.alerts.impl.event<br>com.solipsys.alerts.impl.module<br>com.solipsys.alerts.impl.server<br>com.solipsys.alerts.userdefined<br>com.solipsys.application<br>com.solipsys.application.about<br>com.solipsys.application.context<br>com.solipsys.application.detail<br>com.solipsys.application.detail.context<br>com.solipsys.application.event<br>com.solipsys.application.help<br>com.solipsys.application.imageviewer<br>com.solipsys.application.imageviewer.context<br>com.solipsys.application.indicator<br>com.solipsys.application.preferences<br>com.solipsys.application.print<br>com.solipsys.application.quickedit<br>com.solipsys.application.search<br>com.solipsys.application.system<br>com.solipsys.application.system.threadwatch<br>com.solipsys.application.system.threadwatch.getter<br>com.solipsys.application.viewkeys<br>com.solipsys.application.workspace<br>com.solipsys.application.workspace.boundspolicy<br>com.solipsys.application.workspace.event<br>com.solipsys.attribute<br>com.solipsys.attribute.comparator<br>com.solipsys.attribute.getter<br>com.solipsys.attribute.model<br>com.solipsys.attribute.setter<br>com.solipsys.bean<br>com.solipsys.chart<br>com.solipsys.chart.dimension<br>com.solipsys.chart.display<br>com.solipsys.chart.jfree<br>com.solipsys.chart.jfree.creator<br>com.solipsys.chart.jfree.plot<br>com.solipsys.chart.jfree.renderer<br>com.solipsys.chart.model<br>com.solipsys.chart.model.context<br>com.solipsys.chart.model.datatransfer<br>com.solipsys.chart.model.functiondef<br>com.solipsys.chart.space<br>com.solipsys.chart.transform<br>com.solipsys.chart.transform.type<br>com.solipsys.chat<br>com.solipsys.chat.attribute<br>com.solipsys.chat.collaboration<br>com.solipsys.chat.collaboration.context<br>com.solipsys.chat.data<br>com.solipsys.chat.data.getter<br>com.solipsys.chat.detail<br>com.solipsys.chat.event<br>com.solipsys.chat.expander<br>com.solipsys.chat.getter<br>com.solipsys.chat.gui<br>com.solipsys.chat.gui.context<br>com.solipsys.chat.gui.datatransfer<br>com.solipsys.chat.gui.event<br>com.solipsys.chat.gui.matching<br>com.solipsys.chat.gui.matching.datatransfer<br>com.solipsys.chat.irc<br>com.solipsys.chat.jabber<br>com.solipsys.condition<br>com.solipsys.condition.context<br>com.solipsys.condition.datatransfer<br>com.solipsys.condition.impl<br>com.solipsys.condition.tree<br>com.solipsys.context<br>com.solipsys.context.component<br>com.solipsys.context.condition<br>com.solipsys.context.creator<br>com.solipsys.context.event<br>com.solipsys.context.group<br>com.solipsys.context.menu<br>com.solipsys.context.type<br>com.solipsys.doctrine<br>com.solipsys.doctrine.action<br>com.solipsys.doctrine.application<br>com.solipsys.doctrine.context<br>com.solipsys.doctrine.datatransfer<br>com.solipsys.doctrine.event<br>com.solipsys.doctrine.gui<br>com.solipsys.doctrine.shared<br>com.solipsys.doctrine.shared.gui<br>com.solipsys.doctrine.tree<br>com.solipsys.drawable<br>com.solipsys.dx<br>com.solipsys.dynamicloader<br>com.solipsys.enums<br>com.solipsys.extension<br>com.solipsys.extension.servlet<br>com.solipsys.graphics<br>com.solipsys.graphics.appearance<br>com.solipsys.graphics.cgm<br>com.solipsys.graphics.colorizer<br>com.solipsys.graphics.colorizer.global<br>com.solipsys.graphics.colorizer.global.context<br>com.solipsys.graphics.colorizer.global.datatransfer<br>com.solipsys.graphics.colorizer.global.type<br>com.solipsys.graphics.detail<br>com.solipsys.graphics.detail.datatransfer<br>com.solipsys.graphics.detail.title<br>com.solipsys.graphics.detail.tree<br>com.solipsys.graphics.enums<br>com.solipsys.graphics.offscreen<br>com.solipsys.graphics.sprite<br>com.solipsys.graphics.style<br>com.solipsys.graphics.style.operation<br>com.solipsys.graphics.symbol<br>com.solipsys.graphics.symbol.mutant<br>com.solipsys.graphics.symbol.mutant.datatransfer<br>com.solipsys.graphics.symbol.mutant.tree<br>com.solipsys.graphics.texture<br>com.solipsys.gui<br>com.solipsys.gui.action<br>com.solipsys.gui.border<br>com.solipsys.gui.colorchooser<br>com.solipsys.gui.dashboard<br>com.solipsys.gui.datatransfer<br>com.solipsys.gui.help<br>com.solipsys.gui.icons<br>com.solipsys.gui.layout<br>com.solipsys.gui.list<br>com.solipsys.gui.list.context<br>com.solipsys.gui.log4j<br>com.solipsys.gui.model<br>com.solipsys.gui.table<br>com.solipsys.gui.table.context<br>com.solipsys.gui.toolbar<br>com.solipsys.gui.tree<br>com.solipsys.io<br>com.solipsys.io.preprocessor<br>com.solipsys.layer<br>com.solipsys.layer.context<br>com.solipsys.layer.datatransfer<br>com.solipsys.layer.display<br>com.solipsys.layer.tree<br>com.solipsys.layer.type<br>com.solipsys.model<br>com.solipsys.model.event<br>com.solipsys.model.generator<br>com.solipsys.model.operation<br>com.solipsys.naming<br>com.solipsys.naming.env<br>com.solipsys.naming.event<br>com.solipsys.net<br>com.solipsys.net.channel<br>com.solipsys.net.discovery<br>com.solipsys.net.discovery.panel<br>com.solipsys.net.http<br>com.solipsys.net.jgroups<br>com.solipsys.net.message<br>com.solipsys.net.objectreceiver<br>com.solipsys.net.proxy<br>com.solipsys.net.shared<br>com.solipsys.net.shared.component<br>com.solipsys.net.shared.component.annotation<br>com.solipsys.net.shared.reqres<br>com.solipsys.net.shared.reqres.message<br>com.solipsys.net.solinet<br>com.solipsys.net.talk<br>com.solipsys.net.talk.discovery<br>com.solipsys.net.talk.timestamp<br>com.solipsys.net.tcp<br>com.solipsys.nlp<br>com.solipsys.nlp.creator<br>com.solipsys.nlp.extractor<br>com.solipsys.nlp.gui<br>com.solipsys.nlp.gui.context<br>com.solipsys.nlp.util<br>com.solipsys.offscreen<br>com.solipsys.offscreen.display<br>com.solipsys.offscreen.display.context<br>com.solipsys.operation<br>com.solipsys.operation.constraint<br>com.solipsys.property<br>com.solipsys.property.condition<br>com.solipsys.property.context<br>com.solipsys.property.detail<br>com.solipsys.property.formatter<br>com.solipsys.property.table<br>com.solipsys.property.table.context<br>com.solipsys.property.viewer<br>com.solipsys.scheme<br>com.solipsys.system<br>com.solipsys.system.collaboration<br>com.solipsys.system.collaboration.event<br>com.solipsys.system.collaboration.gui<br>com.solipsys.system.collaboration.gui.callbacks<br>com.solipsys.system.collaboration.impl<br>com.solipsys.system.collaboration.impl.message<br>com.solipsys.system.distributed<br>com.solipsys.system.event<br>com.solipsys.system.module<br>com.solipsys.system.provider<br>com.solipsys.system.provider.dx<br>com.solipsys.system.provider.event<br>com.solipsys.system.provider.gui<br>com.solipsys.system.provider.servlet<br>com.solipsys.system.provider.type<br>com.solipsys.system.user<br>com.solipsys.system.user.context.menu<br>com.solipsys.system.user.event<br>com.solipsys.system.user.gui<br>com.solipsys.system.user.gui.callback<br>com.solipsys.system.user.gui.list<br>com.solipsys.system.user.gui.management<br>com.solipsys.system.user.impl<br>com.solipsys.system.user.impl.message<br>com.solipsys.system.user.net.http<br>com.solipsys.system.user.state<br>com.solipsys.system.user.util<br>com.solipsys.text<br>com.solipsys.text.detector<br>com.solipsys.text.editor<br>com.solipsys.unit<br>com.solipsys.util<br>com.solipsys.util.config<br>com.solipsys.util.csv<br>com.solipsys.util.csv.gui<br>com.solipsys.util.library<br>com.solipsys.util.library.context<br>com.solipsys.util.reset<br>com.solipsys.util.resource<br>com.solipsys.util.search<br>com.solipsys.util.sort<br>com.solipsys.util.tree<br>com.solipsys.view<br>com.solipsys.view.detail<br>com.solipsys.view.display<br>com.solipsys.view.event<br>com.solipsys.view.manager<br>com.solipsys.view.manager.draw<br>com.solipsys.view.manager.indicator<br>com.solipsys.view.manager.key<br>com.solipsys.view.manager.key.context<br>com.solipsys.view.manager.menu<br>com.solipsys.view.manager.rollover<br>com.solipsys.view.manager.rollover.context<br>com.solipsys.view.manager.selection<br>com.solipsys.view.manager.selection.context<br>com.solipsys.view.manager.tag<br>com.solipsys.view.manager.tag.context<br>com.solipsys.view.manager.time<br>com.solipsys.view.pointer<br>com.solipsys.view.region<br>com.solipsys.view.search<br>com.solipsys.view.synch<br>com.solipsys.view.synch.application<br>com.solipsys.view.synch.datatransfer<br>com.solipsys.view.synch.event<br>com.solipsys.view.synch.module<br>com.solipsys.view.synch.tree<br>com.solipsys.view.synch.type<br>com.solipsys.xml<br>com.solipsys.xml.impl<br>com.solipsys.xml.operation<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br><a>koala.dynamicjava.interpreter</a><br><a>koala.dynamicjava.parser.wrapper</a><br><a>org.jfree.chart</a><br><a>org.jfree.chart.renderer.xy</a><br><a>org.jfree.data.time</a><br><a>org.jfree.chart.axis</a><br><a>org.jfree.chart.plot</a><br><a>org.jfree.chart.title</a><br><a>org.jfree.chart.block</a><br><a>org.jfree.data.xy</a><br><a>org.jfree.data.general</a><br><a>org.jfree.data.category</a><br><a>org.jfree.chart.labels</a><br><a>org.jfree.chart.urls</a><br><a>org.jfree.data</a><br><a>org.jfree.ui</a><br><a>org.jdesktop.animation.timing.interpolation</a><br><a>org.jdesktop.animation.timing</a><br><a>f00f.net.irc.martyr.commands</a><br><a>f00f.net.irc.martyr.replies</a><br><a>f00f.net.irc.martyr.errors</a><br><a>f00f.net.irc.martyr</a><br><a>f00f.net.irc.martyr.util</a><br><a>f00f.net.irc.martyr.services</a><br><a>f00f.net.irc.martyr.clientstate</a><br><a>org.jivesoftware.smack.packet</a><br><a>org.jivesoftware.smackx.packet</a><br><a>org.jivesoftware.smack</a><br><a>org.jivesoftware.smackx.muc</a><br><a>org.jivesoftware.smackx</a><br><a>org.jivesoftware.smack.filter</a><br><a>org.apache.commons.fileupload.servlet</a><br><a>org.apache.commons.fileupload</a><br><a>org.apache.log4j.spi</a><br><a>org.mortbay.jetty.security</a><br><a>org.mortbay.jetty</a><br><a>org.mortbay.xml</a><br><a>org.jgroups.blocks</a><br><a>org.jgroups</a><br><a>com.solipsys.solinet.message</a><br><a>com.solipsys.solinet</a><br><a>org.slf4j.bridge</a><br><a>org.eclipse.jdt.internal.compiler.tool</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKtdf.jar">tdf.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 3</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.06</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.06</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsdf.jar">sdf.jar<br></a><a href="#PKsol.jar">sol.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.tdf.application.manualtrack<br>com.solipsys.tdf.application.manualtrack.editor<br>com.solipsys.tdf.application.manualtrack.model<br>com.solipsys.tdf.attribute.getter<br>com.solipsys.tdf.bean<br>com.solipsys.tdf.client<br>com.solipsys.tdf.context<br>com.solipsys.tdf.drawable<br>com.solipsys.tdf.gui<br>com.solipsys.tdf.intercept<br>com.solipsys.tdf.intercept.context<br>com.solipsys.tdf.line<br>com.solipsys.tdf.line.detail<br>com.solipsys.tdf.line.display<br>com.solipsys.tdf.line.getter<br>com.solipsys.tdf.ms6011.enums<br>com.solipsys.tdf.ms6016.attribute<br>com.solipsys.tdf.ms6016.attribute.getter<br>com.solipsys.tdf.ms6016.enums<br>com.solipsys.tdf.nlp<br>com.solipsys.tdf.nlp.processor<br>com.solipsys.tdf.test.client<br>com.solipsys.tdf.test.sensor<br>com.solipsys.tdf.test.server<br>com.solipsys.tdf.track<br>com.solipsys.tdf.track.colorizer<br>com.solipsys.tdf.track.component<br>com.solipsys.tdf.track.detail<br>com.solipsys.tdf.track.format<br>com.solipsys.tdf.track.getter<br>com.solipsys.tdf.track.history<br>com.solipsys.tdf.track.number<br>com.solipsys.tdf.track.report<br>com.solipsys.tdf.track.symbol.awacs<br>com.solipsys.tdf.track.symbol.doc<br>com.solipsys.tdf.track.symbol.iconicntds<br>com.solipsys.tdf.track.symbol.mce<br>com.solipsys.tdf.track.symbol.ms1477c<br>com.solipsys.tdf.track.symbol.ms1477c.manager<br>com.solipsys.tdf.track.symbol.ms1477c.symbol<br>com.solipsys.tdf.track.symbol.ms2525b<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<h3><a name="PKtelestrator.jar">telestrator.jar</a></h3>
+<table width="100%" class="gray"><tr>
+<td>
+<a href="#EXafferent">Afferent Couplings</a>: 0</td>
+<td>
+<a href="#EXefferent">Efferent Couplings</a>: 2</td>
+<td>
+<a href="#EXabstractness">Abstractness</a>: 0.06</td>
+<td>
+<a href="#EXinstability">Instability</a>: 1.00</td>
+<td>
+<a href="#EXdistance">Distance</a>: 0.06</td>
+</tr></table>
+<table width="100%" class="details">
+<tr>
+<th>Uses Jars</th>
+<th>Used by Jars</th>
+<th>Cycles With</th>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<a href="#PKsol.jar">sol.jar<br></a><a href="#PKgeo.jar">geo.jar<br></a>
+</td>
+<td valign="top" width="33%"><i>None</i></td>
+<td valign="top" width="33%"><i>None</i></td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Packages within jar</th>
+<th><a href="#EXunresolved">Unresolved Packages</a></th>
+</tr>
+<tr>
+<td valign="top" width="26%">com.solipsys.telestrator<br>com.solipsys.telestrator.context<br>com.solipsys.telestrator.display<br>com.solipsys.telestrator.getter<br>com.solipsys.telestrator.gui<br>com.solipsys.telestrator.impl<br>com.solipsys.telestrator.pointer<br>
+</td>
+<td valign="top" width="26%">
+<a>org.apache.log4j</a><br>
+</td>
+</tr>
+</table>
+<table width="100%"><tr>
+<td><a name="NVcycles"><h2>Cycles</h2></a></td>
+<td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr></table>
+<h3>arcims.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>astro.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>axis.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>gdx.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>geo.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>geotools.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>jvmcheck.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>license.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>mtf.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>nitf.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>sdf.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>sol.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>tdf.jar has cycles with</h3>
+<p><i>None</i></p>
+<h3>telestrator.jar has cycles with</h3>
+<p><i>None</i></p>
+<hr size="2">
+<table width="100%"><tr>
+<td><a name="NVexplanations"><h2>Explanations</h2></a></td>
+<td align="right">
+    [<a href="#NVsummary">summary</a>]
+    [<a href="#NVjars">jars</a>]
+    [<a href="#NVcycles">cycles</a>]
+    [<a href="#NVexplanations">explanations</a>]
+    </td>
+</tr></table>
+<p>The following explanations are for quick reference. More detailed information can be found in the <a href="http://www.kirkk.com/main/Main/JarAnalyzer">JarAnalyzer documentation</a>.</p>
+<h3><a name="EXclassnumber">Number of Classes</a></h3>
+<p>The number of concrete and abstract classes (and interfaces) in the jar is an indicator of the extensibility of the jar.</p>
+<h3><a name="EXpackagenumber">Number of Packages</a></h3>
+<p>The number of packages in the jar.</p>
+<h3><a name="EXafferent">Afferent Couplings</a></h3>
+<p>The number of other jars that depend upon classes within the jar is an indicator of the jar's responsibility. </p>
+<h3><a name="EXefferent">Efferent Couplings</a></h3>
+<p>The number of other jars that the classes in the jar depend upon is an indicator of the jar's independence. </p>
+<h3><a name="EXabstractness">Abstractness</a></h3>
+<p>The ratio of the number of abstract classes (and interfaces) in the analyzed jar to the total number of classes in the analyzed jar. </p>
+<p>The range for this metric is 0 to 1, with A=0 indicating a completely concrete jar and A=1 indicating a completely abstract jar. </p>
+<h3><a name="EXinstability">Instability</a></h3>
+<p>The ratio of efferent coupling (Ce) to total coupling (Ce / (Ce + Ca)). This metric is an indicator of the jar's resilience to change. </p>
+<p>The range for this metric is 0 to 1, with I=0 indicating a completely stable jar and I=1 indicating a completely instable jar. </p>
+<h3><a name="EXdistance">Distance</a></h3>
+<p>The perpendicular distance of a jar from the idealized line A + I = 1. This metric is an indicator of the jar's balance between abstractness and stability. </p>
+<p>A jar squarely on the main sequence is optimally balanced with respect to its abstractness and stability. Ideal jars are either completely abstract and stable (x=0, y=1) or completely concrete and instable (x=1, y=0). </p>
+<p>The range for this metric is 0 to 1, with D=0 indicating a jar that is coincident with the main sequence and D=1 indicating a jar that is as far from the main sequence as possible. </p>
+<h3><a name="EXunresolved">Unresolved Packages</a></h3>
+<p>Packages not found in any of the jars analyzed. These can be filtered from output by specifying the packages to exlude in the Filter.properties file. Conversely, you can include jars containing these packages in the directory being analyzed.</p>
+<p>These packages are excluded from all calculations and adding the jars containing these packages will result in modified metrics.</p>
+</body>
+</html>
