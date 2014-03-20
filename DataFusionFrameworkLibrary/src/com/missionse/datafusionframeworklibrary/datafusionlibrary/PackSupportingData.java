@@ -3,6 +3,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
@@ -10,11 +11,11 @@ public class PackSupportingData {
     //Reference to the ObjectRefinementModule, which receives data once it has been through this module.
     ObjectRefinementModule orm;
     
-    Database db;
+    SourceDataAccessor db;
     
-    public PackSupportingData(Database db)
+    public PackSupportingData(SourceDataAccessor db2)
     {
-        this.db = db; 
+        this.db = db2; 
     	orm = null;
     }
 

@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataModel;
 
@@ -84,16 +85,16 @@ public class ObjectRefinementModule {
     private double prevSpeedZ;           //Store previousZ Speed for Acceleration computation.
     //private double NUMBER_SOURCES = 3;
     private static final int STATE_ELEMENTS_SIZE = 9; //NUMBER OF state vector properties
-    Database db;
+    SourceDataAccessor db;
     //Analysis analysisModule;
     // that identify our object state
     // Time difference is equated from |s1.updateHertz-s2.updateHertz|
     private static double TIME_DIFFERENCE_OF_SOURCES;
 
 //**************************METHODS*******************************************
-    public ObjectRefinementModule(SourceDataModel sourceDataModel, Database db) {
+    public ObjectRefinementModule(SourceDataModel sourceDataModel, SourceDataAccessor db2) {
 
-        this.db = db;
+        this.db = db2;
         //analysisModule = new Analysis(source, db, this);
         //Initialize the kalman filter
         // Time = 1/HZ

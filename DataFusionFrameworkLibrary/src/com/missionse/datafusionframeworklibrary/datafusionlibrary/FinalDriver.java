@@ -7,6 +7,8 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
+import com.missionse.datafusionframeworklibrary.databaselibrary.DatabaseFactory;
+import com.missionse.datafusionframeworklibrary.databaselibrary.DatabaseProvider;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /**
@@ -15,7 +17,8 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  */
 public class FinalDriver {
 
-    static PacketReceiver packetReceiver = new PacketReceiver();
+	static DatabaseProvider database = null;
+    static PacketReceiver packetReceiver = null;
     // First source will be sent to packetReceiver   
     static SourceDataModel source1;
     // Second source will be sent to packetReceiver
@@ -24,7 +27,10 @@ public class FinalDriver {
 
 
     public static void main(String[] args) throws InterruptedException {
-
+		database = new DatabaseFactory();
+		database.setupDatabase("FusionData");
+		
+		packetReceiver = new PacketReceiver(database.getSourceDataAccessor());
         FinalDriver fd = new FinalDriver();
 
     }

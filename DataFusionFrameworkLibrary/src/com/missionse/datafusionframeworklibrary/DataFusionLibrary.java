@@ -12,7 +12,9 @@ public class DataFusionLibrary {
 
 		database = new DatabaseFactory();
 		database.setupDatabase("FusionData");
-		packetReceiver = new PacketReceiver();
+		
+		
+		packetReceiver = new PacketReceiver(database.getSourceDataAccessor());
 
 	}
 

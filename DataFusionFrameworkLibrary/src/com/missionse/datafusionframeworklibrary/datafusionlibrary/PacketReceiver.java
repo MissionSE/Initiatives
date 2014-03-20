@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
@@ -26,7 +27,7 @@ public class PacketReceiver
     //Reference to the PackSupportingData, which receives data once it has been through this module.
     PackSupportingData psd;
     //Reference to the Database, which receives data once it has been through this module.
-    Database db;
+    SourceDataAccessor db;
     //The list of currently observed Sources.
     private ArrayList<SourceDataModel> sources;
     //The number of variables that this program uses to represent a Source.
@@ -39,16 +40,10 @@ public class PacketReceiver
      * 2 - Sets the ObjectRefinementModule to null, as it will be created later.
      * 3 - Creates a new ArrayList for storage of Sources.
      */
-    public PacketReceiver()
+    public PacketReceiver(SourceDataAccessor sourceDataAccess)
     {
 	//1
-	try {
-		db = new Database();
-		db.setupDatabase("SSO");
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+db = sourceDataAccess;
 	//2
 	    cs = new CorrelateSources();
         psd = new PackSupportingData(db);
@@ -65,12 +60,8 @@ public class PacketReceiver
     }
 
     //For database use.
-    public void end() {
-        try {
-            db.shutdown();
-        } catch (SQLException ex) {
-            Logger.getLogger(PacketReceiver.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void end() throws SQLException {
+        db.shutdown();
     }
 
     /*
@@ -189,7 +180,7 @@ public class PacketReceiver
 	    System.out.println("receivePacket:sendUpdates toUpdate = "+ toUpdate);
 	    db.updateSourceBuilder(toUpdate.clone());
 	    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
-	    db.updateSourceBuilder(correlated.clone());
+	    db.updateBuilder(correlated.clone());
 	}
 	catch(Exception e)
 	{}
