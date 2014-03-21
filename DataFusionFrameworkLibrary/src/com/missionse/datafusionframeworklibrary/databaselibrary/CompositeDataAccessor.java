@@ -13,4 +13,6 @@ public interface CompositeDataAccessor {
 	
 	public List<CompositeDataModel> queryCompositeBuilder(String sourceType,
             String uniqueId, long fromTime) throws SQLException;
+
+	public void shutdown();
 }

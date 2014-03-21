@@ -2,7 +2,10 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 
 import java.util.ArrayList;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
  * Class DataAssociation is the main input class for this program. It takes in measurement
@@ -11,13 +14,18 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
  */
 public class DataAssociation {
 
+	// Reference to package classes
 	Evaluation eval;
 
 	// The list of currently observed Sources.
-	private ArrayList<Source> sources;
+	private ArrayList<SourceDataModel> sources;
 
-	public DataAssociation() {
+	// Constructor for DataAssociation
+	public DataAssociation(SourceDataAccessor sourceDataAccess,
+			CompositeDataAccessor compositeDataAccess) {
+
 		eval = new Evaluation();
+		sources = new ArrayList<SourceDataModel>();
 	}
 
 	/**
@@ -25,17 +33,15 @@ public class DataAssociation {
 	 * an existing track state. A list of candidates in statistical order will
 	 * be returned.
 	 */
-	public ArrayList<String> associateMeasurement(String data) {
+	public ArrayList<String> associateMeasurement(String[] parsedData) {
 
 		ArrayList<String> candidates = null;
 
-		// Parse the data into an array of Strings, delimited by commas.
-		String[] parsedData = data.split(",", -1);
-
-		System.out.println("associateMeasurement data: " + data);
+		System.out.println("associateMeasurement parsedData[0]: "
+				+ parsedData[0]);
 
 		// Storage for, and retrieval of, the Source this data represents.
-		Source toUpdate = searchExistingSources(parsedData[0]);
+		SourceDataModel toUpdate = searchExistingSources(parsedData[0]);
 		System.out.println("associateMeasurement toUpdate: " + toUpdate);
 
 		/*
@@ -63,8 +69,8 @@ public class DataAssociation {
 	 * one with the given unique ID. If no such source is found, it returns
 	 * null.
 	 */
-	private Source searchExistingSources(String id) {
-		for (Source s : sources) {
+	private SourceDataModel searchExistingSources(String id) {
+		for (SourceDataModel s : sources) {
 			if (s.getUniqueId().compareTo(id) == 0) {
 				return s;
 			}
@@ -78,8 +84,8 @@ public class DataAssociation {
 	 * new Source with the given identification string. A source created this
 	 * way has nothing else set yet, effectively making it empty.
 	 */
-	private Source createNewSource(String id) {
-		Source newSource = new Source(id);
+	private SourceDataModel createNewSource(String id) {
+		SourceDataModel newSource = new SourceDataModel(id);
 		System.out.println("receivePacket:createNewSource newSource: "
 				+ newSource);
 		return newSource;

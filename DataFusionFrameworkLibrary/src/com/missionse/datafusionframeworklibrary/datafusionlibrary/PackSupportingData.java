@@ -13,9 +13,9 @@ public class PackSupportingData {
     
     SourceDataAccessor db;
     
-    public PackSupportingData(SourceDataAccessor db2)
+    public PackSupportingData(SourceDataAccessor db)
     {
-        this.db = db2; 
+        this.db = db; 
     	orm = null;
     }
 

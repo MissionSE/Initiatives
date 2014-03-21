@@ -5,16 +5,16 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.DatabaseProvider
 import com.missionse.datafusionframeworklibrary.datafusionlibrary.PacketReceiver;
 
 public class DataFusionLibrary {
-	static PacketReceiver packetReceiver = null;	
+	static PacketReceiver packetReceiver = null;
 	static DatabaseProvider database = null;
-	
+
 	public static void main(String[] args) {
 
 		database = new DatabaseFactory();
 		database.setupDatabase("FusionData");
-		
-		
-		packetReceiver = new PacketReceiver(database.getSourceDataAccessor());
+
+		packetReceiver = new PacketReceiver(database.getSourceDataAccessor(),
+				database.getCompositeDataAccessor());
 
 	}
 

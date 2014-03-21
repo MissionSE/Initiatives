@@ -3,6 +3,7 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
  * Class Evaluation will receive a measurement and tests will be performed against existing tracks.
@@ -30,7 +31,7 @@ public class Evaluation {
 	 * tracks to determine if data is associated. a list of candidates will be
 	 * assembled.
 	 */
-	public ArrayList<String> evaluateInput(Source toUpdate) {
+	public ArrayList<String> evaluateInput(SourceDataModel toUpdate) {
 
         System.out.println("evaluateInput toUpdate: "+toUpdate);
 		

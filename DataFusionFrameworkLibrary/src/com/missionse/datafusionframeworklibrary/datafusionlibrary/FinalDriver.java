@@ -23,14 +23,13 @@ public class FinalDriver {
     static SourceDataModel source1;
     // Second source will be sent to packetReceiver
     static SourceDataModel source2;
-    static DataAssociation da  = new DataAssociation();
 
 
     public static void main(String[] args) throws InterruptedException {
 		database = new DatabaseFactory();
 		database.setupDatabase("FusionData");
 		
-		packetReceiver = new PacketReceiver(database.getSourceDataAccessor());
+		packetReceiver = new PacketReceiver(database.getSourceDataAccessor(), database.getCompositeDataAccessor());
         FinalDriver fd = new FinalDriver();
 
     }
@@ -59,8 +58,6 @@ public class FinalDriver {
 
         packetReceiver.recievePacket(source1.toString());
         packetReceiver.recievePacket(source2.toString());
-//        ArrayList<String> candidates = da.associateMeasurement(source1.toString());
-//		System.out.println("driver candidates: "+candidates);
         int counter = 0;
         
         while (true) {
@@ -75,8 +72,6 @@ public class FinalDriver {
 
                 packetReceiver.recievePacket(source1.toString());
                 packetReceiver.recievePacket(source2.toString());
-//                candidates = da.associateMeasurement(source1.toString());
-//        		System.out.println("driver candidates: "+candidates);
 
                 counter++;
 

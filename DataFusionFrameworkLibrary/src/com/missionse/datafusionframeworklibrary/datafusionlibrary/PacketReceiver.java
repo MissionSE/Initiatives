@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
@@ -22,14 +24,17 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  */
 public class PacketReceiver
 {
-    //Reference to the CorrelateSources, which is used to correlate the data from the Sources.
-    CorrelateSources cs;
-    //Reference to the PackSupportingData, which receives data once it has been through this module.
-    PackSupportingData psd;
-    //Reference to the Database, which receives data once it has been through this module.
-    SourceDataAccessor db;
+    //Reference to package classes
+    DataAssociation da;
+    DataFusion df;
+    
+    //Reference to the Database
+    SourceDataAccessor sdb;
+    CompositeDataAccessor cdb;
+    
     //The list of currently observed Sources.
     private ArrayList<SourceDataModel> sources;
+    
     //The number of variables that this program uses to represent a Source.
     private int numSourceVariables;
 
@@ -40,13 +45,14 @@ public class PacketReceiver
      * 2 - Sets the ObjectRefinementModule to null, as it will be created later.
      * 3 - Creates a new ArrayList for storage of Sources.
      */
-    public PacketReceiver(SourceDataAccessor sourceDataAccess)
+    public PacketReceiver(SourceDataAccessor sourceDataAccess, CompositeDataAccessor compositeDataAccess)
     {
 	//1
-db = sourceDataAccess;
+        sdb = sourceDataAccess;
+        cdb = compositeDataAccess;
 	//2
-	    cs = new CorrelateSources();
-        psd = new PackSupportingData(db);
+        da  = new DataAssociation(sourceDataAccess, compositeDataAccess);
+        df  = new DataFusion(sourceDataAccess, compositeDataAccess);
 	//3
         sources = new ArrayList<SourceDataModel>();
 
@@ -61,7 +67,8 @@ db = sourceDataAccess;
 
     //For database use.
     public void end() throws SQLException {
-        db.shutdown();
+        sdb.shutdown();
+        cdb.shutdown();
     }
 
     /*
@@ -110,83 +117,10 @@ db = sourceDataAccess;
             return;
         }
 
-	//Storage for, and retrieval of, the Source this data represents.
-        SourceDataModel toUpdate = searchExistingSources(parsedData[0]);
-        System.out.println("receivePacket sources: "+sources);
-
-	/*
-	 * If this program is not yet observing a Source with the given unique identification,
-	 * a new one will be created.
-	 */
-        if(toUpdate == null)
-        {
-            toUpdate = createNewSource(parsedData[0]);
-        }
-
-	/*
-	 * Whether the data represents an already existing source or a newly created one,
-	 * update the source with.
-	 */
-        toUpdate.update(parsedData);
-
-	//Correlate all observed data into a correlated source.
-        SourceDataModel correlated = cs.correlateSources(toUpdate, sources);
-
-        System.out.println("receivePacket correlated: "+correlated);
-
-        //Send off the newly updated source and the correlated one to the rest of the program.
-	    sendUpdates(toUpdate, correlated);
+        
+        ArrayList<String> candidates = da.associateMeasurement(parsedData);       
+		System.out.println("receivePacket candidates: "+candidates);        
+        
+		df.dataFusion(parsedData); 		
     }
-
-    /*
-     * This method searches through the sources that already exist, looking for one
-     * with the given unique ID. If no such source is found, it returns null.
-     */
-    private SourceDataModel searchExistingSources(String id)
-    {
-        for(SourceDataModel s : sources)
-        {
-            if(s.getUniqueId().compareTo(id) == 0)
-            {
-                return s;
-            }
-        }
-
-        return null;
-    }
-
-    /*
-     * This method creates, returns and adds to the list of observed sources a new Source
-     * with the given identification string. A source created this way has nothing else
-     * set yet, effectively making it empty.
-     */
-    private SourceDataModel createNewSource(String id)
-    {
-        SourceDataModel newSource = new SourceDataModel(id);
-        sources.add(newSource);
-        System.out.println("receivePacket:createNewSource sources: "+sources);
-        return newSource;
-    }
-
-    /*
-     * Once this class has done everything it needs to do, this method allows it to send off data to
-     * other sections of the program.
-     */
-    private void sendUpdates(SourceDataModel toUpdate, SourceDataModel correlated)
-    {
-	//Here the newly updated source and the correlated source are sent to be saved by the Database.
-	try
-	{
-	    System.out.println("receivePacket:sendUpdates toUpdate = "+ toUpdate);
-	    db.updateSourceBuilder(toUpdate.clone());
-	    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
-	    db.updateBuilder(correlated.clone());
-	}
-	catch(Exception e)
-	{}
-    System.out.println("receivePacket:sendUpdates correlated = "+ correlated);
-    System.out.println("receivePacket:sendUpdates sources = "+ sources);   
-    psd.packSupportingData(toUpdate, correlated, sources);
-    }
-
 }
