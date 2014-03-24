@@ -14,6 +14,6 @@ public interface SourceDataAccessor {
 	public List<SourceDataModel> querySourceBuilder(String sourceType,
             String uniqueId, long fromTime) throws SQLException;
 
-	public void shutdown();
+	public void shutdown() throws SQLException;
 		
 }
