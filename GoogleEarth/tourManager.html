@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tour Manager</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow = null;
+      var parentURI = null;
+      var blank = ".....";
+      var tourData = [];
+      var tourPoints = [];
+      
+      function getTours() {
+        var url = "getTours.php";
+        var element = document.getElementById("tourname");
+        element.innerHTML = "";
+        var temp = document.createElement("option");
+        temp.text = blank;
+        element.add(temp);
+
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            console.log("getTours name "+value.name);
+            var option = document.createElement("option");
+            option.text = value.name;
+            element.add(option);
+            var tourInfo = {
+                    id:value.id,
+                    name:value.name,
+                    desc:value.description
+            };
+            tourData.push(tourInfo);
+          });        
+        });
+      }
+      
+      function addPointToList(obj) {
+        var found = false;
+        //Check for this id in the list
+        for (var i = 0; i < tourPoints.length; i++) {
+          if (obj.id == tourPoints[i].id) {
+            found = true;
+            break;
+          }
+        }
+
+        //If id not in list add it
+        if (false == found) {
+          console.log("addPointToList found new point id "+obj.id+" lat "+obj.lat+" lon "+obj.lon);
+          tourPoints.push(obj);
+        }
+      }
+      
+      function selectTourName() {
+        var name = document.getElementById("tourname");
+        var value = name.options[name.selectedIndex].value;
+        if (value == blank) {
+          return;
+        }
+        var desc = document.getElementById("tourdesc");
+        var points = document.getElementById("points");
+        var id;
+        for (var i = 0; i < tourData.length; i++) {
+          if (value == tourData[i].name) {
+            desc.innerHTML = tourData[i].desc;
+            points.innerHTML = "<li>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LNG</li>";
+            id = tourData[i].id;
+            //Get the points associated with this tour
+            var url = "getTourPoints.php?id="+id;
+            $.post(url, {}, function(data) {
+              $.each(data,function(key,value) {
+                lat = value.latitude;
+                lon = value.longitude;
+                var tourPoint = {
+                    id:id,
+                    lat:lat,
+                    lon:lon
+                };
+                addPointToList(tourPoint);
+                console.log("updatePoints lat "+lat+" lon "+lon);
+                points.innerHTML += "<li>"+id+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lat+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lon+"</li>";
+                id++;
+              });
+            });
+            break;
+          }
+        }
+        
+      }
+      
+      function playTour() {
+        //Get the name of the tour selected
+        var widget = document.getElementById("tourname");
+        var name = widget.options[widget.selectedIndex].value;
+        var id = null;
+        //Get the id of the tour selected
+        for (var i = 0; i < tourData.length; i++) {
+          if (name == tourData[i].name) {
+            id = tourData[i].id;
+          }
+        }
+        
+        //If the tour id was found
+        if (null != id) {
+          //Call php script to write the range out command to the database
+          var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"play tour",data1:id,data2:null,data3:null}, function(data) {
+          });
+        }
+      }
+
+      function deleteTour() {
+        //Get the name of the tour selected
+        var widget = document.getElementById("tourname");
+        var name = widget.options[widget.selectedIndex].value;
+        var id = null;
+        //Get the id of the tour selected
+        for (var i = 0; i < tourData.length; i++) {
+          if (name == tourData[i].name) {
+            id = tourData[i].id;
+          }
+        }
+        
+        if (id != null) {
+            var url = "deleteTour.php";
+            $.post(url, {id:id}, function(data) {
+            });
+        }
+      }
+      
+      function clearTour() {
+        //Call php script to write the range out command to the database
+        var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
+
+        //Write command to database
+        $.post(url, {command:"clear tour",data1:null,data2:null,data3:null}, function(data) {
+        });
+      }
+
+      function addTour() {
+        var width = 250;
+        var height = 500; 
+        var myWindow = window.open("enterTour.html","","width="+width+",height="+height);
+        //Set focus on new window
+        myWindow.focus();
+        //Move window location
+        myWindow.moveTo(1050,0);      
+      }
+
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          //if(event.origin !== 'http://localhost:8888') return;
+          //alert("viewManager received event from "+event.source);
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "tour",
+            value : "tourManager received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+        
+        //Get locations from database
+        getTours();
+        
+        window.onunload=function(){clearTour()};
+      }
+      </script>
+    </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div>
+      <h3>Name</h3>
+      <select name="tourname" id="tourname" class="select" onchange=selectTourName()>
+      </select>
+      <h3>Description</h3>
+      <textarea id=tourdesc class="textarea" placeholder=description></textarea><br /><br />
+      <label>POINTS</label>
+      <ul id="points">
+        <li>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LNG</li>
+      </ul>
+      <br />
+      <input type="button" class="button" value="Play Tour" id="playtour" onclick=playTour()><br />
+      <input type="button" class="button" value="Add Tour" id="addtour" onclick=addTour()><br />
+      <input type="button" class="button" value="Delete Tour" id="deletetour" onclick=deleteTour()><br />
+      <input type="button" class="button" value="Clear Tour" id="deletetour" onclick=clearTour()>
+    </div>
+  </body>
+</html>
