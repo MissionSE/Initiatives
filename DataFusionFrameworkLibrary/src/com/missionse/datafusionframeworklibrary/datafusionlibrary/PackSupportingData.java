@@ -1,6 +1,7 @@
 package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
@@ -12,18 +13,21 @@ public class PackSupportingData {
 	//Reference to the ObjectRefinementModule, which receives data once it has been through this module.
 	ObjectRefinementModule orm;
 	SourceDataAccessor db;
-
+    Map<Integer, ObjectRefinementModule> trackRefinement = null;
+	
 	public PackSupportingData(SourceDataAccessor db)
 	{
 		this.db = db; 
 		orm = null;
+		trackRefinement = new HashMap<Integer, ObjectRefinementModule>();
 	}
 
 	/*
 	 * Once this class has done everything it needs to do, this method allows it to send off data to
 	 * other sections of the program.
 	 */
-	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, ArrayList<SourceDataModel> sources)
+	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, 
+			ArrayList<SourceDataModel> sources, Integer trackKey)
 	{
 
 		//Checks to see if the ObjectRefinementModule has been hooked up yet.
@@ -36,6 +40,7 @@ public class PackSupportingData {
 			 */
 
 			orm = new ObjectRefinementModule(toUpdate.clone(), db);
+			//trackRefinement.put(trackKey, orm);
 			System.out.println("psd: instantiated orm, db: "+ db);
 		}
 		else
@@ -54,6 +59,7 @@ public class PackSupportingData {
 				toSend.add(sources.get(i).clone());
 			}
 			System.out.println("psd toSend: "+toSend);
+			//orm = trackRefinement.get(trackKey);
 			orm.refineObject(toSend.toArray(new SourceDataModel[0]));
 		}
 	}

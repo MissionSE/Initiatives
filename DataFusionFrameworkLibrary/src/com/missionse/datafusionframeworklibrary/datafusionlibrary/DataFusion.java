@@ -180,6 +180,8 @@ public class DataFusion implements DataFusionProvider {
 			SourceDataModel correlated) {
 		// Here the newly updated source and the correlated source are sent to
 		// be saved by the Database.
+		Integer compositeTrackKey = 0;
+		
 		try {
 			sdb.updateSourceBuilder(toUpdate.clone());
 			sdb.updateSourceBuilder(correlated.clone());
@@ -187,7 +189,7 @@ public class DataFusion implements DataFusionProvider {
 		}
 		System.out.println("dataFusion:sendUpdates correlated = " + correlated);
 		System.out.println("dataFusion:sendUpdates sources = " + sources);
-		psd.packSupportingData(toUpdate, correlated, sources);
+		psd.packSupportingData(toUpdate, correlated, sources, compositeTrackKey);
 	}
 
 }
