@@ -1,7 +1,11 @@
 package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataModel;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
@@ -13,17 +17,19 @@ public class Evaluation {
 	private boolean performNonKinematic = false;
 	private boolean performKinematic = true;
 	private boolean extrapolate = false;
-	
+
+	CompositeDataAccessor db;
+
 	NonKinematicTest nkt;
 	KinematicTest kt;
 	Extrapolation ex;
-	Sort sl;
 
-	public Evaluation() {
+	public Evaluation(CompositeDataAccessor compositeDataAccess) {
+
+		this.db = compositeDataAccess;
 		nkt = new NonKinematicTest();
 		kt = new KinematicTest();
 		ex = new Extrapolation();
-		sl = new Sort();
 	}
 
 	/**
@@ -31,53 +37,51 @@ public class Evaluation {
 	 * tracks to determine if data is associated. a list of candidates will be
 	 * assembled.
 	 */
-	public ArrayList<String> evaluateInput(SourceDataModel toUpdate) {
+	public ArrayList<Candidate> evaluateInput(SourceDataModel toUpdate) {
 
-        System.out.println("evaluateInput toUpdate: "+toUpdate);
-		
-        boolean valid = true;
-		
-        // create working array for candidate data
+		System.out.println("evaluateInput toUpdate: " + toUpdate);
+
+		boolean valid = true;
+
+		// create working array for candidate data
 		Candidate cand = new Candidate();
 		ArrayList<Candidate> candList = new ArrayList<Candidate>();
 
-		// create return array of candidate is id's
-		ArrayList<String> candidates = new ArrayList<String>();
+		List<CompositeDataModel> dbList = null;
 
+//		// loop thru all tracks in db
+//		try {
+//			dbList = db.queryCompositeBuilder();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		// loop thru all tracks in db
+		System.out.println("evaluateInput dbList: " + dbList);
 
-		if (performNonKinematic)
-			valid = nkt.nonKinematicTest();
+//		for (CompositeDataModel item : dbList) {
 
-		if (valid && extrapolate)
-			ex.extrapolateTrack();
+			if (performNonKinematic)
+				valid = nkt.nonKinematicTest();
 
-		if (valid && performKinematic)
-			valid = kt.kinematicTest();
-		
-		System.out.println("evaluateInput valid: " +valid);
-		
-		// if track passes all tests, add to candidate list
-		if (valid) {
-			cand.setUniqueId("0001");
-			candList.add(cand);
-		}
-		System.out.println("evaluateInput cand: "+cand.getUniqueId()); 
-		// end loop thru all tracks in db
+			if (valid && extrapolate)
+				ex.extrapolateTrack();
 
-		// if candidates found
-		if (!candList.isEmpty()){
-			
-            // sort candidate list
-			ArrayList<Candidate> sorted = sl.sortList(candList);
+			CompositeDataModel item = null; //temp sso
+			if (valid && performKinematic)
+				valid = kt.kinematicTest(toUpdate, item);
 
-			// filter uniqueId
-			for (Candidate c : sorted) {
-				candidates.add(c.getUniqueId());
+			System.out.println("evaluateInput valid: " + valid);
+
+			// if track passes all tests, add to candidate list
+			if (valid) {
+				cand.setUniqueId("3CS");
+				candList.add(cand);
 			}
-		}
-		return candidates;
-	}
+			System.out.println("evaluateInput cand: " + cand.getUniqueId());
+			// end loop thru all tracks in db
 
+//		}
+		return candList;
+	}
 }

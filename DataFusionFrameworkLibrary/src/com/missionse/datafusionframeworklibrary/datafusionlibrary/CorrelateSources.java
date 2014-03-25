@@ -19,8 +19,9 @@ public class CorrelateSources
 	 * This method creates a new ArrayList, adds to it clones of the sources this class is observing
 	 * and send off the list to be correlated by the CommonFieldParser. It will return the correlated
 	 * source that is returned by the parser.
+	 * @param uniqueId 
 	 */
-	public SourceDataModel correlateSources(SourceDataModel toUpdate, ArrayList<SourceDataModel> sources)
+	public SourceDataModel correlateSources(SourceDataModel toUpdate, ArrayList<SourceDataModel> sources, String uniqueId)
 	{
 		if(sources.size() == 1)
 		{
@@ -34,7 +35,7 @@ public class CorrelateSources
 		    toCorrelate.add(sources.get(i).clone());
 		}
 		System.out.println("cs: toCorrelate"+toCorrelate);
-		return cfp.correlateSources(toCorrelate, "3CS");
+		return cfp.correlateSources(toCorrelate, uniqueId);
 
 	}
 
