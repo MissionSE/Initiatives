@@ -2,6 +2,8 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 
 import java.util.ArrayList;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
+
 public interface DataAssociationProvider {
 
 	/**
@@ -9,5 +11,5 @@ public interface DataAssociationProvider {
 	 * @param parsedData
 	 * @return
 	 */
-	public ArrayList<String> associateMeasurement(String[] parsedData);
+	public ArrayList<String> associateMeasurement(SourceDataModel toUpdate);
 }

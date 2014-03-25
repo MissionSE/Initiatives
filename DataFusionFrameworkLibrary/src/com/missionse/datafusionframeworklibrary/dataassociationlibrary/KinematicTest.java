@@ -55,7 +55,7 @@ public class KinematicTest {
 	{
 		double distance;  
 		distance  = distance(x1,y1,z1,x2,y2,z2);
-        System.out.println("KinematicTest XYZposAssociation: "+distance);        // create return array of candidate is'd
+//        System.out.println("KinematicTest XYZposAssociation: "+distance);        // create return array of candidate is'd
 		
         // compare position difference with range gate
 		if (distance < range_gate)
@@ -81,7 +81,7 @@ public class KinematicTest {
 	{
 		double velocity;  
 		velocity  = velocity(vx1,vy1,vz1,vx2,vy2,vz2);				
-        System.out.println("KinematicTest XYZvelAssociation: "+velocity);        // create return array of candidate is'd
+//        System.out.println("KinematicTest XYZvelAssociation: "+velocity);        // create return array of candidate is'd
 
         // compare velocity difference with speed gate
 		if (velocity < speed_gate)

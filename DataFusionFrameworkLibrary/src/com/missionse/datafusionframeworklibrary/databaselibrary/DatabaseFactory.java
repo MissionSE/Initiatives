@@ -4,8 +4,6 @@ import java.sql.SQLException;
 
 public class DatabaseFactory implements DatabaseProvider {
 
-	private SourceDataAccessor sourceDataHandle = null;
-	private CompositeDataAccessor compositeDataHandle = null;
 	private Database database = null;
 
 	public DatabaseFactory() {
@@ -21,11 +19,11 @@ public class DatabaseFactory implements DatabaseProvider {
 	}
 
 	public SourceDataAccessor getSourceDataAccessor() {
-		return sourceDataHandle;
+		return database;
 	}
 
 	public CompositeDataAccessor getCompositeDataAccessor() {
-		return compositeDataHandle;
+		return database;
 	}
 
 	public void shutdown() {

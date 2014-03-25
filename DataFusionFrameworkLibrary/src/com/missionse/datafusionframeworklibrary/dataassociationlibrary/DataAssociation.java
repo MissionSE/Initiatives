@@ -3,7 +3,6 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
@@ -12,7 +11,7 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  * data in the form of strings through the method associateMeasurement. Tests will
  * be performed against existing tracks. A list of associated candidates will be returned.
  */
-public class DataAssociation {
+public class DataAssociation implements DataAssociationProvider {
 
 	// Reference to the database
 	CompositeDataAccessor cdb;
@@ -36,8 +35,6 @@ public class DataAssociation {
 	 * be returned.
 	 */
 	public ArrayList<String> associateMeasurement(SourceDataModel toUpdate) {
-
-		System.out.println("associateMeasurement toUpdate: " + toUpdate);
 
 		// create return array of candidates id's
 		ArrayList<String> candidateIds = new ArrayList<String>();

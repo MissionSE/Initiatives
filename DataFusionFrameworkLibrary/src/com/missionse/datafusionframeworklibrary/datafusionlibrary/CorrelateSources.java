@@ -2,7 +2,6 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
 
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class CorrelateSources

@@ -14,7 +14,7 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  * with the given data, calls the CommonFieldParser to correlate it with other Sources and sends
  * off the data to other parts of the program.
  */
-public class DataFusion {
+public class DataFusion implements DataFusionProvider {
 	// Reference to package classes
 	DataAssociation da;
 	Number n;
@@ -91,45 +91,42 @@ public class DataFusion {
 		 * created one, update the source with.
 		 */
 		toUpdate.update(parsedData);
-		System.out.println("dataFusion toUpdate: " + toUpdate);
 
 		// Here the newly updated source is sent to be saved by the Database
-//		try {
-//			sdb.updateSourceBuilder(toUpdate.clone());
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		// try {
+		// sdb.updateSourceBuilder(toUpdate.clone());
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
-		System.out.println("dataFusion sources before association: " + sources);
-		
 		/*
 		 * This method will perform data association
 		 */
 		ArrayList<String> candidates = da.associateMeasurement(toUpdate);
 		System.out.println("dataFusion candidates: " + candidates);
-		
-		/* If no candidates are returned, then this is the first reception of
+
+		/*
+		 * If no candidates are returned, then this is the first reception of
 		 * source data for this object. Need to create a unique composite id to
 		 * store source data in composite db so that it can be candidate for
 		 * future associations
-		 * */
+		 */
 		String uniqueId;
 		if (candidates == null)
 			uniqueId = "3CS"; // uniqueId = n.getNum;
 		else
 			// TODO perform candidate validation
 			uniqueId = candidates.get(0);
-		
-		
+
 		// TODO populate sources with all contibuting source data of the
 		// composite track
-		
-		System.out.println("dataFusion sources : " +sources);
-		System.out.println("dataFusion uniqueId: " +uniqueId);
+
+		System.out.println("dataFusion sources : " + sources);
 
 		// Correlate all observed data into a correlated source.
-		SourceDataModel correlated = cs.correlateSources(toUpdate, sources, uniqueId);
+		SourceDataModel correlated = cs.correlateSources(toUpdate, sources,
+				uniqueId);
 
 		System.out.println("dataFusion correlated: " + correlated);
 
@@ -144,6 +141,16 @@ public class DataFusion {
 	 * null.
 	 */
 	private SourceDataModel searchExistingSources(String id) {
+		SourceDataModel source = null;
+		try {
+			source = sdb.querySourceBuilder(id, System.currentTimeMillis());
+			System.out.println("dataFusion source: " + source);
+			return source;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		for (SourceDataModel s : sources) {
 			if (s.getUniqueId().compareTo(id) == 0) {
 				return s;
@@ -174,10 +181,7 @@ public class DataFusion {
 		// Here the newly updated source and the correlated source are sent to
 		// be saved by the Database.
 		try {
-			System.out.println("dataFusion:sendUpdates toUpdate = " + toUpdate);
 			sdb.updateSourceBuilder(toUpdate.clone());
-			System.out.println("dataFusion:sendUpdates correlated = "
-					+ correlated);
 			sdb.updateSourceBuilder(correlated.clone());
 		} catch (Exception e) {
 		}
