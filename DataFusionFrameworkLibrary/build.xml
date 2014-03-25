@@ -1,39 +1,30 @@
-<project name="Correlator" default="jar" basedir=".">
-	<description>
-		This build file will build the Correlator package.
-	</description>
-
+<project name="DataFusionFrameworkLibrary" default="jar" basedir=".">
+    <description>
+    	This build file will build the Fusion/Correlator package.
+    </description>
+  <!-- set global properties for this build -->
 	<property name="src" value="src" />
-	<property name="build" value="deploy" />
+	<property name="build.dir" value="dist" />
 	<property name="classes.dir" value="${build.dir}/classes" />
 	<property name="jar.dir" value="${build.dir}/jar" />
-	<property name="main-class" value="com.missionse.correlator" />
-	<property name="localSdkPath" location="C:\Program Files (x86)\Java\jre7" />
-	<property name="eclipsePath" location="C:\Users\cbarone\Desktop\eclipse\configuration" />
-    <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-      
-	<target name="clean">
-		<delete dir="${build.dir}" />
-	</target>
+	<property name="localSdkPath" value="/usr/java/jre1.7.0_17" />
+	<property name="main-class" value="com.missionse.datafusionframeworklibrary" />
 
 	<path id="compile.classpath">
 		<fileset dir="${localSdkPath}">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${eclipsePath}">
 			<include name="*.jar" />
 		</fileset>
 	</path>
 
     <property name="classpath" refid="compile.classpath"/>
 	<target name="compile" description="compile the source">
-	<echo>$classpath </echo>
-		<!-- Compile the java code from ${src} into ${build} -->
-		<javac includeantruntime="true" srcdir="${src}" destdir="${build}"
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${classes.dir}"/>
+		<!-- Compile the java code from ${src} into ${build.dir} -->
+		<javac includeantruntime="true" srcdir="${src}" destdir="${build.dir}"
 			classpathref="compile.classpath" />
 	</target>
-
-
+	
 	<target name="jar" depends="compile">
 		<mkdir dir="${jar.dir}" />
 		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
@@ -43,12 +34,10 @@
 		</jar>
 	</target>
 
-	<target name="run" depends="jar">
-		<java jar="${jar.dir}/${ant.project.name}.jar" fork="true" />
-	</target>
-
-	<target name="clean-build" depends="clean,jar" />
-
-	<target name="main" depends="clean,run" />
-
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build.dir} and ${dist} directory trees -->
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist}"/>
+  </target>
 </project>
