@@ -7,11 +7,11 @@ public interface CompositeDataAccessor {
 
 	public List<String> fetchCompositeDataId() throws SQLException;
 		
-	public void updateCompositeBuilder(CompositeDataModel source) throws SQLException;
+	public void updateCompositeBuilder(SourceDataModel source) throws SQLException;
 	
-	public CompositeDataModel queryCompositeBuilder(String uniqueId, long desiredTime) throws SQLException;
+	public SourceDataModel queryCompositeBuilder(String uniqueId, long desiredTime) throws SQLException;
 	
-	public List<CompositeDataModel> queryCompositeBuilder(String sourceType,
+	public List<SourceDataModel> queryCompositeBuilder(String sourceType,
             String uniqueId, long fromTime) throws SQLException;
 
 	public void shutdown() throws SQLException;

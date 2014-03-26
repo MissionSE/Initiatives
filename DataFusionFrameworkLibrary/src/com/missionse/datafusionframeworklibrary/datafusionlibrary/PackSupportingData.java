@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
 
-	private SourceDataAccessor db;
+	private CompositeDataAccessor db;
     private Map<String, ObjectRefinementModule> trackRefinement = null;
 	
-	public PackSupportingData(SourceDataAccessor db)
+	public PackSupportingData(CompositeDataAccessor db)
 	{
 		this.db = db; 
 		trackRefinement = new HashMap<String, ObjectRefinementModule>();

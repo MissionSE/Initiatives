@@ -43,6 +43,7 @@ public class DataAssociation implements DataAssociationProvider {
 		ArrayList<Candidate> candidates = null;
 
 		candidates = eval.evaluateInput(toUpdate);
+		System.out.println("associateMeasurement candidates: " + candidates);
 		
 		// If candidates found
 		if (!candidates.isEmpty()) {

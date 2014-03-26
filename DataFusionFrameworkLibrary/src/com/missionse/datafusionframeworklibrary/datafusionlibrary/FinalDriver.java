@@ -39,7 +39,7 @@ public class FinalDriver {
         source1 = new SourceDataModel("1","S1", "platform", "category", 1, .3, 0.3, 99,
                 99, 99, 0.4, .1, .1, 40, 0.0, 41.99417, -119.305344, .1, 2500, 0.2);
 
-        source2 = new SourceDataModel("2","S2", "platform", "category", 1, 0.3, 0.2, 99,
+        source2 = new SourceDataModel("2","S2", "platform", "category", 1, 0.3, 0.25, 99,
                 99, 99, 0.3, .2, .1, 40, 0.0, 41.99422, -119.305333, .1, 2500, 0.2);
 
         //source1.setPositionLatitude(0.0);

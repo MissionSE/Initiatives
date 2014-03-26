@@ -49,7 +49,9 @@ public class Number {
         // else return no number available
         else return -1;
       // return new composite track number  
-      return n;  
+		System.out.println("getNum: "+n);
+
+        return n;  
 	}
 
 	public void deleteNum(int n){

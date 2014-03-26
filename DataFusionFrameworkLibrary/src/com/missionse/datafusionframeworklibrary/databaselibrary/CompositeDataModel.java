@@ -12,7 +12,7 @@ public class CompositeDataModel {
 	//The unique identification string for this composite.
 	private String uniqueId;
 	//
-	private Integer sourceTypeKey;
+	private String sourceTypeKey;
 	//The latitude position of the sensor.
 	private Double compositeLat;
 	//The longitude position of the sensor.
@@ -59,7 +59,7 @@ public class CompositeDataModel {
 	private Double fuel;
 
 	//For Database Purposes.
-	public CompositeDataModel(String uniqueId, int sourceTypeKey, String trackPlatform,
+	public CompositeDataModel(String uniqueId, String sourceTypeKey, String trackPlatform,
 			String trackCategory, int threatLevel, double speedX, double speedY, double compositeLat,
 			double compositeLong, double compositeAlt, double fuel, double errorX,
 			double errorY, double updateHertz, double depthZ, double positionLat, double positionLong,
@@ -162,11 +162,11 @@ public class CompositeDataModel {
 		uniqueId = id;
 	}
 
-	public Integer getSourceTypeKey() {
+	public String getSourceTypeKey() {
 		return sourceTypeKey;
 	}
 
-	public void setSourceTypeKey(Integer sourceTypeKey) {
+	public void setSourceTypeKey(String sourceTypeKey) {
 		this.sourceTypeKey = sourceTypeKey;
 	}
 

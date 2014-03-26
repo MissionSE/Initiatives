@@ -38,11 +38,11 @@ public class KinematicTest {
 	    double vz2 = candidate.getSpeedZ();
 	    double c1, c2;
 	    double h1, h2;
-//	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);
-//		valid = XYZvelAssociation(vx1, vy1, vz1, vx2, vy2, vz2);
+	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);
+		valid = XYZvelAssociation(vx1, vy1, vz1, vx2, vy2, vz2);
 //		valid = heightAssociation(h1, h2);
-	    valid = XYZposAssociation(41.99417, -119.305344, 2500.0, 41.9942, -119.305333, 2500.0);
-		valid = XYZvelAssociation(0.3, 0.3, 0.2, 0.3, 0.3, 0.2);
+//	    valid = XYZposAssociation(41.99417, -119.305344, 2500.0, 41.9942, -119.305333, 2500.0);
+//		valid = XYZvelAssociation(0.3, 0.3, 0.2, 0.3, 0.3, 0.2);
 
 		return valid;
 
@@ -55,7 +55,7 @@ public class KinematicTest {
 	{
 		double distance;  
 		distance  = distance(x1,y1,z1,x2,y2,z2);
-//        System.out.println("KinematicTest XYZposAssociation: "+distance);        // create return array of candidate is'd
+        System.out.println("KinematicTest XYZposAssociation: "+distance);        // create return array of candidate is'd
 		
         // compare position difference with range gate
 		if (distance < range_gate)
@@ -81,7 +81,7 @@ public class KinematicTest {
 	{
 		double velocity;  
 		velocity  = velocity(vx1,vy1,vz1,vx2,vy2,vz2);				
-//        System.out.println("KinematicTest XYZvelAssociation: "+velocity);        // create return array of candidate is'd
+        System.out.println("KinematicTest XYZvelAssociation: "+velocity);        // create return array of candidate is'd
 
         // compare velocity difference with speed gate
 		if (velocity < speed_gate)

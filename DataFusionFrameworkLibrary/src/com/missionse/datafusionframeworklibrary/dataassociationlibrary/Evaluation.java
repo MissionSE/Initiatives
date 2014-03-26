@@ -46,20 +46,21 @@ public class Evaluation {
 		Candidate cand = new Candidate();
 		ArrayList<Candidate> candList = new ArrayList<Candidate>();
 
-		SourceDataModel item = toUpdate; //temp sso
-		List<CompositeDataModel> dbList = null;
+		List<SourceDataModel> dbList = null;
 
-//		// loop thru all tracks in db
-//		try {
-//			dbList = db.queryCompositeBuilder();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+        // get list of all composite tracks
+		try {
+			dbList = db.queryCompositeBuilder(null,null,0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		System.out.println("evaluateInput dbList: " + dbList);
 
-//		for (CompositeDataModel item : dbList) {
+		// loop through list
+		for (SourceDataModel item : dbList) {
+			System.out.println("evaluateInput item: " + item);
 
 			if (performNonKinematic)
 				valid = nkt.nonKinematicTest();
@@ -77,10 +78,9 @@ public class Evaluation {
 				cand.setUniqueId(item.getUniqueId());
 				candList.add(cand);
 			}
-			System.out.println("evaluateInput cand: " + cand.getUniqueId());
 			// end loop thru all tracks in db
 
-//		}
+		}
 		return candList;
 	}
 }
