@@ -13,13 +13,13 @@ public class PackSupportingData {
 	//Reference to the ObjectRefinementModule, which receives data once it has been through this module.
 	ObjectRefinementModule orm;
 	SourceDataAccessor db;
-    Map<Integer, ObjectRefinementModule> trackRefinement = null;
+    Map<String, ObjectRefinementModule> trackRefinement = null;
 	
 	public PackSupportingData(SourceDataAccessor db)
 	{
 		this.db = db; 
 		orm = null;
-		trackRefinement = new HashMap<Integer, ObjectRefinementModule>();
+		trackRefinement = new HashMap<String, ObjectRefinementModule>();
 	}
 
 	/*
@@ -27,7 +27,7 @@ public class PackSupportingData {
 	 * other sections of the program.
 	 */
 	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, 
-			ArrayList<SourceDataModel> sources, Integer trackKey)
+			ArrayList<SourceDataModel> sources, String trackKey)
 	{
 
 		//Checks to see if the ObjectRefinementModule has been hooked up yet.

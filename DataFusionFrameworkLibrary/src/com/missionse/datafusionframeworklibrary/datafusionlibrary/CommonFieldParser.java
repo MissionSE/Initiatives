@@ -20,7 +20,7 @@ public class CommonFieldParser
      */
     public SourceDataModel correlateSources(ArrayList<SourceDataModel> toCorrelate, String id)
     {
-	//All correlated sources in the program are created with a identification of 3CS.
+	//All correlated sources in the program are created with a identification of Cxxx.
 	SourceDataModel correlated = new SourceDataModel(id);
 	//Create storage for unused sources during steps of the correlation process.
 	ArrayList<SourceDataModel> unused = new ArrayList<SourceDataModel>();
