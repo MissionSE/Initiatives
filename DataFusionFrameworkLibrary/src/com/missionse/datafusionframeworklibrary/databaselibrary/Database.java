@@ -374,6 +374,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		
 		if ((source == null) || (source.getUniqueId() == null)) {
 			//throw exception.
+			return;
 		}
 		//Before executing any statements, make sure that the uniqueId doesn't
 		//already exist in the database.
@@ -454,7 +455,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 
 			//sourceTrackData Information
 			String dynamicQuery = "UPDATE sourceTrackData SET "
-					+ "uniqueId=?,"
 					+ "sourceTrackType=?,"
 					+ "threat=?,"
 					+ "latitude=?,"
@@ -473,12 +473,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "positionY=?,"
 					+ "positionZ=?,"
 					+ "trackPlatform=?,"
-					+ "trackCategory=?";
+					+ "trackCategory=?"
+					+ "WHERE uniqueId=?";
 			
 			PreparedStatement dynamicStatement = conn.prepareStatement(dynamicQuery);
 
 
-			dynamicStatement.setString(1, source.getUniqueId());
+			//dynamicStatement.setString(1, source.getUniqueId());
 
 			/*
 			 * Java's interpretation of null and SQL interpretation of NULL are two
@@ -490,118 +491,120 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			 * which will specifically set the column value to SQL NULL.
 			 */
 			if (source.getSourceTrackType() != null) {
-				dynamicStatement.setString(2, source.getSourceTrackType());
+				dynamicStatement.setString(1, source.getSourceTrackType());
+			} else {
+				dynamicStatement.setNull(1, 8);
+			}
+
+			if (source.getThreatLevel() != null) {
+				dynamicStatement.setInt(2, source.getThreatLevel());
 			} else {
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getThreatLevel() != null) {
-				dynamicStatement.setInt(3, source.getThreatLevel());
+			if (source.getSourceLatitude() != null) {
+				dynamicStatement.setDouble(3, source.getSourceLatitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
 
-			if (source.getSourceLatitude() != null) {
-				dynamicStatement.setDouble(4, source.getSourceLatitude());
+			if (source.getSourceLongitude() != null) {
+				dynamicStatement.setDouble(4, source.getSourceLongitude());
 			} else {
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getSourceLongitude() != null) {
-				dynamicStatement.setDouble(5, source.getSourceLongitude());
+			if (source.getSourceAltitude() != null) {
+				dynamicStatement.setDouble(5, source.getSourceAltitude());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getSourceAltitude() != null) {
-				dynamicStatement.setDouble(6, source.getSourceAltitude());
+			if (source.getFuel() != null) {
+				dynamicStatement.setDouble(6, source.getFuel());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(7, source.getFuel());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(7, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedX());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(8, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedY());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(9, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(10, source.getSpeedZ());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(10, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(11, source.getUpdateHertz());
+			if (source.getDepthZ() != null) {
+				dynamicStatement.setDouble(11, source.getDepthZ());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(12, source.getDepthZ());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(12, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(13, source.getErrorX());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(13, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(14, source.getErrorY());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(14, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(15, source.getErrorZ());
+			if (source.getPositionLatitude() != null) {
+				dynamicStatement.setDouble(15, source.getPositionLatitude());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLatitude());
+			if (source.getPositionLongitude() != null) {
+				dynamicStatement.setDouble(16, source.getPositionLongitude());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionLongitude());
+			if (source.getPositionAltitude() != null) {
+				dynamicStatement.setDouble(17, source.getPositionAltitude());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(18, source.getPositionAltitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(18, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(18, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(19, source.getTrackPlatform());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(19, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(19, 8);
 			}
-
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(20, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(20, 8);
-			}
+			
+			dynamicStatement.setString(20, source.getUniqueId());
 			/*
 			 * After execution of the statement, the connection should be closed
 			 * to free up resources in the databse.
@@ -931,7 +934,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 
 			//fusedTrackData Information
 			String dynamicQuery = "UPDATE compositeTrackData SET"
-					+ "uniqueId=?,"
 					+ "sourceTypeKey=?,"
 					+ "threat=?,"
 					+ "latitude=?,"
@@ -950,11 +952,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "positionY=?,"
 					+ "positionZ=?,"
 					+ "trackPlatform=?,"
-					+ "trackCategory=?";
+					+ "trackCategory=?"
+					+ "WHERE uniqueId=?";
 
 			PreparedStatement dynamicStatement = conn.prepareStatement(dynamicQuery);
-
-			dynamicStatement.setString(1, source.getUniqueId());
 
 
 			/*
@@ -967,13 +968,19 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			 * which will specifically set the column value to SQL NULL.
 			 */
 			if (source.getSourceTypeKey() != null) {
-				dynamicStatement.setInt(2, source.getSourceTypeKey());
+				dynamicStatement.setInt(1, source.getSourceTypeKey());
+			} else {
+				dynamicStatement.setNull(1, 8);
+			}
+
+			if (source.getThreatLevel() != null) {
+				dynamicStatement.setInt(2, source.getThreatLevel());
 			} else {
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getThreatLevel() != null) {
-				dynamicStatement.setInt(3, source.getThreatLevel());
+			if (source.getCompositeLatitude() != null) {
+				dynamicStatement.setDouble(3, source.getCompositeLatitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
@@ -984,101 +991,98 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getCompositeLatitude() != null) {
-				dynamicStatement.setDouble(5, source.getCompositeLatitude());
+			if (source.getCompositeAltitude() != null) {
+				dynamicStatement.setDouble(5, source.getCompositeAltitude());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getCompositeAltitude() != null) {
-				dynamicStatement.setDouble(6, source.getCompositeAltitude());
+			if (source.getFuel() != null) {
+				dynamicStatement.setDouble(6, source.getFuel());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(7, source.getFuel());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(7, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedX());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(8, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedY());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(9, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(10, source.getSpeedZ());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(10, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(11, source.getUpdateHertz());
+			if (source.getDepthZ() != null) {
+				dynamicStatement.setDouble(11, source.getDepthZ());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(12, source.getDepthZ());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(12, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(13, source.getErrorX());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(13, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(14, source.getErrorY());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(14, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(15, source.getErrorZ());
+			if (source.getPositionLatitude() != null) {
+				dynamicStatement.setDouble(15, source.getPositionLatitude());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLatitude());
+			if (source.getPositionLongitude() != null) {
+				dynamicStatement.setDouble(16, source.getPositionLongitude());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionLongitude());
+			if (source.getPositionAltitude() != null) {
+				dynamicStatement.setDouble(17, source.getPositionAltitude());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(18, source.getPositionAltitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(18, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(18, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(19, source.getTrackPlatform());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(19, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(19, 8);
 			}
-
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(20, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(20, 8);
-			}
+			
+			dynamicStatement.setString(20, source.getUniqueId());
+			
 			/*
 			 * After execution of the statement, the connection should be closed
 			 * to free up resources in the databse.
