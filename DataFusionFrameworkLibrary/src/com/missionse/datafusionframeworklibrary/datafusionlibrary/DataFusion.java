@@ -2,6 +2,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
@@ -72,11 +73,11 @@ public class DataFusion implements DataFusionProvider {
 	 */
 	public void dataFusion(String[] parsedData) {
 
-		System.out.println("dataFusion parsedData[0]: " + parsedData[0]);
+		System.out.println("dataFusion parsedData[uniqueId]: " + parsedData[0]);
 
 		// Storage for, and retrieval of, the Source this data represents.
 		SourceDataModel toUpdate = searchExistingSources(parsedData[0]);
-		System.out.println("dataFusion sources: " + sources);
+		System.out.println("dataFusion toUpdate found?: " + toUpdate);		
 
 		/*
 		 * If this program is not yet observing a Source with the given unique
@@ -113,13 +114,17 @@ public class DataFusion implements DataFusionProvider {
 		 * future associations
 		 */
 		String uniqueId;
+		String c = "C";
 		if (candidates == null)
-			uniqueId = "3CS"; // uniqueId = n.getNum;
+			uniqueId = Integer.toString(n.getNum());
 		else
 			// TODO perform candidate validation
 			uniqueId = candidates.get(0);
+		uniqueId = c+uniqueId;
 
-		// TODO populate sources with all contibuting source data of the
+		System.out.println("dataFusion uniqueId : " +uniqueId);
+		
+		// TODO populate sources with all contributing source data of the
 		// composite track
 
 		System.out.println("dataFusion sources : " + sources);
@@ -144,8 +149,8 @@ public class DataFusion implements DataFusionProvider {
 		SourceDataModel source = null;
 		try {
 			source = sdb.querySourceBuilder(id, System.currentTimeMillis());
-			System.out.println("dataFusion source: " + source);
-			return source;
+			System.out.println("dataFusion:searchExistingSources source: " + source);
+			if (source != null)return source; //temp sso
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,16 +185,25 @@ public class DataFusion implements DataFusionProvider {
 			SourceDataModel correlated) {
 		// Here the newly updated source and the correlated source are sent to
 		// be saved by the Database.
-		Integer compositeTrackKey = 0;
+		String compositeTrackKey = correlated.getUniqueId();
 		
 		try {
-			sdb.updateSourceBuilder(toUpdate.clone());
-			sdb.updateSourceBuilder(correlated.clone());
+			sdb.updateSourceBuilder(toUpdate);
+			sdb.updateSourceBuilder(correlated);
 		} catch (Exception e) {
 		}
 		System.out.println("dataFusion:sendUpdates correlated = " + correlated);
 		System.out.println("dataFusion:sendUpdates sources = " + sources);
 		psd.packSupportingData(toUpdate, correlated, sources, compositeTrackKey);
+		List<String> test = new ArrayList<String>();
+	    try {
+			test = sdb.fetchSourceDataId();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("dataFusion:test = " + test);
+
 	}
 
 }
