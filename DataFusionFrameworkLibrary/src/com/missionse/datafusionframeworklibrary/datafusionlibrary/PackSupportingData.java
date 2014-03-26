@@ -10,15 +10,12 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
 
-	//Reference to the ObjectRefinementModule, which receives data once it has been through this module.
-	ObjectRefinementModule orm;
-	SourceDataAccessor db;
-    Map<String, ObjectRefinementModule> trackRefinement = null;
+	private SourceDataAccessor db;
+    private Map<String, ObjectRefinementModule> trackRefinement = null;
 	
 	public PackSupportingData(SourceDataAccessor db)
 	{
 		this.db = db; 
-		orm = null;
 		trackRefinement = new HashMap<String, ObjectRefinementModule>();
 	}
 
@@ -29,8 +26,7 @@ public class PackSupportingData {
 	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, 
 			ArrayList<SourceDataModel> sources, String trackKey)
 	{
-
-		//Checks to see if the ObjectRefinementModule has been hooked up yet.
+		ObjectRefinementModule orm = trackRefinement.get(trackKey);
 		if(orm == null)
 		{
 			/*
@@ -40,7 +36,7 @@ public class PackSupportingData {
 			 */
 
 			orm = new ObjectRefinementModule(toUpdate.clone(), db);
-			//trackRefinement.put(trackKey, orm);
+			trackRefinement.put(trackKey, orm);
 			System.out.println("psd: instantiated orm, db: "+ db);
 		}
 		else
@@ -51,16 +47,16 @@ public class PackSupportingData {
 			 * of Sources with that same format that can be sent off to the ObjectRefinementModule.
 			 */
 			ArrayList<SourceDataModel> toSend = new ArrayList<SourceDataModel>();
-
 			toSend.add(correlated);
-
 			for(int i = 0; i < sources.size(); i++)
 			{
 				toSend.add(sources.get(i).clone());
 			}
+			
 			System.out.println("psd toSend: "+toSend);
-			//orm = trackRefinement.get(trackKey);
-			orm.refineObject(toSend.toArray(new SourceDataModel[0]));
+			SourceDataModel[] toSendArray = new SourceDataModel[toSend.size()];
+			toSend.toArray(toSendArray);
+			orm.refineObject(toSendArray);
 		}
 	}
 
