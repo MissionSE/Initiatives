@@ -21,21 +21,21 @@ public class KinematicTest {
 	 * @param item 
 	 * @param toUpdate 
 	 */
-	public boolean kinematicTest(SourceDataModel source, CompositeDataModel candidate)
+	public boolean kinematicTest(SourceDataModel source, SourceDataModel candidate)
 	{
 		boolean valid = false;
 	    double x1 = source.getPositionLatitude();
-//	    double x2 = candidate.getPositionLatitude();
+	    double x2 = candidate.getPositionLatitude();
 	    double y1 = source.getPositionLongitude();
-//	    double y2 = candidate.getPositionLongitude();
+	    double y2 = candidate.getPositionLongitude();
 	    double z1 = source.getPositionAltitude();
-//	    double z2 = candidate.getPositionAltitude();
+	    double z2 = candidate.getPositionAltitude();
 	    double vx1 = source.getSpeedX();
-//	    double vx2 = candidate.getSpeedX();
+	    double vx2 = candidate.getSpeedX();
 	    double vy1 = source.getSpeedY();
-//	    double vy2 = candidate.getSpeedY();
+	    double vy2 = candidate.getSpeedY();
 	    double vz1 = source.getSpeedZ();
-//	    double vz2 = candidate.getSpeedZ();
+	    double vz2 = candidate.getSpeedZ();
 	    double c1, c2;
 	    double h1, h2;
 //	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);

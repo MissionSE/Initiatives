@@ -97,8 +97,8 @@ public class PacketReceiver
 	 * to represent sources or if the data does not contain an unique identifier, something has
 	 * gone wrong and the data is ignored.
 	 */
-        System.out.println("receivePacket parsedData.length: "+parsedData.length);
-        System.out.println("receivePacket numSourceVariables: "+numSourceVariables); 
+//        System.out.println("receivePacket parsedData.length: "+parsedData.length);
+//        System.out.println("receivePacket numSourceVariables: "+numSourceVariables); 
         
         if(parsedData.length != numSourceVariables || parsedData[0].compareTo("") == 0)
         {

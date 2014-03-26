@@ -46,6 +46,7 @@ public class Evaluation {
 		Candidate cand = new Candidate();
 		ArrayList<Candidate> candList = new ArrayList<Candidate>();
 
+		SourceDataModel item = toUpdate; //temp sso
 		List<CompositeDataModel> dbList = null;
 
 //		// loop thru all tracks in db
@@ -66,7 +67,6 @@ public class Evaluation {
 			if (valid && extrapolate)
 				ex.extrapolateTrack();
 
-			CompositeDataModel item = null; //temp sso
 			if (valid && performKinematic)
 				valid = kt.kinematicTest(toUpdate, item);
 
@@ -74,7 +74,7 @@ public class Evaluation {
 
 			// if track passes all tests, add to candidate list
 			if (valid) {
-				cand.setUniqueId("3CS");
+				cand.setUniqueId(item.getUniqueId());
 				candList.add(cand);
 			}
 			System.out.println("evaluateInput cand: " + cand.getUniqueId());
