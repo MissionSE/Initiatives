@@ -172,6 +172,8 @@ public class ObjectRefinementModule {
 		SourceDataModel temp = sourceDataModels[0]; // Corresponds to correlated
 													// Source
 
+		System.out.println("sourceDataModels.length == "+sourceDataModels.length);
+
 		// Check whether we only have one source to fuse, thus we only compute
 		// Correction
 		// for the single updated measurement
@@ -193,7 +195,7 @@ public class ObjectRefinementModule {
 				tempStateVector.plusEquals(computeCorrectionPhase(temp));
 
 			}
-			// System.out.println("tempStateVector= " + tempStateVector);
+			System.out.println("tempStateVector= " + tempStateVector);
 
 			// Now that each measurementSource has been Kalmanized and added
 			// together,
@@ -208,11 +210,12 @@ public class ObjectRefinementModule {
 			// new
 			// state_X_post based off of it.
 			// state_x_post = new Matrix(averageVector);
+			System.out.println("averageVector[0][0]= " + averageVector[0][0]);
+
 		}
-		// System.out.println("state_x_post= " + state_x_post);
 		// Assemble the new source from state vector
 		SourceDataModel updatedSource = reconstructSource(sourceDataModels[0]);
-		System.out.println("orm: updatedSource= " + updatedSource);
+System.out.println("orm: updatedSource= " + updatedSource);
 
 		// Update the prevSpeed for our Object for future acceleration
 		// computation'
@@ -257,11 +260,11 @@ public class ObjectRefinementModule {
 		// Step 1: Project the state ahead
 		// state_pre = state_transition * state_post
 
-		// System.out.println("State x post before Prediction:: " +
-		// state_x_post);
+System.out.println("State x post before Prediction:: " +
+		state_x_post);
 
 		state_x_pre = state_transition.times(state_x_post);
-		// System.out.println("State x pre:: " + state_x_pre);
+System.out.println("State x pre:: " + state_x_pre);
 
 		// Next compute the covariance for this state estimate, P
 		// state_x_pre = p(k) =temp 1*state_transtion(transpose) + Q
@@ -408,6 +411,7 @@ public class ObjectRefinementModule {
 	private SourceDataModel reconstructSource(SourceDataModel updatedSource) {
 
 		double[][] currStateVector = state_x_post.getArray();
+		System.out.println("currStateVector[0][0] " + currStateVector[0][0]);
 
 		updatedSource.setPositionLongitude(currStateVector[0][0]); // PositionLat
 		updatedSource.setPositionLatitude(currStateVector[1][0]); // PositionLong

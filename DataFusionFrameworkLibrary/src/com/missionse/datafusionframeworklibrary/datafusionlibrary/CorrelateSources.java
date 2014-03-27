@@ -18,16 +18,13 @@ public class CorrelateSources {
 	 * this class is observing and send off the list to be correlated by the
 	 * CommonFieldParser. It will return the correlated source that is returned
 	 * by the parser.
-	 * 
-	 * @param uniqueId
 	 */
-	public SourceDataModel correlateSources(SourceDataModel toUpdate,
-			ArrayList<SourceDataModel> sources, String uniqueId) {
+	public SourceDataModel correlateSources(ArrayList<SourceDataModel> sources, String id) {
 		if (sources.size() == 1) {
 			// source is unique, return with unique id assigned
 			SourceDataModel correlated = new SourceDataModel();
 			correlated = sources.get(0).clone();
-			correlated.setUniqueId(uniqueId);
+			correlated.setUniqueId(id);
 			return correlated; // sources.get(0).clone();
 		}
 
@@ -37,7 +34,7 @@ public class CorrelateSources {
 			toCorrelate.add(sources.get(i).clone());
 		}
 		System.out.println("cs: toCorrelate" + toCorrelate);
-		return cfp.correlateSources(toCorrelate, uniqueId);
+		return cfp.correlateSources(toCorrelate, id);
 
 	}
 

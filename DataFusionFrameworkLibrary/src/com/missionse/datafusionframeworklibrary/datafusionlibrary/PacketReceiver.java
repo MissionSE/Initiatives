@@ -90,7 +90,7 @@ public class PacketReceiver
 	//Parse the data into an array of Strings, deliminated by commas.
         String[] parsedData = data.split(",", -1);
 
-        System.out.println("receivePacket data: "+data);
+        System.out.println("RECEIVEPACKET data: "+data);
 
         /*
 	 * If the amount of given data does not match up with the amount of data this program uses

@@ -713,7 +713,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					dynamicResults.getDouble("errorZ"),
 					dynamicResults.getDouble("positionZ"),
 					dynamicResults.getDouble("speedZ"));
-			System.out.println("dynamicResults: " + uniqueId);
 
 			return temp;
 		}
@@ -822,7 +821,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		if ((source == null) || (source.getUniqueId() == null)) {
 			//throw exception.
 		}
-		System.out.println("updateCompositeBuilder "+source.getUniqueId());
 
 		//Before executing any statements, make sure that the uniqueId doesn't
 		//already exist in the database.
@@ -1245,7 +1243,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	public void updateCompositeSourceCrossReference(String compositeId, String sourceId) throws SQLException {
 		String staticQuery = "INSERT INTO compositeSourceCrossReference("
 				+ "compositeKeyId,"
-				+ "sourceKeyId,"
+				+ "sourceKeyId)"
 				+ "VALUES(?,?)";
 		PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
 

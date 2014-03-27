@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
-import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
@@ -27,7 +25,9 @@ public class PackSupportingData {
 	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, 
 			ArrayList<SourceDataModel> sources, String trackKey)
 	{
+System.out.println("packSupportingData trackkey "+trackKey);
 		ObjectRefinementModule orm = trackRefinement.get(trackKey);
+		System.out.println("packSupportingData orm "+orm);
 		if(orm == null)
 		{
 			/*
@@ -57,6 +57,8 @@ public class PackSupportingData {
 			System.out.println("psd toSend: "+toSend);
 			SourceDataModel[] toSendArray = new SourceDataModel[toSend.size()];
 			toSend.toArray(toSendArray);
+			System.out.println("packSupportingData orm2 "+orm);
+
 			orm.refineObject(toSendArray);
 		}
 	}
