@@ -1256,7 +1256,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		staticStatement.close();			
 	}
 
-	
+
 	/**
 	 * Given a Composite track key this method returns a list of sources.
 	 *
@@ -1269,18 +1269,20 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	public List<String> fetchSourcesForComposite(String compositeId) throws SQLException {
 		//Temporary storage location for the List of unique Ids.
 		List<String> crossReference = new ArrayList<String>();
-		
+
 		String query = "SELECT * FROM compositeSourceCrossReference WHERE compositeKeyId = ?";
 		PreparedStatement statement = conn.prepareStatement(query);
 		statement.setString(1, compositeId);
 		ResultSet result = statement.executeQuery();		
-	
+
 		//Close the connection to free resources in the Database. 
 		statement.close();
-		
+
 		//For every result, add the uniqueId into an ArrayList.
 		while (result.next()) {
-			crossReference.add(result.getString("sourceKeyId"));
+			if (!crossReference.contains(result.getString("sourceKeyId"))) {
+				crossReference.add(result.getString("sourceKeyId"));
+			}
 		}
 
 		if (!crossReference.isEmpty()) {
