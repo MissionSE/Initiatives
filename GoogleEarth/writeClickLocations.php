@@ -2,14 +2,18 @@
     $lat = $_POST['lat'];
     
     $lon = $_POST['lon'];
+
+    $alt = $_POST['alt'];
     
-    //$con = mysql_connect("localhost", "test", "test") or die('Sorry, could not connect to database server');
-    //
-    //mysql_select_db("earth", $con) or die('Sorry, could not connect to database');
-        
+    $hdg = $_POST['hdg'];
+    
+    $tilt = $_POST['tilt'];
+    
+    $rng = $_POST['rng'];
+    
     include("connectToDatabase.inc.php");
 
-    $query = "INSERT INTO clickLocations (latitude,longitude) VALUES ('$lat','$lon')";
+    $query = "INSERT INTO clickLocations (latitude,longitude,altitude,heading,tilt,rng) VALUES ('$lat','$lon','$alt','$hdg','$tilt','$rng')";
     
     $result = mysql_query($query) or die(mysql_error());
 

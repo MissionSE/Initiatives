@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Enter Tour</title>
+    <link rel="stylesheet" type="text/css" href="guistyle.css">
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+      var parentWindow = null;
+      var parentURI = null;
+      var blank = ".....";
+      var updatePointsInterval;
+      var tourData = [];
+      var tourPoints = [];
+
+      function toggleTourMode(widget) {
+        if (null != parentWindow) {
+          var rawData = {
+            key : "tourmode",
+            value : widget.checked,
+          };
+          var data = JSON.stringify(rawData);
+          //alert("overlayManager data = "+data);
+          parentWindow.postMessage(data,parentURI);
+        }
+        else {
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-14)+"writeCommand.php";
+
+          //Write command to database
+          $.post(url, {command:"tourmode",data1:widget.checked,data2:null,data3:null}, function(data) {
+          });
+        }        
+        
+        if (widget.checked) {
+          //Start update
+          updatePointsInterval = setInterval(function(){updatePoints()},2000);
+        }
+        else {
+          //Stop uddate
+          clearInterval(updatePointsInterval);
+        }
+      }
+
+      function addPointToList(obj) {
+        var found = false;
+        //Check for this id in the list
+        for (var i = 0; i < tourPoints.length; i++) {
+          if (obj.id == tourPoints[i].id) {
+            found = true;
+            break;
+          }
+        }
+
+        //If id not in list add it
+        if (false == found) {
+          console.log("addPointToList found new point id "+obj.id+" lat "+obj.lat+" lon "+obj.lon);
+          tourPoints.push(obj);
+        }
+      }
+      
+      function updatePoints() {
+        console.log("updatePoints");
+        //Get click locations from database and make li for each click
+        var points = document.getElementById("points");
+        points.innerHTML="<li>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LNG</li>";
+        var id = 1;
+        var clickId;
+        var lat,lon,alt,hdg,rng;
+        var url = "getClickLocations.php";
+        $.post(url, {}, function(data) {
+          $.each(data,function(key,value) {
+            clickId = value.id;
+            lat = value.latitude;
+            lon = value.longitude;
+            alt = value.altitude;
+            hdg = value.heading;
+            tilt = value.tilt;
+            rng = value.rng;
+            var tourPoint = {
+                id:clickId,
+                lat:lat,
+                lon:lon,
+                alt:alt,
+                hdg:hdg,
+                tilt:tilt,
+                rng:rng
+            };
+            addPointToList(tourPoint);
+            console.log("updatePoints lat "+lat+" lon "+lon);
+            points.innerHTML += "<li>"+id+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lat+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lon+"</li>";
+            id++;
+          });
+        });
+      }
+      
+      function validateForm() {
+        var returnValue = false;
+        var tourName = document.getElementById("tourname").value;
+        var tourDesc = document.getElementById("tourdesc").value;
+        console.log("validateForm tourName "+tourName+" tourDesc "+tourDesc+" tourPoints.length "+tourPoints.length);
+        if (tourName != "" && tourDesc != "" && tourPoints.length > 0) {
+          returnValue = true;
+        }
+        else {
+          if (tourName == "") {
+            alert("Must enter tour name");
+          }
+          else if (tourDesc == "") {
+            alert("Must enter tour description");
+          }
+          else if (tourPoints.length == 0) {
+            alert("Must add points to tour");
+          }
+        }
+        return returnValue;
+      }
+      
+      function disableTourMode() {
+        //Disable tour mode
+        var tourmode = document.getElementById("tourmode");
+        if (tourmode.checked) {
+          tourmode.checked = false;
+          toggleTourMode(tourmode);
+          //Call php script to write the command to the database
+          var url = document.URL.slice(0,document.URL.length-14)+"writeCommand.php";
+          //Write command to database
+          $.post(url, {command:"tourmode",data1:tourmode.checked,data2:null,data3:null}, function(data) {
+          });
+        }        
+      }
+
+      function saveTour() {
+        var okToSend = validateForm();
+
+        if (true == okToSend) {
+          var tourName = document.getElementById("tourname").value;
+          var tourDesc = document.getElementById("tourdesc").value;
+          var tourMetadata = {
+              name:tourName,
+              desc:tourDesc
+          };
+          var jsonMetadata = JSON.stringify(tourMetadata);
+          console.log("tourMetadata "+ jsonMetadata);
+          
+          var url = "addTour.php";
+          $.post(url, {data:jsonMetadata}, function(data) {
+            console.log("addTour.php returned "+data);
+            var tourID = data;
+            var jsonPoints = JSON.stringify(tourPoints);
+            console.log("tourPoints "+jsonPoints);
+            
+            var url2 = "addTourPoints.php";
+            $.post(url2, {id:tourID,data:jsonPoints}, function(data) {
+              console.log("addTourPoints returned "+data);
+              //Clear the data
+              tourData.length = 0;
+              tourPoints.length = 0;
+              
+              //Clear the click locations from the DB
+              var url = "deleteClickLocations.php";
+              $.post(url, {}, function(data) {
+                updatePoints();
+              });
+            });
+          });
+          
+          disableTourMode();
+        }
+      }
+      
+      function processEvents() {
+        //respond to events
+        window.addEventListener('message',function(event) {
+          parentWindow = event.source;
+          parentURI = event.origin;
+          var rawData = {
+            key : "enterTour",
+            value : "enterTour received message",
+          };
+          var data = JSON.stringify(rawData);
+          parentWindow.postMessage(data,event.origin);
+        },false);
+        
+      }
+      </script>
+    </script>
+  </head>
+  
+  <body onload="processEvents()">
+    <div>
+      <h3>Name</h3>
+      <input type="text" id="tourname" value="">
+      <h3>Description</h3>
+      <input type="text" id="tourdesc" value="">
+      <br /><br />
+      <label for="tourmode"><input type="checkbox" id="tourmode" name="tourmode" onclick=toggleTourMode(this)>Collect Tour Points</label><br /><br />
+      <label for="save"><input type="image" name="save" id="save" src="images/save.jpeg" width="30" height="30" onclick=saveTour()>Save Tour</label><br /><br />
+      <label>POINTS</label>
+      <ul id="points">
+        <li>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LNG</li>
+      </ul>
+    </div>
+  </body>
+</html>

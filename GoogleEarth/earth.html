@@ -34,7 +34,7 @@
         var blankButton1=false;
         var offsetOS=false;
         var groundOverlayDisplayed=false;
-        var groundOverlay;
+        var groundOverlay = null;
         var sunDisplayed=false;
         var buildingsDisplayed=false;
         var jpegOverlayDisplayed=false;
@@ -47,7 +47,6 @@
         var blankButton10=false;
         var lineStringPlacemark;
         var lineStringPlacemarkCreated = false;
-        var groundOverlay;
         var groundOverlayCreated = false;
         var rangeRingPlacemark;
         var rangeRingDisplayed = false;
@@ -112,6 +111,7 @@
         var lastTrackID = 0;
         var captureBalltabMode = false;
         var compassKmlObject;
+        var enterTourMode = false;
 
         console.log("calling google.load");
         google.load("earth", "1", {"other_params":"sensor=false"});
@@ -828,12 +828,21 @@
                     document.getElementById('close-control').innerHTML = "NO HOOKED TRACK";
                 }
                 
-                if (true == captureBalltabMode) {
-                    console.log("addMouseClickListener captureBalltabMode writing lat = "+event.getLatitude()+" lon = "+event.getLongitude());
+                if (true == captureBalltabMode || true == enterTourMode) {
+                    console.log("addMouseClickListener writing lat = "+event.getLatitude()+" lon = "+event.getLongitude());
+                    var view = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
+                    var altitude = view.getAltitude();
+                    var heading = view.getHeading();
+                    var tilt = view.getTilt();
+                    var range = view.getRange();
+                    console.log("addMouseClickListener alt "+altitude+" hdg "+heading+" tilt "+tilt+" range "+range);
                     //Write the location to database
                     var url = "writeClickLocations.php";
-                    $.post(url, {lat:event.getLatitude().toFixed(4),lon:event.getLongitude().toFixed(4)}, function(data) {});
-                    captureBalltabMode = false;
+                    $.post(url, {lat:event.getLatitude(),lon:event.getLongitude(),alt:altitude,hdg:heading,tilt:tilt,rng:range}, function(data) {});
+                    console.log("writeClickLocations returned "+data);
+                    if (true == captureBalltabMode) {
+                        captureBalltabMode = false;
+                    }
                 }
             });
         }
@@ -871,7 +880,9 @@
         }
         
         function clearGroundOverlay() {
-            groundOverlay.setVisibility(false);
+            if (groundOverlay) {
+                groundOverlay.setVisibility(false);
+            }
         }
 
         function createJpegOverlay() {
@@ -1256,11 +1267,6 @@
             element.style.background = (drawLine == true) ? greenButton : redButton;
         }
 
-        function highlightBlankButton1() {
-            var element = document.getElementById("BlankButton1");
-            element.style.background = (blankButton1 == true) ? greenButton : redButton;
-        }
-
         function highlightOffsetOS() {
             var element = document.getElementById("OffsetOwnship");
             element.style.background = (offsetOS == true) ? greenButton : redButton;
@@ -1296,8 +1302,8 @@
             element.style.background = (phillyWeatherDisplayed == true) ? greenButton : redButton;
         }
 
-        function highlightBlank1() {
-            var element = document.getElementById("Blank1");
+        function highlightTours() {
+            var element = document.getElementById("Tours");
             element.style.background = (blank == true) ? greenButton : redButton;
         }
 
@@ -1310,7 +1316,7 @@
             highlightCsedsTour();
             highlightWeather();
             highlightTwitter();
-            highlightBlank1();
+            highlightTours();
         }
 
         function playCsedsTour() {
@@ -1492,6 +1498,20 @@
                     ge.getFeatures().appendChild(object);
                 }
             });
+            geocoder.geocode( { 'address': "oklahoma"}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(5000000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });
         }
         
         function clearSatellite() {
@@ -1506,6 +1526,20 @@
                     ge.getFeatures().appendChild(object);
                 }
             });
+            geocoder.geocode( { 'address': "oklahoma"}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(4000000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });
         }
         
         function clearUsStates() {
@@ -1518,6 +1552,20 @@
             google.earth.fetchKml(ge,href,function(object) {
                 if (object) {
                     ge.getFeatures().appendChild(object);
+                }
+            });
+            geocoder.geocode( { 'address': "malaysia"}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(4000000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
                 }
             });
         }
@@ -1537,6 +1585,43 @@
         }
         
         function clearBuoys() {
+            clearAllFeatures();
+        }
+        
+        function displayMykml() {
+            var href = projectDomain+"generateKmlFromDb.php";
+            console.log("displayMykml href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("displayMykml fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+            href = projectDomain+"generateLineKmlFromDB.php";
+            console.log("displayMykml href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("displayMykml fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+            geocoder.geocode( { 'address': "state college, pa"}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(2500.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });
+        }
+        
+        function clearMykml() {
             clearAllFeatures();
         }
         
@@ -1574,6 +1659,10 @@
                 newTrackInterval = setInterval(function(){checkForNewTracks()},5000);
             }
             openWin("Track Manager","trackManager.html",200,550,1100,0);
+        }
+
+        function displayToursWindow() {
+            openWin("Tour Manager","tourManager.html",250,550,1100,0);
         }
 
         function displayTwitterWindow() {
@@ -1892,6 +1981,18 @@
                 else if (json.key == 'neutral filter') {
                     (true == json.value) ? neutralFilter("true") : neutralFilter("false");
                 }
+                else if (json.key == 'mykml') {
+                    (true == json.value) ? displayMykml() : clearMykml();
+                }
+                else if (json.key == 'tourmode') {
+                    (true == json.value) ? tourmode("true") : tourmode("false");
+                }
+                else if (json.key == 'play tour') {
+                    playTour(data1);
+                }
+                else if (json.key == 'clear tour') {
+                    clearTour();
+                }
             },false);
         }
         
@@ -2152,6 +2253,29 @@
                 });
             });
         }
+        
+        function addAvoidanceArea(id) {
+            //Get the avoidance area center point from the database based on id
+            var url = "getAvoidanceArea.php";
+            $.post(url, {id:id}, function(data) {
+                $.each(data,function(key,value) {
+                    var steps = 36;
+                    var pi2 = Math.PI * 2;
+                    var centerLat = parseFloat(value.latitude);
+                    var centerLon = parseFloat(value.longitude);
+                    var radius = value.radius/50;
+        
+                    for (var i = 0; i < steps; i++) {
+                        //console.log("i = "+i+" (i/steps*pi2) = "+i/steps*pi2+" Math.cos = "+Math.cos(i/steps*pi2));
+                        var lat = centerLat + radius * Math.cos(i / steps * pi2);
+                        var lon = centerLon + radius * Math.sin(i / steps * pi2);
+                        console.log("addAvoidanceArea lat = "+lat+" lon = "+lon);
+                        //var url = "addAvoidancePoint.php";
+                        //$.post(url, {id:id,lat:lat,lon:lon}, function(data) {});
+                    }
+                });
+            });
+        }
 
         function compassRose(value) {
             console.log("compassRose value = "+value);
@@ -2254,6 +2378,56 @@
                     }
                 }
             }            
+        }
+
+        function mykml(value) {
+            console.log("mykml value = "+value);
+            ("true" == value) ? displayMykml() : clearMykml();
+        }
+        
+        function tourmode(value) {
+            ("true" == value) ? enterTourMode = true : enterTourMode = false;
+        }
+        
+        function playTour(value) {
+            var id;
+            if (typeof value == "string") {
+                id = parseInt(value);
+            }
+            else{
+                id = value;
+            }
+
+            href = projectDomain+"generatePlacemarksFromTour.php?id="+id;
+            console.log("playTour href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("playTour fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+            
+            href = projectDomain+"generateLineFromTour.php?id="+id;
+            console.log("playTour href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("playTour fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+
+                    var href = projectDomain+"generateTourFromDb.php?id="+id;
+                    console.log("playTour href "+href);
+                    google.earth.fetchKml(ge, href, kmlFinishedLoading);
+        
+                    function kmlFinishedLoading(object) {
+                        ge.getTourPlayer().setTour(object);
+                        ge.getTourPlayer().play();
+                    }
+                }
+            });
+        }
+        
+        function clearTour() {
+            clearAllFeatures();
         }
 
         function getRemoteCommands() {
@@ -2416,6 +2590,21 @@
             else if ("surface filter" == text) {
                 surfaceFilter(data1);
             }
+            else if ("mykml" == text) {
+                mykml(data1);
+            }
+            else if ("tourmode" == text) {
+                tourmode(data1);
+            }
+            else if ("play tour" == text) {
+                playTour(data1);
+            }
+            else if ("clear tour" == text) {
+                clearTour();
+            }
+            else if ("add avoidance area" == text) {
+                addAvoidanceArea(data1);
+            }
         }
 
         function deleteRemoteCommand(commandId) {            
@@ -2454,7 +2643,7 @@
             <button id="Twitter" onclick="displayTwitterWindow()">Twitter</button>
             <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
             <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
-            <button id="Blank1">Blank</button>
+            <button id="Tours" onclick="displayToursWindow()">Tours</button>
         </div>
         <div id="progress-container">
             <div id="progress-bar"></div>

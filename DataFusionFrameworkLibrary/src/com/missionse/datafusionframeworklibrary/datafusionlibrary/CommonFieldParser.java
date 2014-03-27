@@ -2,7 +2,7 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
 
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
  * The CommonFieldParser is used to correlate a list of sources into one source.
@@ -18,40 +18,40 @@ public class CommonFieldParser
      * This is the method that recieves and oversees all steps of the correlating algorithm.
      * At the end, it will return the correlated source.
      */
-    public Source correlateSources(ArrayList<Source> sources, String id)
+    public SourceDataModel correlateSources(ArrayList<SourceDataModel> toCorrelate, String id)
     {
-	//All correlated sources in the program are created with a identification of 3CS.
-	Source correlated = new Source(id);
+	//All correlated sources in the program are created with a identification of Cxxx.
+	SourceDataModel correlated = new SourceDataModel(id);
 	//Create storage for unused sources during steps of the correlation process.
-	ArrayList<Source> unused = new ArrayList<Source>();
+	ArrayList<SourceDataModel> unused = new ArrayList<SourceDataModel>();
 
 	//See methods for what the methods do.
-	sortOutUncorrelatableXData(sources, unused);
-	sortByErrorX(sources);
-	correlateXvariables(correlated, sources);
+	sortOutUncorrelatableXData(toCorrelate, unused);
+	sortByErrorX(toCorrelate);
+	correlateXvariables(correlated, toCorrelate);
 
 	//Reset the arrays for correlation of Y variables.
-	sources.addAll(unused);
+	toCorrelate.addAll(unused);
 	unused.clear();
 
 	//Rinse for Y
-	sortOutUncorrelatableYData(sources, unused);
-	sortByErrorY(sources);
-	correlateYvariables(correlated, sources);
+	sortOutUncorrelatableYData(toCorrelate, unused);
+	sortByErrorY(toCorrelate);
+	correlateYvariables(correlated, toCorrelate);
 
 	//Reset the arrays for correlation of Z variables.
-	sources.addAll(unused);
+	toCorrelate.addAll(unused);
 	unused.clear();
 
 	//Repeat for Z
-	sortOutUncorrelatableZData(sources, unused);
-	sortByErrorZ(sources);
-	correlateZvariables(correlated, sources);
+	sortOutUncorrelatableZData(toCorrelate, unused);
+	sortByErrorZ(toCorrelate);
+	correlateZvariables(correlated, toCorrelate);
 
 	//Reset the source array for the correlation of other non-XYZ variables.
-	sources.addAll(unused);
+	toCorrelate.addAll(unused);
 
-	correlateOthers(correlated, sources);
+	correlateOthers(correlated, toCorrelate);
 
 	return correlated;
     }
@@ -64,25 +64,25 @@ public class CommonFieldParser
      * that all sources have equally unreliable data and therefore can be correlated with equal weights
      * as some data is better than no data.
      */
-    private void sortOutUncorrelatableXData(ArrayList<Source> sources, ArrayList<Source> unused)
+    private void sortOutUncorrelatableXData(ArrayList<SourceDataModel> toCorrelate, ArrayList<SourceDataModel> unused)
     {
-	Source temp;
+	SourceDataModel temp;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getErrorX() == null)
+	    if(toCorrelate.get(i).getErrorX() == null)
 	    {
-		temp = sources.remove(i);
+		temp = toCorrelate.remove(i);
 		unused.add(temp);
 		i--;
 	    }
 	}
 
-	if(sources.isEmpty())
+	if(toCorrelate.isEmpty())
 	{
-	    sources.addAll(unused);
+	    toCorrelate.addAll(unused);
 
-	    for(Source s : sources)
+	    for(SourceDataModel s : toCorrelate)
 	    {
 		s.setErrorX(new Double(1));
 	    }
@@ -90,25 +90,25 @@ public class CommonFieldParser
     }
 
     //See description for sortOutUncorrelatableXData, replacing any instance of 'x' to 'y'.
-    private void sortOutUncorrelatableYData(ArrayList<Source> sources, ArrayList<Source> unused)
+    private void sortOutUncorrelatableYData(ArrayList<SourceDataModel> toCorrelate, ArrayList<SourceDataModel> unused)
     {
-	Source temp;
+	SourceDataModel temp;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getErrorY() == null)
+	    if(toCorrelate.get(i).getErrorY() == null)
 	    {
-		temp = sources.remove(i);
+		temp = toCorrelate.remove(i);
 		unused.add(temp);
 		i--;
 	    }
 	}
 
-	if(sources.isEmpty())
+	if(toCorrelate.isEmpty())
 	{
-	    sources.addAll(unused);
+	    toCorrelate.addAll(unused);
 
-	    for(Source s : sources)
+	    for(SourceDataModel s : toCorrelate)
 	    {
 		s.setErrorY(new Double(1));
 	    }
@@ -116,25 +116,25 @@ public class CommonFieldParser
     }
 
     //See description for sortOutUncorrelatableXData, replacing any instance of 'x' to 'z'.
-    private void sortOutUncorrelatableZData(ArrayList<Source> sources, ArrayList<Source> unused)
+    private void sortOutUncorrelatableZData(ArrayList<SourceDataModel> toCorrelate, ArrayList<SourceDataModel> unused)
     {
-	Source temp;
+	SourceDataModel temp;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getErrorZ() == null)
+	    if(toCorrelate.get(i).getErrorZ() == null)
 	    {
-		temp = sources.remove(i);
+		temp = toCorrelate.remove(i);
 		unused.add(temp);
 		i--;
 	    }
 	}
 
-	if(sources.isEmpty())
+	if(toCorrelate.isEmpty())
 	{
-	    sources.addAll(unused);
+	    toCorrelate.addAll(unused);
 
-	    for(Source s : sources)
+	    for(SourceDataModel s : toCorrelate)
 	    {
 		s.setErrorZ(new Double(1));
 	    }
@@ -145,22 +145,22 @@ public class CommonFieldParser
      * This method sorts the given sources by their error x's for smallest to largest (for the
      * use of this algoritm, it doesnt matter) using a bubble sort algorithm.
      */
-    private void sortByErrorX(ArrayList<Source> sources)
+    private void sortByErrorX(ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean sorted = false;
-	Source temp;
+	SourceDataModel temp;
 
 	while(!sorted)
 	{
 	    sorted = true;
 
-	    for(int i = 1; i < sources.size(); i++)
+	    for(int i = 1; i < toCorrelate.size(); i++)
 	    {
-		if(sources.get(i).getErrorX() < sources.get(i - 1).getErrorX())
+		if(toCorrelate.get(i).getErrorX() < toCorrelate.get(i - 1).getErrorX())
 		{
-		    temp = sources.get(i);
-		    sources.set(i - 1, sources.get(i));
-		    sources.set(i, temp);
+		    temp = toCorrelate.get(i);
+		    toCorrelate.set(i - 1, toCorrelate.get(i));
+		    toCorrelate.set(i, temp);
 
 		    sorted = false;
 		}
@@ -169,22 +169,22 @@ public class CommonFieldParser
     }
 
     //See description for sortByErrorX, replacing any instance of 'x' to 'y'.
-    private void sortByErrorY(ArrayList<Source> sources)
+    private void sortByErrorY(ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean sorted = false;
-	Source temp;
+	SourceDataModel temp;
 
 	while(!sorted)
 	{
 	    sorted = true;
 
-	    for(int i = 1; i < sources.size(); i++)
+	    for(int i = 1; i < toCorrelate.size(); i++)
 	    {
-		if(sources.get(i).getErrorY() < sources.get(i - 1).getErrorY())
+		if(toCorrelate.get(i).getErrorY() < toCorrelate.get(i - 1).getErrorY())
 		{
-		    temp = sources.get(i);
-		    sources.set(i - 1, sources.get(i));
-		    sources.set(i, temp);
+		    temp = toCorrelate.get(i);
+		    toCorrelate.set(i - 1, toCorrelate.get(i));
+		    toCorrelate.set(i, temp);
 
 		    sorted = false;
 		}
@@ -193,22 +193,22 @@ public class CommonFieldParser
     }
 
     //See description for sortByErrorX, replacing any instance of 'x' to 'z'.
-    private void sortByErrorZ(ArrayList<Source> sources)
+    private void sortByErrorZ(ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean sorted = false;
-	Source temp;
+	SourceDataModel temp;
 
 	while(!sorted)
 	{
 	    sorted = true;
 
-	    for(int i = 1; i < sources.size(); i++)
+	    for(int i = 1; i < toCorrelate.size(); i++)
 	    {
-		if(sources.get(i).getErrorZ() < sources.get(i - 1).getErrorZ())
+		if(toCorrelate.get(i).getErrorZ() < toCorrelate.get(i - 1).getErrorZ())
 		{
-		    temp = sources.get(i);
-		    sources.set(i - 1, sources.get(i));
-		    sources.set(i, temp);
+		    temp = toCorrelate.get(i);
+		    toCorrelate.set(i - 1, toCorrelate.get(i));
+		    toCorrelate.set(i, temp);
 
 		    sorted = false;
 		}
@@ -219,7 +219,7 @@ public class CommonFieldParser
     /*
      * The actual correlation of the variables goes as follows:
      */
-    public void correlateXvariables(Source correlate, ArrayList<Source> sources)
+    public void correlateXvariables(SourceDataModel correlated, ArrayList<SourceDataModel> toCorrelate)
     {
     	
     	//Value to denote if there were even any valid variables to correlate.
@@ -228,10 +228,10 @@ public class CommonFieldParser
 	double toDivideBy = 0;
 
 	//This loop correlates the positionX's of the sources.
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
 		//Checks to make sure that the current source even has a positionX.
-	    if(sources.get(i).getPositionLatitude() != null)
+	    if(toCorrelate.get(i).getPositionLatitude() != null)
 	    {
 		/*
 		 * Add to the current variable value of positionX the positionX of the current source multiplied
@@ -262,8 +262,8 @@ public class CommonFieldParser
 		 * Note how the correlated positionX is closer to the positionX of source 2 than source 1, as it
 		 * should be because it has the lesser chance of error.
 		 */
-		variable = variable + (sources.get(i).getPositionLatitude() * sources.get(sources.size() - i - 1).getErrorX());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorX();
+		variable = variable + (toCorrelate.get(i).getPositionLatitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorX());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorX();
 		nothingDoing = false;
 	    }
 	}
@@ -271,7 +271,7 @@ public class CommonFieldParser
 	//In the end, if no variables were correlated, it stays null in the correlated source.
 	if(!nothingDoing)
 	{
-	    correlate.setPositionLatitude(new Double(variable / toDivideBy));
+	    correlated.setPositionLatitude(new Double(variable / toDivideBy));
 	}
 
 	nothingDoing = true;
@@ -279,103 +279,103 @@ public class CommonFieldParser
 	toDivideBy = 0;
 
 	//Same loop algorithm is used for speedX.
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getSpeedX() != null)
+	    if(toCorrelate.get(i).getSpeedX() != null)
 	    {
-		variable = variable + (sources.get(i).getSpeedX() * sources.get(sources.size() - i - 1).getErrorX());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorX();
+		variable = variable + (toCorrelate.get(i).getSpeedX() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorX());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorX();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setSpeedX(new Double(variable / toDivideBy));
+	    correlated.setSpeedX(new Double(variable / toDivideBy));
 	}
     }
 
     //See correlateXvariables and replace all instances of 'x' with 'y'
-    public void correlateYvariables(Source correlate, ArrayList<Source> sources)
+    public void correlateYvariables(SourceDataModel correlated, ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean nothingDoing = true;
 	double variable = 0;
 	double toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getPositionLongitude() != null)
+	    if(toCorrelate.get(i).getPositionLongitude() != null)
 	    {
-		variable = variable + (sources.get(i).getPositionLongitude() * sources.get(sources.size() - i - 1).getErrorY());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorY();
+		variable = variable + (toCorrelate.get(i).getPositionLongitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorY());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorY();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setPositionLongitude(new Double(variable / toDivideBy));
+	    correlated.setPositionLongitude(new Double(variable / toDivideBy));
 	}
 
 	nothingDoing = true;
 	variable = 0;
 	toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getSpeedY() != null)
+	    if(toCorrelate.get(i).getSpeedY() != null)
 	    {
-		variable = variable + (sources.get(i).getSpeedY() * sources.get(sources.size() - i - 1).getErrorY());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorY();
+		variable = variable + (toCorrelate.get(i).getSpeedY() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorY());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorY();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setSpeedY(new Double(variable / toDivideBy));
+	    correlated.setSpeedY(new Double(variable / toDivideBy));
 	}
     }
 
     //See correlateXvariables and replace all instances of 'x' with 'z'
-    public void correlateZvariables(Source correlate, ArrayList<Source> sources)
+    public void correlateZvariables(SourceDataModel correlated, ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean nothingDoing = true;
 	double variable = 0;
 	double toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getPositionAltitude() != null)
+	    if(toCorrelate.get(i).getPositionAltitude() != null)
 	    {
-		variable = variable + (sources.get(i).getPositionAltitude() * sources.get(sources.size() - i - 1).getErrorZ());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorZ();
+		variable = variable + (toCorrelate.get(i).getPositionAltitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setPositionAltitude(new Double(variable / toDivideBy));
+	    correlated.setPositionAltitude(new Double(variable / toDivideBy));
 	}
 
 	nothingDoing = true;
 	variable = 0;
 	toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getSpeedZ() != null)
+	    if(toCorrelate.get(i).getSpeedZ() != null)
 	    {
-		variable = variable + (sources.get(i).getSpeedZ() * sources.get(sources.size() - i - 1).getErrorZ());
-		toDivideBy = toDivideBy + sources.get(sources.size() - i - 1).getErrorZ();
+		variable = variable + (toCorrelate.get(i).getSpeedZ() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ());
+		toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setSpeedZ(new Double(variable / toDivideBy));
+	    correlated.setSpeedZ(new Double(variable / toDivideBy));
 	}
     }
 
@@ -384,17 +384,17 @@ public class CommonFieldParser
      * correlation of X, Y and Z variables but instead of using the explained algorithm using error values,
      * it simply takes the averages of all sources.
      */
-    public void correlateOthers(Source correlate, ArrayList<Source> sources)
+    public void correlateOthers(SourceDataModel correlated, ArrayList<SourceDataModel> toCorrelate)
     {
 	boolean nothingDoing = true;
 	double variable = 0;
 	int toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getFuel() != null)
+	    if(toCorrelate.get(i).getFuel() != null)
 	    {
-		variable = variable + sources.get(i).getFuel();
+		variable = variable + toCorrelate.get(i).getFuel();
 		toDivideBy++;
 		nothingDoing = false;
 	    }
@@ -402,18 +402,18 @@ public class CommonFieldParser
 
 	if(!nothingDoing)
 	{
-	    correlate.setFuel(new Double(variable / toDivideBy));
+	    correlated.setFuel(new Double(variable / toDivideBy));
 	}
 
 	nothingDoing = true;
 	int variableI = 0;
 	toDivideBy = 0;
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getThreatLevel() != null)
+	    if(toCorrelate.get(i).getThreatLevel() != null)
 	    {
-		variableI = variableI + sources.get(i).getThreatLevel();
+		variableI = variableI + toCorrelate.get(i).getThreatLevel();
 		toDivideBy++;
 		nothingDoing = false;
 	    }
@@ -421,58 +421,58 @@ public class CommonFieldParser
 
 	if(!nothingDoing)
 	{
-	    correlate.setThreatLevel(new Integer(variableI / toDivideBy));
+	    correlated.setThreatLevel(new Integer(variableI / toDivideBy));
 	}
 
 	nothingDoing = true;
 	String correlatedType = "";
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getTrackType() != null)
+	    if(toCorrelate.get(i).getTrackType() != null)
 	    {
-		correlatedType = correlatedType + sources.get(i).getTrackType() + "/";
+		correlatedType = correlatedType + toCorrelate.get(i).getTrackType() + "/";
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setTrackType(correlatedType.substring(0, correlatedType.length() - 2));
+	    correlated.setTrackType(correlatedType.substring(0, correlatedType.length() - 2));
 	}
 
 	nothingDoing = true;
 	correlatedType = "";
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getTrackCategory() != null)
+	    if(toCorrelate.get(i).getTrackCategory() != null)
 	    {
-		correlatedType = correlatedType + sources.get(i).getTrackCategory() + "/";
+		correlatedType = correlatedType + toCorrelate.get(i).getTrackCategory() + "/";
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setTrackCategory(correlatedType.substring(0, correlatedType.length() - 2));
+	    correlated.setTrackCategory(correlatedType.substring(0, correlatedType.length() - 2));
 	}
 
 	nothingDoing = true;
 	correlatedType = "";
 
-	for(int i = 0; i < sources.size(); i++)
+	for(int i = 0; i < toCorrelate.size(); i++)
 	{
-	    if(sources.get(i).getTrackPlatform() != null)
+	    if(toCorrelate.get(i).getTrackPlatform() != null)
 	    {
-		correlatedType = correlatedType + sources.get(i).getTrackPlatform() + "/";
+		correlatedType = correlatedType + toCorrelate.get(i).getTrackPlatform() + "/";
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlate.setTrackPlatform(correlatedType.substring(0, correlatedType.length() - 2));
+	    correlated.setTrackPlatform(correlatedType.substring(0, correlatedType.length() - 2));
 	}
 
     }

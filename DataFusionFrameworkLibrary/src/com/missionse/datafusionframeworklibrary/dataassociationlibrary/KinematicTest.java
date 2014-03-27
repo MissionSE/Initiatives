@@ -1,5 +1,8 @@
 package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataModel;
+import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
+
 /*
  * Class kinematicAssociation will perform necessary kinematic tests for data association.
  * A true/false indicator will be returned.
@@ -15,19 +18,31 @@ public class KinematicTest {
 
 	/**
 	 * This method will perform necessary kinematic tests for data association.
+	 * @param item 
+	 * @param toUpdate 
 	 */
-	public boolean kinematicTest()
+	public boolean kinematicTest(SourceDataModel source, SourceDataModel candidate)
 	{
 		boolean valid = false;
-	    double x1, x2, y1, y2, z1, z2;
-	    double vx1, vx2, vy1, vy2, vz1, vz2;
+	    double x1 = source.getPositionLatitude();
+	    double x2 = candidate.getPositionLatitude();
+	    double y1 = source.getPositionLongitude();
+	    double y2 = candidate.getPositionLongitude();
+	    double z1 = source.getPositionAltitude();
+	    double z2 = candidate.getPositionAltitude();
+	    double vx1 = source.getSpeedX();
+	    double vx2 = candidate.getSpeedX();
+	    double vy1 = source.getSpeedY();
+	    double vy2 = candidate.getSpeedY();
+	    double vz1 = source.getSpeedZ();
+	    double vz2 = candidate.getSpeedZ();
 	    double c1, c2;
 	    double h1, h2;
-//	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);
-//		valid = XYZvelAssociation(vx1, vy1, vz1, vx2, vy2, vz2);
+	    valid = XYZposAssociation(x1, y1, z1, x2, y1, z2);
+		valid = XYZvelAssociation(vx1, vy1, vz1, vx2, vy2, vz2);
 //		valid = heightAssociation(h1, h2);
-	    valid = XYZposAssociation(41.99417, -119.305344, 2500.0, 41.9942, -119.305333, 2500.0);
-		valid = XYZvelAssociation(0.3, 0.3, 0.2, 0.3, 0.3, 0.2);
+//	    valid = XYZposAssociation(41.99417, -119.305344, 2500.0, 41.9942, -119.305333, 2500.0);
+//		valid = XYZvelAssociation(0.3, 0.3, 0.2, 0.3, 0.3, 0.2);
 
 		return valid;
 

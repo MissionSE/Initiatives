@@ -1,1 +1,6 @@
 /bin
+/dist
+*.sql.lck
+*.sql.log
+*.sql.properties
+*.sql.script
