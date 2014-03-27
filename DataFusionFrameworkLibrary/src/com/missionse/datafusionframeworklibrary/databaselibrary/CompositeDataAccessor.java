@@ -14,5 +14,9 @@ public interface CompositeDataAccessor {
 	public List<SourceDataModel> queryCompositeBuilder(String sourceType,
             String uniqueId, long fromTime) throws SQLException;
 
+	public void updateCompositeSourceCrossReference(String compositeId, String sourceId) throws SQLException;
+	
+	public List<String> fetchSourcesForComposite(String compositeId) throws SQLException;
+	
 	public void shutdown() throws SQLException;
 }
