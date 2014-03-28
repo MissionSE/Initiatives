@@ -4,9 +4,6 @@
  */
 package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
-import java.util.ArrayList;
-
-import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
 import com.missionse.datafusionframeworklibrary.databaselibrary.DatabaseFactory;
 import com.missionse.datafusionframeworklibrary.databaselibrary.DatabaseProvider;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
@@ -39,7 +36,7 @@ public class FinalDriver {
         source1 = new SourceDataModel("1","S1", "platform", "category", 1, .3, 0.3, 99,
                 99, 99, 0.4, .1, .1, 40, 0.0, 41.99417, -119.305344, .1, 2500, 0.2);
 
-        source2 = new SourceDataModel("2","S2", "platform", "category", 1, 0.3, 0.2, 99,
+        source2 = new SourceDataModel("2","S2", "platform", "category", 1, 0.3, 0.25, 99,
                 99, 99, 0.3, .2, .1, 40, 0.0, 41.99422, -119.305333, .1, 2500, 0.2);
 
         //source1.setPositionLatitude(0.0);
@@ -63,7 +60,7 @@ public class FinalDriver {
         while (true) {
 
             
-            if (counter < 2) {
+            if (counter < 10) {
                 source1.setPositionLatitude(source1.getPositionLatitude() + .5);
                 source1.setPositionLongitude(source1.getPositionLongitude() + .5);
 

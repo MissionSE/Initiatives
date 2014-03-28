@@ -3,7 +3,6 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Source;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
@@ -12,20 +11,22 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  * data in the form of strings through the method associateMeasurement. Tests will
  * be performed against existing tracks. A list of associated candidates will be returned.
  */
-public class DataAssociation {
+public class DataAssociation implements DataAssociationProvider {
+
+	// Reference to the database
+	CompositeDataAccessor cdb;
 
 	// Reference to package classes
 	Evaluation eval;
-
-	// The list of currently observed Sources.
-	private ArrayList<SourceDataModel> sources;
+	Sort sl;
 
 	// Constructor for DataAssociation
-	public DataAssociation(SourceDataAccessor sourceDataAccess,
-			CompositeDataAccessor compositeDataAccess) {
+	public DataAssociation(CompositeDataAccessor compositeDataAccess) {
 
-		eval = new Evaluation();
-		sources = new ArrayList<SourceDataModel>();
+		this.cdb = compositeDataAccess;
+
+		eval = new Evaluation(compositeDataAccess);
+		sl = new Sort();
 	}
 
 	/**
@@ -33,62 +34,30 @@ public class DataAssociation {
 	 * an existing track state. A list of candidates in statistical order will
 	 * be returned.
 	 */
-	public ArrayList<String> associateMeasurement(String[] parsedData) {
+	public ArrayList<String> associateMeasurement(SourceDataModel toUpdate) {
 
-		ArrayList<String> candidates = null;
+		// create return array of candidates id's
+		ArrayList<String> candidateIds = new ArrayList<String>();
 
-		System.out.println("associateMeasurement parsedData[0]: "
-				+ parsedData[0]);
-
-		// Storage for, and retrieval of, the Source this data represents.
-		SourceDataModel toUpdate = searchExistingSources(parsedData[0]);
-		System.out.println("associateMeasurement toUpdate: " + toUpdate);
-
-		/*
-		 * If this program is not yet observing a Source with the given unique
-		 * identification, a new one will be created.
-		 */
-		if (toUpdate == null) {
-			toUpdate = createNewSource(parsedData[0]);
-		}
-
-		/*
-		 * Whether the data represents an already existing source or a newly
-		 * created one, update the source with.
-		 */
-		toUpdate.update(parsedData);
+		// create return array of candidates
+		ArrayList<Candidate> candidates = null;
 
 		candidates = eval.evaluateInput(toUpdate);
+		
+		// If candidates found
+		if (!candidates.isEmpty()) {
 
-		return candidates;
+			// sort candidate list
+			ArrayList<Candidate> sorted = sl.sortList(candidates);
 
-	}
-
-	/*
-	 * This method searches through the sources that already exist, looking for
-	 * one with the given unique ID. If no such source is found, it returns
-	 * null.
-	 */
-	private SourceDataModel searchExistingSources(String id) {
-		for (SourceDataModel s : sources) {
-			if (s.getUniqueId().compareTo(id) == 0) {
-				return s;
+			// filter uniqueId
+			for (Candidate c : sorted) {
+				candidateIds.add(c.getUniqueId());
 			}
 		}
 
-		return null;
-	}
+		return candidateIds;
 
-	/*
-	 * This method creates, returns and adds to the list of observed sources a
-	 * new Source with the given identification string. A source created this
-	 * way has nothing else set yet, effectively making it empty.
-	 */
-	private SourceDataModel createNewSource(String id) {
-		SourceDataModel newSource = new SourceDataModel(id);
-		System.out.println("receivePacket:createNewSource newSource: "
-				+ newSource);
-		return newSource;
 	}
 
 }

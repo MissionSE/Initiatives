@@ -1,13 +1,8 @@
 package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
@@ -25,16 +20,12 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 public class PacketReceiver
 {
     //Reference to package classes
-    DataAssociation da;
     DataFusion df;
     
     //Reference to the Database
     SourceDataAccessor sdb;
     CompositeDataAccessor cdb;
-    
-    //The list of currently observed Sources.
-    private ArrayList<SourceDataModel> sources;
-    
+        
     //The number of variables that this program uses to represent a Source.
     private int numSourceVariables;
 
@@ -51,10 +42,7 @@ public class PacketReceiver
         sdb = sourceDataAccess;
         cdb = compositeDataAccess;
 	//2
-        da  = new DataAssociation(sourceDataAccess, compositeDataAccess);
         df  = new DataFusion(sourceDataAccess, compositeDataAccess);
-	//3
-        sources = new ArrayList<SourceDataModel>();
 
 	/*
 	 * This line of code sets numSourceVariables to however many class variables make up the
@@ -102,24 +90,20 @@ public class PacketReceiver
 	//Parse the data into an array of Strings, deliminated by commas.
         String[] parsedData = data.split(",", -1);
 
-        System.out.println("receivePacket data: "+data);
+        System.out.println("RECEIVEPACKET data: "+data);
 
         /*
 	 * If the amount of given data does not match up with the amount of data this program uses
 	 * to represent sources or if the data does not contain an unique identifier, something has
 	 * gone wrong and the data is ignored.
 	 */
-        System.out.println("receivePacket parsedData.length: "+parsedData.length);
-        System.out.println("receivePacket numSourceVariables: "+numSourceVariables); 
+//        System.out.println("receivePacket parsedData.length: "+parsedData.length);
+//        System.out.println("receivePacket numSourceVariables: "+numSourceVariables); 
         
         if(parsedData.length != numSourceVariables || parsedData[0].compareTo("") == 0)
         {
             return;
         }
-
-        
-        ArrayList<String> candidates = da.associateMeasurement(parsedData);       
-		System.out.println("receivePacket candidates: "+candidates);        
         
 		df.dataFusion(parsedData); 		
     }

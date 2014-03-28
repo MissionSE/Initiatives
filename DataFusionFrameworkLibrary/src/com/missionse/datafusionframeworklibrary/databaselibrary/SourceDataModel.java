@@ -97,58 +97,58 @@ public class SourceDataModel {
 	public SourceDataModel() {
 		uniqueId = null;
 		sourceTrackType = null;
-		sourceLat = null;
-		sourceLong = null;
-		sourceAlt = null;
+		sourceLat = 0.0;
+		sourceLong = 0.0;
+		sourceAlt = 0.0;
 
-		errorX = null;
-		errorY = null;
-		errorZ = null;
+		errorX = 0.0;
+		errorY = 0.0;
+		errorZ = 0.0;
 
-		updateHertz = null;
-		depthZ = null;
-		positionLat = null;
-		positionLong = null;
-		positionAlt = null;
+		updateHertz = 0.0;
+		depthZ = 0.0;
+		positionLat = 0.0;
+		positionLong = 0.0;
+		positionAlt = 0.0;
 
-		speedX = null;
-		speedY = null;
-		speedZ = null;
+		speedX = 0.0;
+		speedY = 0.0;
+		speedZ = 0.0;
 
-		threatLevel = null;
+		threatLevel = 0;
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = null;
+		fuel = 0.0;
 	}
 
 	// UniqueID constructor.
 	public SourceDataModel(String id) {
 		uniqueId = id;
 		sourceTrackType = null;
-		sourceLat = null;
-		sourceLong = null;
-		sourceAlt = null;
+		sourceLat = 0.0;
+		sourceLong = 0.0;
+		sourceAlt = 0.0;
 
-		errorX = null;
-		errorY = null;
-		errorZ = null;
+		errorX = 0.0;
+		errorY = 0.0;
+		errorZ = 0.0;
 
-		updateHertz = null;
-		depthZ = null;
-		positionLat = null;
-		positionLong = null;
-		positionAlt = null;
+		updateHertz = 0.0;
+		depthZ = 0.0;
+		positionLat = 0.0;
+		positionLong = 0.0;
+		positionAlt = 0.0;
 
-		speedX = null;
-		speedY = null;
-		speedZ = null;
+		speedX = 0.0;
+		speedY = 0.0;
+		speedZ = 0.0;
 
-		threatLevel = null;
+		threatLevel = 0;
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = null;
+		fuel = 0.0;
 	}
 
 	// Various mutator and accessor methods for all variables in Source.

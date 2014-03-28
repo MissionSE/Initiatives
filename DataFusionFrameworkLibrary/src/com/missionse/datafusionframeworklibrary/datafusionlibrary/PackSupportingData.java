@@ -1,32 +1,33 @@
 package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.missionse.datafusionframeworklibrary.databaselibrary.Database;
-import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
+import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 public class PackSupportingData {
 
-	//Reference to the ObjectRefinementModule, which receives data once it has been through this module.
-	ObjectRefinementModule orm;
-	SourceDataAccessor db;
-
-	public PackSupportingData(SourceDataAccessor db)
+	private CompositeDataAccessor db;
+    private Map<String, ObjectRefinementModule> trackRefinement = null;
+	
+	public PackSupportingData(CompositeDataAccessor db)
 	{
 		this.db = db; 
-		orm = null;
+		trackRefinement = new HashMap<String, ObjectRefinementModule>();
 	}
 
 	/*
 	 * Once this class has done everything it needs to do, this method allows it to send off data to
 	 * other sections of the program.
 	 */
-	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, ArrayList<SourceDataModel> sources)
+	public void packSupportingData(SourceDataModel toUpdate, SourceDataModel correlated, 
+			ArrayList<SourceDataModel> sources, String trackKey)
 	{
-
-		//Checks to see if the ObjectRefinementModule has been hooked up yet.
+System.out.println("packSupportingData trackkey "+trackKey);
+		ObjectRefinementModule orm = trackRefinement.get(trackKey);
+		System.out.println("packSupportingData orm "+orm);
 		if(orm == null)
 		{
 			/*
@@ -36,6 +37,7 @@ public class PackSupportingData {
 			 */
 
 			orm = new ObjectRefinementModule(toUpdate.clone(), db);
+			trackRefinement.put(trackKey, orm);
 			System.out.println("psd: instantiated orm, db: "+ db);
 		}
 		else
@@ -46,15 +48,18 @@ public class PackSupportingData {
 			 * of Sources with that same format that can be sent off to the ObjectRefinementModule.
 			 */
 			ArrayList<SourceDataModel> toSend = new ArrayList<SourceDataModel>();
-
 			toSend.add(correlated);
-
 			for(int i = 0; i < sources.size(); i++)
 			{
 				toSend.add(sources.get(i).clone());
 			}
+			
 			System.out.println("psd toSend: "+toSend);
-			orm.refineObject(toSend.toArray(new SourceDataModel[0]));
+			SourceDataModel[] toSendArray = new SourceDataModel[toSend.size()];
+			toSend.toArray(toSendArray);
+			System.out.println("packSupportingData orm2 "+orm);
+
+			orm.refineObject(toSendArray);
 		}
 	}
 

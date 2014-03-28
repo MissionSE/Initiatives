@@ -59,16 +59,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		//the execution of the program. Recommended to turn off before
 		//final build of the program.
 		debugging = true;
-
 	}
 
 	public void setupDatabase(String dbname) throws Exception {
-
 		//The base Database cannot be null.
 		if (dbname == null) {
 			throw new Exception("Invalid Filename.");
 		}
-
 
 		//Sets the SQL Driver to HSQLDB.
 		try {
@@ -115,7 +112,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			create("CREATE TABLE compositeTrackData("
 					+ "id INTEGER IDENTITY, "
 					+ "uniqueId VARCHAR(256) NOT NULL, "
-					+ "sourceTypeKey INTEGER,"
+					+ "sourceTrackType VARCHAR(32),"
 					+ "threat INTEGER,"
 					+ "latitude DOUBLE, "
 					+ "longitude DOUBLE, "
@@ -137,7 +134,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
 
 			if (debugging) {
-				System.out.println("fusedTrackData Table Created Sucessfully.");
+				System.out.println("compositeTrackData Table Created Sucessfully.");
 			}
 
 			create("CREATE TABLE sourceTrackData("
@@ -165,18 +162,17 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
 
 			if (debugging) {
-				System.out.println("fusedTrackData Table Created Sucessfully.");
+				System.out.println("sourceTrackData Table Created Sucessfully.");
 			}
 
-
-			create("CREATE TABLE sourceType("
+			create("CREATE TABLE compositeSourceCrossReference("
 					+ "id INTEGER IDENTITY, "
-					+ "uniqueId VARCHAR(256) NOT NULL, "
-					+ "trackType VARCHAR(32), "
+					+ "compositeKeyId VARCHAR(256) NOT NULL, "
+					+ "sourceKeyId VARCHAR(32), "
 					+ "dateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
 			if (debugging) {
-				System.out.println("Static Table Created Sucessfully.");
+				System.out.println("sourceType Created Sucessfully.");
 			}
 
 		} catch (SQLException e) {
@@ -207,7 +203,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * and time in for format:
 	 */
 	private String generateFileName(String fileName) {
-
 		if (fileName == null) {
 			//Throw exception
 		}
@@ -226,7 +221,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		}
 
 		return uniqueFileName;
-
 	}
 
 	/**
@@ -240,7 +234,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * SQL Database can not be established.
 	 */
 	private void create(String expression) throws SQLException {
-
 		if (expression == null) {
 
 			if (debugging) {
@@ -264,7 +257,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 				System.err.println("The Database failed to connect. ");
 			}
 		}
-
 		statement.close();
 	}
 
@@ -294,7 +286,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * added in the Database yet.
 	 */
 	public List<String> fetchCompositeDataId() throws SQLException {
-
 		//Temporary stoage location for the List of unique Ids.
 		List<String> uniqueIds = new ArrayList<String>();
 
@@ -368,24 +359,19 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * database occurs.
 	 */
 	public void updateSourceBuilder(SourceDataModel source) throws SQLException {
-
 		//If the Source is null, or doesn't contain a uniqueId,
 		//the information is worthless.
-		
+
 		if ((source == null) || (source.getUniqueId() == null)) {
 			//throw exception.
+			return;
 		}
 		//Before executing any statements, make sure that the uniqueId doesn't
 		//already exist in the database.
 		String staticExist = "SELECT * FROM sourceTrackData WHERE uniqueId = ?";
-	       System.out.println("updateSourceBuilder 01: ");
 		PreparedStatement staticCheck = conn.prepareCall(staticExist);
-	       System.out.println("updateSourceBuilder 02: ");
 		staticCheck.setString(1, source.getUniqueId());
-	       System.out.println("updateSourceBuilder 03: ");
 		ResultSet queryResult = staticCheck.executeQuery();
-	       System.out.println("updateSourceBuilder 04: ");
-
 
 		//Count the number of results, should be either 0 or 1.
 		int counter = 0;
@@ -393,15 +379,12 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			counter++;
 		}
 
-
 		/*
 		 * If the counter is 0, it means that this is the first time this
 		 * uniqueId is being inserted into the database. If the number is 1,
 		 * it means a row already exists containing the uniqueId.
 		 */
-        System.out.println("updateSourceBuilder counter: "+counter);
 		if (counter < 1) {
-			
 			//Static Information
 			String staticQuery = "INSERT INTO sourceTrackData("
 					+ "uniqueId,"
@@ -425,9 +408,7 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "trackPlatform,"
 					+ "trackCategory)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
 			PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
-		       System.out.println("updateSourceBuilder 1: ");
 
 			staticStatement.setString(1, source.getUniqueId());
 			staticStatement.setString(2, source.getSourceTrackType());
@@ -449,43 +430,39 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			staticStatement.setDouble(18, source.getPositionAltitude());
 			staticStatement.setString(19, source.getTrackPlatform());
 			staticStatement.setString(20, source.getTrackCategory());
-		       System.out.println("updateSourceBuilder 2: ");
 
 			staticStatement.execute();
 			staticStatement.close();
 		} else {
-
 			//If the uniqueId already exists, update the information
 			//accordingly rather then creating a new row with the
 			//same uniqueId.
 
 			//sourceTrackData Information
-			String dynamicQuery = "UPDATE INTO sourceTrackData("
-					+ "uniqueId,"
-					+ "sourceTrackType,"
-					+ "threat,"
-					+ "latitude,"
-					+ "longitude,"
-					+ "altitude,"
-					+ "fuel,"
-					+ "speedX,"
-					+ "speedY, "
-					+ "speedZ, "
-					+ "hertz,"
-					+ "depthZ,"
-					+ "errorX,"
-					+ "errorY,"
-					+ "errorZ,"
-					+ "positionX,"
-					+ "positionY,"
-					+ "positionZ,"
-					+ "trackPlatform,"
-					+ "trackCategory)";
-
+			String dynamicQuery = "UPDATE sourceTrackData SET "
+					+ "sourceTrackType=?,"
+					+ "threat=?,"
+					+ "latitude=?,"
+					+ "longitude=?,"
+					+ "altitude=?,"
+					+ "fuel=?,"
+					+ "speedX=?,"
+					+ "speedY=?, "
+					+ "speedZ=?, "
+					+ "hertz=?,"
+					+ "depthZ=?,"
+					+ "errorX=?,"
+					+ "errorY=?,"
+					+ "errorZ=?,"
+					+ "positionX=?,"
+					+ "positionY=?,"
+					+ "positionZ=?,"
+					+ "trackPlatform=?,"
+					+ "trackCategory=?"
+					+ "WHERE uniqueId=?";
 			PreparedStatement dynamicStatement = conn.prepareStatement(dynamicQuery);
 
-			dynamicStatement.setString(1, source.getUniqueId());
-
+			//dynamicStatement.setString(1, source.getUniqueId());
 
 			/*
 			 * Java's interpretation of null and SQL interpretation of NULL are two
@@ -497,118 +474,120 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			 * which will specifically set the column value to SQL NULL.
 			 */
 			if (source.getSourceTrackType() != null) {
-				dynamicStatement.setString(2, source.getSourceTrackType());
+				dynamicStatement.setString(1, source.getSourceTrackType());
+			} else {
+				dynamicStatement.setNull(1, 8);
+			}
+
+			if (source.getThreatLevel() != null) {
+				dynamicStatement.setInt(2, source.getThreatLevel());
 			} else {
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getThreatLevel() != null) {
-				dynamicStatement.setInt(3, source.getThreatLevel());
+			if (source.getSourceLatitude() != null) {
+				dynamicStatement.setDouble(3, source.getSourceLatitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
 
-			if (source.getSourceLatitude() != null) {
-				dynamicStatement.setDouble(4, source.getSourceLatitude());
+			if (source.getSourceLongitude() != null) {
+				dynamicStatement.setDouble(4, source.getSourceLongitude());
 			} else {
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getSourceLongitude() != null) {
-				dynamicStatement.setDouble(5, source.getSourceLongitude());
+			if (source.getSourceAltitude() != null) {
+				dynamicStatement.setDouble(5, source.getSourceAltitude());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getSourceAltitude() != null) {
-				dynamicStatement.setDouble(6, source.getSourceAltitude());
+			if (source.getFuel() != null) {
+				dynamicStatement.setDouble(6, source.getFuel());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(7, source.getFuel());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(7, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedX());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(8, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedY());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(9, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(10, source.getSpeedZ());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(10, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(11, source.getUpdateHertz());
+			if (source.getDepthZ() != null) {
+				dynamicStatement.setDouble(11, source.getDepthZ());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(12, source.getDepthZ());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(12, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(13, source.getErrorX());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(13, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(14, source.getErrorY());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(14, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(15, source.getErrorZ());
+			if (source.getPositionLatitude() != null) {
+				dynamicStatement.setDouble(15, source.getPositionLatitude());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLatitude());
+			if (source.getPositionLongitude() != null) {
+				dynamicStatement.setDouble(16, source.getPositionLongitude());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionLongitude());
+			if (source.getPositionAltitude() != null) {
+				dynamicStatement.setDouble(17, source.getPositionAltitude());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(18, source.getPositionAltitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(18, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(18, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(19, source.getTrackPlatform());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(19, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(19, 8);
 			}
 
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(20, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(20, 8);
-			}
+			dynamicStatement.setString(20, source.getUniqueId());
 			/*
 			 * After execution of the statement, the connection should be closed
 			 * to free up resources in the databse.
@@ -650,13 +629,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
     }*/
 
 	private Timestamp getFirstTimeEntryInSourceDatabase(String uniqueId) throws SQLException {
-
 		String query = "SELECT dateCreated FROM sourceTrackData WHERE uniqueId = ?";
-
 		PreparedStatement statement = conn.prepareStatement(query);
 		statement.setString(1, uniqueId);
 		ResultSet result = statement.executeQuery();
-
 
 		//iterate through the fusedTrackData results, create a new source object
 		//and all it to the Source array which will be returned to the
@@ -665,7 +641,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 
 			return result.getTimestamp("dateCreated");
 		}
-
 		return null;
 	}
 
@@ -685,16 +660,14 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * @throws SQLException Throws an exception if an errors occurs with SQL. 
 	 */
 	public SourceDataModel querySourceBuilder(String uniqueId, long desiredTime) throws SQLException {
-
-
 		//TODO, fix other query builder method.
 
-
-		//Gets the creation date of the first uniqueId
+		/*		//Gets the creation date of the first uniqueId
 		Timestamp firstEntry = getFirstTimeEntryInSourceDatabase(uniqueId);
 
 		if (firstEntry == null) {
-			//throw error, ID doesnt exist. 
+			System.out.println("querySourceBuilder NOT FOUND");
+			return null;
 		}
 
 		//Grabs the Static Information.
@@ -707,20 +680,18 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 
 		if (startingTimeStamp.before(firstEntry)) {
 			startingTimeStamp = firstEntry;
-		}
-		String dynamicQuery = "SELECT * FROM sourceTrackData WHERE (dateCreated BETWEEN ? AND ?) AND (uniqueId = ?)";
+		}*/
+		String dynamicQuery = "SELECT * FROM sourceTrackData WHERE uniqueId = ?";
 		PreparedStatement statement = conn.prepareStatement(dynamicQuery);
-		statement.setTimestamp(1, endingTimeStamp);
-		statement.setTimestamp(2, startingTimeStamp);
-		statement.setString(3, uniqueId);
+		/*		statement.setTimestamp(1, endingTimeStamp);
+		statement.setTimestamp(2, startingTimeStamp);*/
+		statement.setString(1, uniqueId);
 		ResultSet dynamicResults = statement.executeQuery();
-
 
 		//iterate through the fusedTrackData results, create a new source object
 		//and all it to the Source array which will be returned to the
 		//requesting module.
 		while (dynamicResults.next()) {
-
 			SourceDataModel temp = new SourceDataModel(
 					uniqueId,
 					dynamicResults.getString("sourceTrackType"),
@@ -767,8 +738,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 */
 	public List<SourceDataModel> querySourceBuilder(String sourceType,
 			String uniqueId, long fromTime) throws SQLException {
-
-
 		//Gets the creation date of the first uniqueId
 		Timestamp firstEntry = getFirstTimeEntryInSourceDatabase(uniqueId);
 
@@ -796,14 +765,12 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		statement.setString(3, uniqueId);
 		ResultSet dynamicResults = statement.executeQuery();
 
-
 		List<SourceDataModel> resultArray = new ArrayList<SourceDataModel>();
 
 		//iterate through the fusedTrackData results, create a new source object
 		//and all it to the Source array which will be returned to the
 		//requesting module.
 		while (dynamicResults.next()) {
-
 			SourceDataModel temp = new SourceDataModel(
 					uniqueId,
 					dynamicResults.getString("sourceTrackType"),
@@ -827,7 +794,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					dynamicResults.getDouble("speedZ"));
 
 			resultArray.add(temp);
-
 		}
 		return resultArray;
 	}
@@ -848,10 +814,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * @throws SQLException - Throws an Exception if an error with the SQL
 	 * database occurs.
 	 */
-	public void updateCompositeBuilder(CompositeDataModel source) throws SQLException {
-
+	public void updateCompositeBuilder(SourceDataModel source) throws SQLException {
 		//If the Source is null, or doesn't contain a uniqueId,
 		//the information is worthless.
+
 		if ((source == null) || (source.getUniqueId() == null)) {
 			//throw exception.
 		}
@@ -862,7 +828,6 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		PreparedStatement staticCheck = conn.prepareCall(staticExist);
 		staticCheck.setString(1, source.getUniqueId());
 		ResultSet queryResult = staticCheck.executeQuery();
-
 
 		//Count the number of results, should be either 0 or 1.
 		int counter = 0;
@@ -877,11 +842,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		 * it means a row already exists containing the uniqueId.
 		 */
 		if (counter < 1) {
-
 			//Static Information
 			String staticQuery = "INSERT INTO compositeTrackData("
 					+ "uniqueId,"
-					+ "sourceTypeKey,"
+					+ "sourceTrackType,"
 					+ "threat,"
 					+ "latitude,"
 					+ "longitude,"
@@ -901,15 +865,14 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "trackPlatform,"
 					+ "trackCategory)"
 					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
 			PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
 
 			staticStatement.setString(1, source.getUniqueId());
-			staticStatement.setDouble(2, source.getSourceTypeKey());
+			staticStatement.setString(2, source.getSourceTrackType());
 			staticStatement.setDouble(3, source.getThreatLevel());
-			staticStatement.setDouble(4, source.getCompositeLatitude());
-			staticStatement.setDouble(5, source.getCompositeLongitude());
-			staticStatement.setDouble(6, source.getCompositeAltitude());
+			staticStatement.setDouble(4, source.getSourceLatitude());
+			staticStatement.setDouble(5, source.getSourceLongitude());
+			staticStatement.setDouble(6, source.getSourceAltitude());
 			staticStatement.setDouble(7, source.getFuel());
 			staticStatement.setDouble(8, source.getSpeedY());
 			staticStatement.setDouble(9, source.getSpeedY());
@@ -930,32 +893,28 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		} else {
 
 			//fusedTrackData Information
-			String dynamicQuery = "INSERT INTO compositeTrackData("
-					+ "uniqueId,"
-					+ "sourceTypeKey,"
-					+ "threat,"
-					+ "latitude,"
-					+ "longitude,"
-					+ "altitude,"
-					+ "fuel,"
-					+ "speedX,"
-					+ "speedY, "
-					+ "speedZ, "
-					+ "hertz,"
-					+ "depthZ,"
-					+ "errorX,"
-					+ "errorY,"
-					+ "errorZ,"
-					+ "positionX,"
-					+ "positionY,"
-					+ "positionZ,"
-					+ "trackPlatform,"
-					+ "trackCategory)";
-
+			String dynamicQuery = "UPDATE compositeTrackData SET "
+					+ "sourceTrackType=?,"
+					+ "threat=?,"
+					+ "latitude=?,"
+					+ "longitude=?,"
+					+ "altitude=?,"
+					+ "fuel=?,"
+					+ "speedX=?,"
+					+ "speedY=?, "
+					+ "speedZ=?, "
+					+ "hertz=?,"
+					+ "depthZ=?,"
+					+ "errorX=?,"
+					+ "errorY=?,"
+					+ "errorZ=?,"
+					+ "positionX=?,"
+					+ "positionY=?,"
+					+ "positionZ=?,"
+					+ "trackPlatform=?,"
+					+ "trackCategory=?"
+					+ "WHERE uniqueId=?";
 			PreparedStatement dynamicStatement = conn.prepareStatement(dynamicQuery);
-
-			dynamicStatement.setString(1, source.getUniqueId());
-
 
 			/*
 			 * Java's interpretation of null and SQL interpretation of NULL are two
@@ -966,119 +925,122 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			 * it is, a special setter must be called (built into PreparedStatement)
 			 * which will specifically set the column value to SQL NULL.
 			 */
-			if (source.getSourceTypeKey() != null) {
-				dynamicStatement.setInt(2, source.getSourceTypeKey());
+			if (source.getSourceTrackType() != null) {
+				dynamicStatement.setString(1, source.getSourceTrackType());
+			} else {
+				dynamicStatement.setNull(1, 8);
+			}
+
+			if (source.getThreatLevel() != null) {
+				dynamicStatement.setLong(2, source.getThreatLevel());
 			} else {
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getThreatLevel() != null) {
-				dynamicStatement.setInt(3, source.getThreatLevel());
+			if (source.getSourceLatitude() != null) {
+				dynamicStatement.setDouble(3, source.getSourceLatitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
 
-			if (source.getCompositeLatitude() != null) {
-				dynamicStatement.setDouble(4, source.getCompositeLatitude());
+			if (source.getSourceLatitude() != null) {
+				dynamicStatement.setDouble(4, source.getSourceLatitude());
 			} else {
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getCompositeLatitude() != null) {
-				dynamicStatement.setDouble(5, source.getCompositeLatitude());
+			if (source.getSourceAltitude() != null) {
+				dynamicStatement.setDouble(5, source.getSourceAltitude());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getCompositeAltitude() != null) {
-				dynamicStatement.setDouble(6, source.getCompositeAltitude());
+			if (source.getFuel() != null) {
+				dynamicStatement.setDouble(6, source.getFuel());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(7, source.getFuel());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(7, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedX());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(8, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedY());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(9, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(10, source.getSpeedZ());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(10, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(11, source.getUpdateHertz());
+			if (source.getDepthZ() != null) {
+				dynamicStatement.setDouble(11, source.getDepthZ());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(12, source.getDepthZ());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(12, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(13, source.getErrorX());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(13, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(14, source.getErrorY());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(14, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(15, source.getErrorZ());
+			if (source.getPositionLatitude() != null) {
+				dynamicStatement.setDouble(15, source.getPositionLatitude());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLatitude());
+			if (source.getPositionLongitude() != null) {
+				dynamicStatement.setDouble(16, source.getPositionLongitude());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionLongitude());
+			if (source.getPositionAltitude() != null) {
+				dynamicStatement.setDouble(17, source.getPositionAltitude());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(18, source.getPositionAltitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(18, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(18, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(19, source.getTrackPlatform());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(19, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(19, 8);
 			}
 
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(20, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(20, 8);
-			}
+			dynamicStatement.setString(20, source.getUniqueId());
+
 			/*
 			 * After execution of the statement, the connection should be closed
 			 * to free up resources in the databse.
@@ -1089,13 +1051,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	}
 
 	private Timestamp getFirstTimeEntryInCompositeDatabase(String uniqueId) throws SQLException {
-
 		String query = "SELECT dateCreated FROM compositeTrackData WHERE uniqueId = ?";
-
 		PreparedStatement statement = conn.prepareStatement(query);
 		statement.setString(1, uniqueId);
 		ResultSet result = statement.executeQuery();
-
 
 		//iterate through the fusedTrackData results, create a new source object
 		//and all it to the Source array which will be returned to the
@@ -1123,11 +1082,8 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * database matching the desired time.
 	 * @throws SQLException Throws an exception if an errors occurs with SQL. 
 	 */
-	public CompositeDataModel queryCompositeBuilder(String uniqueId, long desiredTime) throws SQLException {
-
-
+	public SourceDataModel queryCompositeBuilder(String uniqueId, long desiredTime) throws SQLException {
 		//TODO, fix other query builder method.
-
 
 		//Gets the creation date of the first uniqueId
 		Timestamp firstEntry = getFirstTimeEntryInCompositeDatabase(uniqueId);
@@ -1160,9 +1116,9 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		//requesting module.
 		while (dynamicResults.next()) {
 
-			CompositeDataModel temp = new CompositeDataModel(
+			SourceDataModel temp = new SourceDataModel(
 					uniqueId,
-					dynamicResults.getInt("sourceTypeKey"),
+					dynamicResults.getString("sourceTrackType"),
 					dynamicResults.getString("trackPlatform"),
 					dynamicResults.getString("trackCategory"),
 					dynamicResults.getInt("threat"),
@@ -1204,11 +1160,10 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 	 * @throws SQLException - Throws an exception if the connection to the database
 	 * fails.
 	 */
-	public List<CompositeDataModel> queryCompositeBuilder(String sourceType,
+	public List<SourceDataModel> queryCompositeBuilder(String sourceType,
 			String uniqueId, long fromTime) throws SQLException {
 
-
-		//Gets the creation date of the first uniqueId
+		/*		//Gets the creation date of the first uniqueId
 		Timestamp firstEntry = getFirstTimeEntryInCompositeDatabase(uniqueId);
 
 		if (firstEntry == null) {
@@ -1218,57 +1173,121 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 		//Fetches the Static Information corresponding with the
 		//SourceDataModel staticSource = getStaticInformation(uniqueId);
 
-		/**
+		 *//**
 		 * Fetch the fusedTrackData Information.
-		 */
+		 *//*
 		Timestamp fromTimeStamp = new Timestamp(fromTime);
 		Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
 
 		if (fromTimeStamp.before(firstEntry)) {
 			fromTimeStamp = firstEntry;
 		}
-
-		String dynamicQuery = "SELECT * FROM compositeTrackData WHERE dateCreated BETWEEN ? AND ? AND uniqueId = ?";
+		  */
+		String dynamicQuery = "SELECT * FROM compositeTrackData";
 		PreparedStatement statement = conn.prepareStatement(dynamicQuery);
-		statement.setTimestamp(1, currentTimeStamp);
+		/*		statement.setTimestamp(1, currentTimeStamp);
 		statement.setTimestamp(2, fromTimeStamp);
-		statement.setString(3, uniqueId);
-		ResultSet dynamicResults = statement.executeQuery();
+		statement.setString(1, uniqueId);
+		 */		ResultSet dynamicResults = statement.executeQuery();
 
 
-		List<CompositeDataModel> resultArray = new ArrayList<CompositeDataModel>();
+		 List<SourceDataModel> resultArray = new ArrayList<SourceDataModel>();
 
-		//iterate through the fusedTrackData results, create a new source object
-		//and all it to the Source array which will be returned to the
-		//requesting module.
-		while (dynamicResults.next()) {
+		 //iterate through the fusedTrackData results, create a new source object
+		 //and all it to the Source array which will be returned to the
+		 //requesting module.
+		 while (dynamicResults.next()) {
 
-			CompositeDataModel temp = new CompositeDataModel(
-					uniqueId,
-					dynamicResults.getInt("sourceTypeKey"),
-					dynamicResults.getString("trackPlatform"),
-					dynamicResults.getString("trackCategory"),
-					dynamicResults.getInt("threat"),
-					dynamicResults.getDouble("speedX"),
-					dynamicResults.getDouble("speedY"),
-					dynamicResults.getDouble("latitude"),
-					dynamicResults.getDouble("longitude"),
-					dynamicResults.getDouble("altitude"),
-					dynamicResults.getDouble("fuel"),
-					dynamicResults.getDouble("errorX"),
-					dynamicResults.getDouble("errorY"),
-					dynamicResults.getDouble("hertz"),
-					dynamicResults.getDouble("depthZ"),
-					dynamicResults.getDouble("positionX"),
-					dynamicResults.getDouble("positionY"),
-					dynamicResults.getDouble("errorZ"),
-					dynamicResults.getDouble("positionZ"),
-					dynamicResults.getDouble("speedZ"));
+			 SourceDataModel temp = new SourceDataModel(
+					 dynamicResults.getString("uniqueId"),
+					 dynamicResults.getString("sourceTrackType"),
+					 dynamicResults.getString("trackPlatform"),
+					 dynamicResults.getString("trackCategory"),
+					 dynamicResults.getInt("threat"),
+					 dynamicResults.getDouble("speedX"),
+					 dynamicResults.getDouble("speedY"),
+					 dynamicResults.getDouble("latitude"),
+					 dynamicResults.getDouble("longitude"),
+					 dynamicResults.getDouble("altitude"),
+					 dynamicResults.getDouble("fuel"),
+					 dynamicResults.getDouble("errorX"),
+					 dynamicResults.getDouble("errorY"),
+					 dynamicResults.getDouble("hertz"),
+					 dynamicResults.getDouble("depthZ"),
+					 dynamicResults.getDouble("positionX"),
+					 dynamicResults.getDouble("positionY"),
+					 dynamicResults.getDouble("errorZ"),
+					 dynamicResults.getDouble("positionZ"),
+					 dynamicResults.getDouble("speedZ"));
 
-			resultArray.add(temp);
+			 resultArray.add(temp);
 
+		 }
+		 return resultArray;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	//Composite Source CrossReference
+	/////////////////////////////////////////////////////////////////////////////	
+
+	/**
+	 * Given a Composite track key and source track key, this will pair them up.
+	 *
+	 *
+	 * @param compositeID - Composite track.
+	 * @param sourceID - Composite track.
+	 * @return - Nothing is Returned.
+	 * @throws SQLException - Throws an Exception if an error with the SQL
+	 * database occurs.
+	 */
+	public void updateCompositeSourceCrossReference(String compositeId, String sourceId) throws SQLException {
+		String staticQuery = "INSERT INTO compositeSourceCrossReference("
+				+ "compositeKeyId,"
+				+ "sourceKeyId)"
+				+ "VALUES(?,?)";
+		PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
+
+		staticStatement.setString(1, compositeId);
+		staticStatement.setString(2, sourceId);
+
+		staticStatement.execute();
+		staticStatement.close();			
+	}
+
+
+	/**
+	 * Given a Composite track key this method returns a list of sources.
+	 *
+	 *
+	 * @param compositeID - Composite track.
+	 * @return List of sources.
+	 * @throws SQLException - Throws an Exception if an error with the SQL
+	 * database occurs.
+	 */
+	public List<String> fetchSourcesForComposite(String compositeId) throws SQLException {
+		//Temporary storage location for the List of unique Ids.
+		List<String> crossReference = new ArrayList<String>();
+
+		String query = "SELECT * FROM compositeSourceCrossReference WHERE compositeKeyId = ?";
+		PreparedStatement statement = conn.prepareStatement(query);
+		statement.setString(1, compositeId);
+		ResultSet result = statement.executeQuery();		
+
+		//Close the connection to free resources in the Database. 
+		statement.close();
+
+		//For every result, add the uniqueId into an ArrayList.
+		while (result.next()) {
+			if (!crossReference.contains(result.getString("sourceKeyId"))) {
+				crossReference.add(result.getString("sourceKeyId"));
+			}
 		}
-		return resultArray;
+
+		if (!crossReference.isEmpty()) {
+			return crossReference;
+		} else {
+			return null;
+		}			
 	}
 
 }
