@@ -3,9 +3,9 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 public class Candidate {
 	private String uniqueId;
 	private Double rangeDiff;
-	
-	public Candidate()
-	{}
+
+	public Candidate() {
+	}
 
 	public String getUniqueId() {
 		return uniqueId;
