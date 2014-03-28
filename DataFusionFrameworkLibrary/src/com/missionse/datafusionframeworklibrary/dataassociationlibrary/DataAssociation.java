@@ -3,7 +3,6 @@ package com.missionse.datafusionframeworklibrary.dataassociationlibrary;
 import java.util.ArrayList;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
@@ -43,7 +42,7 @@ public class DataAssociation implements DataAssociationProvider {
 		ArrayList<Candidate> candidates = null;
 
 		candidates = eval.evaluateInput(toUpdate);
-		
+
 		// If candidates found
 		if (!candidates.isEmpty()) {
 

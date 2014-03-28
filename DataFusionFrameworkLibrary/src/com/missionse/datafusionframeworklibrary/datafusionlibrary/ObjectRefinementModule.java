@@ -75,7 +75,7 @@ public class ObjectRefinementModule {
 	private static double CONFIDENCE_PROBABILITY = .17;
 	private Matrix state_x_pre; // state vector prediction estimate
 	private Matrix state_x_post; // state vector correction estimate based on
-									// measurements
+	// measurements
 	private Matrix measurement_matrix; // measurement Matrix ~H matrix
 	private Matrix covariance_r; // Covariance for measurement noise R
 	private Matrix kalmanGain;
@@ -84,14 +84,14 @@ public class ObjectRefinementModule {
 	private Matrix covariance_p_post; // covariance of posterio state estimate
 	private Matrix covariance_q; // Covariance for process noise Q
 	private double prevSpeedX; // Store previousX Speed for Acceleration
-								// computation.
+	// computation.
 	private double prevSpeedY; // Store previousY Speed for Acceleration
-								// computation.
+	// computation.
 	private double prevSpeedZ; // Store previousZ Speed for Acceleration
-								// computation.
+	// computation.
 	// private double NUMBER_SOURCES = 3;
 	private static final int STATE_ELEMENTS_SIZE = 9; // NUMBER OF state vector
-														// properties
+	// properties
 	CompositeDataAccessor db;
 	// Analysis analysisModule;
 	// that identify our object state
@@ -170,9 +170,7 @@ public class ObjectRefinementModule {
 
 		Matrix tempStateVector = new Matrix(placeHolder);
 		SourceDataModel temp = sourceDataModels[0]; // Corresponds to correlated
-													// Source
-
-		System.out.println("sourceDataModels.length == "+sourceDataModels.length);
+		// Source
 
 		// Check whether we only have one source to fuse, thus we only compute
 		// Correction
@@ -195,7 +193,6 @@ public class ObjectRefinementModule {
 				tempStateVector.plusEquals(computeCorrectionPhase(temp));
 
 			}
-			System.out.println("tempStateVector= " + tempStateVector);
 
 			// Now that each measurementSource has been Kalmanized and added
 			// together,
@@ -207,15 +204,14 @@ public class ObjectRefinementModule {
 						/ (sourceDataModels.length - 1);
 			}
 			// Now that we have the Average of kalmanized measurements, create a
-			// new
-			// state_X_post based off of it.
-			// state_x_post = new Matrix(averageVector);
-			System.out.println("averageVector[0][0]= " + averageVector[0][0]);
+			// new state_X_post based off of it.
+			state_x_post = new Matrix(averageVector);
+			// System.out.println("state_x_post= " + state_x_post);
 
 		}
 		// Assemble the new source from state vector
 		SourceDataModel updatedSource = reconstructSource(sourceDataModels[0]);
-System.out.println("orm: updatedSource= " + updatedSource);
+		System.out.println("orm.refineObject: updatedSource " + updatedSource);
 
 		// Update the prevSpeed for our Object for future acceleration
 		// computation'
@@ -260,11 +256,11 @@ System.out.println("orm: updatedSource= " + updatedSource);
 		// Step 1: Project the state ahead
 		// state_pre = state_transition * state_post
 
-System.out.println("State x post before Prediction:: " +
-		state_x_post);
+		// System.out.println("state_x_post before Prediction:: "
+		// +state_x_post);
 
 		state_x_pre = state_transition.times(state_x_post);
-System.out.println("State x pre:: " + state_x_pre);
+		// System.out.println("State_x_pre predicted ahead:: " + state_x_pre);
 
 		// Next compute the covariance for this state estimate, P
 		// state_x_pre = p(k) =temp 1*state_transtion(transpose) + Q
@@ -411,7 +407,6 @@ System.out.println("State x pre:: " + state_x_pre);
 	private SourceDataModel reconstructSource(SourceDataModel updatedSource) {
 
 		double[][] currStateVector = state_x_post.getArray();
-		System.out.println("currStateVector[0][0] " + currStateVector[0][0]);
 
 		updatedSource.setPositionLongitude(currStateVector[0][0]); // PositionLat
 		updatedSource.setPositionLatitude(currStateVector[1][0]); // PositionLong

@@ -2,8 +2,6 @@ package com.missionse.datafusionframeworklibrary.datafusionlibrary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.missionse.datafusionframeworklibrary.dataassociationlibrary.DataAssociation;
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataAccessor;
@@ -20,14 +18,10 @@ public class DataFusion implements DataFusionProvider {
 	DataAssociation da;
 	Number n;
 	CorrelateSources cs;
-	PackSupportingData psd;
 
 	// Reference to the database
 	SourceDataAccessor sdb;
 	CompositeDataAccessor cdb;
-
-	// The list of currently observed Sources.
-	private ArrayList<SourceDataModel> sources;
 
 	/*
 	 * Constructor for DataFusion
@@ -44,8 +38,7 @@ public class DataFusion implements DataFusionProvider {
 		// 2
 		da = new DataAssociation(compositeDataAccess);
 		n = new Number();
-		cs = new CorrelateSources();
-		psd = new PackSupportingData(compositeDataAccess);
+		cs = new CorrelateSources(sourceDataAccess, compositeDataAccess);
 
 	}
 
@@ -120,54 +113,11 @@ public class DataFusion implements DataFusionProvider {
 		System.out.println("dataFusion compositeTrackKey : "
 				+ compositeTrackKey);
 
-// TODO move code
-//		SourceDataModel correlated = cs.correlateSources(toUpdate, compositeTrackKey);
-		
-		// list of currently observed source ids per composite track
-		List<String> sourceId = new ArrayList<String>();
-
-		// array of currently observed source data per composite track
-		sources = new ArrayList<SourceDataModel>();
-
-		// get list of all contributing sources for composite tracks
-		try {
-			sourceId = cdb.fetchSourcesForComposite(compositeTrackKey);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println("DataFusion sourceId: " + sourceId);
-
-        // populate sources array with new source data
-		sources.add(toUpdate);		
-		
-		// add all other contributing sources
-		if (sourceId != null) {
-			for (String item : sourceId) {
-				if (item.equals(toUpdate.getUniqueId())){}
-				else
-				try {
-					sources.add(sdb.querySourceBuilder(item, System.currentTimeMillis()));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-
-		System.out.println("dataFusion sources : " + sources);
-
-		// Correlate all observed data into a correlated source.
-		SourceDataModel correlated = cs.correlateSources(sources,
-				compositeTrackKey);
-
-		System.out.println("dataFusion correlated: " + correlated);
-		// end TODO move code
-
-		// Send off the newly updated source and the correlated one to the rest
-		// of the program.
-		sendUpdates(toUpdate, correlated);
+		/*
+		 * Once this class has done everything it needs to do, this method
+		 * allows it to send off data to other sections of the program.
+		 */
+		cs.correlateSources(toUpdate, compositeTrackKey);
 	}
 
 	/*
@@ -201,33 +151,4 @@ public class DataFusion implements DataFusionProvider {
 		System.out.println("dataFusion:createNewSource: " + newSource);
 		return newSource;
 	}
-
-	/*
-	 * Once this class has done everything it needs to do, this method allows it
-	 * to send off data to other sections of the program.
-	 */
-	private void sendUpdates(SourceDataModel toUpdate,
-			SourceDataModel correlated) {
-		// Here the correlated source is sent to be saved by the Database.
-		String compositeTrackKey = correlated.getUniqueId();
-		String sourceTrackKey = toUpdate.getUniqueId();
-
-		try {
-			cdb.updateCompositeSourceCrossReference(compositeTrackKey,
-					sourceTrackKey);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			cdb.updateCompositeBuilder(correlated);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		psd.packSupportingData(toUpdate, correlated, sources, compositeTrackKey);
-
-	}
-
 }

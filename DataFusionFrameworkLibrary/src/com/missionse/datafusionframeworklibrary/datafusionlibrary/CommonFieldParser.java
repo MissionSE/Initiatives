@@ -448,14 +448,14 @@ public class CommonFieldParser
 	{
 	    if(toCorrelate.get(i).getTrackCategory() != null)
 	    {
-		correlatedType = correlatedType + toCorrelate.get(i).getTrackCategory() + "/";
+		correlatedType = toCorrelate.get(i).getTrackCategory();
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlated.setTrackCategory(correlatedType.substring(0, correlatedType.length() - 2));
+	    correlated.setTrackCategory(correlatedType.substring(0, correlatedType.length() - 0));
 	}
 
 	nothingDoing = true;
@@ -465,14 +465,14 @@ public class CommonFieldParser
 	{
 	    if(toCorrelate.get(i).getTrackPlatform() != null)
 	    {
-		correlatedType = correlatedType + toCorrelate.get(i).getTrackPlatform() + "/";
+		correlatedType = /*correlatedType + */toCorrelate.get(i).getTrackPlatform()/* + "/"*/;
 		nothingDoing = false;
 	    }
 	}
 
 	if(!nothingDoing)
 	{
-	    correlated.setTrackPlatform(correlatedType.substring(0, correlatedType.length() - 2));
+	    correlated.setTrackPlatform(correlatedType.substring(0, correlatedType.length() /*- 2*/));
 	}
 
     }

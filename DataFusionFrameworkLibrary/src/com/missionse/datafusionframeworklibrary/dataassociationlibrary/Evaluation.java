@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataAccessor;
-import com.missionse.datafusionframeworklibrary.databaselibrary.CompositeDataModel;
 import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
 
 /*
@@ -13,7 +12,7 @@ import com.missionse.datafusionframeworklibrary.databaselibrary.SourceDataModel;
  * A list of associated candidates will be returned.
  */
 public class Evaluation {
-	private boolean performNonKinematic = false;
+	private boolean performNonKinematic = true;
 	private boolean performKinematic = true;
 	private boolean extrapolate = false;
 
@@ -38,32 +37,29 @@ public class Evaluation {
 	 */
 	public ArrayList<Candidate> evaluateInput(SourceDataModel toUpdate) {
 
-		System.out.println("evaluateInput toUpdate: " + toUpdate);
-
-		boolean valid = true;
-
 		// create working array for candidate data
-		Candidate cand = new Candidate();
 		ArrayList<Candidate> candList = new ArrayList<Candidate>();
 
 		List<SourceDataModel> dbList = null;
 
-        // get list of all composite tracks
+		// get list of all composite tracks
 		try {
-			dbList = db.queryCompositeBuilder(null,null,0);
+			dbList = db.queryCompositeBuilder(null, null, 0);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		System.out.println("evaluateInput dbList: " + dbList);
+		// System.out.println("evaluateInput dbList: " + dbList);
 
 		// loop through list
 		for (SourceDataModel item : dbList) {
 			System.out.println("evaluateInput item: " + item);
 
+			boolean valid = true;
+
 			if (performNonKinematic)
-				valid = nkt.nonKinematicTest();
+				valid = nkt.nonKinematicTest(toUpdate.getTrackCategory(), item.getTrackCategory());
 
 			if (valid && extrapolate)
 				ex.extrapolateTrack();
@@ -75,12 +71,15 @@ public class Evaluation {
 
 			// if track passes all tests, add to candidate list
 			if (valid) {
+				Candidate cand = new Candidate();
 				cand.setUniqueId(item.getUniqueId());
+				cand.setRangeDiff(0.0); // temp sso
 				candList.add(cand);
 			}
 			// end loop thru all tracks in db
 
 		}
+
 		return candList;
 	}
 }

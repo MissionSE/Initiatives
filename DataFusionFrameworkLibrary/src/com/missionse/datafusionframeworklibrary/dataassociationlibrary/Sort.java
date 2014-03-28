@@ -23,6 +23,7 @@ public class Sort {
 			sorted = true;
 
 			for (int i = 1; i < candidateList.size(); i++) {
+
 				if (candidateList.get(i).getRangeDiff() < candidateList.get(
 						i - 1).getRangeDiff()) {
 					temp = candidateList.get(i);
