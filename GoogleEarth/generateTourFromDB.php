@@ -47,8 +47,14 @@ while ($row = @mysql_fetch_assoc($result))
     $kml[] = '<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>';
     $kml[] = '</LookAt>';
     $kml[] = '</gx:FlyTo>';
-    $kml[] = '<gx:Wait><gx:duration>0.75</gx:duration>';
-    $kml[] = '</gx:Wait>';
+    if (1 == $i) {
+        $kml[] = '<gx:Wait><gx:duration>2.5</gx:duration>';
+        $kml[] = '</gx:Wait>';
+    }
+    else {
+        $kml[] = '<gx:Wait><gx:duration>1.0</gx:duration>';
+        $kml[] = '</gx:Wait>';        
+    }
     $i = $i + 1;
 }
 

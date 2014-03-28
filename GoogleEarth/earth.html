@@ -112,7 +112,9 @@
         var captureBalltabMode = false;
         var compassKmlObject;
         var enterTourMode = false;
-
+        var geocodingAPIKey = "AIzaSyCu7qs0fj0cupv5IKVF-CR0rbtHquHmBlE";
+        var directionsService;
+        
         console.log("calling google.load");
         google.load("earth", "1", {"other_params":"sensor=false"});
 
@@ -140,7 +142,17 @@
 
             geocoder = new google.maps.Geocoder();            
 
-            // Update streaming progress every 250ms
+            directionsService = new google.maps.DirectionsService();
+            
+            //TEST
+            var waypts = [];
+            waypts.push({location:"Folsom, NJ",stopover:true});
+            waypts.push({location:"Linwood, NJ",stopover:true});
+            var start = "Cherry Hill, NJ";
+            var end = "Ocean City, NJ";
+            calcRoute(start,end,waypts);
+
+             // Update streaming progress every 250ms
             setInterval(function() {
                 var streamingPercent = ge.getStreamingPercent();
                 var progressBar = document.getElementById('progress-bar');
@@ -1174,8 +1186,8 @@
                 }
             }
             
-            trackUpdateInterval = setInterval(function(){updateTracks()},3000);
-            closeControlInterval = setInterval(function(){updateCloseControl()},3000);
+            trackUpdateInterval = setInterval(function(){updateTracks()},5000);
+            closeControlInterval = setInterval(function(){updateCloseControl()},5000);
         }
         
         function displayTrackTags() {            
@@ -1307,6 +1319,11 @@
             element.style.background = (blank == true) ? greenButton : redButton;
         }
 
+        function highlightAvoidance() {
+            var element = document.getElementById("Avoidance");
+            element.style.background = (blank == true) ? greenButton : redButton;
+        }
+
         function highlightButtons() {
             highlightGrids();
             highlightEarthSettings();
@@ -1317,6 +1334,7 @@
             highlightWeather();
             highlightTwitter();
             highlightTours();
+            highlightAvoidance();
         }
 
         function playCsedsTour() {
@@ -1589,6 +1607,7 @@
         }
         
         function displayMykml() {
+            console.log("displayMykml enter");
             var href = projectDomain+"generateKmlFromDb.php";
             console.log("displayMykml href "+href);
             google.earth.fetchKml(ge,href,function(object) {
@@ -1596,15 +1615,17 @@
                     console.log("displayMykml fetchKml returned");
                     ge.getFeatures().appendChild(object);
                 }
+                href = projectDomain+"generateLineKmlFromDB.php";
+                console.log("displayMykml href "+href);
+                google.earth.fetchKml(ge,href,function(object) {
+                    if (object) {
+                        console.log("displayMykml fetchKml returned");
+                        ge.getFeatures().appendChild(object);
+                    }
+                });
             });
-            href = projectDomain+"generateLineKmlFromDB.php";
-            console.log("displayMykml href "+href);
-            google.earth.fetchKml(ge,href,function(object) {
-                if (object) {
-                    console.log("displayMykml fetchKml returned");
-                    ge.getFeatures().appendChild(object);
-                }
-            });
+            
+            //Offset to location of kml markers
             geocoder.geocode( { 'address': "state college, pa"}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var lookAt = ge.createLookAt('');
@@ -1619,6 +1640,18 @@
                     alert('Geocode was not successful status: ' + status);
                 }
             });
+            console.log("displayMykml leave");
+        }
+        
+        function displayDirections(id) {
+            href = projectDomain+"generateLineFromDirections.php?id="+id;
+            console.log("displayDirections href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("displayDirections fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+                }
+            });            
         }
         
         function clearMykml() {
@@ -1663,6 +1696,10 @@
 
         function displayToursWindow() {
             openWin("Tour Manager","tourManager.html",250,550,1100,0);
+        }
+
+        function displayAvoidanceWindow() {
+            openWin("Avoid Manager","avoidanceAreaManager.html",250,550,1100,0);
         }
 
         function displayTwitterWindow() {
@@ -1993,6 +2030,12 @@
                 else if (json.key == 'clear tour') {
                     clearTour();
                 }
+                else if (json.key == 'display avoidance area') {
+                    displayAvoidanceArea(json.value);
+                }
+                else if (json.key == 'clear avoidance area') {
+                    clearAvoidanceArea();
+                }
             },false);
         }
         
@@ -2259,22 +2302,86 @@
             var url = "getAvoidanceArea.php";
             $.post(url, {id:id}, function(data) {
                 $.each(data,function(key,value) {
-                    var steps = 36;
+                    var steps = 72;
                     var pi2 = Math.PI * 2;
                     var centerLat = parseFloat(value.latitude);
                     var centerLon = parseFloat(value.longitude);
                     var radius = value.radius/50;
+                    console.log("addAvoidanceArea centerLat "+centerLat+" centerLon "+centerLon+" radius "+radius);
         
                     for (var i = 0; i < steps; i++) {
-                        //console.log("i = "+i+" (i/steps*pi2) = "+i/steps*pi2+" Math.cos = "+Math.cos(i/steps*pi2));
+                        console.log("i = "+i+" (i/steps*pi2) = "+i/steps*pi2+" Math.cos = "+Math.cos(i/steps*pi2));
                         var lat = centerLat + radius * Math.cos(i / steps * pi2);
                         var lon = centerLon + radius * Math.sin(i / steps * pi2);
                         console.log("addAvoidanceArea lat = "+lat+" lon = "+lon);
-                        //var url = "addAvoidancePoint.php";
-                        //$.post(url, {id:id,lat:lat,lon:lon}, function(data) {});
+                        var url = "addAvoidanceAreaPoint.php";
+                        $.post(url, {id:id,lat:lat,lon:lon}, function(data) {});
                     }
                 });
             });
+        }
+        
+        function modifyAvoidanceArea(id) {
+            //Delete the points for this avoidance area
+            var url = "deleteAvoidanceAreaPoints.php";
+            $.post(url, {id:id}, function(data) {
+                //Calculate the new points for this avoidance area
+                addAvoidanceArea(id);
+            });
+        }
+        
+        function displayAvoidanceArea(value) { 
+            var id;
+            if (typeof value == "string") {
+                id = parseInt(value);
+            }
+            else{
+                id = value;
+            }
+
+            href = projectDomain+"generateRingFromPoints.php?id="+id;
+            console.log("displayAvoidanceArea href "+href);
+            google.earth.fetchKml(ge,href,function(object) {
+                if (object) {
+                    console.log("displayAvoidanceArea fetchKml returned");
+                    ge.getFeatures().appendChild(object);
+                }
+            });
+        }
+
+        function clearAvoidanceArea() {
+            clearAllFeatures();
+        }
+        
+        function calcRoute(start,end,waypts){
+            var request = {
+                origin: start,
+                destination: end,
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, function(response, status) {
+              if (status == google.maps.DirectionsStatus.OK) {
+                //directionsDisplay.setDirections(response);
+                for (var i = 0; i < response.routes.length; i++) {
+                    var route = response.routes[i];
+                    // For each route, display summary information.
+                    for (var j = 0; j < route.legs.length; j++) {
+                      var routeSegment = j + 1;
+                      console.log('Route Segment: ' + routeSegment);
+                      console.log('Start '+route.legs[j].start_address + ' to ');
+                      console.log(route.legs[j].end_address);
+                      console.log('Distance '+route.legs[j].distance.text);
+                      console.log('Duration '+route.legs[j].duration.text);
+                      for (var k = 0; k < route.legs[j].steps.length; k++) {
+                        console.log("step instructions "+route.legs[j].steps[k].instructions);
+                      }
+                    }
+                }
+              }
+            });            
         }
 
         function compassRose(value) {
@@ -2605,6 +2712,18 @@
             else if ("add avoidance area" == text) {
                 addAvoidanceArea(data1);
             }
+            else if ("modify avoidance area" == text) {
+                modifyAvoidanceArea(data1);
+            }
+            else if ("display avoidance area" == text) {
+                displayAvoidanceArea(data1);
+            }
+            else if ("clear avoidance area" == text) {
+                clearAvoidanceArea();
+            }
+            else if ("display directions" == text) {
+                displayDirections(data1);
+            }
         }
 
         function deleteRemoteCommand(commandId) {            
@@ -2644,6 +2763,7 @@
             <button id="Weather" onclick="displayWeatherWindow()">Weather</button>
             <button id="Tracks" onclick="displayTracksWindow()">Tracks</button>
             <button id="Tours" onclick="displayToursWindow()">Tours</button>
+            <button id="Avoidance" onclick="displayAvoidanceWindow()">Avoidance</button>
         </div>
         <div id="progress-container">
             <div id="progress-bar"></div>

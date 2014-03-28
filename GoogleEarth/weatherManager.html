@@ -69,25 +69,6 @@
         }        
       }
       
-      function toggleSatellite(setting) {
-        if (null != parentWindow) {
-          var rawData = {
-            key:"weather satellite",
-            value:setting,
-          };
-          var data = JSON.stringify(rawData);
-          parentWindow.postMessage(data,parentURI);
-        }
-        else {
-          //Call php script to write the command to the database
-          var url = document.URL.slice(0,document.URL.length-19)+"writeCommand.php";
-
-          //Write command to database
-          $.post(url, {command:"weather satellite",data1:setting,data2:null,data3:null}, function(data) {
-          });
-        }        
-      }
-      
       function toggleWarnings(setting) {
         //alert("warnings set to "+value);
         var rawData = {
@@ -135,13 +116,6 @@
         <input type="radio" name="philly" value="On" onclick=togglePhilly(true)><br />
       </h4>
       <hr>
-      <h3>Satellite Imagery</h3>
-      <h4>
-        Off  
-        <input type="radio" name="satellite" value="Off" onclick=toggleSatellite(false)><br />
-        On
-        <input type="radio" name="satellite" value="On" onclick=toggleSatellite(true)><br />
-      </h4>
       <h3>Rainfall Amounts</h3>
       <h4>
         Off  
