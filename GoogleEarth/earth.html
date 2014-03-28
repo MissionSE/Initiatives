@@ -1516,20 +1516,7 @@
                     ge.getFeatures().appendChild(object);
                 }
             });
-            geocoder.geocode( { 'address': "oklahoma"}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var lookAt = ge.createLookAt('');
-                    lookAt.setLatitude(results[0].geometry.location.lat());
-                    lookAt.setLongitude(results[0].geometry.location.lng());
-                    lookAt.setRange(5000000.0);
-                    // Set the FlyTo speed.
-                    ge.getOptions().setFlyToSpeed(0.5);
-                    ge.getView().setAbstractView(lookAt);
-                }
-                else {
-                    alert('Geocode was not successful status: ' + status);
-                }
-            });
+            centerMapOnUs();
         }
         
         function clearSatellite() {
@@ -1544,20 +1531,7 @@
                     ge.getFeatures().appendChild(object);
                 }
             });
-            geocoder.geocode( { 'address': "oklahoma"}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    var lookAt = ge.createLookAt('');
-                    lookAt.setLatitude(results[0].geometry.location.lat());
-                    lookAt.setLongitude(results[0].geometry.location.lng());
-                    lookAt.setRange(4000000.0);
-                    // Set the FlyTo speed.
-                    ge.getOptions().setFlyToSpeed(0.5);
-                    ge.getView().setAbstractView(lookAt);
-                }
-                else {
-                    alert('Geocode was not successful status: ' + status);
-                }
-            });
+            centerMapOnUs();
         }
         
         function clearUsStates() {
@@ -1593,6 +1567,7 @@
         }
         
         function displayBuoys() {
+            centerMapOnUs();
             //var href = projectDomain+'usstates.kmz';
             var href = projectDomain+'earthncwxbuoys.kmz';
             google.earth.fetchKml(ge,href,function(object) {
@@ -1884,6 +1859,9 @@
                     offsetTrack(json.trackID);
                 }
                 else if (json.value == 'offset lat lon') {
+                    var lat = json.lat;
+                    var lon = json.lon;
+                    console.log("openWin lat "+lat+" lon "+lon);
                     offsetLatLon(lat,lon);
                 }
                 else if (json.value == 'offset address') {
@@ -2025,7 +2003,11 @@
                     (true == json.value) ? tourmode("true") : tourmode("false");
                 }
                 else if (json.key == 'play tour') {
-                    playTour(data1);
+                    centerMapOnUs();
+                    setTimeout(function() {
+                        playTour(data1);
+                    }, 1000)
+                    //playTour(data1);
                 }
                 else if (json.key == 'clear tour') {
                     clearTour();
@@ -2087,6 +2069,7 @@
             offsetOS = false;
             offsetToPriHook = false;
             offsetToTrackID = false;
+            console.log("offsetLatLon calling createViewLookAt lat "+lat+" lon "+lon);
             //Create a view look at with this location
             createViewLookAt(lat,lon);            
         }
@@ -2505,6 +2488,7 @@
                 id = value;
             }
 
+
             href = projectDomain+"generatePlacemarksFromTour.php?id="+id;
             console.log("playTour href "+href);
             google.earth.fetchKml(ge,href,function(object) {
@@ -2704,7 +2688,11 @@
                 tourmode(data1);
             }
             else if ("play tour" == text) {
-                playTour(data1);
+                centerMapOnUs();
+                setTimeout(function() {
+                    playTour(data1);
+                }, 1000)
+                //playTour(data1);
             }
             else if ("clear tour" == text) {
                 clearTour();
@@ -2735,6 +2723,23 @@
         }
 
         google.setOnLoadCallback(init);
+
+        function centerMapOnUs() {
+            geocoder.geocode( { 'address': "oklahoma"}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lookAt = ge.createLookAt('');
+                    lookAt.setLatitude(results[0].geometry.location.lat());
+                    lookAt.setLongitude(results[0].geometry.location.lng());
+                    lookAt.setRange(5000000.0);
+                    // Set the FlyTo speed.
+                    ge.getOptions().setFlyToSpeed(0.5);
+                    ge.getView().setAbstractView(lookAt);
+                }
+                else {
+                    alert('Geocode was not successful status: ' + status);
+                }
+            });            
+        }
 
         function distanceBetweenTwoLocations(lat1,lon1,lat2,lon2) {
             var R = 6371; // km

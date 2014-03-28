@@ -21,7 +21,7 @@ $kml[] = '<name>Line Styling</name>';
 $kml[] = '<Style id="directions">';
 $kml[] = '<LineStyle>';
 $kml[] = '<color>ff235523</color>';
-$kml[] = '<gx:physicalWidth>36</gx:physicalWidth>';
+$kml[] = '<gx:physicalWidth>75</gx:physicalWidth>';
 $kml[] = '<gx:outerColor>ff55ff55</gx:outerColor>';
 $kml[] = '<gx:outerWidth>0.25</gx:outerWidth>';
 $kml[] = '</LineStyle>';

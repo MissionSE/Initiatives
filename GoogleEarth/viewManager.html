@@ -72,6 +72,7 @@
       function offsetLatLon() {
         var latValue = document.getElementById("offsetLat").value;
         var lonValue = document.getElementById("offsetLon").value;
+        console.log("offsetLatLon lat "+latValue+" lon "+lonValue);
         if (null != parentWindow) {
           var rawData = {
             key : "offset",
@@ -80,12 +81,14 @@
             lon : lonValue,
           };
           var data = JSON.stringify(rawData);
+          console.log("offsetLatLon posting message "+data);
           parentWindow.postMessage(data,parentURI);
         }
         else {
           //Call php script to write the command to the database
           var url = document.URL.slice(0,document.URL.length-16)+"writeCommand.php";
 
+          console.log("offsetLatLon writing command to database ");
           //Write command to database
           $.post(url, {command:"offset lat lon",data1:latValue,data2:lonValue,data3:null}, function(data) {
           });
@@ -226,6 +229,7 @@
           //alert("viewManager received event from "+event.source);
           parentWindow = event.source;
           parentURI = event.origin;
+          console.log("processEvents parentURI "+parentURI);
           var rawData = {
             key : "view",
             value : "viewManager received message",
