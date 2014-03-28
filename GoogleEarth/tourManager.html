@@ -47,7 +47,7 @@
 
         //If id not in list add it
         if (false == found) {
-          console.log("addPointToList found new point id "+obj.id+" lat "+obj.lat+" lon "+obj.lon);
+          //console.log("addPointToList found new point id "+obj.id+" lat "+obj.lat+" lon "+obj.lon);
           tourPoints.push(obj);
         }
       }
@@ -66,6 +66,7 @@
             desc.innerHTML = tourData[i].desc;
             points.innerHTML = "<li>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LNG</li>";
             id = tourData[i].id;
+            var pointId = 1;
             //Get the points associated with this tour
             var url = "getTourPoints.php?id="+id;
             $.post(url, {}, function(data) {
@@ -73,14 +74,16 @@
                 lat = value.latitude;
                 lon = value.longitude;
                 var tourPoint = {
-                    id:id,
+                    id:pointId,
                     lat:lat,
                     lon:lon
                 };
                 addPointToList(tourPoint);
-                console.log("updatePoints lat "+lat+" lon "+lon);
-                points.innerHTML += "<li>"+id+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lat+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lon+"</li>";
-                id++;
+                //console.log("updatePoints lat "+lat+" lon "+lon);
+                if (pointId< 25) {
+                  points.innerHTML += "<li>"+id+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lat+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+lon+"</li>";
+                }
+                pointId++;
               });
             });
             break;
@@ -149,6 +152,35 @@
         //Move window location
         myWindow.moveTo(1050,0);      
       }
+      
+      function directions() {
+        //Get the name of the tour selected
+        var widget = document.getElementById("tourname");
+        var name = widget.options[widget.selectedIndex].value;
+        var id = null;
+        //Get the id of the tour selected
+        for (var i = 0; i < tourData.length; i++) {
+          if (name == tourData[i].name) {
+            id = tourData[i].id;
+          }
+        }
+        
+        console.log("directions requested for tour id "+id);
+        if (id != null) {
+            var url = "setTourDirectionsRequested.php";
+            $.post(url, {id:id,value:1}, function(data) {
+              console.log("setTourDirectionsRequested returned "+data);
+              //Display the google maps window to show directions
+              var width = 500;
+              var height = 500; 
+              var myWindow = window.open("googleMapsDirections.html","","width="+width+",height="+height);
+              //Set focus on new window
+              myWindow.focus();
+              //Move window location
+              myWindow.moveTo(800,0);      
+            });
+        }        
+      }
 
       function processEvents() {
         //respond to events
@@ -190,6 +222,7 @@
       <input type="button" class="button" value="Add Tour" id="addtour" onclick=addTour()><br />
       <input type="button" class="button" value="Delete Tour" id="deletetour" onclick=deleteTour()><br />
       <input type="button" class="button" value="Clear Tour" id="deletetour" onclick=clearTour()>
+      <input type="button" class="button" value="Tour Directions" id="directions" onclick=directions()>
     </div>
   </body>
 </html>
