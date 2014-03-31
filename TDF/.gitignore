@@ -9,3 +9,4 @@ eclimd.log
 workbench.xmi
 scratch/
 **/DTED_WC/*
+**/.gradle/*
