@@ -67,14 +67,14 @@ public class FinalDriver {
 		while (true) {
 
 			if (counter < 20) {
-				source1.setPositionLatitude(source1.getPositionLatitude() + .5);
-				source1.setPositionLongitude(source1.getPositionLongitude() + .5);
+				source1.setPositionLatitude(source1.getPositionLatitude() + .01);
+				source1.setPositionLongitude(source1.getPositionLongitude() + .01);
 
-				source2.setPositionLatitude(source2.getPositionLatitude() + .6);
-				source2.setPositionLongitude(source2.getPositionLongitude() + .6);
+				source2.setPositionLatitude(source2.getPositionLatitude() + .01);
+				source2.setPositionLongitude(source2.getPositionLongitude() + .01);
 
-				source3.setPositionLatitude(source3.getPositionLatitude() + .5);
-				source3.setPositionLongitude(source3.getPositionLongitude() + .5);
+				source3.setPositionLatitude(source3.getPositionLatitude() + .01);
+				source3.setPositionLongitude(source3.getPositionLongitude() + .01);
 
 				packetReceiver.recievePacket(source1.toString());
 				packetReceiver.recievePacket(source2.toString());
