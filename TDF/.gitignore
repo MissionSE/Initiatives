@@ -2,7 +2,7 @@ release/
 **/dependency-cache/
 **/classes/
 **/tmp/
-**/bin
+#**/bin
 **/#*
 **/.#*
 .externalToolBuilders/
