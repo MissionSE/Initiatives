@@ -389,8 +389,8 @@ public class ObjectRefinementModule {
 		double accelerationZ = ((s1.getSpeedZ() - prevSpeedZ) / TIME_DIFFERENCE_OF_SOURCES);
 
 		// Initial state estimate with new source measurements
-		double[][] stateEst = { { s1.getPositionLongitude() },
-				{ s1.getPositionLatitude() }, { s1.getPositionAltitude() },
+		double[][] stateEst = { { s1.getPositionX() },
+				{ s1.getPositionY() }, { s1.getPositionZ() },
 				{ s1.getSpeedX() }, { s1.getSpeedY() }, { s1.getSpeedZ() },
 				{ accelerationX }, { accelerationY }, { accelerationZ } };
 		return new Matrix(stateEst);
@@ -408,9 +408,9 @@ public class ObjectRefinementModule {
 
 		double[][] currStateVector = state_x_post.getArray();
 
-		updatedSource.setPositionLongitude(currStateVector[0][0]); // PositionLat
-		updatedSource.setPositionLatitude(currStateVector[1][0]); // PositionLong
-		updatedSource.setPositionAltitude(currStateVector[2][0]); // PositionAlt
+		updatedSource.setPositionX(currStateVector[0][0]); // PositionLat
+		updatedSource.setPositionY(currStateVector[1][0]); // PositionLong
+		updatedSource.setPositionZ(currStateVector[2][0]); // PositionAlt
 
 		updatedSource.setSpeedX(currStateVector[3][0]); // SpeedX
 		updatedSource.setSpeedY(currStateVector[4][0]); // SpeedY

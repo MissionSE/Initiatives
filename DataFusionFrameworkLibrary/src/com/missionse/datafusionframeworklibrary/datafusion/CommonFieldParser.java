@@ -231,7 +231,7 @@ public class CommonFieldParser
 		for(int i = 0; i < toCorrelate.size(); i++)
 		{
 			//Checks to make sure that the current source even has a positionX.
-			if(toCorrelate.get(i).getPositionLatitude() != null)
+			if(toCorrelate.get(i).getPositionX() != null)
 			{
 				/*
 				 * Add to the current variable value of positionX the positionX of the current source multiplied
@@ -262,7 +262,7 @@ public class CommonFieldParser
 				 * Note how the correlated positionX is closer to the positionX of source 2 than source 1, as it
 				 * should be because it has the lesser chance of error.
 				 */
-				variable = variable + (toCorrelate.get(i).getPositionLatitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorX());
+				variable = variable + (toCorrelate.get(i).getPositionX() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorX());
 				toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorX();
 				nothingDoing = false;
 			}
@@ -271,7 +271,7 @@ public class CommonFieldParser
 		//In the end, if no variables were correlated, it stays null in the correlated source.
 		if(!nothingDoing)
 		{
-			correlated.setPositionLatitude(new Double(variable / toDivideBy));
+			correlated.setPositionX(new Double(variable / toDivideBy));
 		}
 
 		nothingDoing = true;
@@ -304,9 +304,9 @@ public class CommonFieldParser
 
 		for(int i = 0; i < toCorrelate.size(); i++)
 		{
-			if(toCorrelate.get(i).getPositionLongitude() != null)
+			if(toCorrelate.get(i).getPositionY() != null)
 			{
-				variable = variable + (toCorrelate.get(i).getPositionLongitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorY());
+				variable = variable + (toCorrelate.get(i).getPositionY() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorY());
 				toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorY();
 				nothingDoing = false;
 			}
@@ -314,7 +314,7 @@ public class CommonFieldParser
 
 		if(!nothingDoing)
 		{
-			correlated.setPositionLongitude(new Double(variable / toDivideBy));
+			correlated.setPositionY(new Double(variable / toDivideBy));
 		}
 
 		nothingDoing = true;
@@ -346,9 +346,9 @@ public class CommonFieldParser
 
 		for(int i = 0; i < toCorrelate.size(); i++)
 		{
-			if(toCorrelate.get(i).getPositionAltitude() != null)
+			if(toCorrelate.get(i).getPositionZ() != null)
 			{
-				variable = variable + (toCorrelate.get(i).getPositionAltitude() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ());
+				variable = variable + (toCorrelate.get(i).getPositionZ() * toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ());
 				toDivideBy = toDivideBy + toCorrelate.get(toCorrelate.size() - i - 1).getErrorZ();
 				nothingDoing = false;
 			}
@@ -356,7 +356,7 @@ public class CommonFieldParser
 
 		if(!nothingDoing)
 		{
-			correlated.setPositionAltitude(new Double(variable / toDivideBy));
+			correlated.setPositionZ(new Double(variable / toDivideBy));
 		}
 
 		nothingDoing = true;
@@ -380,7 +380,7 @@ public class CommonFieldParser
 	}
 
 	/*
-	 * This method correlates the targets threatLevel and fuel using effectively the same loop logic as the
+	 * This method correlates the targets threatLevel using effectively the same loop logic as the
 	 * correlation of X, Y and Z variables but instead of using the explained algorithm using error values,
 	 * it simply takes the averages of all sources.
 	 */
@@ -392,9 +392,9 @@ public class CommonFieldParser
 
 		for(int i = 0; i < toCorrelate.size(); i++)
 		{
-			if(toCorrelate.get(i).getFuel() != null)
+			if(toCorrelate.get(i).getThreatLevel() != null)
 			{
-				variable = variable + toCorrelate.get(i).getFuel();
+				variable = variable + toCorrelate.get(i).getAltitude();
 				toDivideBy++;
 				nothingDoing = false;
 			}
@@ -402,7 +402,7 @@ public class CommonFieldParser
 
 		if(!nothingDoing)
 		{
-			correlated.setFuel(new Double(variable / toDivideBy));
+			correlated.setAltitude(new Double(variable / toDivideBy));
 		}
 
 		nothingDoing = true;

@@ -22,10 +22,12 @@ public class FinalDriver {
 	static SourceDataModel source2;
 	// Third source will be sent to packetReceiver
 	static SourceDataModel source3;
+	// Third source will be sent to packetReceiver
+	static SourceDataModel source4;
 
 	public static void main(String[] args) throws InterruptedException {
 		database = new DatabaseFactory();
-		database.setupDatabase("FusionData");
+		database.setupDatabase("FusionDataRecord");
 
 		packetReceiver = new PacketReceiver(database.getSourceDataAccessor(),
 				database.getCompositeDataAccessor());
@@ -36,16 +38,19 @@ public class FinalDriver {
 	public FinalDriver() throws InterruptedException {
 
 		source1 = new SourceDataModel("1", "S1", "platform", "category", 1, .3,
-				0.3, 99, 99, 99, 0.4, .1, .1, 40, 0.0, 41.99417, -119.305344,
-				.1, 2500, 0.2);
+				0.3, 99, .1, .1, 40, 2500, 41.99417, -119.305344, .1, 2500, 0.2, System.currentTimeMillis());
 
 		source2 = new SourceDataModel("2", "S2", "platform", "category", 1,
-				0.3, 0.2, 99, 99, 99, 0.3, .1, .1, 40, 0.0, 41.99422,
-				-119.305333, .1, 2500, 0.2);
+				0.3, 0.2, 99, .1, .1, 40, 2500, 41.99422, -119.305333, .1,
+				2500, 0.2, System.currentTimeMillis());
 
 		source3 = new SourceDataModel("3", "S3", "platform", "category", 1,
-				0.3, 0.3, 99, 99, 99, 0.4, .1, .1, 40, 0.0, 51.99417,
-				-109.305344, .1, 2500, 0.2);
+				0.3, 0.3, 99, .1, .1, 40, 2500, 51.99417, -109.305344, .1,
+				2500, 0.2, System.currentTimeMillis());
+
+		source4 = new SourceDataModel("4", "S4", "platform", "category", 1,
+				0.3, 0.2, 99, .1, .1, 40, 2500, 41.99422, -119.305333, .1,
+				2500, 0.2, System.currentTimeMillis());
 
 		// source1.setPositionLatitude(0.0);
 		// source1.setPositionLongitude(0.0);
@@ -66,19 +71,27 @@ public class FinalDriver {
 
 		while (true) {
 
-			if (counter < 20) {
-				source1.setPositionLatitude(source1.getPositionLatitude() + .01);
-				source1.setPositionLongitude(source1.getPositionLongitude() + .01);
+			if (counter < 50) {
+				source1.setPositionX(source1.getPositionX() + .01);
+				source1.setPositionY(source1.getPositionY() + .01);
+				source1.setTime((double) System.currentTimeMillis());
 
-				source2.setPositionLatitude(source2.getPositionLatitude() + .01);
-				source2.setPositionLongitude(source2.getPositionLongitude() + .01);
+				source2.setPositionX(source2.getPositionX() + .01);
+				source2.setPositionY(source2.getPositionY() + .01);
+				source2.setTime((double) System.currentTimeMillis());
 
-				source3.setPositionLatitude(source3.getPositionLatitude() + .01);
-				source3.setPositionLongitude(source3.getPositionLongitude() + .01);
+				source3.setPositionX(source3.getPositionX() + .01);
+				source3.setPositionY(source3.getPositionY() + .01);
+				source3.setTime((double) System.currentTimeMillis());
+
+				source4.setPositionX(source4.getPositionX() + .01);
+				source4.setPositionY(source4.getPositionY() + .01);
+				source4.setTime((double) System.currentTimeMillis());
 
 				packetReceiver.recievePacket(source1.toString());
 				packetReceiver.recievePacket(source2.toString());
 				packetReceiver.recievePacket(source3.toString());
+				packetReceiver.recievePacket(source4.toString());
 
 				counter++;
 

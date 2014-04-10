@@ -92,12 +92,12 @@ public class PacketReceiver {
 		 * contain an unique identifier, something has gone wrong and the data
 		 * is ignored.
 		 */
-		// System.out.println("receivePacket parsedData.length: "+parsedData.length);
-		// System.out.println("receivePacket numSourceVariables: "+numSourceVariables);
+		System.out.println("receivePacket parsedData.length: "+parsedData.length);
+		System.out.println("receivePacket numSourceVariables: "+numSourceVariables);
 
 		if (parsedData.length != numSourceVariables
 				|| parsedData[0].compareTo("") == 0) {
-			return;
+//			return;
 		}
 
 		df.dataFusion(parsedData);

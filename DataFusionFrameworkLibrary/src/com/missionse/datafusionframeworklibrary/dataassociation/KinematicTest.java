@@ -7,7 +7,7 @@ import com.missionse.datafusionframeworklibrary.database.SourceDataModel;
  * A true/false indicator will be returned.
  */
 public class KinematicTest {
-	private double range_gate = 10.0;
+	private double range_gate = 3.0;
 	private double speed_gate = 0.2;
 	private double height_gate = 1.67;
 	private double course_gate = 5.0;
@@ -24,12 +24,12 @@ public class KinematicTest {
 	public boolean kinematicTest(SourceDataModel source,
 			SourceDataModel candidate) {
 		boolean valid = false;
-		double x1 = source.getPositionLatitude();
-		double y1 = source.getPositionLongitude();
-		double z1 = source.getPositionAltitude();
-		double x2 = candidate.getPositionLatitude();
-		double y2 = candidate.getPositionLongitude();
-		double z2 = candidate.getPositionAltitude();
+		double x1 = source.getPositionX();
+		double y1 = source.getPositionY();
+		double z1 = source.getPositionZ();
+		double x2 = candidate.getPositionX();
+		double y2 = candidate.getPositionY();
+		double z2 = candidate.getPositionZ();
 		double vx1 = source.getSpeedX();
 		double vy1 = source.getSpeedY();
 		double vz1 = source.getSpeedZ();

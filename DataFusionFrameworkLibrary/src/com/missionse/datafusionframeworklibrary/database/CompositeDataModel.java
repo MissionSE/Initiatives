@@ -2,70 +2,63 @@ package com.missionse.datafusionframeworklibrary.database;
 
 public class CompositeDataModel {
 	/*
-	 * Data held by the composite are stored as instances of their wrapper classes so that they have the
-	 * ability to be null, letting the rest of the program know that the composite has not yet sent into
-	 * this program info on that part of the sensor.
+	 * Data held by the composite are stored as instances of their wrapper
+	 * classes so that they have the ability to be null, letting the rest of the
+	 * program know that the composite has not yet sent into this program info
+	 * on that part of the sensor.
 	 */
 
-	//Sensor Info
+	// Sensor Info
 
-	//The unique identification string for this composite.
+	// The unique identification string for this composite.
 	private String uniqueId;
 	//
 	private String sourceTypeKey;
-	//The latitude position of the sensor.
-	private Double compositeLat;
-	//The longitude position of the sensor.
-	private Double compositeLong;
-	//The altitude position of the sensor.
+	// The altitude source of the composite track.
 	private Double compositeAlt;
 	/*
-	 * The error value of this composite's ability to sense things in variables X, Y and Z.
-	 * X: The composite's accuracy in detecting the target's latitude and speed X.
-	 * Y: The composite's accuracy in detecting the target's longitude and speed Y.
-	 * Z: The composite's accuracy in detecting the target's altitude and speed Z.
-	 *
+	 * The error value of this composite's ability to sense things in variables
+	 * X, Y and Z. X: The composite's accuracy in detecting the target's
+	 * latitude and speed X. Y: The composite's accuracy in detecting the
+	 * target's longitude and speed Y. Z: The composite's accuracy in detecting
+	 * the target's altitude and speed Z.
 	 */
 	private Double errorX;
 	private Double errorY;
 	private Double errorZ;
-	//The composite's update hertz value.
+	// The composite's update hertz value.
 	private Double updateHertz;
-	private Double depthZ;
-	//Data Feed
+	private Double altitude;
+	// Data Feed
 
-	//The latitude position of the target this sensor is sensing.
-	private Double positionLat;
+	// The x position of the target this sensor is sensing.
+	private Double positionX;
 
-	//The longitude position of the target this sensor is sensing.
-	private Double positionLong;
-	//The altitude position of the target this sensor is sensing.
-	private Double positionAlt;
-	//The speed of the target along the latitude plane.
+	// The y position of the target this sensor is sensing.
+	private Double positionY;
+	// The z position of the target this sensor is sensing.
+	private Double positionZ;
+	// The speed of the target along the latitude plane.
 	private Double speedX;
-	//The speed of the target along the longitude plane.
+	// The speed of the target along the longitude plane.
 	private Double speedY;
-	//The speed of the target along the altitude plane.
+	// The speed of the target along the altitude plane.
 	private Double speedZ;
-	//How threatening the target is.
+	// How threatening the target is.
 	private Integer threatLevel;
-	//The track type of the target: Air, Surface, Subsurface.
+	// The track type of the target: Air, Surface, Subsurface.
 	private String trackType;
-	//The track platform of the target, depending on the track type.
+	// The track platform of the target, depending on the track type.
 	private String trackPlatform;
-	//The track category of the target, depending on the track category.
+	// The track category of the target, depending on the track category.
 	private String trackCategory;
-	//The fuel that the target has the remaining.
-	private Double fuel;
 
-	//For Database Purposes.
-	public CompositeDataModel(String uniqueId, String sourceTypeKey, String trackPlatform,
-			String trackCategory, int threatLevel, double speedX, double speedY, double compositeLat,
-			double compositeLong, double compositeAlt, double fuel, double errorX,
-			double errorY, double updateHertz, double depthZ, double positionLat, double positionLong,
-			double errorZ, double positionAlt, double speedZ) {
-
-
+	// For Database Purposes.
+	public CompositeDataModel(String uniqueId, String sourceTypeKey,
+			String trackPlatform, String trackCategory, int threatLevel,
+			double speedX, double speedY, double compositeAlt, double errorX,
+			double errorY, double updateHertz, double altitude, double positionX,
+			double positionY, double errorZ, double positionZ, double speedZ) {
 
 		this.uniqueId = uniqueId;
 		this.sourceTypeKey = sourceTypeKey;
@@ -74,31 +67,23 @@ public class CompositeDataModel {
 		this.threatLevel = threatLevel;
 		this.speedX = speedX;
 		this.speedY = speedY;
-		this.speedZ = speedZ;
-		this.compositeLat = compositeLat;
-		this.compositeLong = compositeLong;
 		this.compositeAlt = compositeAlt;
-		this.fuel = fuel;
 		this.errorX = errorX;
 		this.errorY = errorY;
 		this.updateHertz = updateHertz;
-		this.depthZ = depthZ;
-		this.positionLat = positionLat;
-		this.positionLong = positionLong;
+		this.altitude = altitude;
+		this.positionX = positionX;
+		this.positionY = positionY;
 		this.errorZ = errorZ;
-		this.positionAlt = positionAlt;
+		this.positionZ = positionZ;
 		this.speedZ = speedZ;
-
 
 	}
 
-	//Empty constructor.
-	public CompositeDataModel()
-	{
+	// Empty constructor.
+	public CompositeDataModel() {
 		uniqueId = null;
 		sourceTypeKey = null;
-		compositeLat = null;
-		compositeLong = null;
 		compositeAlt = null;
 
 		errorX = null;
@@ -106,10 +91,10 @@ public class CompositeDataModel {
 		errorZ = null;
 
 		updateHertz = null;
-		depthZ = null;
-		positionLat = null;
-		positionLong = null;
-		positionAlt = null;
+		altitude = null;
+		positionX = null;
+		positionY = null;
+		positionZ = null;
 
 		speedX = null;
 		speedY = null;
@@ -119,15 +104,12 @@ public class CompositeDataModel {
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = null;
 	}
 
-	//UniqueID constructor.
+	// UniqueID constructor.
 	public CompositeDataModel(String id) {
 		uniqueId = id;
 		sourceTypeKey = null;
-		compositeLat = null;
-		compositeLong = null;
 		compositeAlt = null;
 
 		errorX = null;
@@ -135,10 +117,10 @@ public class CompositeDataModel {
 		errorZ = null;
 
 		updateHertz = null;
-		depthZ = null;
-		positionLat = null;
-		positionLong = null;
-		positionAlt = null;
+		altitude = null;
+		positionX = null;
+		positionY = null;
+		positionZ = null;
 
 		speedX = null;
 		speedY = null;
@@ -148,12 +130,11 @@ public class CompositeDataModel {
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = null;
 	}
 
-	//Various mutator and accessor methods for all variables in composite.
+	// Various mutator and accessor methods for all variables in composite.
 
-	//Sensor Info
+	// Sensor Info
 	public String getUniqueId() {
 		return uniqueId;
 	}
@@ -170,28 +151,12 @@ public class CompositeDataModel {
 		this.sourceTypeKey = sourceTypeKey;
 	}
 
-	public Double getDepthZ() {
-		return depthZ;
+	public Double getAltitude() {
+		return altitude;
 	}
 
-	public void setDepthZ(Double depthZ) {
-		this.depthZ = depthZ;
-	}
-
-	public Double getCompositeLatitude() {
-		return compositeLat;
-	}
-
-	public void setCompositeLatitude(Double l) {
-		compositeLat = l;
-	}
-
-	public Double getCompositeLongitude() {
-		return compositeLong;
-	}
-
-	public void setCompositeLongitude(Double l) {
-		compositeLong = l;
+	public void setAltitude(Double altitude) {
+		this.altitude = altitude;
 	}
 
 	public Double getCompositeAltitude() {
@@ -234,28 +199,28 @@ public class CompositeDataModel {
 		updateHertz = u;
 	}
 
-	public Double getPositionLatitude() {
-		return positionLat;
+	public Double getPositionX() {
+		return positionX;
 	}
 
-	public void setPositionLatitude(Double p) {
-		positionLat = p;
+	public void setPositionX(Double p) {
+		positionX = p;
 	}
 
-	public Double getPositionLongitude() {
-		return positionLong;
+	public Double getPositionY() {
+		return positionY;
 	}
 
-	public void setPositionLongitude(Double p) {
-		positionLong = p;
+	public void setPositionY(Double p) {
+		positionY = p;
 	}
 
-	public Double getPositionAltitude() {
-		return positionAlt;
+	public Double getPositionZ() {
+		return positionZ;
 	}
 
-	public void setPositionAltitude(Double p) {
-		positionAlt = p;
+	public void setPositionZ(Double p) {
+		positionZ = p;
 	}
 
 	public Double getSpeedX() {
@@ -314,331 +279,250 @@ public class CompositeDataModel {
 		trackCategory = t;
 	}
 
-	public Double getFuel() {
-		return fuel;
-	}
-
-	public void setFuel(Double f) {
-		fuel = f;
-	}
-
 	/**
-	 * Given the parsed data, this method updates this composite's data with information that
-	 * exists in the parsed data.
-	 *
-	 * @param data: The parsed data.
+	 * Given the parsed data, this method updates this composite's data with
+	 * information that exists in the parsed data.
+	 * 
+	 * @param data
+	 *            : The parsed data.
 	 */
-	 public void update(String[] data)
-	{
+	public void update(String[] data) {
 
-		//Index starts at 1 and goes until all variables have been accounted for.
+		// Index starts at 1 and goes until all variables have been accounted
+		// for.
 		int index = 1;
 
-				//For each item, it checks to see if valid data for it exists and assigns it.
-				try {
-					compositeLat = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		// For each item, it checks to see if valid data for it exists and
+		// assigns it.
 
-				/*
-				 * A variable is used instead of hard coded index numbers so that if new variables need to be
-				 * added to composite, they can be added into this method without needing to update all
-				 * subsequent index numbers.
-				 */
-				index++;
+		/*
+		 * A variable is used instead of hard coded index numbers so that if new
+		 * variables need to be added to composite, they can be added into this
+		 * method without needing to update all subsequent index numbers.
+		 */
+		index++;
 
-				try {
-					compositeLong = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			compositeAlt = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					compositeAlt = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			errorX = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					errorX = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			errorY = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					errorY = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			errorZ = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					errorZ = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			updateHertz = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					updateHertz = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			positionX = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					positionLat = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			positionY = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					positionLong = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			positionZ = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					positionAlt = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			speedX = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					speedX = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			speedY = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					speedY = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			speedZ = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					speedZ = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		try {
+			threatLevel = new Integer(data[index]);
+		} catch (NumberFormatException e) {
+		}
 
-				index++;
+		index++;
 
-				try {
-					threatLevel = new Integer(data[index]);
-				} catch (NumberFormatException e) {
-				}
+		if (data[index].compareTo("") != 0) {
+			trackType = new String(data[index]);
+		}
 
-				index++;
+		index++;
 
-				if (data[index].compareTo("") != 0) {
-					trackType = new String(data[index]);
-				}
+		if (data[index].compareTo("") != 0) {
+			trackPlatform = new String(data[index]);
+		}
 
-				index++;
+		index++;
 
-				if (data[index].compareTo("") != 0) {
-					trackPlatform = new String(data[index]);
-				}
+		if (data[index].compareTo("") != 0) {
+			trackCategory = new String(data[index]);
+		}
 
-				index++;
-
-				if (data[index].compareTo("") != 0) {
-					trackCategory = new String(data[index]);
-				}
-
-				index++;
-
-				try {
-					fuel = new Double(data[index]);
-				} catch (NumberFormatException e) {
-				}
 	}
 
-	 //This method makes a clone of this composite, overwriting the default Java clone method.
-	 public CompositeDataModel clone()
-	 {
-		 CompositeDataModel compositeClone = new CompositeDataModel(uniqueId);
+	// This method makes a clone of this composite, overwriting the default Java
+	// clone method.
+	public CompositeDataModel clone() {
+		CompositeDataModel compositeClone = new CompositeDataModel(uniqueId);
 
-		 if(compositeLat != null)
-		 {
-			 compositeClone.setCompositeLatitude(new Double(compositeLat));
-		 }
-		 if(compositeLong != null)
-		 {
-			 compositeClone.setCompositeLongitude(new Double(compositeLong));
-		 }
-		 if(compositeAlt != null)
-		 {
-			 compositeClone.setCompositeAltitude(new Double(compositeAlt));
-		 }
-		 if(errorX != null)
-		 {
-			 compositeClone.setErrorX(new Double(errorX));
-		 }
-		 if(errorY != null)
-		 {
-			 compositeClone.setErrorY(new Double(errorY));
-		 }
-		 if(errorZ != null)
-		 {
-			 compositeClone.setErrorZ(new Double(errorZ));
-		 }
-		 if(updateHertz != null)
-		 {
-			 compositeClone.setUpdateHertz(new Double(updateHertz));
-		 }
-		 if(positionLat != null)
-		 {
-			 compositeClone.setPositionLatitude(new Double(positionLat));
-		 }
-		 if(positionLong != null)
-		 {
-			 compositeClone.setPositionLongitude(new Double(positionLong));
-		 }
-		 if(positionAlt != null)
-		 {
-			 compositeClone.setPositionAltitude(new Double(positionAlt));
-		 }
-		 if(speedX != null)
-		 {
-			 compositeClone.setSpeedX(new Double(speedX));
-		 }
-		 if(speedY != null)
-		 {
-			 compositeClone.setSpeedY(new Double(speedY));
-		 }
-		 if(speedZ != null)
-		 {
-			 compositeClone.setSpeedZ(new Double(speedZ));
-		 }
-		 if(threatLevel != null)
-		 {
-			 compositeClone.setThreatLevel(new Integer(threatLevel));
-		 }
-		 if(trackType != null)
-		 {
-			 compositeClone.setTrackType(new String(trackType));
-		 }
-		 if(trackPlatform != null)
-		 {
-			 compositeClone.setTrackPlatform(new String(trackPlatform));
-		 }
-		 if(trackCategory != null)
-		 {
-			 compositeClone.setTrackCategory(new String(trackCategory));
-		 }
-		 if(fuel != null)
-		 {
-			 compositeClone.setFuel(new Double(fuel));
-		 }
+		if (compositeAlt != null) {
+			compositeClone.setCompositeAltitude(new Double(compositeAlt));
+		}
+		if (errorX != null) {
+			compositeClone.setErrorX(new Double(errorX));
+		}
+		if (errorY != null) {
+			compositeClone.setErrorY(new Double(errorY));
+		}
+		if (errorZ != null) {
+			compositeClone.setErrorZ(new Double(errorZ));
+		}
+		if (updateHertz != null) {
+			compositeClone.setUpdateHertz(new Double(updateHertz));
+		}
+		if (positionX != null) {
+			compositeClone.setPositionX(new Double(positionX));
+		}
+		if (positionY != null) {
+			compositeClone.setPositionY(new Double(positionY));
+		}
+		if (positionZ != null) {
+			compositeClone.setPositionZ(new Double(positionZ));
+		}
+		if (speedX != null) {
+			compositeClone.setSpeedX(new Double(speedX));
+		}
+		if (speedY != null) {
+			compositeClone.setSpeedY(new Double(speedY));
+		}
+		if (speedZ != null) {
+			compositeClone.setSpeedZ(new Double(speedZ));
+		}
+		if (threatLevel != null) {
+			compositeClone.setThreatLevel(new Integer(threatLevel));
+		}
+		if (trackType != null) {
+			compositeClone.setTrackType(new String(trackType));
+		}
+		if (trackPlatform != null) {
+			compositeClone.setTrackPlatform(new String(trackPlatform));
+		}
+		if (trackCategory != null) {
+			compositeClone.setTrackCategory(new String(trackCategory));
+		}
 
-		 return compositeClone;
-	 }
+		return compositeClone;
+	}
 
-	 //For testing and driver purposes: not actually used in the program.
-	 public String toString()
-	 {
-		 String toReturn = uniqueId + ",";
+	// For testing and driver purposes: not actually used in the program.
+	public String toString() {
+		String toReturn = uniqueId + ",";
 
-		 if(compositeLat != null)
-		 {
-			 toReturn = toReturn + compositeLat;
-		 }
-		 toReturn = toReturn + ",";
-		 if(compositeLong != null)
-		 {
-			 toReturn = toReturn + compositeLong;
-		 }
-		 toReturn = toReturn + ",";
-		 if(compositeAlt != null)
-		 {
-			 toReturn = toReturn + compositeAlt;
-		 }
-		 toReturn = toReturn + ",";
-		 if(errorX != null)
-		 {
-			 toReturn = toReturn + errorX;
-		 }
-		 toReturn = toReturn + ",";
-		 if(errorY != null)
-		 {
-			 toReturn = toReturn + errorY;
-		 }
-		 toReturn = toReturn + ",";
-		 if(errorZ != null)
-		 {
-			 toReturn = toReturn + errorZ;
-		 }
-		 toReturn = toReturn + ",";
-		 if(updateHertz != null)
-		 {
-			 toReturn = toReturn + updateHertz;
-		 }
-		 toReturn = toReturn + ",";
-		 if(positionLat != null)
-		 {
-			 toReturn = toReturn + positionLat;
-		 }
-		 toReturn = toReturn + ",";
-		 if(positionLong != null)
-		 {
-			 toReturn = toReturn + positionLong;
-		 }
-		 toReturn = toReturn + ",";
-		 if(positionAlt != null)
-		 {
-			 toReturn = toReturn + positionAlt;
-		 }
-		 toReturn = toReturn + ",";
-		 if(speedX != null)
-		 {
-			 toReturn = toReturn + speedX;
-		 }
-		 toReturn = toReturn + ",";
-		 if(speedY != null)
-		 {
-			 toReturn = toReturn + speedY;
-		 }
-		 toReturn = toReturn + ",";
-		 if(speedZ != null)
-		 {
-			 toReturn = toReturn + speedZ;
-		 }
-		 toReturn = toReturn + ",";
-		 if(threatLevel != null)
-		 {
-			 toReturn = toReturn + threatLevel;
-		 }
-		 toReturn = toReturn + ",";
-		 if(trackType != null)
-		 {
-			 toReturn = toReturn + trackType;
-		 }
-		 toReturn = toReturn + ",";
-		 if(trackPlatform != null)
-		 {
-			 toReturn = toReturn + trackPlatform;
-		 }
-		 toReturn = toReturn + ",";
-		 if(trackCategory != null)
-		 {
-			 toReturn = toReturn + trackCategory;
-		 }
-		 toReturn = toReturn + ",";
-		 if(fuel != null)
-		 {
-			 toReturn = toReturn + fuel;
-		 }
+		if (compositeAlt != null) {
+			toReturn = toReturn + compositeAlt;
+		}
+		toReturn = toReturn + ",";
+		if (errorX != null) {
+			toReturn = toReturn + errorX;
+		}
+		toReturn = toReturn + ",";
+		if (errorY != null) {
+			toReturn = toReturn + errorY;
+		}
+		toReturn = toReturn + ",";
+		if (errorZ != null) {
+			toReturn = toReturn + errorZ;
+		}
+		toReturn = toReturn + ",";
+		if (updateHertz != null) {
+			toReturn = toReturn + updateHertz;
+		}
+		toReturn = toReturn + ",";
+		if (positionX != null) {
+			toReturn = toReturn + positionX;
+		}
+		toReturn = toReturn + ",";
+		if (positionY != null) {
+			toReturn = toReturn + positionY;
+		}
+		toReturn = toReturn + ",";
+		if (positionZ != null) {
+			toReturn = toReturn + positionZ;
+		}
+		toReturn = toReturn + ",";
+		if (speedX != null) {
+			toReturn = toReturn + speedX;
+		}
+		toReturn = toReturn + ",";
+		if (speedY != null) {
+			toReturn = toReturn + speedY;
+		}
+		toReturn = toReturn + ",";
+		if (speedZ != null) {
+			toReturn = toReturn + speedZ;
+		}
+		toReturn = toReturn + ",";
+		if (threatLevel != null) {
+			toReturn = toReturn + threatLevel;
+		}
+		toReturn = toReturn + ",";
+		if (trackType != null) {
+			toReturn = toReturn + trackType;
+		}
+		toReturn = toReturn + ",";
+		if (trackPlatform != null) {
+			toReturn = toReturn + trackPlatform;
+		}
+		toReturn = toReturn + ",";
+		if (trackCategory != null) {
+			toReturn = toReturn + trackCategory;
+		}
 
-		 return toReturn;
-	 }
+		return toReturn;
+	}
 
 }

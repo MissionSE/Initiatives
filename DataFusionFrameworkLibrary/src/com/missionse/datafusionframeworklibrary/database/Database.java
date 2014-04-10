@@ -114,15 +114,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "uniqueId VARCHAR(256) NOT NULL, "
 					+ "sourceTrackType VARCHAR(32),"
 					+ "threat INTEGER,"
-					+ "latitude DOUBLE, "
-					+ "longitude DOUBLE, "
-					+ "altitude DOUBLE, "
-					+ "fuel DOUBLE, "
+					+ "sourceAltitude DOUBLE, "
 					+ "speedX DOUBLE, "
 					+ "speedY DOUBLE, "
 					+ "speedZ DOUBLE, "
+					+ "time DOUBLE, "
 					+ "hertz DOUBLE, "
-					+ "depthZ DOUBLE, "
+					+ "altitude DOUBLE, "
 					+ "errorX DOUBLE, "
 					+ "errorY DOUBLE, "
 					+ "errorZ DOUBLE, "
@@ -142,15 +140,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "uniqueId VARCHAR(256) NOT NULL, "
 					+ "sourceTrackType VARCHAR(32),"
 					+ "threat INTEGER,"
-					+ "latitude DOUBLE, "
-					+ "longitude DOUBLE, "
-					+ "altitude DOUBLE, "
-					+ "fuel DOUBLE, "
+					+ "sourceAltitude DOUBLE, "
 					+ "speedX DOUBLE, "
 					+ "speedY DOUBLE, "
 					+ "speedZ DOUBLE, "
+					+ "time DOUBLE, "
 					+ "hertz DOUBLE, "
-					+ "depthZ DOUBLE, "
+					+ "altitude DOUBLE, "
 					+ "errorX DOUBLE, "
 					+ "errorY DOUBLE, "
 					+ "errorZ DOUBLE, "
@@ -390,15 +386,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "uniqueId,"
 					+ "sourceTrackType,"
 					+ "threat,"
-					+ "latitude,"
-					+ "longitude,"
-					+ "altitude,"
-					+ "fuel,"
+					+ "sourceAltitude,"
 					+ "speedX,"
 					+ "speedY, "
 					+ "speedZ, "
+					+ "time, "
 					+ "hertz,"
-					+ "depthZ,"
+					+ "altitude,"
 					+ "errorX,"
 					+ "errorY,"
 					+ "errorZ,"
@@ -407,29 +401,27 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "positionZ,"
 					+ "trackPlatform,"
 					+ "trackCategory)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
 
 			staticStatement.setString(1, source.getUniqueId());
 			staticStatement.setString(2, source.getSourceTrackType());
 			staticStatement.setDouble(3, source.getThreatLevel());
-			staticStatement.setDouble(4, source.getSourceLatitude());
-			staticStatement.setDouble(5, source.getSourceLongitude());
-			staticStatement.setDouble(6, source.getSourceAltitude());
-			staticStatement.setDouble(7, source.getFuel());
-			staticStatement.setDouble(8, source.getSpeedY());
-			staticStatement.setDouble(9, source.getSpeedY());
-			staticStatement.setDouble(10, source.getSpeedZ());
-			staticStatement.setDouble(11, source.getUpdateHertz());
-			staticStatement.setDouble(12, source.getDepthZ());
-			staticStatement.setDouble(13, source.getErrorX());
-			staticStatement.setDouble(14, source.getErrorY());
-			staticStatement.setDouble(15, source.getErrorZ());
-			staticStatement.setDouble(16, source.getPositionLatitude());
-			staticStatement.setDouble(17, source.getPositionLongitude());
-			staticStatement.setDouble(18, source.getPositionAltitude());
-			staticStatement.setString(19, source.getTrackPlatform());
-			staticStatement.setString(20, source.getTrackCategory());
+			staticStatement.setDouble(4, source.getSourceAltitude());
+			staticStatement.setDouble(5, source.getSpeedY());
+			staticStatement.setDouble(6, source.getSpeedY());
+			staticStatement.setDouble(7, source.getSpeedZ());
+			staticStatement.setDouble(8, source.getTime());
+			staticStatement.setDouble(9, source.getUpdateHertz());
+			staticStatement.setDouble(10, source.getAltitude());
+			staticStatement.setDouble(11, source.getErrorX());
+			staticStatement.setDouble(12, source.getErrorY());
+			staticStatement.setDouble(13, source.getErrorZ());
+			staticStatement.setDouble(14, source.getPositionX());
+			staticStatement.setDouble(15, source.getPositionY());
+			staticStatement.setDouble(16, source.getPositionZ());
+			staticStatement.setString(17, source.getTrackPlatform());
+			staticStatement.setString(18, source.getTrackCategory());
 
 			staticStatement.execute();
 			staticStatement.close();
@@ -442,15 +434,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			String dynamicQuery = "UPDATE sourceTrackData SET "
 					+ "sourceTrackType=?,"
 					+ "threat=?,"
-					+ "latitude=?,"
-					+ "longitude=?,"
-					+ "altitude=?,"
-					+ "fuel=?,"
+					+ "sourceAltitude=?,"
 					+ "speedX=?,"
 					+ "speedY=?, "
 					+ "speedZ=?, "
+					+ "time=?,"
 					+ "hertz=?,"
-					+ "depthZ=?,"
+					+ "altitude=?,"
 					+ "errorX=?,"
 					+ "errorY=?,"
 					+ "errorZ=?,"
@@ -485,109 +475,97 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getSourceLatitude() != null) {
-				dynamicStatement.setDouble(3, source.getSourceLatitude());
+			if (source.getSourceAltitude() != null) {
+				dynamicStatement.setDouble(3, source.getSourceAltitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
 
-			if (source.getSourceLongitude() != null) {
-				dynamicStatement.setDouble(4, source.getSourceLongitude());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(4, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getSourceAltitude() != null) {
-				dynamicStatement.setDouble(5, source.getSourceAltitude());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(5, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(6, source.getFuel());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(6, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(7, source.getSpeedX());
+			if (source.getTime() != null) {
+				dynamicStatement.setDouble(7, source.getTime());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedY());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(8, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedZ());
+			if (source.getAltitude() != null) {
+				dynamicStatement.setDouble(9, source.getAltitude());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(10, source.getUpdateHertz());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(10, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(11, source.getDepthZ());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(11, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(12, source.getErrorX());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(12, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(13, source.getErrorY());
+			if (source.getPositionX() != null) {
+				dynamicStatement.setDouble(13, source.getPositionX());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(14, source.getErrorZ());
+			if (source.getPositionY() != null) {
+				dynamicStatement.setDouble(14, source.getPositionY());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(15, source.getPositionLatitude());
+			if (source.getPositionZ() != null) {
+				dynamicStatement.setDouble(15, source.getPositionZ());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLongitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(16, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionAltitude());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(17, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(18, source.getTrackPlatform());
-			} else {
-				dynamicStatement.setNull(18, 8);
-			}
-
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(19, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(19, 8);
-			}
-
-			dynamicStatement.setString(20, source.getUniqueId());
+			dynamicStatement.setString(18, source.getUniqueId());
 			/*
 			 * After execution of the statement, the connection should be closed
 			 * to free up resources in the databse.
@@ -700,19 +678,17 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					dynamicResults.getInt("threat"),
 					dynamicResults.getDouble("speedX"),
 					dynamicResults.getDouble("speedY"),
-					dynamicResults.getDouble("latitude"),
-					dynamicResults.getDouble("longitude"),
-					dynamicResults.getDouble("altitude"),
-					dynamicResults.getDouble("fuel"),
+					dynamicResults.getDouble("sourceAltitude"),
 					dynamicResults.getDouble("errorX"),
 					dynamicResults.getDouble("errorY"),
 					dynamicResults.getDouble("hertz"),
-					dynamicResults.getDouble("depthZ"),
+					dynamicResults.getDouble("altitude"),
 					dynamicResults.getDouble("positionX"),
 					dynamicResults.getDouble("positionY"),
 					dynamicResults.getDouble("errorZ"),
 					dynamicResults.getDouble("positionZ"),
-					dynamicResults.getDouble("speedZ"));
+					dynamicResults.getDouble("speedZ"),
+					dynamicResults.getDouble("time"));
 
 			return temp;
 		}
@@ -779,19 +755,17 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					dynamicResults.getInt("threat"),
 					dynamicResults.getDouble("speedX"),
 					dynamicResults.getDouble("speedY"),
-					dynamicResults.getDouble("latitude"),
-					dynamicResults.getDouble("longitude"),
-					dynamicResults.getDouble("altitude"),
-					dynamicResults.getDouble("fuel"),
+					dynamicResults.getDouble("sourceAltitude"),
 					dynamicResults.getDouble("errorX"),
 					dynamicResults.getDouble("errorY"),
 					dynamicResults.getDouble("hertz"),
-					dynamicResults.getDouble("depthZ"),
+					dynamicResults.getDouble("altitude"),
 					dynamicResults.getDouble("positionX"),
 					dynamicResults.getDouble("positionY"),
 					dynamicResults.getDouble("errorZ"),
 					dynamicResults.getDouble("positionZ"),
-					dynamicResults.getDouble("speedZ"));
+					dynamicResults.getDouble("speedZ"),
+					dynamicResults.getDouble("time"));
 
 			resultArray.add(temp);
 		}
@@ -847,15 +821,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "uniqueId,"
 					+ "sourceTrackType,"
 					+ "threat,"
-					+ "latitude,"
-					+ "longitude,"
-					+ "altitude,"
-					+ "fuel,"
+					+ "sourceAltitude,"
 					+ "speedX,"
 					+ "speedY, "
 					+ "speedZ, "
+					+ "time,"
 					+ "hertz,"
-					+ "depthZ,"
+					+ "altitude,"
 					+ "errorX,"
 					+ "errorY,"
 					+ "errorZ,"
@@ -864,29 +836,27 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					+ "positionZ,"
 					+ "trackPlatform,"
 					+ "trackCategory)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement staticStatement = conn.prepareStatement(staticQuery);
 
 			staticStatement.setString(1, source.getUniqueId());
 			staticStatement.setString(2, source.getSourceTrackType());
 			staticStatement.setDouble(3, source.getThreatLevel());
-			staticStatement.setDouble(4, source.getSourceLatitude());
-			staticStatement.setDouble(5, source.getSourceLongitude());
-			staticStatement.setDouble(6, source.getSourceAltitude());
-			staticStatement.setDouble(7, source.getFuel());
-			staticStatement.setDouble(8, source.getSpeedY());
-			staticStatement.setDouble(9, source.getSpeedY());
-			staticStatement.setDouble(10, source.getSpeedZ());
-			staticStatement.setDouble(11, source.getUpdateHertz());
-			staticStatement.setDouble(12, source.getDepthZ());
-			staticStatement.setDouble(13, source.getErrorX());
-			staticStatement.setDouble(14, source.getErrorY());
-			staticStatement.setDouble(15, source.getErrorZ());
-			staticStatement.setDouble(16, source.getPositionLatitude());
-			staticStatement.setDouble(17, source.getPositionLongitude());
-			staticStatement.setDouble(18, source.getPositionAltitude());
-			staticStatement.setString(19, source.getTrackPlatform());
-			staticStatement.setString(20, source.getTrackCategory());
+			staticStatement.setDouble(4, source.getSourceAltitude());
+			staticStatement.setDouble(5, source.getSpeedY());
+			staticStatement.setDouble(6, source.getSpeedY());
+			staticStatement.setDouble(7, source.getSpeedZ());
+			staticStatement.setDouble(8, source.getTime());
+			staticStatement.setDouble(9, source.getUpdateHertz());
+			staticStatement.setDouble(10, source.getAltitude());
+			staticStatement.setDouble(11, source.getErrorX());
+			staticStatement.setDouble(12, source.getErrorY());
+			staticStatement.setDouble(13, source.getErrorZ());
+			staticStatement.setDouble(14, source.getPositionX());
+			staticStatement.setDouble(15, source.getPositionY());
+			staticStatement.setDouble(16, source.getPositionZ());
+			staticStatement.setString(17, source.getTrackPlatform());
+			staticStatement.setString(18, source.getTrackCategory());
 
 			staticStatement.execute();
 			staticStatement.close();			
@@ -896,15 +866,13 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 			String dynamicQuery = "UPDATE compositeTrackData SET "
 					+ "sourceTrackType=?,"
 					+ "threat=?,"
-					+ "latitude=?,"
-					+ "longitude=?,"
-					+ "altitude=?,"
-					+ "fuel=?,"
+					+ "sourceAltitude=?,"
 					+ "speedX=?,"
 					+ "speedY=?, "
 					+ "speedZ=?, "
+					+ "time=?,"
 					+ "hertz=?,"
-					+ "depthZ=?,"
+					+ "altitude=?,"
 					+ "errorX=?,"
 					+ "errorY=?,"
 					+ "errorZ=?,"
@@ -937,109 +905,97 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 				dynamicStatement.setNull(2, 8);
 			}
 
-			if (source.getSourceLatitude() != null) {
-				dynamicStatement.setDouble(3, source.getSourceLatitude());
+			if (source.getSourceAltitude() != null) {
+				dynamicStatement.setDouble(3, source.getSourceAltitude());
 			} else {
 				dynamicStatement.setNull(3, 8);
 			}
 
-			if (source.getSourceLatitude() != null) {
-				dynamicStatement.setDouble(4, source.getSourceLatitude());
+			if (source.getSpeedX() != null) {
+				dynamicStatement.setDouble(4, source.getSpeedX());
 			} else {
 				dynamicStatement.setNull(4, 8);
 			}
 
-			if (source.getSourceAltitude() != null) {
-				dynamicStatement.setDouble(5, source.getSourceAltitude());
+			if (source.getSpeedY() != null) {
+				dynamicStatement.setDouble(5, source.getSpeedY());
 			} else {
 				dynamicStatement.setNull(5, 8);
 			}
 
-			if (source.getFuel() != null) {
-				dynamicStatement.setDouble(6, source.getFuel());
+			if (source.getSpeedZ() != null) {
+				dynamicStatement.setDouble(6, source.getSpeedZ());
 			} else {
 				dynamicStatement.setNull(6, 8);
 			}
 
-			if (source.getSpeedX() != null) {
-				dynamicStatement.setDouble(7, source.getSpeedX());
+			if (source.getTime() != null) {
+				dynamicStatement.setDouble(7, source.getTime());
 			} else {
 				dynamicStatement.setNull(7, 8);
 			}
 
-			if (source.getSpeedY() != null) {
-				dynamicStatement.setDouble(8, source.getSpeedY());
+			if (source.getUpdateHertz() != null) {
+				dynamicStatement.setDouble(8, source.getUpdateHertz());
 			} else {
 				dynamicStatement.setNull(8, 8);
 			}
 
-			if (source.getSpeedZ() != null) {
-				dynamicStatement.setDouble(9, source.getSpeedZ());
+			if (source.getAltitude() != null) {
+				dynamicStatement.setDouble(9, source.getAltitude());
 			} else {
 				dynamicStatement.setNull(9, 8);
 			}
 
-			if (source.getUpdateHertz() != null) {
-				dynamicStatement.setDouble(10, source.getUpdateHertz());
+			if (source.getErrorX() != null) {
+				dynamicStatement.setDouble(10, source.getErrorX());
 			} else {
 				dynamicStatement.setNull(10, 8);
 			}
 
-			if (source.getDepthZ() != null) {
-				dynamicStatement.setDouble(11, source.getDepthZ());
+			if (source.getErrorY() != null) {
+				dynamicStatement.setDouble(11, source.getErrorY());
 			} else {
 				dynamicStatement.setNull(11, 8);
 			}
 
-			if (source.getErrorX() != null) {
-				dynamicStatement.setDouble(12, source.getErrorX());
+			if (source.getErrorZ() != null) {
+				dynamicStatement.setDouble(12, source.getErrorZ());
 			} else {
 				dynamicStatement.setNull(12, 8);
 			}
 
-			if (source.getErrorY() != null) {
-				dynamicStatement.setDouble(13, source.getErrorY());
+			if (source.getPositionX() != null) {
+				dynamicStatement.setDouble(13, source.getPositionX());
 			} else {
 				dynamicStatement.setNull(13, 8);
 			}
 
-			if (source.getErrorZ() != null) {
-				dynamicStatement.setDouble(14, source.getErrorZ());
+			if (source.getPositionY() != null) {
+				dynamicStatement.setDouble(14, source.getPositionY());
 			} else {
 				dynamicStatement.setNull(14, 8);
 			}
 
-			if (source.getPositionLatitude() != null) {
-				dynamicStatement.setDouble(15, source.getPositionLatitude());
+			if (source.getPositionZ() != null) {
+				dynamicStatement.setDouble(15, source.getPositionZ());
 			} else {
 				dynamicStatement.setNull(15, 8);
 			}
 
-			if (source.getPositionLongitude() != null) {
-				dynamicStatement.setDouble(16, source.getPositionLongitude());
+			if (source.getTrackPlatform() != null) {
+				dynamicStatement.setString(16, source.getTrackPlatform());
 			} else {
 				dynamicStatement.setNull(16, 8);
 			}
 
-			if (source.getPositionAltitude() != null) {
-				dynamicStatement.setDouble(17, source.getPositionAltitude());
+			if (source.getTrackCategory() != null) {
+				dynamicStatement.setString(17, source.getTrackCategory());
 			} else {
 				dynamicStatement.setNull(17, 8);
 			}
 
-			if (source.getTrackPlatform() != null) {
-				dynamicStatement.setString(18, source.getTrackPlatform());
-			} else {
-				dynamicStatement.setNull(18, 8);
-			}
-
-			if (source.getTrackCategory() != null) {
-				dynamicStatement.setString(19, source.getTrackCategory());
-			} else {
-				dynamicStatement.setNull(19, 8);
-			}
-
-			dynamicStatement.setString(20, source.getUniqueId());
+			dynamicStatement.setString(18, source.getUniqueId());
 
 			/*
 			 * After execution of the statement, the connection should be closed
@@ -1124,19 +1080,17 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					dynamicResults.getInt("threat"),
 					dynamicResults.getDouble("speedX"),
 					dynamicResults.getDouble("speedY"),
-					dynamicResults.getDouble("latitude"),
-					dynamicResults.getDouble("longitude"),
-					dynamicResults.getDouble("altitude"),
-					dynamicResults.getDouble("fuel"),
+					dynamicResults.getDouble("sourceAltitude"),
 					dynamicResults.getDouble("errorX"),
 					dynamicResults.getDouble("errorY"),
 					dynamicResults.getDouble("hertz"),
-					dynamicResults.getDouble("depthZ"),
+					dynamicResults.getDouble("altitude"),
 					dynamicResults.getDouble("positionX"),
 					dynamicResults.getDouble("positionY"),
 					dynamicResults.getDouble("errorZ"),
 					dynamicResults.getDouble("positionZ"),
-					dynamicResults.getDouble("speedZ"));
+					dynamicResults.getDouble("speedZ"),
+					dynamicResults.getDouble("time"));
 
 			return temp;
 		}
@@ -1206,19 +1160,17 @@ public final class Database implements SourceDataAccessor, CompositeDataAccessor
 					 dynamicResults.getInt("threat"),
 					 dynamicResults.getDouble("speedX"),
 					 dynamicResults.getDouble("speedY"),
-					 dynamicResults.getDouble("latitude"),
-					 dynamicResults.getDouble("longitude"),
-					 dynamicResults.getDouble("altitude"),
-					 dynamicResults.getDouble("fuel"),
+					 dynamicResults.getDouble("sourceAltitude"),
 					 dynamicResults.getDouble("errorX"),
 					 dynamicResults.getDouble("errorY"),
 					 dynamicResults.getDouble("hertz"),
-					 dynamicResults.getDouble("depthZ"),
+					 dynamicResults.getDouble("altitude"),
 					 dynamicResults.getDouble("positionX"),
 					 dynamicResults.getDouble("positionY"),
 					 dynamicResults.getDouble("errorZ"),
 					 dynamicResults.getDouble("positionZ"),
-					 dynamicResults.getDouble("speedZ"));
+					 dynamicResults.getDouble("speedZ"),
+					 dynamicResults.getDouble("time"));
 
 			 resultArray.add(temp);
 

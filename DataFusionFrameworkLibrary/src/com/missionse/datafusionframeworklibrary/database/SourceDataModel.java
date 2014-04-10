@@ -16,10 +16,6 @@ public class SourceDataModel {
 
 	private String sourceTrackType;
 
-	// The latitude position of the sensor.
-	private Double sourceLat;
-	// The longitude position of the sensor.
-	private Double sourceLong;
 	// The altitude position of the sensor.
 	private Double sourceAlt;
 	/*
@@ -35,40 +31,39 @@ public class SourceDataModel {
 	// The source's update hertz value.
 	private Double updateHertz;
 
-	private Double depthZ;
+	private Double altitude;
 	// Data Feed
 
 	// The latitude position of the target this sensor is sensing.
-	private Double positionLat;
+	private Double positionX;
 	// The longitude position of the target this sensor is sensing.
-	private Double positionLong;
+	private Double positionY;
 	// The altitude position of the target this sensor is sensing.
-	private Double positionAlt;
+	private Double positionZ;
 	// The speed of the target along the latitude plane.
 	private Double speedX;
 	// The speed of the target along the longitude plane.
 	private Double speedY;
 	// The speed of the target along the altitude plane.
 	private Double speedZ;
+	// The time of report.
+	private Double time;
 	// How threatening the target is.
 	private Integer threatLevel;
-	// The track type of the target: Air, Surface, Subsurface.
+	// The track type of the target.
 	private String trackType;
 	// The track platform of the target, depending on the track type.
 	private String trackPlatform;
-	// The track category of the target, depending on the track category.
+	// The track category of the target: Air, Surface, Subsurface.
 	private String trackCategory;
-	// The fuel that the target has the remaining.
-	private Double fuel;
 
 	// For Database Purposes.
 	public SourceDataModel(String uniqueId, String sourceTrackType,
 			String trackPlatform, String trackCategory, int threatLevel,
-			double speedX, double speedY, double sourceLat, double sourceLong,
-			double sourceAlt, double fuel, double errorX, double errorY,
-			double updateHertz, double depthZ, double positionLat,
-			double positionLong, double errorZ, double positionAlt,
-			double speedZ) {
+			double speedX, double speedY, double sourceAlt, double errorX,
+			double errorY, double updateHertz, double altitude,
+			double positionX, double positionY, double errorZ,
+			double positionZ, double speedZ, double time) {
 
 		this.uniqueId = uniqueId;
 		this.sourceTrackType = sourceTrackType;
@@ -77,19 +72,17 @@ public class SourceDataModel {
 		this.threatLevel = threatLevel;
 		this.speedX = speedX;
 		this.speedY = speedY;
-		this.sourceLat = sourceLat;
-		this.sourceLong = sourceLong;
 		this.sourceAlt = sourceAlt;
-		this.fuel = fuel;
 		this.errorX = errorX;
 		this.errorY = errorY;
 		this.updateHertz = updateHertz;
-		this.depthZ = depthZ;
-		this.positionLat = positionLat;
-		this.positionLong = positionLong;
+		this.altitude = altitude;
+		this.positionX = positionX;
+		this.positionY = positionY;
 		this.errorZ = errorZ;
-		this.positionAlt = positionAlt;
+		this.positionZ = positionZ;
 		this.speedZ = speedZ;
+		this.time = time;
 
 	}
 
@@ -97,8 +90,6 @@ public class SourceDataModel {
 	public SourceDataModel() {
 		uniqueId = null;
 		sourceTrackType = null;
-		sourceLat = 0.0;
-		sourceLong = 0.0;
 		sourceAlt = 0.0;
 
 		errorX = 0.0;
@@ -106,28 +97,27 @@ public class SourceDataModel {
 		errorZ = 0.0;
 
 		updateHertz = 0.0;
-		depthZ = 0.0;
-		positionLat = 0.0;
-		positionLong = 0.0;
-		positionAlt = 0.0;
+		altitude = 0.0;
+		positionX = 0.0;
+		positionY = 0.0;
+		positionZ = 0.0;
 
 		speedX = 0.0;
 		speedY = 0.0;
 		speedZ = 0.0;
+		
+		time = 0.0;
 
 		threatLevel = 0;
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = 0.0;
 	}
 
 	// UniqueID constructor.
 	public SourceDataModel(String id) {
 		uniqueId = id;
 		sourceTrackType = null;
-		sourceLat = 0.0;
-		sourceLong = 0.0;
 		sourceAlt = 0.0;
 
 		errorX = 0.0;
@@ -135,20 +125,21 @@ public class SourceDataModel {
 		errorZ = 0.0;
 
 		updateHertz = 0.0;
-		depthZ = 0.0;
-		positionLat = 0.0;
-		positionLong = 0.0;
-		positionAlt = 0.0;
+		altitude = 0.0;
+		positionX = 0.0;
+		positionY = 0.0;
+		positionZ = 0.0;
 
 		speedX = 0.0;
 		speedY = 0.0;
 		speedZ = 0.0;
+		
+		time = 0.0;
 
 		threatLevel = 0;
 		trackType = null;
 		trackPlatform = null;
 		trackCategory = null;
-		fuel = 0.0;
 	}
 
 	// Various mutator and accessor methods for all variables in Source.
@@ -161,12 +152,12 @@ public class SourceDataModel {
 		this.sourceTrackType = sourceTrackType;
 	}
 
-	public Double getDepthZ() {
-		return depthZ;
+	public Double getAltitude() {
+		return altitude;
 	}
 
-	public void setDepthZ(Double depthZ) {
-		this.depthZ = depthZ;
+	public void setAltitude(Double altitude) {
+		this.altitude = altitude;
 	}
 
 	// Sensor Info
@@ -176,22 +167,6 @@ public class SourceDataModel {
 
 	public void setUniqueId(String id) {
 		uniqueId = id;
-	}
-
-	public Double getSourceLatitude() {
-		return sourceLat;
-	}
-
-	public void setSourceLatitude(Double l) {
-		sourceLat = l;
-	}
-
-	public Double getSourceLongitude() {
-		return sourceLong;
-	}
-
-	public void setSourceLongitude(Double l) {
-		sourceLong = l;
 	}
 
 	public Double getSourceAltitude() {
@@ -234,28 +209,28 @@ public class SourceDataModel {
 		updateHertz = u;
 	}
 
-	public Double getPositionLatitude() {
-		return positionLat;
+	public Double getPositionX() {
+		return positionX;
 	}
 
-	public void setPositionLatitude(Double p) {
-		positionLat = p;
+	public void setPositionX(Double p) {
+		positionX = p;
 	}
 
-	public Double getPositionLongitude() {
-		return positionLong;
+	public Double getPositionY() {
+		return positionY;
 	}
 
-	public void setPositionLongitude(Double p) {
-		positionLong = p;
+	public void setPositionY(Double p) {
+		positionY = p;
 	}
 
-	public Double getPositionAltitude() {
-		return positionAlt;
+	public Double getPositionZ() {
+		return positionZ;
 	}
 
-	public void setPositionAltitude(Double p) {
-		positionAlt = p;
+	public void setPositionZ(Double p) {
+		positionZ = p;
 	}
 
 	public Double getSpeedX() {
@@ -280,6 +255,14 @@ public class SourceDataModel {
 
 	public void setSpeedZ(Double p) {
 		speedZ = p;
+	}
+
+	public Double getTime() {
+		return time;
+	}
+
+	public void setTime(Double p) {
+		time = p;
 	}
 
 	public Integer getThreatLevel() {
@@ -314,14 +297,6 @@ public class SourceDataModel {
 		trackCategory = t;
 	}
 
-	public Double getFuel() {
-		return fuel;
-	}
-
-	public void setFuel(Double f) {
-		fuel = f;
-	}
-
 	/**
 	 * Given the parsed data, this method updates this source's data with
 	 * information that exists in the parsed data.
@@ -346,20 +321,6 @@ public class SourceDataModel {
 		 * variables need to be added to source, they can be added into this
 		 * method without needing to update all subsequent index numbers.
 		 */
-		index++;
-
-		try {
-			sourceLat = new Double(data[index]);
-		} catch (NumberFormatException e) {
-		}
-
-		index++;
-		
-		try {
-			sourceLong = new Double(data[index]);
-		} catch (NumberFormatException e) {
-		}
-
 		index++;
 
 		try {
@@ -398,28 +359,28 @@ public class SourceDataModel {
 		index++;
 
 		try {
-			depthZ = new Double(data[index]);
+			altitude = new Double(data[index]);
 		} catch (NumberFormatException e) {
 		}
 
 		index++;
 
 		try {
-			positionLat = new Double(data[index]);
+			positionX = new Double(data[index]);
 		} catch (NumberFormatException e) {
 		}
 
 		index++;
 
 		try {
-			positionLong = new Double(data[index]);
+			positionY = new Double(data[index]);
 		} catch (NumberFormatException e) {
 		}
 
 		index++;
 
 		try {
-			positionAlt = new Double(data[index]);
+			positionZ = new Double(data[index]);
 		} catch (NumberFormatException e) {
 		}
 
@@ -441,6 +402,13 @@ public class SourceDataModel {
 
 		try {
 			speedZ = new Double(data[index]);
+		} catch (NumberFormatException e) {
+		}
+
+		index++;
+
+		try {
+			time = new Double(data[index]);
 		} catch (NumberFormatException e) {
 		}
 
@@ -469,12 +437,6 @@ public class SourceDataModel {
 			trackCategory = new String(data[index]);
 		}
 
-		index++;
-
-		try {
-			fuel = new Double(data[index]);
-		} catch (NumberFormatException e) {
-		}
 	}
 
 	// This method makes a clone of this Source, overwriting the default Java
@@ -482,14 +444,8 @@ public class SourceDataModel {
 	public SourceDataModel clone() {
 		SourceDataModel sourceClone = new SourceDataModel(uniqueId);
 
-		if ( sourceTrackType!= null) {
-			sourceClone.setSourceTrackType(new String());
-		}
-		if (sourceLat != null) {
-			sourceClone.setSourceLatitude(new Double(sourceLat));
-		}
-		if (sourceLong != null) {
-			sourceClone.setSourceLongitude(new Double(sourceLong));
+		if (sourceTrackType != null) {
+			sourceClone.setSourceTrackType(new String(sourceTrackType));
 		}
 		if (sourceAlt != null) {
 			sourceClone.setSourceAltitude(new Double(sourceAlt));
@@ -506,17 +462,17 @@ public class SourceDataModel {
 		if (updateHertz != null) {
 			sourceClone.setUpdateHertz(new Double(updateHertz));
 		}
-		if (depthZ != null) {
-			sourceClone.setDepthZ(new Double(depthZ));
+		if (altitude != null) {
+			sourceClone.setAltitude(new Double(altitude));
 		}
-		if (positionLat != null) {
-			sourceClone.setPositionLatitude(new Double(positionLat));
+		if (positionX != null) {
+			sourceClone.setPositionX(new Double(positionX));
 		}
-		if (positionLong != null) {
-			sourceClone.setPositionLongitude(new Double(positionLong));
+		if (positionY != null) {
+			sourceClone.setPositionY(new Double(positionY));
 		}
-		if (positionAlt != null) {
-			sourceClone.setPositionAltitude(new Double(positionAlt));
+		if (positionZ != null) {
+			sourceClone.setPositionZ(new Double(positionZ));
 		}
 		if (speedX != null) {
 			sourceClone.setSpeedX(new Double(speedX));
@@ -526,6 +482,9 @@ public class SourceDataModel {
 		}
 		if (speedZ != null) {
 			sourceClone.setSpeedZ(new Double(speedZ));
+		}
+		if (time != null) {
+			sourceClone.setTime(new Double(time));
 		}
 		if (threatLevel != null) {
 			sourceClone.setThreatLevel(new Integer(threatLevel));
@@ -539,9 +498,6 @@ public class SourceDataModel {
 		if (trackCategory != null) {
 			sourceClone.setTrackCategory(new String(trackCategory));
 		}
-		if (fuel != null) {
-			sourceClone.setFuel(new Double(fuel));
-		}
 
 		return sourceClone;
 	}
@@ -552,14 +508,6 @@ public class SourceDataModel {
 
 		if (sourceTrackType != null) {
 			toReturn = toReturn + sourceTrackType;
-		}
-		toReturn = toReturn + ",";
-		if (sourceLat != null) {
-			toReturn = toReturn + sourceLat;
-		}
-		toReturn = toReturn + ",";
-		if (sourceLong != null) {
-			toReturn = toReturn + sourceLong;
 		}
 		toReturn = toReturn + ",";
 		if (sourceAlt != null) {
@@ -582,20 +530,20 @@ public class SourceDataModel {
 			toReturn = toReturn + updateHertz;
 		}
 		toReturn = toReturn + ",";
-		if (depthZ != null) {
-			toReturn = toReturn + depthZ;
+		if (altitude != null) {
+			toReturn = toReturn + altitude;
 		}
 		toReturn = toReturn + ",";
-		if (positionLat != null) {
-			toReturn = toReturn + positionLat;
+		if (positionX != null) {
+			toReturn = toReturn + positionX;
 		}
 		toReturn = toReturn + ",";
-		if (positionLong != null) {
-			toReturn = toReturn + positionLong;
+		if (positionY != null) {
+			toReturn = toReturn + positionY;
 		}
 		toReturn = toReturn + ",";
-		if (positionAlt != null) {
-			toReturn = toReturn + positionAlt;
+		if (positionZ != null) {
+			toReturn = toReturn + positionZ;
 		}
 		toReturn = toReturn + ",";
 		if (speedX != null) {
@@ -608,6 +556,10 @@ public class SourceDataModel {
 		toReturn = toReturn + ",";
 		if (speedZ != null) {
 			toReturn = toReturn + speedZ;
+		}
+		toReturn = toReturn + ",";
+		if (time != null) {
+			toReturn = toReturn + time;
 		}
 		toReturn = toReturn + ",";
 		if (threatLevel != null) {
@@ -624,10 +576,6 @@ public class SourceDataModel {
 		toReturn = toReturn + ",";
 		if (trackCategory != null) {
 			toReturn = toReturn + trackCategory;
-		}
-		toReturn = toReturn + ",";
-		if (fuel != null) {
-			toReturn = toReturn + fuel;
 		}
 
 		return toReturn;
