@@ -1,0 +1,50 @@
+apply plugin: 'java'
+
+def userDir = System.getProperty("user.home")
+def bldCfgRoot = 'config/config/'
+def tdfRoot = "$userDir/Solipsys/TDF-5.3.2/"
+def libDir = "$tdfRoot/lib"
+
+def layoutDir= "$bldCfgRoot/default/setup/com/solipsys/tdf/application/main/TacSit/"
+def appDir = "$tdfRoot/config/default/setup/com/solipsys/tdf/application/main/TacSit/"
+
+defaultTasks 'build', 'copyToTDFLib', 'copyToTDFConfig'
+
+task copyToTDFLib(type: Copy) {
+    from 'build/libs'
+    into libDir
+    include '**/*.jar'
+}
+
+task copyToTDFConfig(type: Copy) {
+    from layoutDir
+    into appDir
+    include '**/*.java'
+}
+
+repositories {
+   flatDir {
+      dirs 'lib'
+   }	     
+}
+
+dependencies { 
+     compile name: 'sqlite-jdbc-3.7.15-M1'	     
+     compile name: 'gson-2.2.4'      
+     compile files(fileTree(dir: libDir, includes: ['*.jar']))
+     runtime name: 'sqlite-jdbc-3.7.15-M1'	     
+     runtime name: 'gson-2.2.4'      
+
+}
+
+jar {
+    
+    from {
+        configurations.compile.filter ( {
+				          it.name == "sqlite-jdbc-3.7.15-M1.jar" || 
+    	 			          it.name == "gson-2.2.4.jar" } ).collect {
+					   it.isDirectory() ? it : zipTree(it)	    
+					}
+    }
+}
+

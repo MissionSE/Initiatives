@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>Google Earth with DB Backend</title>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="ge.js"></script>
+	</head>
+	<body id="pagebody"> 
+		<div id="main" class="container" style="width:100%; background-color:#08088A; color:#FFFF00">
+			<div style="width:200px; float:left">
+				<div> <textarea id="cro" rows="6" cols="20" style="background-color:#08088A; color:#FFFF00"> </textarea> </div>
+				<div id="buttons" class=buttons style="width: 200px; float: left;">
+					<label><input type="checkbox" value="buildings" id="buildings"/>Buildings</label>
+					<label><input type="checkbox" value="roads" id="roads"/>Roads</label><br>
+					<label><input type="checkbox" value="terrain" id="terrain"/>Terrain</label>
+					<label><input type="checkbox" value="trees" id="trees"/>Trees</label><br>
+
+					<label><input type="checkbox" value="weatherstations" id="weatherstations"/>High/Low Temps</label><br>
+					<label><input type="checkbox" value="weather" id="weather"/>PHL Radar</label><br>
+					<label><input type="checkbox" value="activefiremaps" id="activefiremaps"/>Fire Maps</label>
+					<label><input type="checkbox" value="earthquakes" id="earthquakes"/>Earthquakes</label><br>
+					<label><input type="checkbox" value="airquality" id="airquality"/>AirQuality</label>
+					<label><input type="checkbox" value="circles" id="circles"/>Circles</label><br>
+					<label><input type="checkbox" value="Cities" id="cities"/>Cities</label>
+					<label><input type="checkbox" value="Follow Track 2" onClick="toggleFollowTrack()"/>Follow Track 2</label><br>
+					<label><input type="checkbox" value="trackhistory" id="trackhistory"/>Track 2 History</label><br>
+					<label><input type="checkbox" value="trackposition" id="trackposition"/>Show Tracks</label>
+					<label><input type="checkbox" value="followtrackposition" id="followtrackposition"/>Follow</label><br>
+					<label><input type="checkbox" value="showtracklabels" id="showtracklabels"/>Labels</label><br>
+					<label><input type="checkbox" value="showearthring" id="showearthring"/>Rings</label><br>
+					<label><input type="button" value="Find Track 2" onClick="findTrack()"/></label>
+					<form name="lookatrange">
+						<input type=radio name="range" value="1000m" onClick="setRange(1000)"/>1000m<br>
+						<input type=radio name="range" value="5000m" onClick="setRange(50000)"/>50000m<br>
+						<input type=radio name="range" value="100000m"  onClick="setRange(100000)"/>100000m<br>
+						<input type=radio name="range" value="500000m"  onClick="setRange(500000)"/>500000m<br>
+						<input type=radio name="range" value="1000000m" onClick="setRange(1000000)"/>1000000m<br>
+						<input type=radio name="range" value="5000000m" onClick="setRange(5000000)"/>5000000m
+					</form>
+
+					<form onsubmit="getLatLngValues()">
+						Lat:<input type="text" id="latitude_input" autofocus value="0"/>
+						Lng:<input type="text" id="longitude_input" value="0"/>
+						Alt:<input type="text" id="altitude_input" value="5000"/>
+						<input type="submit" value="Submit" id="coord_submit"/>
+					</form>
+				</div>
+			</div>
+			<div style="margin-left:202px" id="map3d"></div>
+			<!--
+			This is for handeling fullscreen mode.
+			The problem is the fullscreen div covers all of the buttons.
+			<div id="map3d_sized"></div>
+			<div id="map3d_fullscreen" style="position: absolute; left:0px; top:0px; width:100%; height:100%;"></div>
+			-->
+		</div>
+	</div>
+</body>
+</html>

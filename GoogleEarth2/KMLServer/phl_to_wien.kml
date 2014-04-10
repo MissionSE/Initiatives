@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+	xmlns:gx="http://www.google.com/kml/ext/2.2">
+	<Folder>
+		<Placemark><name>PHL</name><Point><coordinates>-75.1700,39.950,0</coordinates></Point></Placemark>
+		<Placemark><name>Wien</name><Point><coordinates>16.3731,48.2038,0</coordinates></Point></Placemark>
+
+		<Placemark>
+			<name>GX:Track</name>
+			<altitudeMode>absolute</altitudeMode>
+			<gx:Track>
+				<when>2014-03-11T15:00:00Z</when>
+				<when>2014-03-11T19:30:00Z</when>
+				<when>2014-03-12T00:00:00Z</when>
+				<gx:coord>-75.1700 39.950 0</gx:coord>
+				<gx:coord>25.1700 39.950 30000</gx:coord>
+				<gx:coord>16.3731 48.2038 0</gx:coord>
+			</gx:Track>
+		</Placemark>
+	</Folder> 
+</kml>
+

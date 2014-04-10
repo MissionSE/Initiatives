@@ -58,6 +58,7 @@ public class TdfLayout
 
   public Map layout( Object ref, Map map )
   {
+      
     Application app = (Application)ref;
     Logger log = Logger.getLogger( "startup" );
 

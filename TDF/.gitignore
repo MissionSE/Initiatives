@@ -1,7 +1,8 @@
-*.jar
-build/
 release/
-**/bin
+**/dependency-cache/
+**/classes/
+**/tmp/
+#**/bin
 **/#*
 **/.#*
 .externalToolBuilders/
@@ -9,3 +10,4 @@ eclimd.log
 workbench.xmi
 scratch/
 **/DTED_WC/*
+**/.gradle/

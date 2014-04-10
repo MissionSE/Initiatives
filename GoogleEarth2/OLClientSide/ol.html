@@ -1,0 +1,31 @@
+<html>
+    <head>
+	<title>Open Layers Example</title>
+	<style>@media
+	    screen{#map{width:1000px; height:500px; border:2px solid black}</style>
+	<script src="http://openlayers.org/api/OpenLayers.js"></script>
+	<script type="text/javascript">
+	    var map, baseLayer;
+	    function init() {
+		map = new OpenLayers.Map('map');
+		baseLayer = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'});
+		//baseLayer = new OpenLayers.Layer.Google("Google Streets", {visibility: false});
+		map.addLayer(baseLayer);
+		map.setCenter(new OpenLayers.LonLat(0,0),1);
+		map.zoomToMaxExtent();
+		map.addLayer(new OpenLayers.Layer.Vector("KML", {
+			protocol: new OpenLayers.Protocol.HTTP({
+				url: "http://localhost:9999/example/kml/circles/1", 
+				format: new OpenLayers.Format.KML()
+				}),
+			strategies: [new OpenLayers.Strategy.Fixed()]
+			}));
+	    }
+	</script>
+
+    </head>
+    <body onload="init()">
+	<h1>OpenLayers Example</h1>
+	<div id="map"></div>
+    </body>
+</html>
